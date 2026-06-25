@@ -10,6 +10,14 @@ Scope Contract Research Brief Task State Recovery Guardrails Source Registry Cla
 
 The framework page is the structured reading guide. `SKILL.md` is the authoritative agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
 
+## 30-Second Quickstart
+
+1. Start with `SKILL.md`.
+2. Ask the agent to run the research scope calibration and confirm output, reader, depth, evidence standard, and coverage.
+3. For substantial work, create `state/`, `logs/`, and `data/` before collecting many sources.
+4. Load reference files only when needed: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, writing style before drafting, and quality gates before completion.
+5. Draft section by section, keep evidence backstage, and run reader review only after coverage and evidence checks are stable.
+
 ## 01 Motivation: Five Failure Modes
 
 Longform research agents tend to fail in five recurring ways:
@@ -254,6 +262,14 @@ This project is open source under the [MIT License](./LICENSE).
 它不是抓取工具、数据源或固定报告模板。它提供的是一套可复用的研究执行框架：帮助 agent 在开工前澄清关键任务信息，保存任务状态，区分来源与判断，分阶段推进写作，完成审阅与读者视角修订，并把复杂的后台研究整理成干净的成稿。
 
 框架页面是给读者看的结构化导览，`SKILL.md` 是 agent 实际使用的权威指令文件，`references/` 下的文件是按需加载的扩展模块。只有任务需要某个方法、审阅循环或写作规则时，才读取对应 reference。
+
+## 30 秒快速开始
+
+1. 先使用 `SKILL.md`。
+2. 让 agent 先做研究范围校准，确认交付物、读者、深度、证据标准和覆盖范围。
+3. 对资料量大的任务，先创建 `state/`、`logs/` 和 `data/`，再大规模收集资料。
+4. reference 文件只在需要时读取：启动或恢复任务读 workflow，选择分析方法读 analysis lenses，派发子 agent 前读 subagent guidance，进入写作前读 writing style，阶段验收前读 quality gates。
+5. 一段一段写，证据留在后台，覆盖和证据检查稳定后再做读者审阅。
 
 ## 01 动机：五类常见失败
 

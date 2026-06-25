@@ -242,12 +242,12 @@ Use these guardrails to prevent loops, overcollection, and scope drift:
 
 ## References
 
-- Read `references/research-workflow.md` before starting or restarting a complex project.
-- Read `references/optional-analysis-lenses.md` when selecting analysis lenses.
-- Read `references/horizontal-vertical-analysis.md` only when horizontal-vertical analysis is selected.
-- Read `references/subagents-and-review-loop.md` before delegation or review.
-- Read `references/writing-style.md` before drafting or final cleanup.
-- Read `references/quality-gates.md` before stage completion or final delivery.
-- Read `references/postmortem-lessons.md` when adapting this framework or diagnosing task drift.
+- Read `references/research-workflow.md` only when starting a substantial project, creating state files, or resuming after context loss.
+- Read `references/optional-analysis-lenses.md` only when the research question needs an explicit analysis lens decision.
+- Read `references/horizontal-vertical-analysis.md` only when horizontal-vertical analysis has been selected.
+- Read `references/subagents-and-review-loop.md` only before delegating work or running a review loop.
+- Read `references/writing-style.md` only when entering drafting, final cleanup, or reader-driven revision.
+- Read `references/quality-gates.md` only before declaring a stage or final deliverable complete.
+- Read `references/postmortem-lessons.md` only when adapting this framework or diagnosing repeated task drift.
 
 

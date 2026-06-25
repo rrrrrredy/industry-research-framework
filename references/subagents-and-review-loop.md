@@ -148,10 +148,10 @@ Your job:
 3. Suggest expression, ordering, transition, and density fixes only.
 
 Output:
-- Reading Flow Score: 0-100
-- Cognitive Load Score: 0-100
-- Argument Continuity Score: 0-100
-- Research Report Quality Score: 0-100
+- Reading Flow: Weak / Acceptable / Strong
+- Cognitive Load: Heavy / Manageable / Light
+- Argument Continuity: Weak / Acceptable / Strong
+- Research Report Quality: Weak / Acceptable / Strong
 - Smooth sections
 - Friction points
 - Reader-focused revisions
@@ -196,12 +196,14 @@ Trigger reader review after:
 - evidence and coverage audits have passed or remaining limitations are explicit
 - an initial full draft exists
 
-The Reader Critic scores:
+The Reader Critic rates:
 
-- Reading Flow
-- Cognitive Load
-- Argument Continuity
-- Research Report Quality
+- Reading Flow: Weak / Acceptable / Strong
+- Cognitive Load: Heavy / Manageable / Light
+- Argument Continuity: Weak / Acceptable / Strong
+- Research Report Quality: Weak / Acceptable / Strong
+
+Use numeric scores only when the user explicitly asks for scoring.
 
 Allowed revisions:
 
