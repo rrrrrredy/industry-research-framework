@@ -1,6 +1,6 @@
 ---
 name: industry-research-framework
-description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
 ---
 
 # Industry Research Framework
@@ -22,14 +22,15 @@ Every mechanism in this framework targets one of those failures.
 ## 2. Behavioral Constraints
 
 1. Deliverable first: if the requested output is an article or report, do not drift into system design, prompt design, or workflow exposition.
-2. State before scale: for long tasks, write task state to files before expanding source collection.
-3. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
-4. Depth budget before drafting: record expected depth, rough length band, unit-level expansion plan, and what "too short" would mean for this task.
-5. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
-6. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
-7. Optional lenses only: framing/category analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
-8. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
-9. Reader review comes last: improve readability only after factual, coverage, structure, and depth checks are stable.
+2. Research brief gate before collection: ask one compact clarification batch when decision-critical information is missing.
+3. State before scale: for long tasks, write task state to files before expanding source collection.
+4. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
+5. Depth budget before drafting: record expected depth, rough length band, unit-level expansion plan, and what "too short" would mean for this task.
+6. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
+7. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
+8. Optional lenses only: framing/category analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
+9. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
+10. Reader review comes last: improve readability only after factual, coverage, structure, and depth checks are stable.
 
 ## 3. Architecture
 
@@ -50,7 +51,7 @@ Subagents may inspect or challenge bounded parts of the backend, but the main ag
 For substantial work, create:
 
     {task}/state/
-      task_spec.md            # objective, reader, scope, evidence standard
+      task_spec.md            # objective, reader, output, scope, depth, evidence standard, assumptions
       progress.json           # stage, completed units, open issues, stale_count
       findings.jsonl          # append-only findings and judgments
       directions_tried.json   # directions already attempted
@@ -67,11 +68,29 @@ For substantial work, create:
 
 Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-## 5. Operating Loop
+## 5. Research Brief Gate
+
+Before collection, decide whether the request contains enough decision-critical information. If not, ask one compact batch of questions before starting. The batch should usually contain 3-7 questions and must cover expected length or depth when it is missing.
+
+Ask only for missing critical information:
+
+- research object and scope boundaries
+- target reader and decision context
+- output format, language, and publishing context
+- expected depth, rough length band, or depth level
+- must-cover units, exclusions, and priority areas
+- required sources or materials, source exclusions, and evidence standard
+- time period, geography, deadline, and whether charts/tables are expected
+
+If the user has already supplied enough context, do not ask ritual questions. Proceed, record assumptions in `task_spec.md`, and mark unresolved non-critical details as assumptions or uncertainties.
+
+If critical details remain unanswered after one clarification batch, make conservative assumptions, record them, and begin with a bounded Stage 1 instead of stalling.
+
+## 6. Operating Loop
 
 For each stage:
 
-1. Plan the scope, inputs, output, and done criteria.
+1. Run the research brief gate, then plan the scope, inputs, output, and done criteria.
 2. Collect or process only the sources needed for that stage.
 3. Convert sources into claims, uncertainty, and analysis notes.
 4. Draft a bounded section or unit.
@@ -83,7 +102,7 @@ If one cycle adds no new evidence, case, counterexample, framework, or judgment,
 
 For longform deliverables, do not use source count, claim count, link count, or file size as completion substitutes. They are backend health signals, not proof that the finished report has enough depth. Before final assembly, compare the draft against the depth budget and expand thin units before reader review.
 
-## 6. Source And Claim Discipline
+## 7. Source And Claim Discipline
 
 Classify sources by what they can prove:
 
@@ -104,7 +123,7 @@ Classify claims separately:
 
 Every important hard claim should have a confidence boundary. Do not turn company PR, investor hopes, or media amplification into fact.
 
-## 7. Analysis Lens Scheduling
+## 8. Analysis Lens Scheduling
 
 Choose the lens that fits the research question:
 
@@ -120,7 +139,7 @@ Pick one primary lens and at most two secondary lenses unless the user explicitl
 
 Read `references/optional-analysis-lenses.md` when choosing lenses. Read `references/horizontal-vertical-analysis.md` only after that lens has been selected.
 
-## 8. Subagent Scheduling
+## 9. Subagent Scheduling
 
 Use subagents only for bounded work:
 
@@ -136,7 +155,7 @@ A subagent prompt must include objective, files or sections to inspect, output f
 
 Read `references/subagents-and-review-loop.md` before delegation.
 
-## 9. Finalization
+## 10. Finalization
 
 The final article or report should contain reader-facing material only:
 
@@ -159,17 +178,18 @@ Remove:
 - "this section passed audit"
 - excessive caveats that weaken rather than clarify judgment
 
-## 10. Validation And Limits
+## 11. Validation And Limits
 
 Before declaring completion:
 
-1. Required coverage is complete or limitations are explicit.
-2. Major claims trace back to sources or uncertainty records.
-3. Facts, source claims, interpretations, and author judgments remain distinct.
-4. Counter-evidence has been addressed.
-5. The draft meets the depth budget or explicitly explains why the original expected depth is no longer appropriate.
-6. Reader review has been run after factual, coverage, structure, and depth review.
-7. The final prose reads like an author's report, not an agent process report.
+1. The research brief gate was completed or assumptions were recorded.
+2. Required coverage is complete or limitations are explicit.
+3. Major claims trace back to sources or uncertainty records.
+4. Facts, source claims, interpretations, and author judgments remain distinct.
+5. Counter-evidence has been addressed.
+6. The draft meets the depth budget or explicitly explains why the original expected depth is no longer appropriate.
+7. Reader review has been run after factual, coverage, structure, and depth review.
+8. The final prose reads like an author's report, not an agent process report.
 
 Limits:
 

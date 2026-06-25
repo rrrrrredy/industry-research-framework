@@ -4,6 +4,9 @@ Use these gates before declaring any stage or final deliverable complete.
 
 ## Before Collection
 
+- Research brief gate has been run.
+- Missing critical information has been asked in one compact batch.
+- Expected length or depth has been confirmed, or a conservative assumption is recorded.
 - Objective is explicit.
 - Target reader is explicit.
 - Final output type and language are explicit.

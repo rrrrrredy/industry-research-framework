@@ -2,7 +2,23 @@
 
 Use this file when planning or restarting a complex longform research task.
 
-## 1. Task Specification
+## 1. Research Brief Gate
+
+Before collecting sources, check whether the user has supplied enough decision-critical information. If critical information is missing, ask one compact clarification batch before starting. Do not ask ritual questions when the request is already clear.
+
+Ask only for missing critical information:
+
+- research object and scope boundaries
+- target reader and decision context
+- final output format, language, and publishing context
+- expected depth, rough length band, or depth level
+- required coverage, exclusions, and priority units
+- required materials, source exclusions, and evidence standard
+- time period, geography, deadline, and whether charts/tables are expected
+
+The expected length or depth question is required whenever it is missing. If the user does not answer, make a conservative assumption, record it in `task_spec.md`, and begin with a bounded Stage 1.
+
+## 2. Task Specification
 
 Before collecting more material, write:
 
@@ -20,7 +36,7 @@ Before collecting more material, write:
 
 If the user supplied many requirements, turn them into a checklist before writing. Keep this checklist backstage; do not paste it into the final article unless requested.
 
-## 2. State System
+## 3. State System
 
 For long tasks, create:
 
@@ -46,7 +62,7 @@ Use state files to survive context loss. Do not rely on chat history as the only
 
 `directions_tried.json` should prevent repeated digging in the same direction. If one cycle adds no new evidence, case, counterexample, framework, or judgment, increment `stale_count`. If `stale_count >= 2`, pivot the structural angle rather than merely searching harder.
 
-## 3. Source Intake
+## 4. Source Intake
 
 Classify sources by function:
 
@@ -60,7 +76,7 @@ Classify sources by function:
 
 For each source, record what it can and cannot prove. Official statements show intent and positioning; they do not prove adoption. Media coverage shows framing; it does not prove market reality. User threads show reception; they are not representative samples unless supported by broader data.
 
-## 4. Claim Registry
+## 5. Claim Registry
 
 Track claims separately from sources.
 
@@ -77,7 +93,7 @@ Minimum fields:
 
 Every 20 important facts, figures, or judgments, update source and claim registries before continuing.
 
-## 5. Analysis Units
+## 6. Analysis Units
 
 Use the unit that matches the assignment:
 
@@ -102,7 +118,7 @@ For each unit, write an analysis card:
 
 Do not average length across units. Allocate space according to importance, evidence richness, and complexity.
 
-## 6. Depth Planning
+## 7. Depth Planning
 
 Before drafting a longform deliverable, define:
 
@@ -115,7 +131,7 @@ Before drafting a longform deliverable, define:
 
 Do not use source count, claim count, link count, registry completeness, or file size as a substitute for depth. A report can be evidence-complete and still be too short for the assignment.
 
-## 7. Staged Execution
+## 8. Staged Execution
 
 For each stage:
 
@@ -127,7 +143,7 @@ For each stage:
 
 Do not treat a partial-stage pass as whole-project completion.
 
-## 8. Assembly
+## 9. Assembly
 
 Assemble around the argument:
 

@@ -4,7 +4,7 @@ A framework for longform, source-backed industry research and publishable writin
 
 It ships no scraper, data source, or fixed report template. Instead, it prescribes conventions for how an agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
 
-Task State Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
+Research Brief Task State Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
 
 [Open framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html#fullmd)
 
@@ -27,6 +27,7 @@ Every mechanism in this framework targets one of those failures.
 Hard rules of the framework:
 
 - Deliverable first: if the output is an article or report, do not drift into system design.
+- Research brief gate before collection: ask one compact clarification batch when decision-critical information is missing.
 - State before scale: write task state before expanding source collection.
 - Evidence is not prose: registries and audit labels stay backstage.
 - Depth budget before drafting: define expected depth, rough length band, unit-level expansion plan, and what would count as too short.
@@ -81,9 +82,25 @@ Subagents may inspect or challenge bounded parts of the backend, but the main ag
 
 Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-## 05 Operating Loop
+## 05 Research Brief Gate
 
-1. Plan the scope, inputs, output, and done criteria.
+Before collecting sources, decide whether the request contains enough decision-critical information. If not, ask one compact batch of questions before starting. The batch should usually contain 3-7 questions and must include expected length or depth when it is missing.
+
+Ask only for missing critical information:
+
+- research object and scope boundaries
+- target reader and decision context
+- output format, language, and publishing context
+- expected depth, rough length band, or depth level
+- must-cover units, exclusions, and priority areas
+- required sources or materials, source exclusions, and evidence standard
+- time period, geography, deadline, and whether charts/tables are expected
+
+If the user has already supplied enough context, proceed and record assumptions in `task_spec.md`. Do not keep asking non-blocking questions.
+
+## 06 Operating Loop
+
+1. Run the research brief gate, then plan the scope, inputs, output, and done criteria.
 2. Collect or process only the sources needed for that stage.
 3. Convert sources into claims, uncertainty, and analysis notes.
 4. Draft a bounded section or unit.
@@ -95,7 +112,7 @@ If one cycle adds no new evidence, case, counterexample, framework, or judgment,
 
 For longform deliverables, source counts, claim counts, link counts, and file size are backend health signals only. They cannot substitute for a depth review. Before final assembly, compare the draft against the depth budget and expand thin units before reader review.
 
-## 06 Analysis Lens Scheduling
+## 07 Analysis Lens Scheduling
 
 Choose the lens that fits the research question:
 
@@ -109,7 +126,7 @@ Choose the lens that fits the research question:
 
 Pick one primary lens and at most two secondary lenses unless the user explicitly requests a multi-method report.
 
-## 07 Subagent And Review Scheduling
+## 08 Subagent And Review Scheduling
 
 Use subagents for bounded work only:
 
@@ -123,7 +140,7 @@ Use subagents for bounded work only:
 
 Subagents should not rewrite the whole report or own the thesis.
 
-## 08 Engineering Constraints
+## 09 Engineering Constraints
 
 - Every important hard claim needs a confidence boundary.
 - Every 20 important facts, figures, or judgments should update source and claim registries.
@@ -132,10 +149,11 @@ Subagents should not rewrite the whole report or own the thesis.
 - User/community evidence shows reception; it is not automatically representative.
 - Reader review may improve flow and clarity, but must not invent facts.
 
-## 09 Validation And Limits
+## 10 Validation And Limits
 
 Before declaring completion:
 
+- The research brief gate was completed or assumptions were recorded.
 - Required coverage is complete or limitations are explicit.
 - Major claims trace back to sources or uncertainty records.
 - Facts, source claims, interpretations, and author judgments remain distinct.
@@ -151,7 +169,7 @@ Limits:
 - Optional lenses can overfit the report if used mechanically.
 - State files only work if updated during the task, not reconstructed after the fact.
 
-## 10 Full SKILL.md
+## 11 Full SKILL.md
 
 The authoritative instruction file is [`SKILL.md`](./SKILL.md). The framework page includes the full skill text in a copyable block.
 
@@ -192,7 +210,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 
 这是一个面向 AI agent 的长篇产业研究与写作框架，用于处理资料量大、周期长、需要形成可发布文章或研究报告的任务。
 
-它不是抓取工具、数据源或固定报告模板。它提供的是一套可复用的研究执行框架：帮助 agent 保存任务状态、区分来源与判断、分阶段推进写作、完成审阅与读者视角修订，并把复杂的后台研究整理成干净的成稿。
+它不是抓取工具、数据源或固定报告模板。它提供的是一套可复用的研究执行框架：帮助 agent 在开工前澄清关键任务信息，保存任务状态，区分来源与判断，分阶段推进写作，完成审阅与读者视角修订，并把复杂的后台研究整理成干净的成稿。
 
 框架页面是给读者看的结构化导览，`SKILL.md` 是 agent 实际使用的权威指令文件，`references/` 下的文件是按需加载的扩展模块。只有任务需要某个方法、审阅循环或写作规则时，才读取对应 reference。
 
@@ -211,6 +229,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 ## 02 核心原则
 
 - **交付物优先**：如果用户要的是文章或报告，不要偏移成系统设计、prompt 设计或流程说明。
+- **先过研究简报门槛**：如果缺少影响方向、范围、交付物或深度判断的关键信息，先集中提问；其中必须确认预期篇幅或研究深度。
 - **先建状态，再扩资料**：长任务必须把目标、范围、进度、发现、待核项写入文件，而不是只依赖聊天上下文。
 - **证据不是正文**：来源台账、审阅记录、访问失败、内部来源编号留在后台，不能直接污染终稿。
 - **先定深度，再写终稿**：在写作前明确预期篇幅、章节展开计划、重点单元的深度要求，以及什么情况属于“太短”。
@@ -219,7 +238,23 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 - **审阅必须闭环**：每个审阅问题都要变成具体修改动作、降级后的判断，或明确的不确定性说明。
 - **读者视角最后介入**：先完成事实、覆盖、结构和深度检查，再做可读性、节奏和理解负担优化。
 
-## 03 研究后台与成稿
+## 03 研究简报门槛
+
+在开始收集资料前，agent 必须判断用户请求是否已经足够明确。若缺少关键信息，应先集中提出一组简短问题，通常 3-7 个；如果缺少篇幅或深度要求，必须询问。
+
+优先确认：
+
+- 研究对象和范围边界
+- 目标读者与使用场景
+- 输出格式、语言和发布场景
+- 预期篇幅、粗略字数区间或研究深度等级
+- 必须覆盖的对象、排除项和优先级
+- 必须使用或排除的来源、证据标准
+- 时间范围、地域范围、截止时间，以及是否需要图表
+
+如果用户已经提供足够上下文，不要为了流程感反复追问；应直接进入任务，并把默认假设写入 `task_spec.md`。
+
+## 04 研究后台与成稿
 
 研究后台包括：
 
@@ -245,7 +280,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 
 后台保证可追溯，成稿保证可阅读。两者必须分开。
 
-## 04 适用场景
+## 05 适用场景
 
 适合用于：
 
@@ -268,7 +303,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 - 没有资料约束的创意写作
 - 用户真正想要代码、仪表盘或自动化工具的任务
 
-## 05 与框架页面的关系
+## 06 与框架页面的关系
 
 完整框架页面在这里：
 

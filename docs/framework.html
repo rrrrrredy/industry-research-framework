@@ -179,7 +179,7 @@
 
       .tagbar {
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(7, minmax(0, 1fr));
         border: 1px solid var(--line-strong);
         border-top: 0;
         background: var(--dark);
@@ -624,6 +624,7 @@
       </section>
 
       <div class="tagbar" aria-label="Framework pillars">
+        <span>Research Brief</span>
         <span>Task State</span>
         <span>Source Registry</span>
         <span>Claim Discipline</span>
@@ -639,12 +640,13 @@
           <a href="#constraints">02 Constraints</a>
           <a href="#architecture">03 Architecture</a>
           <a href="#state">04 State Files</a>
-          <a href="#loop">05 Operating Loop</a>
-          <a href="#lenses">06 Analysis Lenses</a>
-          <a href="#subagents">07 Subagents</a>
-          <a href="#engineering">08 Engineering</a>
-          <a href="#validation">09 Validation</a>
-          <a href="#fullmd">10 Full SKILL.md</a>
+          <a href="#brief">05 Research Brief</a>
+          <a href="#loop">06 Operating Loop</a>
+          <a href="#lenses">07 Analysis Lenses</a>
+          <a href="#subagents">08 Subagents</a>
+          <a href="#engineering">09 Engineering</a>
+          <a href="#validation">10 Validation</a>
+          <a href="#fullmd">11 Full SKILL.md</a>
         </aside>
 
         <div class="content">
@@ -670,7 +672,7 @@
               <article class="card">
                 <div class="card-number">Failure 03</div>
                 <h3>Evidence Drift</h3>
-                <p>Sources, claims, uncertainty, and judgment collapse into one undifferentiated argument.</p>
+              <p>Sources, claims, uncertainty, and judgment collapse into one undifferentiated argument.</p>
               </article>
               <article class="card dark">
                 <div class="card-number">Failure 04</div>
@@ -695,6 +697,7 @@
             </div>
             <ol class="constraint-list">
               <li><div><strong>Deliverable first.</strong> If the output is an article or report, do not drift into system design.</div></li>
+              <li><div><strong>Research brief gate.</strong> If critical information is missing, ask one compact clarification batch before collection.</div></li>
               <li><div><strong>State before scale.</strong> Write task state before expanding source collection.</div></li>
               <li><div><strong>Evidence is not prose.</strong> Registries and audit labels stay backstage.</div></li>
               <li><div><strong>Depth budget before drafting.</strong> Define expected depth, rough length band, and unit-level expansion plan.</div></li>
@@ -762,9 +765,23 @@
             </div>
           </section>
 
-          <section id="loop" class="section">
+          <section id="brief" class="section">
             <div class="section-head">
               <div class="index">05</div>
+              <div>
+                <h2>Research Brief Gate</h2>
+                <p class="section-kicker">Before collecting sources, ask only for missing information that changes scope, output, evidence, or depth.</p>
+              </div>
+            </div>
+            <div class="wide">
+              <p>If the request lacks decision-critical information, ask one compact batch of questions. The batch must include expected length or depth when it is missing.</p>
+              <p>If the request is already clear, proceed and record assumptions in <code>task_spec.md</code> instead of asking ritual questions.</p>
+            </div>
+          </section>
+
+          <section id="loop" class="section">
+            <div class="section-head">
+              <div class="index">06</div>
               <div>
                 <h2>Operating Loop</h2>
                 <p class="section-kicker">Each stage produces bounded progress, then updates state before the next stage begins.</p>
@@ -773,7 +790,7 @@
             <table>
               <thead><tr><th>Step</th><th>Action</th><th>Output</th></tr></thead>
               <tbody>
-                <tr><td>1</td><td>Plan the scope, inputs, output, and done criteria.</td><td>Stage plan</td></tr>
+                <tr><td>1</td><td>Run the research brief gate, then plan the scope, inputs, output, and done criteria.</td><td>Stage plan</td></tr>
                 <tr><td>2</td><td>Collect or process only the sources needed for that stage.</td><td>Source notes</td></tr>
                 <tr><td>3</td><td>Convert sources into claims, uncertainty, and analysis notes.</td><td>Claim registry</td></tr>
                 <tr><td>4</td><td>Draft a bounded section or unit.</td><td>Section draft</td></tr>
@@ -790,7 +807,7 @@
 
           <section id="lenses" class="section">
             <div class="section-head">
-              <div class="index">06</div>
+              <div class="index">07</div>
               <div>
                 <h2>Analysis Lens Scheduling</h2>
                 <p class="section-kicker">Pick one primary lens and at most two secondary lenses unless the user explicitly requests a multi-method report.</p>
@@ -808,7 +825,7 @@
 
           <section id="subagents" class="section">
             <div class="section-head">
-              <div class="index">07</div>
+              <div class="index">08</div>
               <div>
                 <h2>Subagent Scheduling Patterns</h2>
                 <p class="section-kicker">Subagents inspect or challenge bounded work. They do not own the thesis or rewrite the whole report.</p>
@@ -828,7 +845,7 @@
 
           <section id="engineering" class="section">
             <div class="section-head">
-              <div class="index">08</div>
+              <div class="index">09</div>
               <div>
                 <h2>Engineering Constraints</h2>
                 <p class="section-kicker">The framework turns quality checks into mechanical habits instead of end-of-project reconstruction.</p>
@@ -847,7 +864,7 @@
 
           <section id="validation" class="section">
             <div class="section-head">
-              <div class="index">09</div>
+              <div class="index">10</div>
               <div>
                 <h2>Validation And Limits</h2>
                 <p class="section-kicker">The framework improves reliability, but it does not make an agent immune to bad sources, weak reasoning, or unsupported claims.</p>
@@ -857,7 +874,7 @@
               <article class="card">
                 <div class="card-number">Completion Gate</div>
                 <h3>Before final delivery</h3>
-                <p>Required coverage is complete or explicitly bounded; major claims trace back to sources or uncertainty records; counter-evidence and depth expectations have been addressed.</p>
+                <p>The research brief gate is complete or assumptions are recorded; required coverage is complete or explicitly bounded; major claims trace back to sources; counter-evidence and depth expectations have been addressed.</p>
               </article>
               <article class="card dark">
                 <div class="card-number">Limits</div>
@@ -870,7 +887,7 @@
           <section id="fullmd" class="section">
             <div class="copyrow">
               <div>
-                <div class="index">10</div>
+                <div class="index">11</div>
                 <h2>Full SKILL.md</h2>
                 <p class="section-kicker">The authoritative instruction file, included here for copying into other agent environments.</p>
               </div>
@@ -878,7 +895,7 @@
             </div>
             <pre id="skilltext"><code>---
 name: industry-research-framework
-description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
 ---
 
 # Industry Research Framework
@@ -900,14 +917,15 @@ Every mechanism in this framework targets one of those failures.
 ## 2. Behavioral Constraints
 
 1. Deliverable first: if the requested output is an article or report, do not drift into system design, prompt design, or workflow exposition.
-2. State before scale: for long tasks, write task state to files before expanding source collection.
-3. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
-4. Depth budget before drafting: record expected depth, rough length band, unit-level expansion plan, and what &quot;too short&quot; would mean for this task.
-5. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
-6. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
-7. Optional lenses only: framing/category analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
-8. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
-9. Reader review comes last: improve readability only after factual, coverage, structure, and depth checks are stable.
+2. Research brief gate before collection: ask one compact clarification batch when decision-critical information is missing.
+3. State before scale: for long tasks, write task state to files before expanding source collection.
+4. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
+5. Depth budget before drafting: record expected depth, rough length band, unit-level expansion plan, and what &quot;too short&quot; would mean for this task.
+6. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
+7. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
+8. Optional lenses only: framing/category analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
+9. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
+10. Reader review comes last: improve readability only after factual, coverage, structure, and depth checks are stable.
 
 ## 3. Architecture
 
@@ -928,7 +946,7 @@ Subagents may inspect or challenge bounded parts of the backend, but the main ag
 For substantial work, create:
 
     {task}/state/
-      task_spec.md            # objective, reader, scope, evidence standard
+      task_spec.md            # objective, reader, output, scope, depth, evidence standard, assumptions
       progress.json           # stage, completed units, open issues, stale_count
       findings.jsonl          # append-only findings and judgments
       directions_tried.json   # directions already attempted
@@ -945,11 +963,29 @@ For substantial work, create:
 
 Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-## 5. Operating Loop
+## 5. Research Brief Gate
+
+Before collection, decide whether the request contains enough decision-critical information. If not, ask one compact batch of questions before starting. The batch should usually contain 3-7 questions and must cover expected length or depth when it is missing.
+
+Ask only for missing critical information:
+
+- research object and scope boundaries
+- target reader and decision context
+- output format, language, and publishing context
+- expected depth, rough length band, or depth level
+- must-cover units, exclusions, and priority areas
+- required sources or materials, source exclusions, and evidence standard
+- time period, geography, deadline, and whether charts/tables are expected
+
+If the user has already supplied enough context, do not ask ritual questions. Proceed, record assumptions in `task_spec.md`, and mark unresolved non-critical details as assumptions or uncertainties.
+
+If critical details remain unanswered after one clarification batch, make conservative assumptions, record them, and begin with a bounded Stage 1 instead of stalling.
+
+## 6. Operating Loop
 
 For each stage:
 
-1. Plan the scope, inputs, output, and done criteria.
+1. Run the research brief gate, then plan the scope, inputs, output, and done criteria.
 2. Collect or process only the sources needed for that stage.
 3. Convert sources into claims, uncertainty, and analysis notes.
 4. Draft a bounded section or unit.
@@ -961,7 +997,7 @@ If one cycle adds no new evidence, case, counterexample, framework, or judgment,
 
 For longform deliverables, do not use source count, claim count, link count, or file size as completion substitutes. They are backend health signals, not proof that the finished report has enough depth. Before final assembly, compare the draft against the depth budget and expand thin units before reader review.
 
-## 6. Source And Claim Discipline
+## 7. Source And Claim Discipline
 
 Classify sources by what they can prove:
 
@@ -982,7 +1018,7 @@ Classify claims separately:
 
 Every important hard claim should have a confidence boundary. Do not turn company PR, investor hopes, or media amplification into fact.
 
-## 7. Analysis Lens Scheduling
+## 8. Analysis Lens Scheduling
 
 Choose the lens that fits the research question:
 
@@ -998,7 +1034,7 @@ Pick one primary lens and at most two secondary lenses unless the user explicitl
 
 Read `references/optional-analysis-lenses.md` when choosing lenses. Read `references/horizontal-vertical-analysis.md` only after that lens has been selected.
 
-## 8. Subagent Scheduling
+## 9. Subagent Scheduling
 
 Use subagents only for bounded work:
 
@@ -1014,7 +1050,7 @@ A subagent prompt must include objective, files or sections to inspect, output f
 
 Read `references/subagents-and-review-loop.md` before delegation.
 
-## 9. Finalization
+## 10. Finalization
 
 The final article or report should contain reader-facing material only:
 
@@ -1037,17 +1073,18 @@ Remove:
 - &quot;this section passed audit&quot;
 - excessive caveats that weaken rather than clarify judgment
 
-## 10. Validation And Limits
+## 11. Validation And Limits
 
 Before declaring completion:
 
-1. Required coverage is complete or limitations are explicit.
-2. Major claims trace back to sources or uncertainty records.
-3. Facts, source claims, interpretations, and author judgments remain distinct.
-4. Counter-evidence has been addressed.
-5. The draft meets the depth budget or explicitly explains why the original expected depth is no longer appropriate.
-6. Reader review has been run after factual, coverage, structure, and depth review.
-7. The final prose reads like an author&#39;s report, not an agent process report.
+1. The research brief gate was completed or assumptions were recorded.
+2. Required coverage is complete or limitations are explicit.
+3. Major claims trace back to sources or uncertainty records.
+4. Facts, source claims, interpretations, and author judgments remain distinct.
+5. Counter-evidence has been addressed.
+6. The draft meets the depth budget or explicitly explains why the original expected depth is no longer appropriate.
+7. Reader review has been run after factual, coverage, structure, and depth review.
+8. The final prose reads like an author&#39;s report, not an agent process report.
 
 Limits:
 
@@ -1089,6 +1126,7 @@ Limits:
     </script>
   </body>
 </html>
+
 
 
 
