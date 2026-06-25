@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Longform Industry Research Protocol</title>
+    <meta name="description" content="A protocol framework for source-backed longform industry research and publishable writing by AI agents.">
+    <style>
+      :root {
+        --bg: #f7f4ee;
+        --paper: #fffaf2;
+        --ink: #141414;
+        --muted: #68615a;
+        --line: #ded5c8;
+        --accent: #c45f3c;
+        --accent-2: #1f6f68;
+        --code: #1d1a17;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+      a { color: var(--accent-2); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 32px 0 64px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0 28px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .hero {
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #fffdf8, var(--paper));
+        padding: 44px;
+      }
+      .eyebrow {
+        color: var(--accent);
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 10px 0 14px;
+        font-size: clamp(42px, 7vw, 86px);
+        line-height: .95;
+        letter-spacing: 0;
+        max-width: 860px;
+      }
+      .lede {
+        max-width: 780px;
+        color: #3a342e;
+        font-size: clamp(18px, 2vw, 23px);
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+      }
+      .tag {
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 7px 10px;
+        font-size: 13px;
+        color: #3f3933;
+      }
+      .jump {
+        margin-top: 28px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        padding: 10px 14px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin: 28px 0;
+      }
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        padding: 22px;
+      }
+      .num {
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: .08em;
+      }
+      h2 {
+        margin: 46px 0 14px;
+        font-size: clamp(26px, 3vw, 42px);
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+      h3 {
+        margin: 10px 0 8px;
+        font-size: 20px;
+      }
+      p { margin: 0 0 14px; }
+      ul, ol { padding-left: 22px; }
+      li { margin: 6px 0; }
+      .section {
+        border-top: 1px solid var(--line);
+        padding-top: 18px;
+      }
+      .wide {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        padding: 24px;
+        margin: 18px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        margin: 18px 0;
+      }
+      th, td {
+        border-bottom: 1px solid var(--line);
+        padding: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th { color: var(--accent); font-size: 13px; text-transform: uppercase; }
+      pre {
+        overflow: auto;
+        background: var(--code);
+        color: #f7efe5;
+        padding: 22px;
+        border-radius: 0;
+        line-height: 1.5;
+        font-size: 13px;
+      }
+      code { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+      .copyrow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin: 46px 0 14px;
+      }
+      .copybtn {
+        border: 1px solid var(--line);
+        background: var(--ink);
+        color: #fff;
+        padding: 9px 12px;
+        cursor: pointer;
+        font: inherit;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 40px;
+        padding-top: 18px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      @media (max-width: 820px) {
+        .hero { padding: 28px; }
+        .grid { grid-template-columns: 1fr; }
+        .topbar { flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="topbar">
+        <div><a href="https://github.com/rrrrrredy/longform-industry-narrative-research">GitHub Repository</a></div>
+        <div>Framework Protocol / Open Spec</div>
+      </nav>
+
+      <header class="hero">
+        <div class="eyebrow">Agent Research Skill</div>
+        <h1>Longform Industry Research Protocol</h1>
+        <p class="lede">A protocol framework for source-backed longform industry research and publishable writing by AI agents. It prescribes state management, evidence discipline, staged drafting, review loops, and final prose cleanup.</p>
+        <div class="tags">
+          <span class="tag">Task State</span>
+          <span class="tag">Source Registry</span>
+          <span class="tag">Claim Discipline</span>
+          <span class="tag">Staged Drafting</span>
+          <span class="tag">Review Loop</span>
+          <span class="tag">Reader Revision</span>
+        </div>
+        <a class="jump" href="#fullmd">Jump to full SKILL.md</a>
+      </header>
+
+      <section class="section">
+        <h2>01 Motivation: Four Failure Modes</h2>
+        <p>Longform research agents tend to fail in four recurring ways. Every mechanism in this protocol targets one of them.</p>
+        <div class="grid">
+          <article class="card"><div class="num">01</div><h3>Topic Overfitting</h3><p>A method distilled from one project becomes falsely treated as the universal frame.</p></article>
+          <article class="card"><div class="num">02</div><h3>Process Leakage</h3><p>The final article reads like a work log instead of a finished author's report.</p></article>
+          <article class="card"><div class="num">03</div><h3>Evidence Drift</h3><p>Sources, claims, uncertainty, and judgment collapse into one undifferentiated narrative.</p></article>
+          <article class="card"><div class="num">04</div><h3>False Completion</h3><p>A partial milestone is reported as final completion before coverage, review, and reader revision are done.</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>02 Behavioral Constraints</h2>
+        <div class="wide">
+          <ol>
+            <li>Deliverable first: do not drift into system design when the deliverable is an article or report.</li>
+            <li>State before scale: write task state before expanding source collection.</li>
+            <li>Evidence is not prose: registries and audit labels stay backstage.</li>
+            <li>Staged execution: plan, collect, analyze, draft, review, revise, then continue.</li>
+            <li>Optional lenses only: narrative analysis and horizontal-vertical analysis are tools, not default structure.</li>
+            <li>Review closes the loop: every finding becomes a revision action, downgraded claim, or limitation.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>03 Architecture</h2>
+        <pre><code>Main Agent
+  owns thesis, structure, final judgment
+
+Research Backend
+  state files
+  source registry
+  claim registry
+  uncertainty list
+  review logs
+
+Publishing Frontend
+  thesis
+  analytical sections
+  synthesis
+  counter-evidence
+  reader-facing references
+  final prose cleanup</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>04 State File System</h2>
+        <pre><code>{task}/state/
+  task_spec.md
+  progress.json
+  findings.jsonl
+  directions_tried.json
+  iteration_log.jsonl
+
+{task}/logs/
+  work.jsonl
+  review.jsonl
+
+{task}/data/
+  source_registry.csv
+  claims_registry.csv
+  uncertainty_registry.csv</code></pre>
+      </section>
+
+      <section class="section">
+        <h2>05 Operating Loop</h2>
+        <table>
+          <thead><tr><th>Step</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Plan the scope, inputs, output, and done criteria.</td></tr>
+            <tr><td>2</td><td>Collect or process only the sources needed for that stage.</td></tr>
+            <tr><td>3</td><td>Convert sources into claims, uncertainty, and analysis notes.</td></tr>
+            <tr><td>4</td><td>Draft a bounded section or unit.</td></tr>
+            <tr><td>5</td><td>Review for evidence, coverage, structure, skepticism, and prose.</td></tr>
+            <tr><td>6</td><td>Revise the section and registries.</td></tr>
+            <tr><td>7</td><td>Update progress and define the next stage.</td></tr>
+          </tbody>
+        </table>
+        <p>If one cycle adds no new evidence, case, counterexample, framework, or judgment, increment <code>stale_count</code>. If <code>stale_count &gt;= 2</code>, pivot the structural angle.</p>
+      </section>
+
+      <section class="section">
+        <h2>06 Analysis Lens Scheduling</h2>
+        <div class="grid">
+          <article class="card"><h3>Narrative</h3><p>Framing, legitimacy, category creation, public meaning, media translation.</p></article>
+          <article class="card"><h3>Horizontal-Vertical</h3><p>Timeline depth plus current competitor or substitute comparison.</p></article>
+          <article class="card"><h3>Adoption</h3><p>User behavior, workflow change, replacement, friction.</p></article>
+          <article class="card"><h3>Capital</h3><p>Pricing, revenue, valuation, funding, cost structure, margins.</p></article>
+          <article class="card"><h3>Organization/Talent</h3><p>Operating model, hiring, leadership, talent flow.</p></article>
+          <article class="card"><h3>Counter-Case</h3><p>Strongest alternative explanation and failure modes.</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>07 Subagent Scheduling Patterns</h2>
+        <table>
+          <thead><tr><th>Role</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>Requirement Mapper</td><td>Turn user requirements into a completion checklist.</td></tr>
+            <tr><td>Evidence Auditor</td><td>Check support, source access, and confidence boundaries.</td></tr>
+            <tr><td>Coverage Auditor</td><td>Find missing companies, actors, periods, source categories, or themes.</td></tr>
+            <tr><td>Skeptical Reviewer</td><td>Find hype, PR laundering, weak causality, and missing counter-cases.</td></tr>
+            <tr><td>Reader Critic</td><td>After factual checks, improve clarity, flow, cognitive load, and report feel.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>08 Engineering Constraints</h2>
+        <ul>
+          <li>Every important hard claim needs a confidence boundary.</li>
+          <li>Every 20 important facts, figures, or judgments should update source and claim registries.</li>
+          <li>Official materials show stated position; they do not prove adoption.</li>
+          <li>Media materials show public framing; they need corroboration for hard facts.</li>
+          <li>Reader review may improve flow and clarity, but must not invent facts.</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>09 Validation And Limits</h2>
+        <p>Before completion, required coverage must be complete or explicitly bounded; major claims must trace back to sources or uncertainty records; counter-evidence must be addressed; reader review must run after factual and coverage review.</p>
+        <p>Limits: the protocol reduces evidence errors but does not eliminate them. Subagent review is a check, not external truth. Optional lenses can overfit the report if used mechanically.</p>
+      </section>
+
+      <section id="fullmd" class="section">
+        <div class="copyrow">
+          <h2>10 Full SKILL.md</h2>
+          <button class="copybtn" type="button" onclick="copySkill()">Copy</button>
+        </div>
+        <pre id="skilltext"><code>---
+name: longform-industry-narrative-research
+description: Protocol framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes task state, source/claim/uncertainty registries, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+---
+
+# Longform Industry Research Protocol
+
+This skill is a protocol framework for longform industry research and publishable writing. It ships no scraper, data source, or fixed report template; instead it prescribes conventions for how an AI agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
+
+## 1. Motivation
+
+Longform research agents tend to fail in four recurring ways:
+
+1. Topic overfitting: a method distilled from one project becomes falsely treated as the universal frame.
+2. Process leakage: the final article reads like a work log, with phrases such as "the user provided" or "the material shows".
+3. Evidence drift: sources, claims, uncertainty, and author judgment collapse into one undifferentiated narrative.
+4. False completion: a partial milestone is reported as final completion before coverage, review, and reader-quality revision are done.
+
+Every mechanism in this protocol targets one of those failures.
+
+## 2. Behavioral Constraints
+
+1. Deliverable first: if the requested output is an article or report, do not drift into system design, prompt design, or workflow exposition.
+2. State before scale: for long tasks, write task state to files before expanding source collection.
+3. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
+4. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
+5. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
+6. Optional lenses only: narrative analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
+7. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
+8. Reader review comes last: improve readability only after factual, coverage, and structure checks are stable.
+
+## 3. Architecture
+
+    Main Agent
+      owns thesis, structure, final judgment
+
+    Research Backend
+      state files
+      source registry
+      claim registry
+      uncertainty list
+      review logs
+
+    Publishing Frontend
+      thesis
+      analytical sections
+      synthesis
+      counter-evidence
+      reader-facing references
+      final prose cleanup
+
+Subagents may inspect or challenge bounded parts of the backend, but the main agent owns the argument and final prose.
+
+## 4. State Files
+
+For substantial work, create:
+
+    {task}/state/
+      task_spec.md
+      progress.json
+      findings.jsonl
+      directions_tried.json
+      iteration_log.jsonl
+
+    {task}/logs/
+      work.jsonl
+      review.jsonl
+
+    {task}/data/
+      source_registry.csv
+      claims_registry.csv
+      uncertainty_registry.csv
+
+Use state files to recover after context loss. Do not rely on chat history as the only memory.
+
+## 5. Operating Loop
+
+For each stage:
+
+1. Plan the scope, inputs, output, and done criteria.
+2. Collect or process only the sources needed for that stage.
+3. Convert sources into claims, uncertainty, and analysis notes.
+4. Draft a bounded section or unit.
+5. Review the section for evidence, coverage, structure, skepticism, and prose.
+6. Revise the section and registries.
+7. Update progress and define the next stage.
+
+If one cycle adds no new evidence, case, counterexample, framework, or judgment, increment stale_count. If stale_count &gt;= 2, pivot the structural angle rather than merely searching harder.
+
+## 6. Source And Claim Discipline
+
+Classify sources by what they can prove:
+
+- official materials show stated position, intent, product surface, or formal policy
+- primary data supports measurable claims when definitions and collection methods are clear
+- expert materials explain reasoning, context, and interpretation
+- media materials show public framing but need corroboration for hard facts
+- user/community evidence shows reception but is not automatically representative
+- counter-evidence limits, weakens, or falsifies the main claim
+
+Classify claims separately:
+
+- verified fact
+- source claim
+- interpretation
+- author judgment
+- speculation
+
+Every important hard claim should have a confidence boundary. Do not turn company PR, investor hopes, or media amplification into fact.
+
+## 7. Analysis Lens Scheduling
+
+Choose the lens that fits the research question:
+
+- narrative analysis: framing, legitimacy, category creation, public meaning, media translation
+- horizontal-vertical analysis: timeline depth plus current competitor/substitute comparison
+- adoption analysis: user behavior, workflow change, replacement, friction
+- capital analysis: pricing, revenue, valuation, funding, cost structure, margins
+- organization/talent analysis: operating model, hiring, leadership, talent flow
+- policy/legitimacy analysis: regulation, compliance, trust, geopolitical or institutional pressure
+- counter-case analysis: strongest alternative explanation and failure modes
+
+Pick one primary lens and at most two secondary lenses unless the user explicitly requests a multi-method report.
+
+Read references/optional-analysis-lenses.md when choosing lenses. Read references/horizontal-vertical-analysis.md only after that lens has been selected.
+
+## 8. Subagent Scheduling
+
+Use subagents only for bounded work:
+
+- requirement mapping
+- source discovery for separate regions, actors, or source classes
+- evidence-chain verification
+- coverage audit
+- skeptical review
+- structure review
+- reader-quality review after the draft is stable
+
+A subagent prompt must include objective, files or sections to inspect, output format, PASS/FAIL criteria, and boundaries. Subagents should not rewrite the whole report or own the thesis.
+
+Read references/subagents-and-review-loop.md before delegation.
+
+## 9. Finalization
+
+The final article or report should contain reader-facing material only:
+
+- conclusion-first insights when useful
+- scope note
+- analytical sections organized by argument, case, period, or mechanism
+- synthesis across units
+- counter-evidence and uncertainty expressed cleanly
+- implications
+- reader-facing reference appendix
+
+Remove:
+
+- visible source IDs
+- audit labels
+- file paths
+- "the user provided"
+- "the material shows"
+- "this source supplements"
+- "this section passed audit"
+- excessive caveats that weaken rather than clarify judgment
+
+## 10. Validation And Limits
+
+Before declaring completion:
+
+1. Required coverage is complete or limitations are explicit.
+2. Major claims trace back to sources or uncertainty records.
+3. Facts, source claims, interpretations, and author judgments remain distinct.
+4. Counter-evidence has been addressed.
+5. Reader review has been run after factual and coverage review.
+6. The final prose reads like an author's report, not an agent process report.
+
+Limits:
+
+1. The protocol reduces citation and evidence errors; it does not eliminate them.
+2. Subagent review is a check, not external truth.
+3. Optional lenses can overfit the report if used mechanically.
+4. State files help recovery, but they only work if updated during the task, not reconstructed after the fact.
+
+## References
+
+- Read references/research-workflow.md before starting or restarting a complex project.
+- Read references/optional-analysis-lenses.md when selecting analysis lenses.
+- Read references/horizontal-vertical-analysis.md only when horizontal-vertical analysis is selected.
+- Read references/subagents-and-review-loop.md before delegation or review.
+- Read references/writing-style.md before drafting or final cleanup.
+- Read references/quality-gates.md before stage completion or final delivery.
+- Read references/postmortem-lessons.md when adapting this protocol or diagnosing task drift.</code></pre>
+      </section>
+
+      <footer>
+        Longform Industry Research Protocol / Open Spec / June 2026
+      </footer>
+    </main>
+    <script>
+      function copySkill() {
+        const text = document.getElementById('skilltext').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = document.querySelector('.copybtn');
+          const old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => { btn.textContent = old; }, 1200);
+        });
+      }
+    </script>
+  </body>
+</html>

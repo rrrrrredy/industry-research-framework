@@ -1,158 +1,184 @@
 ---
 name: longform-industry-narrative-research
-description: Long-form, source-backed industry research and publishable writing workflow for AI agents. Use when an agent must plan, collect, verify, analyze, draft, revise, or finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report from many sources over multiple stages. Supports state files, source/claim/uncertainty registries, staged drafting, optional analysis lenses such as narrative analysis or horizontal-vertical analysis, subagent review, reader-quality revision, and removal of process/audit language from final Chinese or English prose. Do not use for quick factual answers, simple summaries, citation formatting only, or purely creative writing.
+description: Protocol framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes task state, source/claim/uncertainty registries, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
 ---
 
-# Longform Industry Research and Writing
+# Longform Industry Research Protocol
 
-Use this agent skill for long, evidence-backed research writing where the deliverable is a publishable article or report, not a process diary. The method is general: choose the analytical lens that fits the question instead of forcing every project into a narrative-analysis frame.
+This skill is a protocol framework for longform industry research and publishable writing. It ships no scraper, data source, or fixed report template; instead it prescribes conventions for how an AI agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
 
-## Non-Negotiable Rules
+## 1. Motivation
 
-1. State the research objective, target reader, scope, output format, and evidence standard before deep work.
-2. Persist task state in files when the task is long, multi-stage, or likely to exceed one session.
-3. Keep the research backend separate from the final prose.
-4. Distinguish verified facts, source claims, interpretations, uncertainty, and author judgments.
-5. Work in staged cycles: plan, collect, analyze, draft a section, review, revise, then continue.
-6. Do not generate the whole article in one pass when the project is complex.
-7. Do not let internal process language leak into the final article.
-8. Treat interviews, podcasts, social posts, market data, and media reports as optional source types, not mandatory categories.
-9. Use subagents only for separable research, adversarial review, evidence checks, or reader review; do not let them replace the main argument.
-10. After each review, route findings into concrete revision actions.
+Longform research agents tend to fail in four recurring ways:
 
-## Workflow
+1. Topic overfitting: a method distilled from one project becomes falsely treated as the universal frame.
+2. Process leakage: the final article reads like a work log, with phrases such as "the user provided" or "the material shows".
+3. Evidence drift: sources, claims, uncertainty, and author judgment collapse into one undifferentiated narrative.
+4. False completion: a partial milestone is reported as final completion before coverage, review, and reader-quality revision are done.
 
-### 1. Frame The Task
+Every mechanism in this protocol targets one of those failures.
 
-Write a short task specification:
+## 2. Behavioral Constraints
 
-- research question
-- target reader
-- intended output and language
-- required coverage
-- out-of-scope claims
-- evidence standard
-- likely source categories
-- draft structure
-- completion criteria
+1. Deliverable first: if the requested output is an article or report, do not drift into system design, prompt design, or workflow exposition.
+2. State before scale: for long tasks, write task state to files before expanding source collection.
+3. Evidence is not prose: registries, logs, audit labels, and access failures stay backstage unless the user requests an audit appendix.
+4. Staged execution: plan, collect, analyze, draft, review, revise, and update state before moving to the next unit.
+5. Section-level progress: write complex work by section, company, case, period, or argument; do not generate the whole report in one pass.
+6. Optional lenses only: narrative analysis, horizontal-vertical analysis, capital analysis, and adoption analysis are tools, not default structure.
+7. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
+8. Reader review comes last: improve readability only after factual, coverage, and structure checks are stable.
 
-If the work drifts into system design, prompt engineering, or workflow documentation when the requested deliverable is an article/report, restate the writing objective and return to the research plan.
+## 3. Architecture
 
-### 2. Build The Research Backend
+    Main Agent
+    owns thesis, structure, final judgment
 
-For substantial work, maintain:
+    Research Backend   Publishing Frontend
+    state files        thesis / sections
+    source registry    mechanisms / synthesis
+    claim registry     counter-evidence
+    uncertainty list   reader-facing references
+    review logs        final prose cleanup
 
-- `state/task_spec.md`
-- `state/progress.json`
-- `state/findings.jsonl`
-- `state/directions_tried.json`
-- `state/iteration_log.jsonl`
-- `logs/work.jsonl`
-- `data/source_registry.csv`
-- `data/claims_registry.csv`
-- `data/uncertainty_registry.csv`
+Subagents may inspect or challenge bounded parts of the backend, but the main agent owns the argument and final prose.
 
-These files support recovery and verification. They are not the final article.
+## 4. State Files
 
-### 3. Collect And Classify Sources
+For substantial work, create:
 
-Collect sources according to the topic. Possible categories include:
+    {task}/state/
+      task_spec.md            # objective, reader, scope, evidence standard
+      progress.json           # stage, completed units, open issues, stale_count
+      findings.jsonl          # append-only findings and judgments
+      directions_tried.json   # directions already attempted
+      iteration_log.jsonl     # stage summaries
 
-- official materials: websites, product pages, docs, reports, filings, speeches
-- primary data: financials, usage data, benchmarks, repositories, datasets
-- expert materials: papers, technical reports, interviews, talks, podcasts
-- media and industry analysis: news, newsletters, trade press, analyst reports
-- market and capital materials: investor memos, pricing, funding, app intelligence
-- user and community evidence: forums, reviews, GitHub issues, social posts
-- counter-evidence: failures, lawsuits, churn, backlash, adoption limits, criticism
+    {task}/logs/
+      work.jsonl              # execution decisions
+      review.jsonl            # review findings and routed fixes
 
-Record source limitations and access failures backstage. Do not cite inaccessible material as substantive evidence.
+    {task}/data/
+      source_registry.csv
+      claims_registry.csv
+      uncertainty_registry.csv
 
-### 4. Analyze In Units
+Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-Choose analysis units that fit the assignment: company, product, market segment, technology, policy regime, actor, period, or case.
+## 5. Operating Loop
 
-For each unit, create an analysis card:
+For each stage:
 
-1. Context and timeline: what changed, when, and why it matters.
-2. Current position: what role the unit occupies in the market, ecosystem, policy debate, or user workflow.
-3. Mechanism: what converts the unit's actions into external effects.
-4. Evidence: facts and source claims that support the analysis.
-5. Counter-evidence and boundary: what weakens, narrows, or complicates the claim.
-6. Implication: what a reader should conclude or do differently.
+1. Plan the scope, inputs, output, and done criteria.
+2. Collect or process only the sources needed for that stage.
+3. Convert sources into claims, uncertainty, and analysis notes.
+4. Draft a bounded section or unit.
+5. Review the section for evidence, coverage, structure, skepticism, and prose.
+6. Revise the section and registries.
+7. Update progress and define the next stage.
 
-Use a narrative lens only when the research question is about framing, meaning-making, legitimacy, media translation, category creation, or belief formation.
+If one cycle adds no new evidence, case, counterexample, framework, or judgment, increment `stale_count`. If `stale_count >= 2`, pivot the structural angle rather than merely searching harder.
 
-### 5. Draft In Sections
+## 6. Source And Claim Discipline
 
-Draft section by section. For each section:
+Classify sources by what they can prove:
 
-1. write the local thesis
-2. select only the evidence needed for that thesis
-3. explain mechanisms before listing details
-4. include counter-evidence where it changes the judgment
-5. remove process language before moving on
+- official materials show stated position, intent, product surface, or formal policy
+- primary data supports measurable claims when definitions and collection methods are clear
+- expert materials explain reasoning, context, and interpretation
+- media materials show public framing but need corroboration for hard facts
+- user/community evidence shows reception but is not automatically representative
+- counter-evidence limits, weakens, or falsifies the main claim
 
-Assemble the report around the argument, not around source collection order.
+Classify claims separately:
 
-### 6. Review And Revise
+- verified fact
+- source claim
+- interpretation
+- author judgment
+- speculation
 
-Run staged review before final delivery:
+Every important hard claim should have a confidence boundary. Do not turn company PR, investor hopes, or media amplification into fact.
 
-- evidence review: unsupported claims, weak sources, inaccessible materials
-- coverage review: missing required actors, topics, periods, or regions
-- structure review: argument flow, section order, duplicated ideas
-- skeptical review: company PR, media hype, or investor framing mistaken for reality
-- reader review: clarity, cognitive load, continuity, and publishable quality
+## 7. Analysis Lens Scheduling
 
-Reader review happens after factual/coverage review. It should improve reading experience without introducing new facts.
+Choose the lens that fits the research question:
 
-### 7. Finalize The Article
+- narrative analysis: framing, legitimacy, category creation, public meaning, media translation
+- horizontal-vertical analysis: timeline depth plus current competitor/substitute comparison
+- adoption analysis: user behavior, workflow change, replacement, friction
+- capital analysis: pricing, revenue, valuation, funding, cost structure, margins
+- organization/talent analysis: operating model, hiring, leadership, talent flow
+- policy/legitimacy analysis: regulation, compliance, trust, geopolitical or institutional pressure
+- counter-case analysis: strongest alternative explanation and failure modes
 
-The final article/report should include only reader-facing material:
+Pick one primary lens and at most two secondary lenses unless the user explicitly requests a multi-method report.
 
-- conclusion-first core insights when useful
-- clear scope note
-- analytical sections organized by the chosen structure
-- synthesis across cases or units
-- counter-evidence and uncertainty expressed as part of the argument
-- clean references or bibliography
-- completion note only if the user requests it
+Read `references/optional-analysis-lenses.md` when choosing lenses. Read `references/horizontal-vertical-analysis.md` only after that lens has been selected.
 
-Do not show source IDs, audit labels, file paths, or phrases such as "the user provided", "the material shows", "this source supplements", or "the audit passed" in final prose.
+## 8. Subagent Scheduling
 
-## When To Read References
+Use subagents only for bounded work:
+
+- requirement mapping
+- source discovery for separate regions, actors, or source classes
+- evidence-chain verification
+- coverage audit
+- skeptical review
+- structure review
+- reader-quality review after the draft is stable
+
+A subagent prompt must include objective, files or sections to inspect, output format, PASS/FAIL criteria, and boundaries. Subagents should not rewrite the whole report or own the thesis.
+
+Read `references/subagents-and-review-loop.md` before delegation.
+
+## 9. Finalization
+
+The final article or report should contain reader-facing material only:
+
+- conclusion-first insights when useful
+- scope note
+- analytical sections organized by argument, case, period, or mechanism
+- synthesis across units
+- counter-evidence and uncertainty expressed cleanly
+- implications
+- reader-facing reference appendix
+
+Remove:
+
+- visible source IDs
+- audit labels
+- file paths
+- "the user provided"
+- "the material shows"
+- "this source supplements"
+- "this section passed audit"
+- excessive caveats that weaken rather than clarify judgment
+
+## 10. Validation And Limits
+
+Before declaring completion:
+
+1. Required coverage is complete or limitations are explicit.
+2. Major claims trace back to sources or uncertainty records.
+3. Facts, source claims, interpretations, and author judgments remain distinct.
+4. Counter-evidence has been addressed.
+5. Reader review has been run after factual and coverage review.
+6. The final prose reads like an author's report, not an agent process report.
+
+Limits:
+
+1. The protocol reduces citation and evidence errors; it does not eliminate them.
+2. Subagent review is a check, not external truth.
+3. Optional lenses can overfit the report if used mechanically.
+4. State files help recovery, but they only work if updated during the task, not reconstructed after the fact.
+
+## References
 
 - Read `references/research-workflow.md` before starting or restarting a complex project.
-- Read `references/optional-analysis-lenses.md` when choosing methods such as narrative analysis, horizontal-vertical analysis, adoption analysis, capital analysis, or counter-case analysis.
-- Read `references/horizontal-vertical-analysis.md` only after the horizontal-vertical lens has been selected.
-- Read `references/subagents-and-review-loop.md` before delegating work or running audits.
-- Read `references/writing-style.md` before drafting, rewriting, or finalizing.
-- Read `references/quality-gates.md` before declaring a stage or final deliverable complete.
-- Read `references/postmortem-lessons.md` when adapting this skill or diagnosing why a long research task drifted.
-
-## When Not To Use
-
-Do not use this skill for:
-
-- quick factual answers
-- short summaries of one document
-- citation cleanup only
-- spreadsheet-only data cleaning
-- live news briefs without synthesis
-- purely creative essays without source discipline
-- tasks where the user wants code, dashboards, or automation rather than a research article/report
-
-## Expected Outputs
-
-Depending on task size, produce some or all of:
-
-- task specification
-- source and claim registries
-- uncertainty list
-- staged research notes
-- section drafts
-- review logs with routed actions
-- final publishable article/report
-- reader-facing reference appendix
-- completion report with remaining limitations
+- Read `references/optional-analysis-lenses.md` when selecting analysis lenses.
+- Read `references/horizontal-vertical-analysis.md` only when horizontal-vertical analysis is selected.
+- Read `references/subagents-and-review-loop.md` before delegation or review.
+- Read `references/writing-style.md` before drafting or final cleanup.
+- Read `references/quality-gates.md` before stage completion or final delivery.
+- Read `references/postmortem-lessons.md` when adapting this protocol or diagnosing task drift.
