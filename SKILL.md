@@ -1,6 +1,6 @@
 ---
 name: industry-research-framework
-description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a scope contract, research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
 ---
 
 # Industry Research Framework
@@ -19,7 +19,26 @@ Longform research agents tend to fail in five recurring ways:
 
 Every mechanism in this framework targets one of those failures.
 
-## 2. Behavioral Constraints
+## 2. Scope Contract
+
+This skill is an execution framework for producing substantial research deliverables. It is not a theory system, product architecture, or universal modeling language.
+
+Keep inside this skill:
+
+1. Process: research scope calibration, staged execution, source processing, drafting, review, revision, and final cleanup.
+2. State: task state, progress, findings, assumptions, decisions, and direction tracking.
+3. Audit: source, claim, uncertainty, coverage, depth, and reader-quality checks.
+
+Keep outside this skill unless the user explicitly asks for a separate system design project:
+
+1. Domain ontologies, universal taxonomies, or generalized modeling languages.
+2. Intermediate representations, scoring systems, embeddings, knowledge graphs, or ranking engines.
+3. Dashboards, CLIs, databases, automation pipelines, or product architecture.
+4. Methodology manifestos that do not directly improve the current research deliverable.
+
+If a task starts drifting into the excluded layers, preserve the current deliverable path, record the idea as a future extension, and do not expand the workflow.
+
+## 3. Behavioral Constraints
 
 1. Deliverable first: if the requested output is an article or report, do not drift into system design, prompt design, or workflow exposition.
 2. Research brief gate before collection: ask one compact clarification batch when decision-critical information is missing.
@@ -32,7 +51,7 @@ Every mechanism in this framework targets one of those failures.
 9. Review closes the loop: every audit finding must become a revision action, a downgraded claim, or an explicit limitation.
 10. Reader review comes last: improve readability only after factual, coverage, structure, and depth checks are stable.
 
-## 3. Architecture
+## 4. Architecture
 
     Main Agent
     owns thesis, structure, final judgment
@@ -46,7 +65,7 @@ Every mechanism in this framework targets one of those failures.
 
 Subagents may inspect or challenge bounded parts of the backend, but the main agent owns the argument and final prose.
 
-## 4. State Files
+## 5. State Files
 
 For substantial work, create:
 
@@ -68,7 +87,7 @@ For substantial work, create:
 
 Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-## 5. Research Brief Gate
+## 6. Research Brief Gate
 
 Before collection, decide whether the request contains enough decision-critical information. If not, ask one compact batch of questions before starting. The batch should usually contain 3-7 questions and must cover expected length or depth when it is missing.
 
@@ -86,7 +105,7 @@ If the user has already supplied enough context, do not ask ritual questions. Pr
 
 If critical details remain unanswered after one clarification batch, make conservative assumptions, record them, and begin with a bounded Stage 1 instead of stalling.
 
-## 6. Operating Loop
+## 7. Operating Loop
 
 For each stage:
 
@@ -102,7 +121,7 @@ If one cycle adds no new evidence, case, counterexample, framework, or judgment,
 
 For longform deliverables, do not use source count, claim count, link count, or file size as completion substitutes. They are backend health signals, not proof that the finished report has enough depth. Before final assembly, compare the draft against the depth budget and expand thin units before reader review.
 
-## 7. Source And Claim Discipline
+## 8. Source And Claim Discipline
 
 Classify sources by what they can prove:
 
@@ -123,7 +142,7 @@ Classify claims separately:
 
 Every important hard claim should have a confidence boundary. Do not turn company PR, investor hopes, or media amplification into fact.
 
-## 8. Analysis Lens Scheduling
+## 9. Analysis Lens Scheduling
 
 Choose the lens that fits the research question:
 
@@ -139,7 +158,7 @@ Pick one primary lens and at most two secondary lenses unless the user explicitl
 
 Read `references/optional-analysis-lenses.md` when choosing lenses. Read `references/horizontal-vertical-analysis.md` only after that lens has been selected.
 
-## 9. Subagent Scheduling
+## 10. Subagent Scheduling
 
 Use subagents only for bounded work:
 
@@ -155,7 +174,7 @@ A subagent prompt must include objective, files or sections to inspect, output f
 
 Read `references/subagents-and-review-loop.md` before delegation.
 
-## 10. Finalization
+## 11. Finalization
 
 The final article or report should contain reader-facing material only:
 
@@ -178,7 +197,7 @@ Remove:
 - "this section passed audit"
 - excessive caveats that weaken rather than clarify judgment
 
-## 11. Validation And Limits
+## 12. Validation And Limits
 
 Before declaring completion:
 

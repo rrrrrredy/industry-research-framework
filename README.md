@@ -4,7 +4,7 @@ A framework for longform, source-backed industry research and publishable writin
 
 It ships no scraper, data source, or fixed report template. Instead, it prescribes conventions for how an agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
 
-Research Brief Task State Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
+Scope Contract Research Brief Task State Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
 
 [Open framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html#fullmd)
 
@@ -22,7 +22,26 @@ Longform research agents tend to fail in five recurring ways:
 
 Every mechanism in this framework targets one of those failures.
 
-## 02 Behavioral Constraints
+## 02 Scope Contract
+
+This repository is scoped as an execution framework for producing substantial research deliverables. It is not a theory system, product architecture, or universal modeling language.
+
+Keep inside this repository:
+
+- **Process**: research scope calibration, staged execution, source processing, drafting, review, revision, and final cleanup.
+- **State**: task state, progress, findings, assumptions, decisions, and direction tracking.
+- **Audit**: source, claim, uncertainty, coverage, depth, and reader-quality checks.
+
+Keep outside this repository unless it is explicitly spun out as a separate project:
+
+- domain ontologies, universal taxonomies, or generalized modeling languages
+- intermediate representations, scoring systems, embeddings, knowledge graphs, or ranking engines
+- dashboards, CLIs, databases, automation pipelines, or product architecture
+- methodology manifestos that do not directly improve the current research deliverable
+
+If a task starts drifting into those layers, keep the research deliverable moving and record the idea as a future extension.
+
+## 03 Behavioral Constraints
 
 Hard rules of the framework:
 
@@ -36,7 +55,7 @@ Hard rules of the framework:
 - Review closes the loop: every audit finding becomes a revision action, downgraded claim, or explicit limitation.
 - Reader review comes last: improve readability after factual, coverage, structure, and depth checks are stable.
 
-## 03 Architecture
+## 04 Architecture
 
 ```text
 Main Agent
@@ -60,7 +79,7 @@ Publishing Frontend
 
 Subagents may inspect or challenge bounded parts of the backend, but the main agent owns the argument and final prose.
 
-## 04 State File System
+## 05 State File System
 
 ```text
 {task}/state/
@@ -82,7 +101,7 @@ Subagents may inspect or challenge bounded parts of the backend, but the main ag
 
 Use state files to recover after context loss. Do not rely on chat history as the only memory.
 
-## 05 Research Brief Gate
+## 06 Research Brief Gate
 
 Before collecting sources, decide whether the request contains enough decision-critical information. If not, ask one compact batch of questions before starting. The batch should usually contain 3-7 questions and must include expected length or depth when it is missing.
 
@@ -98,7 +117,7 @@ Ask only for missing critical information:
 
 If the user has already supplied enough context, proceed and record assumptions in `task_spec.md`. Do not keep asking non-blocking questions.
 
-## 06 Operating Loop
+## 07 Operating Loop
 
 1. Run the research brief gate, then plan the scope, inputs, output, and done criteria.
 2. Collect or process only the sources needed for that stage.
@@ -112,7 +131,7 @@ If one cycle adds no new evidence, case, counterexample, framework, or judgment,
 
 For longform deliverables, source counts, claim counts, link counts, and file size are backend health signals only. They cannot substitute for a depth review. Before final assembly, compare the draft against the depth budget and expand thin units before reader review.
 
-## 07 Analysis Lens Scheduling
+## 08 Analysis Lens Scheduling
 
 Choose the lens that fits the research question:
 
@@ -126,7 +145,7 @@ Choose the lens that fits the research question:
 
 Pick one primary lens and at most two secondary lenses unless the user explicitly requests a multi-method report.
 
-## 08 Subagent And Review Scheduling
+## 09 Subagent And Review Scheduling
 
 Use subagents for bounded work only:
 
@@ -140,7 +159,7 @@ Use subagents for bounded work only:
 
 Subagents should not rewrite the whole report or own the thesis.
 
-## 09 Engineering Constraints
+## 10 Engineering Constraints
 
 - Every important hard claim needs a confidence boundary.
 - Every 20 important facts, figures, or judgments should update source and claim registries.
@@ -149,7 +168,7 @@ Subagents should not rewrite the whole report or own the thesis.
 - User/community evidence shows reception; it is not automatically representative.
 - Reader review may improve flow and clarity, but must not invent facts.
 
-## 10 Validation And Limits
+## 11 Validation And Limits
 
 Before declaring completion:
 
@@ -169,7 +188,7 @@ Limits:
 - Optional lenses can overfit the report if used mechanically.
 - State files only work if updated during the task, not reconstructed after the fact.
 
-## 11 Full SKILL.md
+## 12 Full SKILL.md
 
 The authoritative instruction file is [`SKILL.md`](./SKILL.md). The framework page includes the full skill text in a copyable block.
 
@@ -226,7 +245,26 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 
 这个框架里的状态文件、来源台账、判断台账、阶段审阅和读者修订，都是为了解决这些问题。
 
-## 02 核心原则
+## 02 范围契约
+
+这个仓库只承载“产业研究执行框架”，不承载理论系统、产品架构或通用建模语言。
+
+允许放进这个仓库的内容：
+
+- **process**：研究范围校准、分阶段执行、资料处理、写作、审阅、修订和终稿清理。
+- **state**：任务状态、进度、发现、假设、决策和方向记录。
+- **audit**：来源、判断、不确定性、覆盖度、深度和读者体验检查。
+
+不应放进这个仓库的内容，除非明确拆成独立项目：
+
+- 领域本体、通用分类体系或通用建模语言
+- 中间表示、评分系统、embedding、知识图谱或排序引擎
+- 仪表盘、CLI、数据库、自动化流水线或产品架构
+- 不能直接改善当前研究交付物的方法论宣言
+
+如果任务开始滑向这些方向，应保持当前研究交付物继续推进，把相关想法记录为未来扩展，而不是扩展当前框架。
+
+## 03 核心原则
 
 - **交付物优先**：如果用户要的是文章或报告，不要偏移成系统设计、prompt 设计或流程说明。
 - **先做研究范围校准**：如果缺少影响方向、范围、交付物或深度判断的关键信息，先集中提问；其中必须确认预期篇幅或研究深度。
@@ -238,7 +276,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 - **审阅必须闭环**：每个审阅问题都要变成具体修改动作、降级后的判断，或明确的不确定性说明。
 - **读者视角最后介入**：先完成事实、覆盖、结构和深度检查，再做可读性、节奏和理解负担优化。
 
-## 03 研究范围校准
+## 04 研究范围校准
 
 在开始收集资料前，agent 必须判断用户请求是否已经足够明确。若缺少关键信息，应先集中提出一组简短问题，通常 3-7 个；如果缺少篇幅或深度要求，必须询问。
 
@@ -254,7 +292,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 
 如果用户已经提供足够上下文，不要为了流程感反复追问；应直接进入任务，并把默认假设写入 `task_spec.md`。
 
-## 04 研究后台与成稿
+## 05 研究后台与成稿
 
 研究后台包括：
 
@@ -280,7 +318,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 
 后台保证可追溯，成稿保证可阅读。两者必须分开。
 
-## 05 适用场景
+## 06 适用场景
 
 适合用于：
 
@@ -303,7 +341,7 @@ For systems without a formal skill loader, use `SKILL.md` as the main instructio
 - 没有资料约束的创意写作
 - 用户真正想要代码、仪表盘或自动化工具的任务
 
-## 06 与框架页面的关系
+## 07 与框架页面的关系
 
 完整框架页面在这里：
 
