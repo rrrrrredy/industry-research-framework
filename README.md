@@ -178,3 +178,91 @@ git clone https://github.com/rrrrrredy/longform-industry-narrative-research.git 
 ```
 
 For systems without a formal skill loader, use `SKILL.md` as the main instruction file and load files under `references/` only when the task requires them.
+
+---
+
+# 中文说明：长篇产业研究协议
+
+这是一个面向 AI agent 的长篇产业研究与写作协议，用于处理资料量大、周期长、需要形成可发布文章或研究报告的任务。
+
+它不是抓取工具、数据源、固定报告模板，也不是只服务于“叙事研究”的方法。它的作用是规定一套可复用的研究执行约束：agent 如何保存任务状态、如何区分来源与判断、如何分阶段写作、如何进行审计与读者视角修订，以及如何把复杂的后台研究整理成干净的前台文章。
+
+## 01 动机：四类常见失败
+
+长篇研究任务中，agent 很容易出现四类问题：
+
+1. **方法过拟合**：从一个具体项目中提炼出的经验，被误当成所有研究任务的默认框架。
+2. **过程泄漏**：终稿不像作者写的研究文章，而像“我读取了什么材料、做了什么处理”的工作日志。
+3. **证据漂移**：事实、来源说法、媒体解释、不确定性和作者判断混在一起，最后很难追溯。
+4. **过早完成**：只完成一个局部阶段，就把它当成整体任务完成。
+
+这个协议里的状态文件、来源台账、判断台账、阶段审计、读者修订，都是为了解决这些问题。
+
+## 02 核心原则
+
+- **交付物优先**：如果用户要的是文章或报告，不要偏移成系统设计、prompt 设计或流程说明。
+- **先建状态，再扩资料**：长任务必须把目标、范围、进度、发现、待核项写入文件，而不是只依赖聊天上下文。
+- **证据不是正文**：来源台账、审计记录、失败访问、内部 source id 留在后台，不能直接污染终稿。
+- **分阶段推进**：规划、收集、分析、写作、审计、修订、更新状态，按阶段循环。
+- **方法按需选择**：叙事分析、横纵分析、资本分析、采用分析都是可选镜头，不是默认结构。
+- **审计必须闭环**：每个审计问题都要变成具体修改动作、降级后的判断，或明确的不确定性说明。
+- **读者审计最后执行**：先完成事实、覆盖和结构检查，再做可读性、节奏和理解负担优化。
+
+## 03 后台与前台
+
+研究后台包括：
+
+- `state/task_spec.md`
+- `state/progress.json`
+- `state/findings.jsonl`
+- `state/directions_tried.json`
+- `logs/work.jsonl`
+- `logs/review.jsonl`
+- `data/source_registry.csv`
+- `data/claims_registry.csv`
+- `data/uncertainty_registry.csv`
+
+前台文章包括：
+
+- 核心判断
+- 研究范围
+- 分析章节
+- 跨案例综合
+- 反证与边界
+- 结论
+- 读者可读的参考资料
+
+后台保证可追溯，前台保证可阅读。两者必须分开。
+
+## 04 适用场景
+
+适合用于：
+
+- 公司、产品、市场类别研究
+- 技术生态与产业链分析
+- 行业竞争格局研究
+- 政策、监管与制度分析
+- 组织、人才流动与运营模式研究
+- 产品采用与用户行为分析
+- 商业模式、定价、融资与资本市场分析
+- 跨区域、跨市场、跨公司比较研究
+- 将大量资料整理成可发布文章或研究报告
+
+不适合用于：
+
+- 简单事实问答
+- 单篇文章摘要
+- 纯引文格式整理
+- 单纯数据清洗
+- 没有资料约束的创意写作
+- 用户真正想要代码、仪表盘或自动化工具的任务
+
+## 05 与协议页面的关系
+
+完整协议页面在这里：
+
+[Longform Industry Research Protocol](https://rrrrrredy.github.io/longform-industry-narrative-research/framework.html#fullmd)
+
+仓库源码在这里：
+
+[rrrrrredy/longform-industry-narrative-research](https://github.com/rrrrrredy/longform-industry-narrative-research)
