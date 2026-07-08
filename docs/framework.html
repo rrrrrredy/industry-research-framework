@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Industry Research Framework</title>
-    <meta name="description" content="A framework for source-backed longform industry research and publishable writing by AI agents.">
+    <meta name="description" content="An open-source protocol for source-backed longform industry research by AI agents.">
     <style>
       :root {
         --bg: #f3efe6;
@@ -179,7 +179,7 @@
 
       .tagbar {
         display: grid;
-        grid-template-columns: repeat(9, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         border: 1px solid var(--line-strong);
         border-top: 0;
         background: var(--dark);
@@ -327,6 +327,71 @@
         background: var(--paper);
         padding: 24px;
         margin-top: 16px;
+      }
+
+      .comparison {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .comparison-panel {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: 22px;
+        min-height: 240px;
+      }
+
+      .comparison-panel.bad {
+        border-color: rgba(183, 86, 54, .5);
+      }
+
+      .comparison-panel.good {
+        border-color: rgba(28, 116, 109, .5);
+      }
+
+      .comparison-panel ul,
+      .asset-list {
+        margin: 12px 0 0;
+        padding-left: 18px;
+        color: var(--ink-soft);
+      }
+
+      .prompt-grid,
+      .asset-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .prompt-card,
+      .asset-card {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        padding: 20px;
+      }
+
+      .prompt-card pre {
+        margin: 14px 0 0;
+        padding: 16px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        max-height: 280px;
+      }
+
+      .asset-card strong {
+        display: block;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+
+      .launch-visual {
+        width: min(100%, 240px);
+        aspect-ratio: 1;
+        display: block;
+        margin: 0 auto 16px;
+        border: 1px solid var(--line-strong);
+        background: var(--paper);
       }
 
       .rule-list {
@@ -539,7 +604,8 @@
         }
 
         .hero-inner {
-          padding: 28px;
+          padding: 24px;
+          gap: 18px;
         }
 
         .topbar {
@@ -547,14 +613,40 @@
           flex-direction: column;
         }
 
+        h1 {
+          font-size: 44px;
+        }
+
+        .lede {
+          font-size: 17px;
+        }
+
+        .hero-actions {
+          margin-top: 22px;
+          gap: 8px;
+        }
+
+        .button {
+          flex: 1 1 calc(50% - 8px);
+          min-height: 40px;
+          padding: 8px 10px;
+          font-size: 14px;
+        }
+
         .tagbar,
         .cards,
+        .comparison,
+        .prompt-grid,
+        .asset-grid,
         .rule-list,
         .diagram,
         .state-grid,
-        .lens-grid,
-        .spec-card {
+        .lens-grid {
           grid-template-columns: 1fr;
+        }
+
+        .spec-card {
+          display: none;
         }
 
         .tagbar span {
@@ -590,9 +682,11 @@
         <nav>
           <a href="https://github.com/rrrrrredy/industry-research-framework">Repository</a>
           <a href="#fullmd">Full SKILL.md</a>
+          <a href="#demo">Before/After</a>
+          <a href="#copy-run">Copy Prompts</a>
+          <a href="#launch-assets">Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
-          <a href="#state">State Files</a>
         </nav>
         <div>Open Framework Spec / July 2026</div>
       </header>
@@ -600,27 +694,28 @@
       <section class="hero">
         <div class="hero-inner">
           <div>
-            <div class="crumb">Papers / Research Framework</div>
+            <div class="crumb">Open-Source AI Agent Protocol</div>
             <h1>Industry Research Framework</h1>
-            <p class="lede">A framework for source-backed longform industry research and publishable writing by AI agents. It defines how agents preserve state, discipline evidence, draft in stages, run review loops, and clean final prose.</p>
+            <p class="lede">An open-source protocol that keeps AI agents from turning industry research into shallow summaries. It adds scope gates, evidence registries, hard stops, and regression evals so longform reports stay source-backed and publishable.</p>
             <div class="hero-actions">
-              <a class="button" href="#fullmd">Jump to full SKILL.md</a>
-              <a class="button secondary" href="#use-agent">Use with your agent</a>
+              <a class="button" href="#fullmd">Start with SKILL.md</a>
+              <a class="button secondary" href="#demo">See before/after</a>
+              <a class="button secondary" href="#launch-assets">Product Hunt assets</a>
               <a class="button secondary" href="https://github.com/rrrrrredy/industry-research-framework">View repository</a>
             </div>
           </div>
           <aside class="spec-card" aria-label="Framework metadata">
             <div class="spec-item">
               <span class="spec-label">Type</span>
-              <span class="spec-value">Agent research framework</span>
+              <span class="spec-value">Open-source agent protocol</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Scope</span>
-              <span class="spec-value">Longform industry research</span>
+              <span class="spec-label">Failure Modes</span>
+              <span class="spec-value">5 guarded</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Output</span>
-              <span class="spec-value">Publishable article or report</span>
+              <span class="spec-label">Eval Layer</span>
+              <span class="spec-value">Regression fixtures</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">License</span>
@@ -648,6 +743,9 @@
         <aside class="toc" aria-label="Page navigation">
           <div class="toc-title">Framework Map</div>
           <a href="#quickstart">00 Quickstart</a>
+          <a href="#demo">P1 Before/After</a>
+          <a href="#copy-run">P2 Copy Prompts</a>
+          <a href="#launch-assets">P3 Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
           <a href="#motivation">01 Motivation</a>
@@ -679,6 +777,109 @@
               <p>Use <code>SKILL.md</code> first. Run research scope calibration, confirm output, reader, depth, evidence standard, and coverage, then create state, logs, and data files before broad source collection.</p>
               <p>Load references conditionally: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.</p>
               <p>Obey hard stops before claiming completion: repair missing brief details, evidence dead ends, empty claim registries, process leakage, thin drafts, and unresolved review findings.</p>
+            </div>
+          </section>
+
+          <section id="demo" class="section">
+            <div class="section-head">
+              <div class="index">P1</div>
+              <div>
+                <h2>Before And After</h2>
+                <p class="section-kicker">The framework is designed for the gap between a plausible AI summary and a report that survives evidence review.</p>
+              </div>
+            </div>
+            <div class="comparison">
+              <article class="comparison-panel bad">
+                <div class="card-number">Without a protocol</div>
+                <h3>Common agent failure</h3>
+                <p>The agent collects many links, writes a compressed overview, leaves research-process language in the prose, and treats partial coverage as completion.</p>
+                <ul>
+                  <li>Source lists replace analysis.</li>
+                  <li>Claims drift beyond the evidence.</li>
+                  <li>Depth collapses after the first draft.</li>
+                  <li>Review findings stay open while the task is marked done.</li>
+                </ul>
+              </article>
+              <article class="comparison-panel good">
+                <div class="card-number">With this framework</div>
+                <h3>Source-backed research flow</h3>
+                <p>The agent confirms scope, persists state, separates evidence from prose, tracks claims and uncertainty, drafts section by section, then runs hard stops before final delivery.</p>
+                <ul>
+                  <li>Every major claim has a source or limitation.</li>
+                  <li>Evidence, judgment, and speculation stay distinct.</li>
+                  <li>Depth is checked against the requested deliverable.</li>
+                  <li>Final prose is cleaned for readers, not auditors.</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section id="copy-run" class="section">
+            <div class="section-head">
+              <div class="index">P2</div>
+              <div>
+                <h2>Copy-And-Run Prompts</h2>
+                <p class="section-kicker">Use these entry prompts when you want an agent to adopt the repository as the controlling research protocol.</p>
+              </div>
+            </div>
+            <div class="prompt-grid">
+              <article class="prompt-card">
+                <div class="card-number">Codex / local agents</div>
+                <h3>Repository as protocol</h3>
+                <pre><code>Use https://github.com/rrrrrredy/industry-research-framework as the research protocol. Read SKILL.md first. Before collecting sources, run the research brief gate. For substantial work, create state/, logs/, and data/. Keep sources, claims, uncertainty, and review notes backstage. Run hard stops and quality gates before final delivery.</code></pre>
+              </article>
+              <article class="prompt-card">
+                <div class="card-number">Claude / Gemini / Cursor</div>
+                <h3>Instruction-first mode</h3>
+                <pre><code>Open https://github.com/rrrrrredy/industry-research-framework and treat SKILL.md as the controlling instruction for this research task. Load references/ files only when the current stage needs them. Do not publish final prose until evidence, claim, depth, and reader cleanup gates pass.</code></pre>
+              </article>
+              <article class="prompt-card">
+                <div class="card-number">ChatGPT-style agents</div>
+                <h3>Attached skill file</h3>
+                <pre><code>I am attaching or pasting SKILL.md from Industry Research Framework. Follow it as a protocol for this longform research task. Ask one compact brief-gate question set if needed, maintain claim and uncertainty notes, and return only reader-facing final prose after quality gates pass.</code></pre>
+              </article>
+              <article class="prompt-card">
+                <div class="card-number">Eval follow-up</div>
+                <h3>Check the run</h3>
+                <pre><code>After the research run, place the artifacts under evals/runs/&lt;run-id&gt;/ and execute:
+python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/check_regression_fixtures.py</code></pre>
+              </article>
+            </div>
+          </section>
+
+          <section id="launch-assets" class="section">
+            <div class="section-head">
+              <div class="index">P3</div>
+              <div>
+                <h2>Product Hunt Launch Assets</h2>
+                <p class="section-kicker">Position the project as an open-source protocol for agent builders, researchers, and teams using AI for serious market work.</p>
+              </div>
+            </div>
+            <div class="asset-grid">
+              <article class="asset-card">
+                <img class="launch-visual" src="assets/product-hunt-thumbnail.svg" alt="Product Hunt thumbnail concept for Industry Research Framework">
+                <strong>Name</strong>
+                <p>Industry Research Framework</p>
+                <strong>Primary tagline</strong>
+                <p>Source-backed research protocol for AI agents</p>
+              </article>
+              <article class="asset-card">
+                <strong>Short description</strong>
+                <p>An open-source protocol that helps AI agents produce source-backed longform industry research without shallow summaries, process leakage, evidence drift, or false completion.</p>
+              </article>
+              <article class="asset-card">
+                <strong>Launch links</strong>
+                <ul class="asset-list">
+                  <li><a href="https://github.com/rrrrrredy/industry-research-framework">GitHub repository</a></li>
+                  <li><a href="#fullmd">Full SKILL.md</a></li>
+                  <li><a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">Eval suite</a></li>
+                </ul>
+              </article>
+              <article class="asset-card">
+                <strong>Full asset pack</strong>
+                <p>Product Hunt field copy, maker comment, audience segments, launch checklist, and social post drafts live in <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/docs/product-hunt-launch.md">docs/product-hunt-launch.md</a>.</p>
+              </article>
             </div>
           </section>
 

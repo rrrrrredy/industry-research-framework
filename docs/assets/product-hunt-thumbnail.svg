@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Industry Research Framework Product Hunt thumbnail</title>
+  <desc id="desc">A square launch thumbnail showing the protocol flow from brief gate to evidence, claims, review, and publishable report.</desc>
+  <rect width="1200" height="1200" fill="#171512"/>
+  <path d="M0 0h1200v1200H0z" fill="#171512"/>
+  <path d="M96 120h1008v960H96z" fill="#fffaf0" stroke="#d9cbbb" stroke-width="8"/>
+  <path d="M96 120h1008v210H96z" fill="#b75636"/>
+  <text x="150" y="220" fill="#fffaf0" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="4">OPEN-SOURCE PROTOCOL</text>
+  <text x="150" y="305" fill="#fffaf0" font-family="Georgia, serif" font-size="72" font-weight="700">Industry Research</text>
+  <text x="150" y="385" fill="#151412" font-family="Georgia, serif" font-size="72" font-weight="700">Framework</text>
+  <g transform="translate(150 465)">
+    <rect x="0" y="0" width="250" height="150" fill="#f8f1e3" stroke="#b8a995" stroke-width="4"/>
+    <text x="28" y="58" fill="#b75636" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">BRIEF</text>
+    <text x="28" y="104" fill="#151412" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Scope Gate</text>
+  </g>
+  <g transform="translate(475 465)">
+    <rect x="0" y="0" width="250" height="150" fill="#f8f1e3" stroke="#b8a995" stroke-width="4"/>
+    <text x="28" y="58" fill="#1c746d" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">EVIDENCE</text>
+    <text x="28" y="104" fill="#151412" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Claims</text>
+  </g>
+  <g transform="translate(800 465)">
+    <rect x="0" y="0" width="250" height="150" fill="#f8f1e3" stroke="#b8a995" stroke-width="4"/>
+    <text x="28" y="58" fill="#a9802d" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">REVIEW</text>
+    <text x="28" y="104" fill="#151412" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Hard Stops</text>
+  </g>
+  <path d="M410 540h50M735 540h50" stroke="#151412" stroke-width="10" stroke-linecap="round"/>
+  <path d="M450 520l30 20-30 20M775 520l30 20-30 20" fill="none" stroke="#151412" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="150" y="690" width="900" height="245" fill="#171512"/>
+  <text x="195" y="770" fill="#fffaf0" font-family="Georgia, serif" font-size="48" font-weight="700">Stop shallow AI research</text>
+  <text x="195" y="838" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="30">State files, source registries, claim discipline,</text>
+  <text x="195" y="888" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="30">hard stops, and regression evals for agents.</text>
+  <text x="150" y="1030" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">github.com/rrrrrredy/industry-research-framework</text>
+</svg>

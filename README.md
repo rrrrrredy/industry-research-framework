@@ -10,6 +10,14 @@ Scope Contract Research Brief Task State Recovery Guardrails Source Registry Cla
 
 The framework page is the structured reading guide. `SKILL.md` is the authoritative agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
 
+## Product Hunt Launch Pack
+
+This project is packaged for a Product Hunt-style launch as an open-source AI agent research protocol. Use the public page as the primary URL and the repository as the supporting link.
+
+- [Public framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html)
+- [Product Hunt launch copy](./docs/product-hunt-launch.md)
+- [Starter launch thumbnail](./docs/assets/product-hunt-thumbnail.svg)
+
 ## 30-Second Quickstart
 
 1. Start with `SKILL.md`.
