@@ -105,6 +105,12 @@ Recommended gallery frames:
 
 Recommendation: add a short video only if it is crisp and specific. For this project, a 60-90 second Loom or YouTube walkthrough is useful because the product is a protocol, not a conventional UI. The video should make the workflow concrete.
 
+Ready video assets:
+
+- `docs/assets/product-hunt-video/industry-research-framework-product-hunt.mp4`
+- `docs/assets/product-hunt-video/voiceover-script.md`
+- `docs/assets/product-hunt-video/README.md`
+
 Suggested structure:
 
 1. Start with the problem: long AI research tasks drift, leak process notes, and declare completion too early.
