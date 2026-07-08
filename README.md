@@ -8,6 +8,8 @@ Scope Contract Research Brief Task State Recovery Guardrails Source Registry Cla
 
 [Open framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html#fullmd)
 
+[![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=industry-research-framework&theme=light)](https://www.producthunt.com/posts/industry-research-framework?utm_source=badge-featured&utm_medium=badge)
+
 The framework page is the structured reading guide. `SKILL.md` is the authoritative agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
 
 ## Product Hunt Launch Pack
