@@ -1,6 +1,6 @@
 interface:
   display_name: "Industry Research Framework"
-  short_description: "Source-backed longform industry research framework"
-  default_prompt: "Use $industry-research-framework for a substantial industry, market, company, product, technology, policy, or ecosystem research report. Clarify scope, reader, evidence standard, and depth; keep sources, claims, uncertainty, and review notes backstage; enforce hard stops; draft section by section; and finalize publishable prose without process leakage."
+  short_description: "Source-backed AI research protocol / 中英产业研究"
+  default_prompt: "Use $industry-research-framework for substantial industry/market/company research or 中文产业研究、市场分析、竞品分析、投资memo; clarify scope, track sources/claims, enforce hard stops, and produce publishable prose."
 
 
