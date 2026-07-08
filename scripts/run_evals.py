@@ -42,6 +42,21 @@ CLAIM_DISCIPLINE_TERMS = [
     "author judgment",
 ]
 
+DEFAULT_OVERCLAIM_PHRASES = [
+    "事实证明",
+    "已经证明",
+    "已经验证",
+    "必然",
+    "唯一",
+    "毫无疑问",
+    "完全替代",
+    "彻底改变",
+    "definitely",
+    "guarantees",
+    "has proven",
+    "will inevitably",
+]
+
 GLOBAL_PROCESS_PHRASES = [
     "source pack",
     "脱敏 source pack",
@@ -60,6 +75,42 @@ TEMPLATE_SOURCE_LISTING_PHRASES = [
     "提示的约束",
     "这里应作为风险或边界处理",
 ]
+
+FINAL_STATUS_KEYS = {
+    "stage",
+    "status",
+    "current_stage",
+    "state",
+    "phase",
+    "completion_status",
+}
+
+FINAL_STAGE_TERMS = [
+    "complete",
+    "completed",
+    "done",
+    "final",
+    "finished",
+    "finalized",
+    "delivered",
+    "已完成",
+    "完成",
+    "终稿",
+]
+
+OPEN_ISSUE_KEYS = {
+    "open_issues",
+    "unresolved_issues",
+    "pending_issues",
+    "remaining_issues",
+    "blockers",
+}
+
+REVIEW_FAIL_TERMS = ["fail", "needs_revision", "unresolved", "open", "blocking_issue"]
+REVIEW_STATUS_KEYS = {"status", "result", "decision", "verdict", "finding_type", "outcome"}
+ISSUE_HANDLING_KEYS = {"handling", "resolution", "resolved_by", "routed_action", "limitation"}
+ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation", "accepted"]
+ISSUE_OPEN_TERMS = ["open", "unresolved", "pending", "blocking", "needs_revision", "fail"]
 
 
 def read_json(path: Path) -> Any:
@@ -108,6 +159,109 @@ def load_sources(evals_dir: Path) -> dict[str, dict[str, Any]]:
 def contains_any(text: str, terms: list[str]) -> bool:
     text_lower = text.lower()
     return any(term.lower() in text_lower for term in terms)
+
+
+def nonempty_line_count(text: str) -> int:
+    return sum(1 for line in text.splitlines() if line.strip())
+
+
+def data_row_count(text: str) -> int:
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not lines:
+        return 0
+    first_line = lines[0].lower()
+    header_terms = ["source_id", "claim", "claim_type", "confidence", "status"]
+    if "," in first_line and any(term in first_line for term in header_terms):
+        return max(0, len(lines) - 1)
+    return len(lines)
+
+
+def load_json_or_none(text: str) -> Any | None:
+    if not text.strip():
+        return None
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        return None
+
+
+def progress_claims_final(progress_text: str) -> bool:
+    data = load_json_or_none(progress_text)
+    if not isinstance(data, dict):
+        lower = progress_text.lower()
+        return any(term in lower for term in FINAL_STAGE_TERMS)
+
+    for key, value in data.items():
+        key_lower = str(key).lower()
+        if key_lower in FINAL_STATUS_KEYS and any(term in str(value).lower() for term in FINAL_STAGE_TERMS):
+            return True
+        if key_lower in {"done", "complete", "completed", "finalized"} and value is True:
+            return True
+    return False
+
+
+def progress_has_open_issues(progress_text: str) -> bool:
+    data = load_json_or_none(progress_text)
+    if not isinstance(data, dict):
+        return False
+    for key in OPEN_ISSUE_KEYS:
+        value = data.get(key)
+        if isinstance(value, list) and any(issue_is_unhandled(item) for item in value):
+            return True
+        if isinstance(value, str) and value.strip():
+            return True
+    return False
+
+
+def issue_is_unhandled(item: Any) -> bool:
+    if not item:
+        return False
+    if not isinstance(item, dict):
+        return True
+
+    status = str(item.get("status", "")).lower()
+    if status:
+        if any(term in status for term in ISSUE_OPEN_TERMS):
+            return True
+        if any(term in status for term in ISSUE_CLOSED_TERMS):
+            return False
+
+    if any(str(item.get(key, "")).strip() for key in ISSUE_HANDLING_KEYS):
+        return False
+
+    return True
+
+
+def review_has_unresolved_failures(review_text: str) -> bool:
+    for row in load_review_rows(review_text):
+        raw = str(row.get("raw", ""))
+        if raw and re.search(r"\b(fail|needs_revision|unresolved|open|blocking_issue)\b", raw, flags=re.IGNORECASE):
+            return True
+        for key, value in row.items():
+            if str(key).lower() not in REVIEW_STATUS_KEYS:
+                continue
+            value_text = str(value).lower()
+            if any(re.search(rf"\b{re.escape(term)}\b", value_text) for term in REVIEW_FAIL_TERMS):
+                return True
+    return False
+
+
+def load_review_rows(review_text: str) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for line in review_text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            rows.append({"raw": line})
+            continue
+        if isinstance(value, dict):
+            rows.append(value)
+        else:
+            rows.append({"value": value})
+    return rows
 
 
 def count_reader_references(final_text: str, source_ids: list[str], sources_by_id: dict[str, dict[str, Any]]) -> int:
@@ -184,6 +338,26 @@ def evaluate_case(
             "artifacts": artifact_results,
         }
 
+    progress_text = read_text(run_dir / "state" / "progress.json")
+    claims_registry_text = read_text(run_dir / "data" / "claims_registry.csv")
+    review_text = read_text(run_dir / "logs" / "review.jsonl")
+
+    min_claim_rows = int(case.get("min_claim_rows", 2))
+    claim_rows = data_row_count(claims_registry_text)
+    if claim_rows < min_claim_rows:
+        findings.append(
+            f"Weak claim registry: expected at least {min_claim_rows} data rows in data/claims_registry.csv, found {claim_rows}."
+        )
+        quality_flags.append("weak_claim_registry")
+
+    min_review_rows = int(case.get("min_review_rows", 1))
+    review_rows = load_review_rows(review_text)
+    if len(review_rows) < min_review_rows:
+        findings.append(
+            f"Weak review loop: expected at least {min_review_rows} review rows in logs/review.jsonl, found {len(review_rows)}."
+        )
+        quality_flags.append("weak_review_loop")
+
     section_hits = [section for section in case.get("required_sections", []) if section in final_text]
     if case.get("required_sections"):
         section_score = round(10 * len(section_hits) / len(case["required_sections"]))
@@ -234,6 +408,12 @@ def evaluate_case(
     else:
         findings.append("No clear claim/evidence/judgment discipline language found.")
 
+    overclaim_phrases = case.get("banned_overclaim_phrases", DEFAULT_OVERCLAIM_PHRASES)
+    overclaims = [phrase for phrase in overclaim_phrases if phrase.lower() in final_text.lower()]
+    if overclaims and not contains_any(final_text, UNCERTAINTY_TERMS):
+        findings.append("Overclaiming without uncertainty language found: " + ", ".join(overclaims))
+        quality_flags.append("overclaiming_without_uncertainty")
+
     banned = case.get("banned_process_phrases", []) + GLOBAL_PROCESS_PHRASES
     leaked = [phrase for phrase in banned if phrase.lower() in final_text.lower()]
     if leaked:
@@ -257,10 +437,16 @@ def evaluate_case(
         findings.append(f"High bullet-line ratio ({bullets:.0%}); inspect for source listing instead of synthesis.")
         quality_flags.append("list_like")
 
+    if progress_claims_final(progress_text) and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or quality_flags):
+        findings.append("False completion signal: progress claims final completion while unresolved issues or evaluator flags remain.")
+        quality_flags.append("false_completion_signal")
+
     char_count = len(re.sub(r"\s+", "", final_text))
-    if char_count >= 1800:
+    min_final_chars = int(case.get("min_final_nonspace_chars", 1800))
+    thin_final_chars = int(case.get("thin_final_nonspace_chars", 900))
+    if char_count >= min_final_chars:
         score += 15
-    elif char_count >= 900:
+    elif char_count >= thin_final_chars:
         score += 8
         findings.append(f"Output may be thin for this case: {char_count} non-space chars.")
     else:
@@ -288,6 +474,8 @@ def evaluate_case(
         "entity_hits": entity_hits,
         "registry_hits": registry_hits,
         "final_reference_hits": final_reference_hits,
+        "claim_rows": claim_rows,
+        "review_rows": len(review_rows),
         "char_count": char_count,
         "quality_flags": quality_flags,
         "coverage_flags": coverage_flags,

@@ -15,8 +15,8 @@ The framework page is the structured reading guide. `SKILL.md` is the authoritat
 1. Start with `SKILL.md`.
 2. Ask the agent to run the research scope calibration and confirm output, reader, depth, evidence standard, and coverage.
 3. For substantial work, create `state/`, `logs/`, and `data/` before collecting many sources.
-4. Load reference files only when needed: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, writing style before drafting, and quality gates before completion.
-5. Draft section by section, keep evidence backstage, and run reader review only after coverage and evidence checks are stable.
+4. Load reference files only when needed: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.
+5. Draft section by section, keep evidence backstage, obey hard stops, and run reader review only after coverage and evidence checks are stable.
 
 ## Use With Your Agent
 
@@ -68,6 +68,7 @@ Good output:
 - Uses sources to support claims and states what each source can and cannot prove.
 - Handles counter-evidence, uncertainty, adoption friction, and alternative explanations.
 - Writes section by section and removes internal source IDs, audit labels, and process language before final delivery.
+- Stops and repairs state when evidence, claims, depth, or completion signals fail a hard stop.
 
 Bad output:
 
@@ -77,6 +78,7 @@ Bad output:
 - Leaves phrases such as "the user provided", "the material shows", or "this source supplements" in the final article.
 - Declares completion after collecting many links or drafting one section.
 - Produces a short, compressed report while claiming the source registry proves depth.
+- Marks progress as complete while review findings, coverage gaps, or depth problems remain open.
 
 ## Conformance Checklist
 
@@ -86,6 +88,7 @@ Use this lightweight checklist to see whether an agent followed the protocol:
 - [ ] **State files**: substantial work created or updated `state/task_spec.md`, `state/progress.json`, and recovery notes.
 - [ ] **Claim registry**: important facts, claims, judgments, and uncertainties were tracked separately from source notes.
 - [ ] **Quality gate**: evidence, coverage, structure, counter-evidence, and depth were reviewed before final assembly.
+- [ ] **Hard stops**: evidence dead ends, empty claim registries, process leakage, thin drafts, and false completion signals were stopped and repaired.
 - [ ] **Reader cleanup**: the final prose removed process language, internal IDs, audit labels, and unsupported claims.
 
 ## Evaluation Suite
@@ -94,6 +97,7 @@ This repository includes a lightweight evaluation loop under [`evals/`](./evals/
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/check_regression_fixtures.py
 ```
 
 To rebuild the sanitized AI knowledge source pack from local knowledge repositories:
@@ -327,11 +331,13 @@ industry-research-framework/
 ├── evals/
 │   ├── README.md
 │   ├── cases/
+│   ├── regression_fixtures/
 │   ├── rubrics/
 │   ├── source_packs/
 │   └── taste_anchors/
 ├── scripts/
 │   ├── build_sanitized_eval_set.py
+│   ├── check_regression_fixtures.py
 │   └── run_evals.py
 └── references/
     ├── research-workflow.md
@@ -340,6 +346,7 @@ industry-research-framework/
     ├── subagents-and-review-loop.md
     ├── writing-style.md
     ├── quality-gates.md
+    ├── gotchas.md
     └── postmortem-lessons.md
 ```
 
@@ -373,8 +380,8 @@ This project is open source under the [MIT License](./LICENSE).
 1. 先使用 `SKILL.md`。
 2. 让 agent 先做研究范围校准，确认交付物、读者、深度、证据标准和覆盖范围。
 3. 对资料量大的任务，先创建 `state/`、`logs/` 和 `data/`，再大规模收集资料。
-4. reference 文件只在需要时读取：启动或恢复任务读 workflow，选择分析方法读 analysis lenses，派发子 agent 前读 subagent guidance，进入写作前读 writing style，阶段验收前读 quality gates。
-5. 一段一段写，证据留在后台，覆盖和证据检查稳定后再做读者审阅。
+4. reference 文件只在需要时读取：启动或恢复任务读 workflow，选择分析方法读 analysis lenses，派发子 agent 前读 subagent guidance，诊断漂移读 gotchas，进入写作前读 writing style，阶段验收前读 quality gates。
+5. 一段一段写，证据留在后台，遵守 hard stops，覆盖和证据检查稳定后再做读者审阅。
 
 ## 给 Agent 使用
 
@@ -426,6 +433,7 @@ This project is open source under the [MIT License](./LICENSE).
 - 用来源支撑判断，并说明每类来源能证明什么、不能证明什么。
 - 处理反证、不确定性、采用阻力和替代解释。
 - 分章节推进，最终交付前删除内部来源编号、审阅标签和过程语言。
+- 在证据、判断、深度或完成状态触发 hard stop 时，先停下修复状态和稿件。
 
 坏的输出：
 
@@ -435,6 +443,7 @@ This project is open source under the [MIT License](./LICENSE).
 - 终稿里保留“用户提供的资料”“材料显示”“该来源补充了”等过程话术。
 - 收集了很多链接或写完一个章节后就宣布完成。
 - 报告很短、很压缩，却用来源台账完整来替代深度。
+- `progress.json` 标记完成，但审阅问题、覆盖缺口或深度问题仍未关闭。
 
 ## 符合性清单
 
@@ -444,6 +453,7 @@ This project is open source under the [MIT License](./LICENSE).
 - [ ] **状态文件**：较大任务已创建或更新 `state/task_spec.md`、`state/progress.json` 和恢复记录。
 - [ ] **判断台账**：重要事实、来源说法、作者判断和不确定性没有混在普通笔记里。
 - [ ] **质量门禁**：最终组装前检查了证据、覆盖、结构、反证和深度。
+- [ ] **Hard stops**：证据枯竭、判断台账为空、过程泄漏、稿件过薄和虚假完成信号已经被停止并修复。
 - [ ] **读者清理**：终稿删除了过程语言、内部编号、审阅标签和无法支撑的判断。
 
 ## 评测集
@@ -452,6 +462,7 @@ This project is open source under the [MIT License](./LICENSE).
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/check_regression_fixtures.py
 ```
 
 如果本地有 AI 知识库仓库，可以重新生成脱敏评测数据：

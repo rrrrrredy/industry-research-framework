@@ -1,6 +1,6 @@
 interface:
   display_name: "Industry Research Framework"
-  short_description: "Source-backed longform research with recovery and guardrails"
-  default_prompt: "Use $industry-research-framework to keep scope bounded, recover from state when needed, enforce guardrails, clarify the research brief, plan, research, draft, review, and finalize a source-backed industry research article with explicit depth budgeting."
+  short_description: "Source-backed longform industry research framework"
+  default_prompt: "Use $industry-research-framework for a substantial industry, market, company, product, technology, policy, or ecosystem research report. Clarify scope, reader, evidence standard, and depth; keep sources, claims, uncertainty, and review notes backstage; enforce hard stops; draft section by section; and finalize publishable prose without process leakage."
 
 

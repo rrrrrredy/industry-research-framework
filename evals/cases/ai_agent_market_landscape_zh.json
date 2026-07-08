@@ -6,6 +6,8 @@
   "prompt": "面向战略读者，写一份 AI Agent 市场格局报告。需要覆盖平台型玩家、工作流产品、协议与生态、商业化路径、采用阻力、失败模式和反证。",
   "target_reader": "strategy and product leaders",
   "expected_depth": "standard report, 3000-5000 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 2400,
+  "thin_final_nonspace_chars": 1200,
   "must_cover_entities": [
     "AI Agent",
     "OpenAI",

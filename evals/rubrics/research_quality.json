@@ -9,6 +9,12 @@
       "comparison": "evals/taste_anchors/ai_agent_market_landscape_zh/baseline_vs_anchor.md"
     }
   ],
+  "regression_fixtures": [
+    "evals/regression_fixtures/process_leakage_zh",
+    "evals/regression_fixtures/depth_collapse_zh",
+    "evals/regression_fixtures/evidence_drift_overclaim_zh",
+    "evals/regression_fixtures/false_completion_zh"
+  ],
   "dimensions": [
     {
       "name": "brief_and_scope",

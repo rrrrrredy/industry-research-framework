@@ -12,7 +12,7 @@ Taste anchors are human-readable examples used to calibrate the evaluation loop.
 1. Run the deterministic evaluator.
 2. Inspect one or two outputs manually.
 3. Compare them against the nearest taste anchor.
-4. Convert repeated gaps into rubric language or deterministic checks.
+4. Convert repeated gaps into rubric language, deterministic checks, or a regression fixture under `evals/regression_fixtures/`.
 
 ## 中文说明
 

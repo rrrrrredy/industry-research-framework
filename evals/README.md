@@ -7,6 +7,7 @@ This directory contains a lightweight evaluation loop for Industry Research Fram
 ```text
 evals/
   cases/                         # one JSON task per eval case
+  regression_fixtures/            # known-bad outputs that the runner must flag
   rubrics/                       # human and automated scoring guidance
   source_packs/
     ai_knowledge_sanitized/      # sanitized seed sources generated from local knowledge repos
@@ -65,6 +66,16 @@ evals/runs/report.md
 evals/runs/report.json
 ```
 
+## Run Regression Fixtures
+
+Regression fixtures are intentionally bad outputs. They are not new research tasks; they verify that the deterministic runner catches recurring failures such as process leakage, depth collapse, evidence drift, overclaiming, and false completion.
+
+```bash
+python scripts/check_regression_fixtures.py
+```
+
+The fixture check passes only when each bad sample is scored as `review` or `fail` and the expected quality or coverage flags are present.
+
 ## How To Iterate
 
 1. Change `SKILL.md`, `README.md`, or a reference file.
@@ -72,7 +83,8 @@ evals/runs/report.json
 3. Compare scores and read `report.md`.
 4. Manually inspect at least one passing and one failing output.
 5. Convert repeated human feedback into a rubric item or a new case.
-6. Keep a small set of taste anchors: outputs that feel right, outputs that feel shallow, and outputs that leak process language.
+6. Add a regression fixture when a deterministic bad pattern should never pass again.
+7. Keep a small set of taste anchors: outputs that feel right, outputs that feel shallow, and outputs that leak process language.
 
 ## What The Automated Runner Checks
 
@@ -89,6 +101,9 @@ evals/runs/report.json
 - repeated template-like lines and high bullet-line ratios are flagged for review
 - repeated source-listing templates are flagged because they show traceability without synthesis
 - output is not obviously too short
+- claim registries and review logs are not empty shells
+- overconfident absolute claims are flagged when they lack uncertainty language
+- progress completion signals are flagged when unresolved issues or evaluator flags remain
 
 These checks are intentionally mechanical. They catch regressions; they do not replace editorial judgment.
 
@@ -117,6 +132,7 @@ Add an LLM judge only after the deterministic runner and taste anchors are stabl
 2. 用 `scripts/run_evals.py --create-skeletons` 生成每个 case 的运行目录和 prompt。
 3. 把 `prompt.md` 交给待测 agent，让它按框架完成状态文件、台账、审阅记录和 `final.md`。
 4. 再运行 `scripts/run_evals.py` 生成 `report.md` 和 `report.json`。
-5. 你只需要看少量 A/B 输出，判断“像不像你的研究口味”；我可以把这些反馈沉淀为新 case、rubric 或 taste anchor。
+5. 运行 `scripts/check_regression_fixtures.py`，确认已知坏样本会被抓住。
+6. 你只需要看少量 A/B 输出，判断“像不像你的研究口味”；我可以把这些反馈沉淀为新 case、rubric、regression fixture 或 taste anchor。
 
 目前默认不启用 LLM judge。先用确定性 runner 抓状态文件、来源台账、过程语言、内部编号泄漏、列表密度和重复模板句式；等 taste anchor 和规则稳定后，再考虑增加可选的、供应商无关的 LLM judge。

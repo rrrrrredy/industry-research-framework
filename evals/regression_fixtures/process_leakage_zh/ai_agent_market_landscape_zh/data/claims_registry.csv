@@ -1,0 +1,4 @@
+claim_id,claim_type,claim,source_ids,confidence
+C001,verified fact,AI Agent uses planning memory and tool use,S001,medium
+C002,source claim,Claude 3.5 Sonnet had low OSWorld accuracy in the source,S002,medium
+C003,author judgment,Agent competition is moving toward system engineering,S007;S008,medium

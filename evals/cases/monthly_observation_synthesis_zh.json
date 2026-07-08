@@ -6,6 +6,8 @@
   "prompt": "为管理层写一份 AI 行业月度观察。综合模型发布、Agent 基础设施、产品竞争、开源动态、中美差异和下一步影响。",
   "target_reader": "executive readers",
   "expected_depth": "monthly observation, 2500-4500 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 2000,
+  "thin_final_nonspace_chars": 1000,
   "must_cover_entities": [
     "AI行业趋势",
     "AI Agent",

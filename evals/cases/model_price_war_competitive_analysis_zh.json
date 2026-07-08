@@ -6,6 +6,8 @@
   "prompt": "分析大模型降价潮对腾讯、阿里、字节、DeepSeek 等玩家的竞争影响。区分 API 定价、云计算绑定、模型能力、分发入口和利润压力。",
   "target_reader": "business and product strategy readers",
   "expected_depth": "competitive memo, 2500-4500 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 2000,
+  "thin_final_nonspace_chars": 1000,
   "must_cover_entities": [
     "大模型价格战",
     "API定价",

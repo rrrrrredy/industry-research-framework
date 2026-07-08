@@ -1,0 +1,4 @@
+claim_id,claim_type,claim,source_ids,confidence
+C001,verified fact,AI Agent includes planning memory and tool use,S001,medium
+C002,source claim,GUI Agent remains technically immature,S002,medium
+C003,author judgment,System integration matters more than demos,S007;S008,medium

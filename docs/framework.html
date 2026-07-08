@@ -594,7 +594,7 @@
           <a href="#evaluation-loop">Evaluation Loop</a>
           <a href="#state">State Files</a>
         </nav>
-        <div>Open Framework Spec / June 2026</div>
+        <div>Open Framework Spec / July 2026</div>
       </header>
 
       <section class="hero">
@@ -638,6 +638,8 @@
         <span>Source Registry</span>
         <span>Claim Discipline</span>
         <span>Staged Drafting</span>
+        <span>Hard Stops</span>
+        <span>Regression Fixtures</span>
         <span>Review Loop</span>
         <span>Reader Revision</span>
       </div>
@@ -660,7 +662,8 @@
           <a href="#subagents">10 Subagents</a>
           <a href="#engineering">11 Engineering</a>
           <a href="#validation">12 Validation</a>
-          <a href="#fullmd">13 Full SKILL.md</a>
+          <a href="#gotchas">13 Gotchas &amp; Hard Stops</a>
+          <a href="#fullmd">14 Full SKILL.md</a>
         </aside>
 
         <div class="content">
@@ -674,7 +677,8 @@
             </div>
             <div class="wide">
               <p>Use <code>SKILL.md</code> first. Run research scope calibration, confirm output, reader, depth, evidence standard, and coverage, then create state, logs, and data files before broad source collection.</p>
-              <p>Load references conditionally: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, writing style before drafting, and quality gates before completion.</p>
+              <p>Load references conditionally: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.</p>
+              <p>Obey hard stops before claiming completion: repair missing brief details, evidence dead ends, empty claim registries, process leakage, thin drafts, and unresolved review findings.</p>
             </div>
           </section>
 
@@ -712,12 +716,17 @@
               <article class="card">
                 <div class="card-number">What ships</div>
                 <h3>Cases, source pack, rubric</h3>
-                <p>The <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">evals directory</a> contains task cases, rubrics, and a sanitized AI knowledge source pack for workflow testing.</p>
+                <p>The <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">evals directory</a> contains task cases, rubrics, regression fixtures, and a sanitized AI knowledge source pack for workflow testing.</p>
               </article>
               <article class="card dark">
                 <div class="card-number">Runner</div>
                 <h3>Run offline checks</h3>
-                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to create eval skeletons and score output artifacts for state files, claim discipline, quality gates, and reader cleanup.</p>
+                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to score state files, claim discipline, review logs, depth, process leakage, and false completion signals.</p>
+              </article>
+              <article class="card">
+                <div class="card-number">Regression</div>
+                <h3>Check known bad outputs</h3>
+                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/check_regression_fixtures.py">scripts/check_regression_fixtures.py</a> to verify that process leakage, depth collapse, evidence drift, overclaiming, and false completion do not pass unnoticed.</p>
               </article>
             </div>
           </section>
@@ -892,6 +901,11 @@
                 <h3>Extract claims</h3>
                 <p>If sources grow while claims stay thin, pause collection and convert evidence into claims before searching more.</p>
               </article>
+              <article class="card dark">
+                <div class="card-number">Hard Stop</div>
+                <h3>Do not fake completion</h3>
+                <p>If the draft still leaks process language, remains too thin, or progress claims final completion with unresolved issues, stop and repair state before delivery.</p>
+              </article>
             </div>
           </section>
 
@@ -1014,10 +1028,32 @@
             </div>
           </section>
 
+          <section id="gotchas" class="section">
+            <div class="section-head">
+              <div class="index">13</div>
+              <div>
+                <h2>Gotchas And Hard Stops</h2>
+                <p class="section-kicker">The latest update turns common failure modes into explicit stop-and-repair signals.</p>
+              </div>
+            </div>
+            <div class="cards">
+              <article class="card">
+                <div class="card-number">Gotchas</div>
+                <h3>Known failure patterns</h3>
+                <p>Watch for registry theater, source-listing prose, evidence drift, false completion, depth collapse, lens overreach, and subagent sprawl.</p>
+              </article>
+              <article class="card dark">
+                <div class="card-number">Hard Stops</div>
+                <h3>Repair before continuing</h3>
+                <p>Stop when the brief is under-specified, evidence is exhausted, claims are detached from sources, final prose leaks process, depth is below budget, or completion is claimed too early.</p>
+              </article>
+            </div>
+          </section>
+
           <section id="fullmd" class="section">
             <div class="copyrow">
               <div>
-                <div class="index">13</div>
+                <div class="index">14</div>
                 <h2>Full SKILL.md</h2>
                 <p class="section-kicker">The authoritative instruction file, included here for copying into other agent environments.</p>
               </div>
@@ -1025,7 +1061,7 @@
             </div>
             <pre id="skilltext"><code>---
 name: industry-research-framework
-description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a scope contract, research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+description: Source-backed longform industry research framework for AI agents. Use when producing substantial industry, market, company, product, technology, policy, or ecosystem research reports that require scope clarification, multi-stage source collection, evidence tracking, claim verification, depth control, drafting, review, revision, and publishable prose. Do not use for quick factual answers, simple summaries, citation formatting, spreadsheet-only analysis, or creative writing.
 ---
 
 # Industry Research Framework
@@ -1040,7 +1076,7 @@ Longform research agents tend to fail in five recurring ways:
 2. Process leakage: the final article reads like a work log, with phrases such as &quot;the user provided&quot; or &quot;the material shows&quot;.
 3. Evidence drift: sources, claims, uncertainty, and author judgment collapse into one undifferentiated argument.
 4. False completion: a partial milestone is reported as final completion before coverage, review, and reader-quality revision are done.
-5. Depth collapse: a report satisfies source counts and coverage checklists but is too short, compressed, or thin for the user&#39;s expected research depth.
+5. Depth collapse: a report satisfies source counts and coverage checklists but is too short, compressed, or thin for the user&#x27;s expected research depth.
 
 Every mechanism in this framework targets one of those failures.
 
@@ -1245,7 +1281,7 @@ Before declaring completion:
 5. Counter-evidence has been addressed.
 6. The draft meets the depth budget or explicitly explains why the original expected depth is no longer appropriate.
 7. Reader review has been run after factual, coverage, structure, and depth review.
-8. The final prose reads like an author&#39;s report, not an agent process report.
+8. The final prose reads like an author&#x27;s report, not an agent process report.
 
 Limits:
 
@@ -1265,6 +1301,30 @@ Use these guardrails to prevent loops, overcollection, and scope drift:
 5. Scope expansion: if new work falls outside `task_spec.md`, record it as a proposed extension and ask before expanding the project.
 6. Subagent review: prompts must ask the reviewer to actively look for issues; if no issue is found, the reviewer must state what evidence supports PASS.
 
+## 14. Gotchas
+
+Watch for these recurring failure patterns:
+
+1. Registry theater: source and claim registries look complete, but the final prose does not synthesize mechanisms or tradeoffs.
+2. Source-listing prose: paragraphs repeat &quot;source X says Y&quot; instead of turning evidence into reader-facing judgment.
+3. Premature reader polish: prose cleanup starts before coverage, evidence, structure, and depth checks are stable.
+4. Lens overreach: an optional lens becomes the whole report even when the user&#x27;s question needs a simpler structure.
+5. Subagent sprawl: reviewers or collectors are asked to own the thesis, rewrite the whole report, or expand scope.
+6. Depth substitution: link counts, file size, or checklist coverage are treated as proof that the report is deep enough.
+
+Read `references/gotchas.md` when diagnosing repeated drift, improving evals, or adapting the framework to a new agent.
+
+## 15. Hard Stops
+
+Stop the current path and repair state before continuing when any of these occur:
+
+1. Brief stop: a substantial research task lacks reader, scope, output form, evidence standard, or depth budget after the clarification gate.
+2. Evidence stop: three consecutive searches or source passes add no new relevant evidence, case, counterexample, or judgment.
+3. Claim stop: `source_registry.csv` grows while `claims_registry.csv` remains empty, generic, or detached from the draft.
+4. Draft stop: final prose still contains process language, internal source IDs, audit labels, file paths, or source-pack wording.
+5. Depth stop: the draft is shorter or thinner than the depth budget and no explicit scope reduction has been recorded.
+6. Completion stop: `progress.json` claims final completion before coverage gaps, quality-gate findings, and review actions are closed or recorded as limitations.
+
 ## References
 
 - Read `references/research-workflow.md` only when starting a substantial project, creating state files, or resuming after context loss.
@@ -1273,14 +1333,13 @@ Use these guardrails to prevent loops, overcollection, and scope drift:
 - Read `references/subagents-and-review-loop.md` only before delegating work or running a review loop.
 - Read `references/writing-style.md` only when entering drafting, final cleanup, or reader-driven revision.
 - Read `references/quality-gates.md` only before declaring a stage or final deliverable complete.
+- Read `references/gotchas.md` only when diagnosing repeated drift, adapting the framework, or improving eval coverage.
 - Read `references/postmortem-lessons.md` only when adapting this framework or diagnosing repeated task drift.
-
-
 </code></pre>
           </section>
 
           <footer>
-            Industry Research Framework / Open Spec / June 2026
+            Industry Research Framework / Open Spec / July 2026
           </footer>
         </div>
       </div>

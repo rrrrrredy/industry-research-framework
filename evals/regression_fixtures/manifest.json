@@ -1,0 +1,29 @@
+{
+  "fixtures": [
+    {
+      "fixture_id": "process_leakage_zh",
+      "case_id": "ai_agent_market_landscape_zh",
+      "expected_quality_flags": ["process_language", "internal_source_id_leak"],
+      "expected_findings_contains": ["Process language leaked", "Internal source ids leaked"]
+    },
+    {
+      "fixture_id": "depth_collapse_zh",
+      "case_id": "ai_agent_market_landscape_zh",
+      "expected_coverage_flags": ["too_short"],
+      "expected_findings_contains": ["Output is too short"]
+    },
+    {
+      "fixture_id": "evidence_drift_overclaim_zh",
+      "case_id": "ai_agent_market_landscape_zh",
+      "expected_quality_flags": ["weak_claim_registry", "overclaiming_without_uncertainty"],
+      "expected_findings_contains": ["Weak claim registry", "Overclaiming without uncertainty"]
+    },
+    {
+      "fixture_id": "false_completion_zh",
+      "case_id": "ai_agent_market_landscape_zh",
+      "expected_quality_flags": ["weak_claim_registry", "false_completion_signal"],
+      "expected_coverage_flags": ["too_short"],
+      "expected_findings_contains": ["False completion signal"]
+    }
+  ]
+}

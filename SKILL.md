@@ -1,6 +1,6 @@
 ---
 name: industry-research-framework
-description: Framework for longform, source-backed industry research and publishable writing by AI agents. Use when an agent must plan, clarify, collect, verify, analyze, draft, review, revise, and finalize a substantial industry, market, company, product, technology, policy, or ecosystem research article/report across multiple stages and many sources. Prescribes a scope contract, research brief gate, task state, source/claim/uncertainty registries, depth budgeting, staged execution, optional analysis lenses, subagent review, reader-quality revision, and final prose cleanup. Do not use for quick factual answers, simple summaries, citation formatting only, spreadsheet-only work, or purely creative writing.
+description: Source-backed longform industry research framework for AI agents. Use when producing substantial industry, market, company, product, technology, policy, or ecosystem research reports that require scope clarification, multi-stage source collection, evidence tracking, claim verification, depth control, drafting, review, revision, and publishable prose. Do not use for quick factual answers, simple summaries, citation formatting, spreadsheet-only analysis, or creative writing.
 ---
 
 # Industry Research Framework
@@ -240,6 +240,30 @@ Use these guardrails to prevent loops, overcollection, and scope drift:
 5. Scope expansion: if new work falls outside `task_spec.md`, record it as a proposed extension and ask before expanding the project.
 6. Subagent review: prompts must ask the reviewer to actively look for issues; if no issue is found, the reviewer must state what evidence supports PASS.
 
+## 14. Gotchas
+
+Watch for these recurring failure patterns:
+
+1. Registry theater: source and claim registries look complete, but the final prose does not synthesize mechanisms or tradeoffs.
+2. Source-listing prose: paragraphs repeat "source X says Y" instead of turning evidence into reader-facing judgment.
+3. Premature reader polish: prose cleanup starts before coverage, evidence, structure, and depth checks are stable.
+4. Lens overreach: an optional lens becomes the whole report even when the user's question needs a simpler structure.
+5. Subagent sprawl: reviewers or collectors are asked to own the thesis, rewrite the whole report, or expand scope.
+6. Depth substitution: link counts, file size, or checklist coverage are treated as proof that the report is deep enough.
+
+Read `references/gotchas.md` when diagnosing repeated drift, improving evals, or adapting the framework to a new agent.
+
+## 15. Hard Stops
+
+Stop the current path and repair state before continuing when any of these occur:
+
+1. Brief stop: a substantial research task lacks reader, scope, output form, evidence standard, or depth budget after the clarification gate.
+2. Evidence stop: three consecutive searches or source passes add no new relevant evidence, case, counterexample, or judgment.
+3. Claim stop: `source_registry.csv` grows while `claims_registry.csv` remains empty, generic, or detached from the draft.
+4. Draft stop: final prose still contains process language, internal source IDs, audit labels, file paths, or source-pack wording.
+5. Depth stop: the draft is shorter or thinner than the depth budget and no explicit scope reduction has been recorded.
+6. Completion stop: `progress.json` claims final completion before coverage gaps, quality-gate findings, and review actions are closed or recorded as limitations.
+
 ## References
 
 - Read `references/research-workflow.md` only when starting a substantial project, creating state files, or resuming after context loss.
@@ -248,6 +272,7 @@ Use these guardrails to prevent loops, overcollection, and scope drift:
 - Read `references/subagents-and-review-loop.md` only before delegating work or running a review loop.
 - Read `references/writing-style.md` only when entering drafting, final cleanup, or reader-driven revision.
 - Read `references/quality-gates.md` only before declaring a stage or final deliverable complete.
+- Read `references/gotchas.md` only when diagnosing repeated drift, adapting the framework, or improving eval coverage.
 - Read `references/postmortem-lessons.md` only when adapting this framework or diagnosing repeated task drift.
 
 

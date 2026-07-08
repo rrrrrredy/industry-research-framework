@@ -6,6 +6,8 @@
   "prompt": "研究 reasoning model 从 DeepSeek R1 到 Claude Sonnet 风格混合推理的竞争。解释技术路径、产品后果、对 coding agent 的影响和仍不确定的问题。",
   "target_reader": "technical strategy readers",
   "expected_depth": "deep memo, 2500-4500 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 2000,
+  "thin_final_nonspace_chars": 1000,
   "must_cover_entities": [
     "Reasoning Model",
     "DeepSeek",

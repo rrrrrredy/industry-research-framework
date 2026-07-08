@@ -6,6 +6,8 @@
   "prompt": "写一份 AI 视频生成市场投资 memo。重点分析品类时机、关键公司、技术壁垒、价格压力、GTM、采用风险和反证。",
   "target_reader": "investors",
   "expected_depth": "investment memo, 2500-4500 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 2000,
+  "thin_final_nonspace_chars": 1000,
   "must_cover_entities": [
     "AI视频生成",
     "文生视频",
