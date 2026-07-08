@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1270" height="760" viewBox="0 0 1270 760" role="img" aria-labelledby="title desc">
+  <title id="title">Before and after source-backed AI research</title>
+  <desc id="desc">A Product Hunt gallery image comparing shallow AI research output with the framework-guided output.</desc>
+  <rect width="1270" height="760" fill="#f3efe6"/>
+  <rect x="58" y="52" width="1154" height="656" fill="#fffaf0" stroke="#b8a995" stroke-width="4"/>
+  <text x="94" y="122" fill="#151412" font-family="Georgia, serif" font-size="56" font-weight="700">Before / After</text>
+  <text x="94" y="162" fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="24">Turn plausible AI summaries into source-backed research reports.</text>
+
+  <g transform="translate(94 220)">
+    <rect width="500" height="380" fill="#fffaf0" stroke="#b75636" stroke-width="4"/>
+    <rect width="500" height="76" fill="#b75636"/>
+    <text x="30" y="50" fill="#fffaf0" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">WITHOUT A PROTOCOL</text>
+    <text x="30" y="122" fill="#151412" font-family="Georgia, serif" font-size="34" font-weight="700">Shallow report</text>
+    <g fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="23">
+      <text x="30" y="178">- Sources listed, not interpreted</text>
+      <text x="30" y="228">- Claims drift beyond evidence</text>
+      <text x="30" y="278">- Process notes leak into prose</text>
+      <text x="30" y="328">- Partial work marked complete</text>
+    </g>
+  </g>
+
+  <g transform="translate(676 220)">
+    <rect width="500" height="380" fill="#fffaf0" stroke="#1c746d" stroke-width="4"/>
+    <rect width="500" height="76" fill="#1c746d"/>
+    <text x="30" y="50" fill="#fffaf0" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">WITH THIS FRAMEWORK</text>
+    <text x="30" y="122" fill="#151412" font-family="Georgia, serif" font-size="34" font-weight="700">Research-grade flow</text>
+    <g fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="23">
+      <text x="30" y="178">- Scope, reader, depth confirmed</text>
+      <text x="30" y="228">- Sources and claims tracked</text>
+      <text x="30" y="278">- Hard stops repair failure modes</text>
+      <text x="30" y="328">- Final prose cleaned for readers</text>
+    </g>
+  </g>
+
+  <g transform="translate(604 367)">
+    <circle cx="31" cy="31" r="31" fill="#171512"/>
+    <path d="M20 31h24M36 20l12 11-12 11" fill="none" stroke="#fffaf0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="94" y="674" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Five guarded failure modes: topic overfitting, process leakage, evidence drift, false completion, depth collapse.</text>
+</svg>

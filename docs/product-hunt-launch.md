@@ -74,7 +74,25 @@ It also ships eval cases, a source pack, rubric, gotchas, taste anchors, and reg
 
 ## Gallery Brief
 
-Prepare one square thumbnail and at least two gallery images. The repository includes a starter SVG thumbnail at `docs/assets/product-hunt-thumbnail.svg`; export or redesign it as PNG before uploading if Product Hunt requires raster assets.
+Prepare one square thumbnail and at least two gallery images. Use the PNG files for upload and keep the SVG files as editable sources.
+
+Ready-to-upload thumbnail:
+
+- `docs/assets/product-hunt-thumbnail.png`
+
+Ready-to-upload gallery files:
+
+- `docs/assets/product-hunt-gallery/01-framework-map.png`
+- `docs/assets/product-hunt-gallery/02-before-after.png`
+- `docs/assets/product-hunt-gallery/03-eval-loop.png`
+- `docs/assets/product-hunt-gallery/04-agent-use-flow.png`
+
+Recommended upload order:
+
+1. `01-framework-map.png`
+2. `02-before-after.png`
+3. `03-eval-loop.png`
+4. `04-agent-use-flow.png`
 
 Recommended gallery frames:
 
@@ -82,6 +100,33 @@ Recommended gallery frames:
 - Before/after: shallow AI summary versus source-backed report flow.
 - Eval loop: task case, source pack, runner, rubric, regression fixture.
 - Install/use flow: repository URL, `SKILL.md`, conditional references, final quality gates.
+
+## Video / Loom Recommendation
+
+Recommendation: add a short video only if it is crisp and specific. For this project, a 60-90 second Loom or YouTube walkthrough is useful because the product is a protocol, not a conventional UI. The video should make the workflow concrete.
+
+Suggested structure:
+
+1. Start with the problem: long AI research tasks drift, leak process notes, and declare completion too early.
+2. Show the public framework page and `SKILL.md`.
+3. Show the copy-and-run prompt.
+4. Show the eval loop and regression fixtures.
+5. End by asking for feedback on stricter/lighter adoption paths.
+
+If you do not record this before launch, leave the field empty. A weak or generic video is worse than strong gallery images plus a clear first comment.
+
+## Interactive Demo Recommendation
+
+Recommendation: skip this field for the initial launch unless you create a real click-through demo with Arcade, Storylane, Supademo, Hexus, Layerpath, or ScreenSpace.
+
+For this repository, an interactive demo is optional because the primary action is to hand a protocol to an agent. The best interactive demo would be a short click-through showing:
+
+1. Open the framework page.
+2. Copy the agent prompt.
+3. Run a sample research task.
+4. Inspect `state/`, source registry, claim registry, review log, and eval result.
+
+Do not add a generic website walkthrough as an interactive demo. Use gallery images plus a Loom/YouTube video instead.
 
 ## Manual Product Hunt Fields
 

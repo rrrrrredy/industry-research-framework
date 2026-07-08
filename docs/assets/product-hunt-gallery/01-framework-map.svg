@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1270" height="760" viewBox="0 0 1270 760" role="img" aria-labelledby="title desc">
+  <title id="title">Industry Research Framework map</title>
+  <desc id="desc">A Product Hunt gallery image showing the core protocol flow from brief gate to publishable report.</desc>
+  <rect width="1270" height="760" fill="#f3efe6"/>
+  <path d="M0 0h1270v760H0z" fill="#f3efe6"/>
+  <rect x="58" y="52" width="1154" height="656" fill="#fffaf0" stroke="#b8a995" stroke-width="4"/>
+  <rect x="58" y="52" width="1154" height="116" fill="#171512"/>
+  <text x="94" y="112" fill="#fffaf0" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800" letter-spacing="3">INDUSTRY RESEARCH FRAMEWORK</text>
+  <text x="94" y="146" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="22">A source-backed research protocol for longform AI agents</text>
+
+  <text x="94" y="232" fill="#151412" font-family="Georgia, serif" font-size="52" font-weight="700">Protocol map</text>
+  <text x="94" y="270" fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="23">Scope, evidence, claims, review, and final prose stay separated until the report is ready.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(94 330)">
+      <rect width="182" height="118" rx="0" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="24" y="44" fill="#b75636" font-size="19" font-weight="800">01 BRIEF</text>
+      <text x="24" y="80" fill="#151412" font-size="23" font-weight="800">Scope gate</text>
+      <text x="24" y="105" fill="#746d63" font-size="16">reader, depth</text>
+    </g>
+    <g transform="translate(304 330)">
+      <rect width="182" height="118" rx="0" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="24" y="44" fill="#1c746d" font-size="19" font-weight="800">02 STATE</text>
+      <text x="24" y="80" fill="#151412" font-size="23" font-weight="800">Task memory</text>
+      <text x="24" y="105" fill="#746d63" font-size="16">logs, progress</text>
+    </g>
+    <g transform="translate(514 330)">
+      <rect width="182" height="118" rx="0" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="24" y="44" fill="#a9802d" font-size="19" font-weight="800">03 SOURCES</text>
+      <text x="24" y="80" fill="#151412" font-size="23" font-weight="800">Evidence</text>
+      <text x="24" y="105" fill="#746d63" font-size="16">not prose</text>
+    </g>
+    <g transform="translate(724 330)">
+      <rect width="182" height="118" rx="0" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="24" y="44" fill="#b75636" font-size="19" font-weight="800">04 CLAIMS</text>
+      <text x="24" y="80" fill="#151412" font-size="23" font-weight="800">Discipline</text>
+      <text x="24" y="105" fill="#746d63" font-size="16">facts, judgment</text>
+    </g>
+    <g transform="translate(934 330)">
+      <rect width="182" height="118" rx="0" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="24" y="44" fill="#1c746d" font-size="19" font-weight="800">05 REVIEW</text>
+      <text x="24" y="80" fill="#151412" font-size="23" font-weight="800">Hard stops</text>
+      <text x="24" y="105" fill="#746d63" font-size="16">repair before done</text>
+    </g>
+    <path d="M286 389h18M496 389h18M706 389h18M916 389h18" stroke="#151412" stroke-width="8" stroke-linecap="round"/>
+    <path d="M304 377l20 12-20 12M514 377l20 12-20 12M724 377l20 12-20 12M934 377l20 12-20 12" fill="none" stroke="#151412" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <rect x="94" y="512" width="1022" height="112" fill="#171512"/>
+  <text x="132" y="564" fill="#fffaf0" font-family="Georgia, serif" font-size="38" font-weight="700">Final output: a publishable, source-backed report</text>
+  <text x="132" y="602" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="22">No source-listing prose. No hidden evidence drift. No false completion.</text>
+  <text x="94" y="674" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">github.com/rrrrrredy/industry-research-framework</text>
+</svg>

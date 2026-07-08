@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1270" height="760" viewBox="0 0 1270 760" role="img" aria-labelledby="title desc">
+  <title id="title">Use Industry Research Framework with your agent</title>
+  <desc id="desc">A Product Hunt gallery image showing how to hand the repository to Codex, Claude, Gemini, Cursor, ChatGPT, OpenClaw, or Hermes.</desc>
+  <rect width="1270" height="760" fill="#f3efe6"/>
+  <rect x="58" y="52" width="1154" height="656" fill="#fffaf0" stroke="#b8a995" stroke-width="4"/>
+  <text x="94" y="122" fill="#151412" font-family="Georgia, serif" font-size="56" font-weight="700">Use it with your agent</text>
+  <text x="94" y="162" fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="24">No hosted app required. Give the repo to an agent and make SKILL.md the controlling protocol.</text>
+
+  <rect x="94" y="220" width="1082" height="178" fill="#171512"/>
+  <text x="128" y="274" fill="#fffaf0" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800">COPY-AND-RUN PROMPT</text>
+  <text x="128" y="326" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="24">Use https://github.com/rrrrrredy/industry-research-framework as the research protocol.</text>
+  <text x="128" y="364" fill="#e4d7c4" font-family="Inter, Arial, sans-serif" font-size="24">Read SKILL.md first. Track state, sources, claims, uncertainty, and review notes backstage.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(94 462)">
+      <rect width="235" height="105" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="26" y="44" fill="#b75636" font-size="22" font-weight="800">CODEX</text>
+      <text x="26" y="78" fill="#151412" font-size="21">local skill or repo</text>
+    </g>
+    <g transform="translate(364 462)">
+      <rect width="235" height="105" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="26" y="44" fill="#1c746d" font-size="20" font-weight="800">CLAUDE + GEMINI</text>
+      <text x="26" y="78" fill="#151412" font-size="21">read SKILL.md</text>
+    </g>
+    <g transform="translate(634 462)">
+      <rect width="235" height="105" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="26" y="44" fill="#a9802d" font-size="22" font-weight="800">CURSOR</text>
+      <text x="26" y="78" fill="#151412" font-size="21">repo instruction</text>
+    </g>
+    <g transform="translate(904 462)">
+      <rect width="235" height="105" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="26" y="44" fill="#b75636" font-size="22" font-weight="800">CHATGPT+</text>
+      <text x="26" y="78" fill="#151412" font-size="21">attach SKILL.md</text>
+    </g>
+  </g>
+
+  <text x="94" y="646" fill="#151412" font-family="Georgia, serif" font-size="33" font-weight="700">The main agent owns final judgment. Subagents inspect evidence.</text>
+  <text x="94" y="684" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Codex / Claude / Gemini CLI / Cursor / ChatGPT / OpenClaw / Hermes</text>
+</svg>

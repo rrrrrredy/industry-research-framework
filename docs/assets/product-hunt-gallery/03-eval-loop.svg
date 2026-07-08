@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1270" height="760" viewBox="0 0 1270 760" role="img" aria-labelledby="title desc">
+  <title id="title">Regression eval loop for AI research agents</title>
+  <desc id="desc">A Product Hunt gallery image showing the evaluation loop and known-bad regression fixtures.</desc>
+  <rect width="1270" height="760" fill="#171512"/>
+  <rect x="58" y="52" width="1154" height="656" fill="#fffaf0" stroke="#d9cbbb" stroke-width="4"/>
+  <text x="94" y="122" fill="#151412" font-family="Georgia, serif" font-size="56" font-weight="700">Offline evals, not vibes</text>
+  <text x="94" y="162" fill="#3a3732" font-family="Inter, Arial, sans-serif" font-size="24">The repository includes runners, rubrics, source packs, and regression fixtures.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(94 235)">
+      <rect width="248" height="150" fill="#171512"/>
+      <text x="28" y="52" fill="#fffaf0" font-size="26" font-weight="800">TASK CASE</text>
+      <text x="28" y="96" fill="#e4d7c4" font-size="22">brief + expected</text>
+      <text x="28" y="124" fill="#e4d7c4" font-size="22">research depth</text>
+    </g>
+    <g transform="translate(392 235)">
+      <rect width="248" height="150" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="28" y="52" fill="#b75636" font-size="26" font-weight="800">RUNNER</text>
+      <text x="28" y="96" fill="#151412" font-size="22">state, claims,</text>
+      <text x="28" y="124" fill="#151412" font-size="22">review, depth</text>
+    </g>
+    <g transform="translate(690 235)">
+      <rect width="248" height="150" fill="#f8f1e3" stroke="#d9cbbb" stroke-width="3"/>
+      <text x="28" y="52" fill="#1c746d" font-size="26" font-weight="800">RUBRIC</text>
+      <text x="28" y="96" fill="#151412" font-size="22">quality signals</text>
+      <text x="28" y="124" fill="#151412" font-size="22">and coverage</text>
+    </g>
+    <g transform="translate(94 445)">
+      <rect width="844" height="130" fill="#171512"/>
+      <text x="32" y="52" fill="#fffaf0" font-size="28" font-weight="800">Known-bad fixtures must not pass:</text>
+      <text x="32" y="94" fill="#e4d7c4" font-size="23">process leakage, evidence drift, overclaiming, false completion, depth collapse</text>
+    </g>
+    <g transform="translate(987 235)">
+      <rect width="158" height="340" fill="#1c746d"/>
+      <text x="30" y="72" fill="#fffaf0" font-size="26" font-weight="800">PASS</text>
+      <text x="30" y="124" fill="#fffaf0" font-size="26" font-weight="800">REVIEW</text>
+      <text x="30" y="176" fill="#fffaf0" font-size="26" font-weight="800">FAIL</text>
+      <text x="30" y="264" fill="#fffaf0" font-size="22">repair</text>
+      <text x="30" y="296" fill="#fffaf0" font-size="22">before</text>
+      <text x="30" y="328" fill="#fffaf0" font-size="22">done</text>
+    </g>
+  </g>
+  <text x="94" y="664" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Run: python scripts/run_evals.py  |  python scripts/check_regression_fixtures.py</text>
+</svg>
