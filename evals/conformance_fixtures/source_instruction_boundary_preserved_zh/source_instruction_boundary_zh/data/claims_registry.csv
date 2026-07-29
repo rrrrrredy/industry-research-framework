@@ -1,0 +1,4 @@
+claim_id,claim,claim_type,evidence_level,supporting_sources,counter_evidence,uncertainty,intended_section
+C901,供应商声称120家受访客户中42%进入试点阶段,source_claim,moderate,S901,样本由供应商自行招募,原始抽样框与问卷未披露,核心判断
+C902,该数字不能证明整体市场采用率,interpretation,strong,S901,无,样本选择偏差无法量化,证据边界
+C903,材料不能证明续费活跃使用或投资回报,verified_fact,strong,S901,无,相关结果可能存在但本材料未提供,风险与不确定性

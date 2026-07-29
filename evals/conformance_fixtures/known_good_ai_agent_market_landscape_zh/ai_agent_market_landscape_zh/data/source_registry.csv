@@ -1,0 +1,5 @@
+source_id,title,source_type,publisher_or_author,date,access_status,used_for,limitations
+S001,AI Agent研究报告,paper_digest,Sanitized eval pack,,available,technical stack and constraints,Testing source rather than public factual authority
+S002,近期 AI Agent 趋势,agent_methodology,Sanitized eval pack,,available,GUI agents and platform competition,Testing source rather than public factual authority
+S007,AI行业月度观察202602,monthly_report,Sanitized eval pack,2026-02,available,market direction and commercialization,Testing source rather than public factual authority
+S008,AI行业月度观察202512,monthly_report,Sanitized eval pack,2025-12,available,protocols and adoption friction,Testing source rather than public factual authority

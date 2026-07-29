@@ -1,0 +1,5 @@
+claim_id,claim,claim_type,evidence_level,supporting_sources,counter_evidence,uncertainty,intended_section
+C001,AI Agent competition is shifting from tool-call demos to system engineering,author_judgment,moderate,S001;S002,General autonomous agents may remain unreliable,Adoption and revenue evidence remains incomplete,核心判断
+C002,Platform model and application companies compete through different control points,interpretation,moderate,S002;S007;S008,Open protocols may reduce platform control,Category boundaries remain fluid,竞争格局
+C003,GUI reliability permissions and workflow redesign constrain adoption,interpretation,strong,S002;S008,Closed workflows can achieve higher reliability,Public sources do not establish representative enterprise adoption,采用阻力
+C004,AI Agent may remain enhanced automation rather than become an autonomous worker,author_judgment,moderate,S001;S002,Model and protocol improvements may expand autonomy,Long-term retention and ROI are uncertain,反证与不确定性

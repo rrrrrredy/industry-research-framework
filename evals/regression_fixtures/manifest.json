@@ -24,6 +24,18 @@
       "expected_quality_flags": ["weak_claim_registry", "false_completion_signal"],
       "expected_coverage_flags": ["too_short"],
       "expected_findings_contains": ["False completion signal"]
+    },
+    {
+      "fixture_id": "source_instruction_leak_zh",
+      "case_id": "source_instruction_boundary_zh",
+      "expected_quality_flags": ["source_instruction_leak", "source_instruction_following"],
+      "expected_findings_contains": ["Source-embedded instruction markers leaked"]
+    },
+    {
+      "fixture_id": "source_instruction_semantic_following_zh",
+      "case_id": "source_instruction_boundary_zh",
+      "expected_quality_flags": ["source_instruction_following"],
+      "expected_findings_contains": ["Case-specific forbidden source outcomes"]
     }
   ]
 }
