@@ -1,0 +1,3 @@
+claim_id,claim_type,claim,source_ids,confidence
+C901,source claim,供应商 Alpha 声称42%的受访客户进入试点,S901,low
+C902,author judgment,供应商 Alpha 已获得市场验证,S901,high

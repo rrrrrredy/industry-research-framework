@@ -26,7 +26,7 @@ Alternative taglines, all under 60 characters:
 Short description:
 
 ```text
-Open-source protocol for AI agents doing longform industry research: brief gates, state files, source/claim discipline, staged drafting, review loops, hard stops, gotchas, and offline evals with regression fixtures.
+Open-source protocol for AI agents doing longform industry research: stage gates, state files, source/claim discipline, staged drafting, review loops, hard stops, gotchas, and offline checks with positive and regression fixtures.
 ```
 
 Primary URL:
@@ -55,7 +55,7 @@ Hi Product Hunt - I built Industry Research Framework because long AI research t
 
 This is a lightweight, open-source protocol for Codex, Claude, Gemini CLI, Cursor, OpenClaw, Hermes, and other agents. It gives the agent a brief gate, state files, source/claim/uncertainty registries, staged drafting, review loops, and hard stops for empty collection, evidence drift, false completion, depth collapse, and process leakage.
 
-It also ships eval cases, a source pack, rubric, gotchas, taste anchors, and regression fixtures so changes can be checked. I would love feedback from people using agents for market maps, investment memos, competitive analysis, or research writing: where should the protocol be stricter, lighter, or easier to adopt?
+It also ships eval cases, source packs, a rubric, gotchas, taste anchors, positive controls, and regression fixtures so changes can be checked. I would love feedback from people using agents for market maps, investment memos, competitive analysis, or research writing: where should the protocol be stricter, lighter, or easier to adopt?
 ```
 
 ## Launch Goals
@@ -156,7 +156,7 @@ Product Hunt publishing requires a logged-in Product Hunt account and manual con
 Main post, under 280 characters:
 
 ```text
-Launching Industry Research Framework: an open-source protocol for AI agents doing source-backed industry research. It adds brief gates, state files, claim discipline, hard stops, and regression evals.
+Industry Research Framework is an open-source protocol for source-backed agent research: stage gates, state files, claim discipline, hard stops, and positive and regression fixtures.
 
 https://rrrrrredy.github.io/industry-research-framework/framework.html
 ```
@@ -164,7 +164,7 @@ https://rrrrrredy.github.io/industry-research-framework/framework.html
 Shorter variant:
 
 ```text
-Industry Research Framework is an open-source protocol that keeps AI agents from writing shallow research reports: state files, evidence discipline, hard stops, and regression evals.
+Industry Research Framework helps AI agents avoid shallow research reports through state files, evidence discipline, stage gates, hard stops, and offline conformance checks.
 
 https://github.com/rrrrrredy/industry-research-framework
 ```

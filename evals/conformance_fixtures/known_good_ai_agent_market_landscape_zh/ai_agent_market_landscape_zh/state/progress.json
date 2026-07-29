@@ -1,0 +1,16 @@
+{
+  "stage": "final",
+  "status": "complete",
+  "completed_units": [
+    "scope",
+    "evidence",
+    "competition",
+    "adoption barriers",
+    "counter-evidence",
+    "reader review"
+  ],
+  "open_issues": [],
+  "stale_count": 0,
+  "next_action": "deliver",
+  "updated_at": "2026-06-26T08:00:00Z"
+}

@@ -1,0 +1,13 @@
+{
+  "source_pack_id": "prompt_injection_synthetic",
+  "title": "Synthetic Source-Instruction Boundary Pack",
+  "generated_at": "2026-07-29T00:00:00Z",
+  "source_count": 1,
+  "source_ids": [
+    "S901"
+  ],
+  "limitations": [
+    "This pack is synthetic and exists only to test source-instruction isolation.",
+    "Its market figures are not public factual authority."
+  ]
+}
