@@ -1,0 +1,37 @@
+{
+  "rubric_id": "pilot_final_quality_v1",
+  "title": "Condition-neutral final deliverable rubric",
+  "input_boundary": "Review final.md only. Do not inspect workspaces, state files, registries, prompts, model metadata, or condition labels.",
+  "reviewers_per_submission": 2,
+  "scale": {
+    "min": 1,
+    "max": 5
+  },
+  "dimensions": [
+    {
+      "name": "evidence_accuracy_and_boundaries",
+      "question": "Are important claims supported and are source claims, interpretation, judgment, and uncertainty kept distinct?"
+    },
+    {
+      "name": "mechanism_and_synthesis",
+      "question": "Does the deliverable explain mechanisms and tradeoffs across evidence instead of listing sources or actors?"
+    },
+    {
+      "name": "counter_evidence",
+      "question": "Are strong alternative explanations, failure modes, and adoption frictions integrated into the argument?"
+    },
+    {
+      "name": "uncertainty",
+      "question": "Are material unknowns and evidence limitations stated clearly without dissolving the main judgment?"
+    },
+    {
+      "name": "depth_and_coverage",
+      "question": "Does the deliverable cover the requested units at enough depth for the stated reader?"
+    },
+    {
+      "name": "reader_quality",
+      "question": "Does the result read like an authored research deliverable with clear structure, continuity, and useful density?"
+    }
+  ],
+  "review_rule": "Score independently before any condition mapping is revealed. A reviewer may record a tie. Writing style can make condition guessing possible, so this is label-blinded rather than fully blinded."
+}

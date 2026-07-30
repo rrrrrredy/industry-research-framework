@@ -1,5 +1,7 @@
 # Baseline vs Taste Anchor: AI Agent Market Landscape
 
+> Provenance note: this is a retrospective taste-calibration note. The original requests, full responses, model snapshot, and complete run artifacts were not retained, so it is not an A/B pilot result and must not be used as evidence of framework efficacy.
+
 ## Baseline Pattern
 
 The first baseline run was mechanically compliant: it created state files, registries, review logs, expected headings, reader-facing source titles, and uncertainty language. The deterministic runner initially gave this style a passing score.

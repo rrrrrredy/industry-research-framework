@@ -1,0 +1,77 @@
+{
+  "protocol_version": "1.0",
+  "study_id": "industry_research_framework_paired_pilot_v1",
+  "status": "preregistered_no_live_runs",
+  "claim_boundary": "No live model runs are included. This protocol validates experimental plumbing, not framework efficacy.",
+  "cases": [
+    "evals/cases/ai_agent_market_landscape_zh.json",
+    "evals/cases/ai_video_generation_investment_memo_zh.json",
+    "evals/cases/model_price_war_competitive_analysis_zh.json"
+  ],
+  "replicates": 3,
+  "randomization_seed": 20260730,
+  "conditions": [
+    "baseline",
+    "treatment"
+  ],
+  "skill_path": "SKILL.md",
+  "rubric_path": "evals/pilot/final_quality_rubric_v1.json",
+  "source_pack_root": "evals/source_packs",
+  "model": {
+    "snapshot": "SET_DATED_MODEL_SNAPSHOT_BEFORE_LIVE_RUNS",
+    "snapshot_kind": "placeholder",
+    "temperature": 0,
+    "top_p": 1,
+    "max_output_tokens": 12000,
+    "seed": 20260730,
+    "seed_support_required_for_confirmatory_grade": true
+  },
+  "adapter": {
+    "interface_version": "pilot-adapter-v1",
+    "transport": "subprocess_json_stdin_stdout",
+    "identity_kind": "placeholder",
+    "expected_identity_sha256": "SET_EXTERNAL_ADAPTER_IDENTITY_SHA256_BEFORE_LIVE_RUNS",
+    "credentials": "owned by adapter and never serialized by the harness"
+  },
+  "primary_outcome": {
+    "input": "final.md only",
+    "method": "label-blinded independent human review",
+    "reviewers_per_submission": 2,
+    "rubric": "evals/pilot/final_quality_rubric_v1.json"
+  },
+  "secondary_outcomes": [
+    "final-only deterministic coverage and leakage checks"
+  ],
+  "exploratory_outcomes": [
+    "framework artifact conformance",
+    "token usage",
+    "latency",
+    "run failure rate"
+  ],
+  "failure_policy": {
+    "retain_every_attempt": true,
+    "silent_replacement_forbidden": true,
+    "missing_or_failed_runs_remain_in_blind_accounting": true,
+    "retry_limit": 1,
+    "exclusions": "No post-hoc exclusions. Protocol violations remain visible and are reported separately."
+  },
+  "isolation": {
+    "fresh_session_per_run": true,
+    "fresh_workspace_per_run": true,
+    "baseline_allowed_inputs": [
+      "task.json",
+      "sources.jsonl",
+      "output_contract.md"
+    ],
+    "treatment_additional_input": "framework.md",
+    "harness_verification": "not_available_for_subprocess_transport",
+    "forbidden_inputs": [
+      "repository checkout",
+      "taste anchors",
+      "evaluation rubric",
+      "prior run memory",
+      "shared cache"
+    ],
+    "unverified_isolation_grade": "exploratory"
+  }
+}
