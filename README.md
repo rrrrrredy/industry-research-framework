@@ -112,6 +112,7 @@ python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 To rebuild the sanitized AI knowledge source pack from local knowledge repositories:
@@ -490,6 +491,7 @@ python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 如果本地有 AI 知识库仓库，可以重新生成脱敏评测数据：

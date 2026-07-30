@@ -90,12 +90,13 @@ The check passes only when each known-good run reaches `pass`, meets its minimum
 
 ## Continuous Checks
 
-GitHub Actions runs the known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests:
+GitHub Actions runs the evaluator unit tests, known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests:
 
 ```bash
 python scripts/check_docs_sync.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
 ## How To Iterate

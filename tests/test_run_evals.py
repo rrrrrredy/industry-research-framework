@@ -125,6 +125,201 @@ class ReviewClosureTests(unittest.TestCase):
 
         self.assertTrue(run_evals.review_has_unresolved_failures(text))
 
+    def test_pass_with_open_issue_does_not_close_failure(self):
+        text = review_log(
+            {
+                "review_type": "reader",
+                "scope": "full draft",
+                "result": "FAIL",
+                "issues": [{"status": "resolved", "resolution": "revise synthesis"}],
+                "routed_actions": ["revise synthesis"],
+            },
+            {
+                "review_type": "reader",
+                "scope": "full draft",
+                "result": "PASS",
+                "issues": [{"status": "open", "finding": "weak conclusion"}],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_pass_with_negated_closed_status_does_not_close_failure(self):
+        for issue_status in ("not resolved", "unhandled", "not closed"):
+            with self.subTest(issue_status=issue_status):
+                text = review_log(
+                    {
+                        "review_type": "reader",
+                        "scope": "full draft",
+                        "result": "FAIL",
+                        "issues": [
+                            {"status": "resolved", "resolution": "revise synthesis"}
+                        ],
+                        "routed_actions": ["revise synthesis"],
+                    },
+                    {
+                        "review_type": "reader",
+                        "scope": "full draft",
+                        "result": "PASS",
+                        "issues": [{"status": issue_status}],
+                        "routed_actions": [],
+                    },
+                )
+
+                self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_not_pass_does_not_close_failure(self):
+        text = review_log(
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [{"status": "resolved", "resolution": "add source"}],
+                "routed_actions": ["add source"],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "NOT PASS",
+                "issues": [],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_routed_failure_does_not_overwrite_earlier_unrouted_failure(self):
+        text = review_log(
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [{"status": "open", "finding": "unsupported claim"}],
+                "routed_actions": [],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [{"status": "resolved", "resolution": "downgrade claim"}],
+                "routed_actions": ["downgrade claim"],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "PASS",
+                "issues": [],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_empty_route_values_do_not_close_failure(self):
+        for empty_value in (None, {}):
+            with self.subTest(empty_value=empty_value):
+                text = review_log(
+                    {
+                        "review_type": "evidence",
+                        "scope": "section-1",
+                        "result": "FAIL",
+                        "issues": [empty_value],
+                        "routed_actions": [empty_value],
+                    },
+                    {
+                        "review_type": "evidence",
+                        "scope": "section-1",
+                        "result": "PASS",
+                        "issues": [],
+                        "routed_actions": [],
+                    },
+                )
+
+                self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_null_issue_with_valid_action_stays_open(self):
+        text = review_log(
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [None],
+                "routed_actions": ["add source"],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "PASS",
+                "issues": [],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_null_handling_value_stays_open(self):
+        for empty_value in (None, {}):
+            with self.subTest(empty_value=empty_value):
+                text = review_log(
+                    {
+                        "review_type": "evidence",
+                        "scope": "section-1",
+                        "result": "FAIL",
+                        "issues": [{"resolution": empty_value}],
+                        "routed_actions": [],
+                    },
+                    {
+                        "review_type": "evidence",
+                        "scope": "section-1",
+                        "result": "PASS",
+                        "issues": [],
+                        "routed_actions": [],
+                    },
+                )
+
+                self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_routed_action_without_issue_stays_open(self):
+        text = review_log(
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [],
+                "routed_actions": ["add source"],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "PASS",
+                "issues": [],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
+    def test_resolved_without_explicit_pass_remains_open(self):
+        text = review_log(
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "result": "FAIL",
+                "issues": [{"status": "resolved", "resolution": "add source"}],
+                "routed_actions": ["add source"],
+            },
+            {
+                "review_type": "evidence",
+                "scope": "section-1",
+                "status": "resolved",
+                "issues": [],
+                "routed_actions": [],
+            },
+        )
+
+        self.assertTrue(run_evals.review_has_unresolved_failures(text))
+
 
 if __name__ == "__main__":
     unittest.main()
