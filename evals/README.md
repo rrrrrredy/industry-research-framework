@@ -116,6 +116,8 @@ python -m unittest discover -s tests -p "test_*.py"
 - expected sections appear
 - must-cover entities appear
 - backstage sources are traceable in `data/source_registry.csv`
+- source and claim registries are structurally valid CSV with required headers and exact source-id/title pairs
+- review logs are valid JSONL objects with a canonical PASS/FAIL-family `result` or `status`, substantive issue/action entries, and no duplicate keys; malformed rows cannot close historical failures
 - final references use reader-facing source titles rather than internal source ids
 - uncertainty, risk, limitation, or counter-evidence is present
 - claim/evidence/judgment language is present

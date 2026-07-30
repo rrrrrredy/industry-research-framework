@@ -4,8 +4,11 @@
 from __future__ import annotations
 
 import argparse
+import csv
+import io
 import json
 import re
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -108,7 +111,8 @@ OPEN_ISSUE_KEYS = {
 
 REVIEW_FAIL_TERMS = ["fail", "needs_revision", "unresolved", "open", "blocking_issue"]
 REVIEW_PASS_TERMS = ["pass", "passed"]
-REVIEW_STATUS_KEYS = {"status", "result", "decision", "verdict", "finding_type", "outcome"}
+REVIEW_STATUS_KEYS = {"result", "status"}
+REVIEW_OUTCOME_KEYS = ("result", "status")
 ISSUE_HANDLING_KEYS = {"handling", "resolution", "resolved_by", "routed_action", "limitation"}
 ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation", "accepted"]
 ISSUE_OPEN_TERMS = ["open", "unresolved", "pending", "blocking", "needs_revision", "fail"]
@@ -176,15 +180,87 @@ def nonempty_line_count(text: str) -> int:
     return sum(1 for line in text.splitlines() if line.strip())
 
 
+def normalize_identifier_key(value: str) -> str:
+    return unicodedata.normalize("NFKC", value.strip()).casefold()
+
+
+def normalize_equivalent_text(value: str) -> str:
+    return unicodedata.normalize("NFC", value.strip())
+
+
+def duplicate_value_labels(values_by_key: dict[str, list[str]]) -> list[str]:
+    labels: list[str] = []
+    for values in values_by_key.values():
+        if len(values) < 2:
+            continue
+        distinct_values = list(dict.fromkeys(values))
+        labels.append(" / ".join(distinct_values))
+    return sorted(labels)
+
+
+def parse_csv_rows(
+    text: str,
+    required_headers: set[str],
+) -> tuple[list[dict[str, str]], list[str]]:
+    if not text.strip():
+        return [], ["file is empty"]
+
+    try:
+        reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
+        if reader.fieldnames is None:
+            return [], ["header row is missing"]
+
+        normalized_headers = [
+            unicodedata.normalize(
+                "NFKC",
+                str(header).lstrip("\ufeff").strip(),
+            ).casefold()
+            for header in reader.fieldnames
+        ]
+        if not all(normalized_headers):
+            return [], ["header contains an empty field name"]
+        if len(normalized_headers) != len(set(normalized_headers)):
+            return [], ["header contains duplicate field names"]
+
+        missing_headers = sorted(required_headers - set(normalized_headers))
+        if missing_headers:
+            return [], ["missing required headers: " + ", ".join(missing_headers)]
+
+        rows: list[dict[str, str]] = []
+        errors: list[str] = []
+        for line_number, raw_row in enumerate(reader, start=2):
+            if None in raw_row:
+                errors.append(f"row {line_number} has more fields than the header")
+                continue
+            if any(value is None for value in raw_row.values()):
+                errors.append(f"row {line_number} has fewer fields than the header")
+                continue
+
+            row = {
+                normalized_headers[index]: str(raw_row[header]).strip()
+                for index, header in enumerate(reader.fieldnames)
+            }
+            if not any(row.values()):
+                continue
+
+            missing_values = sorted(
+                header for header in required_headers if not row.get(header, "")
+            )
+            if missing_values:
+                errors.append(
+                    f"row {line_number} has empty required values: "
+                    + ", ".join(missing_values)
+                )
+                continue
+            rows.append(row)
+        return rows, errors
+    except csv.Error as error:
+        return [], [f"CSV parse error: {error}"]
+
+
 def data_row_count(text: str) -> int:
-    lines = [line.strip() for line in text.splitlines() if line.strip()]
-    if not lines:
-        return 0
-    first_line = lines[0].lower()
-    header_terms = ["source_id", "claim", "claim_type", "confidence", "status"]
-    if "," in first_line and any(term in first_line for term in header_terms):
-        return max(0, len(lines) - 1)
-    return len(lines)
+    rows, errors = parse_csv_rows(text, {"claim_id", "claim"})
+    return 0 if errors else len(rows)
 
 
 def load_json_or_none(text: str) -> Any | None:
@@ -238,13 +314,32 @@ def read_progress_status(progress_text: str) -> str:
     return str(parsed.get("status", "")).strip().lower()
 
 
+def normalize_review_enum(value: Any) -> str:
+    if not isinstance(value, str):
+        return ""
+    normalized = unicodedata.normalize("NFKC", value.strip()).casefold()
+    return re.sub(r"[\s-]+", "_", normalized)
+
+
+def issue_is_substantive(issue: Any) -> bool:
+    if isinstance(issue, str):
+        return bool(issue.strip())
+    if not isinstance(issue, dict) or not issue:
+        return False
+    return any(isinstance(value, str) and value.strip() for value in issue.values())
+
+
+def routed_action_is_substantive(action: Any) -> bool:
+    return isinstance(action, str) and bool(action.strip())
+
+
 def issue_is_unhandled(item: Any) -> bool:
     if not item:
         return True
     if not isinstance(item, dict):
         return True
 
-    status = re.sub(r"[\s-]+", "_", str(item.get("status", "")).strip().lower())
+    status = normalize_review_enum(item.get("status", ""))
     if status:
         if status in ISSUE_OPEN_TERMS:
             return True
@@ -265,7 +360,7 @@ def review_status_matches(row: dict[str, Any], terms: list[str]) -> bool:
     for key, value in row.items():
         if str(key).lower() not in REVIEW_STATUS_KEYS:
             continue
-        value_text = re.sub(r"[\s-]+", "_", str(value).strip().lower())
+        value_text = normalize_review_enum(value)
         if value_text in terms:
             return True
     return False
@@ -275,15 +370,15 @@ def review_is_passing_rerun(row: dict[str, Any]) -> bool:
     for key in ("result", "status"):
         if key not in row:
             continue
-        value_text = re.sub(r"[\s-]+", "_", str(row.get(key, "")).strip().lower())
+        value_text = normalize_review_enum(row.get(key, ""))
         return value_text in REVIEW_PASS_TERMS
     return False
 
 
 def review_scope_key(row: dict[str, Any]) -> tuple[str, str]:
     return (
-        str(row.get("review_type", "")).strip().lower(),
-        str(row.get("scope", "")).strip().lower(),
+        normalize_identifier_key(str(row.get("review_type", ""))),
+        normalize_identifier_key(str(row.get("scope", ""))),
     )
 
 
@@ -291,21 +386,14 @@ def review_failure_is_routed(row: dict[str, Any]) -> bool:
     issues = row.get("issues")
     if not isinstance(issues, list) or not issues:
         return False
-    if not all(
-        (isinstance(issue, str) and issue.strip())
-        or (
-            isinstance(issue, dict)
-            and any(isinstance(value, str) and value.strip() for value in issue.values())
-        )
-        for issue in issues
-    ):
+    if not all(issue_is_substantive(issue) for issue in issues):
         return False
 
     routed_actions = row.get("routed_actions")
     if (
         isinstance(routed_actions, list)
         and routed_actions
-        and all(isinstance(action, str) and action.strip() for action in routed_actions)
+        and all(routed_action_is_substantive(action) for action in routed_actions)
     ):
         return True
     if isinstance(routed_actions, str) and routed_actions.strip():
@@ -323,7 +411,11 @@ def review_failure_is_routed(row: dict[str, Any]) -> bool:
 
 def review_has_unresolved_failures(review_text: str) -> bool:
     open_failures: dict[tuple[str, str], bool] = {}
-    for row in load_review_rows(review_text):
+    review_rows, review_errors = parse_review_rows(review_text)
+    if review_errors:
+        return True
+
+    for row in review_rows:
         raw = str(row.get("raw", ""))
         if raw:
             if re.search(
@@ -362,21 +454,88 @@ def review_has_unresolved_failures(review_text: str) -> bool:
     return bool(open_failures)
 
 
-def load_review_rows(review_text: str) -> list[dict[str, Any]]:
+def reject_duplicate_json_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
+def parse_review_rows(review_text: str) -> tuple[list[dict[str, Any]], list[str]]:
     rows: list[dict[str, Any]] = []
-    for line in review_text.splitlines():
-        line = line.strip()
+    errors: list[str] = []
+    for line_number, line in enumerate(review_text.splitlines(), start=1):
+        line = line.strip().lstrip("\ufeff")
         if not line:
             continue
         try:
-            value = json.loads(line)
-        except json.JSONDecodeError:
-            rows.append({"raw": line})
+            value = json.loads(line, object_pairs_hook=reject_duplicate_json_keys)
+        except json.JSONDecodeError as error:
+            errors.append(f"line {line_number} is not valid JSON: {error.msg}")
             continue
-        if isinstance(value, dict):
-            rows.append(value)
+        except ValueError as error:
+            errors.append(f"line {line_number} is not valid JSON: {error}")
+            continue
+        if not isinstance(value, dict):
+            errors.append(f"line {line_number} must be a JSON object")
+            continue
+
+        invalid_fields: list[str] = []
+        if not isinstance(value.get("review_type"), str) or not value["review_type"].strip():
+            invalid_fields.append("review_type")
+        if not isinstance(value.get("scope"), str) or not value["scope"].strip():
+            invalid_fields.append("scope")
+
+        present_outcomes = [
+            (key, value[key])
+            for key in REVIEW_OUTCOME_KEYS
+            if key in value
+        ]
+        outcome_classes: list[str] = []
+        if not present_outcomes:
+            invalid_fields.append("review status")
         else:
-            rows.append({"value": value})
+            for key, outcome_value in present_outcomes:
+                normalized_outcome = normalize_review_enum(outcome_value)
+                if normalized_outcome in REVIEW_PASS_TERMS:
+                    outcome_classes.append("pass")
+                elif normalized_outcome in REVIEW_FAIL_TERMS:
+                    outcome_classes.append("fail")
+                else:
+                    invalid_fields.append(f"{key} outcome")
+            if len(set(outcome_classes)) > 1:
+                invalid_fields.append("conflicting review outcomes")
+
+        issues = value.get("issues")
+        if not isinstance(issues, list):
+            invalid_fields.append("issues list")
+        elif not all(issue_is_substantive(issue) for issue in issues):
+            invalid_fields.append("issues entries")
+        elif outcome_classes and set(outcome_classes) == {"fail"} and not issues:
+            invalid_fields.append("FAIL issues")
+
+        routed_actions = value.get("routed_actions")
+        if not isinstance(routed_actions, list):
+            invalid_fields.append("routed_actions list")
+        elif not all(
+            routed_action_is_substantive(action) for action in routed_actions
+        ):
+            invalid_fields.append("routed_actions entries")
+
+        if invalid_fields:
+            errors.append(
+                f"line {line_number} is missing or invalid: "
+                + ", ".join(invalid_fields)
+            )
+            continue
+        rows.append(value)
+    return rows, errors
+
+
+def load_review_rows(review_text: str) -> list[dict[str, Any]]:
+    rows, _ = parse_review_rows(review_text)
     return rows
 
 
@@ -389,13 +548,37 @@ def count_reader_references(final_text: str, source_ids: list[str], sources_by_i
     return count
 
 
-def count_registry_sources(source_registry_text: str, source_ids: list[str], sources_by_id: dict[str, dict[str, Any]]) -> int:
-    count = 0
+def count_registry_sources(
+    source_registry_text: str,
+    source_ids: list[str],
+    sources_by_id: dict[str, dict[str, Any]],
+) -> tuple[int, list[str]]:
+    rows, errors = parse_csv_rows(source_registry_text, {"source_id", "title"})
+    if errors:
+        return 0, errors
+
+    source_id_values: dict[str, list[str]] = {}
+    for row in rows:
+        source_id = row["source_id"]
+        source_id_key = normalize_identifier_key(source_id)
+        source_id_values.setdefault(source_id_key, []).append(source_id)
+    duplicate_source_ids = duplicate_value_labels(source_id_values)
+    if duplicate_source_ids:
+        return 0, [
+            "duplicate source_id values: " + ", ".join(duplicate_source_ids)
+        ]
+
+    registered_pairs = {
+        (row["source_id"], normalize_equivalent_text(row["title"]))
+        for row in rows
+        if row["source_id"]
+    }
+    matched_ids: set[str] = set()
     for source_id in source_ids:
         title = str(sources_by_id.get(source_id, {}).get("title", ""))
-        if source_id in source_registry_text and (not title or title in source_registry_text):
-            count += 1
-    return count
+        if (source_id, normalize_equivalent_text(title)) in registered_pairs:
+            matched_ids.add(source_id)
+    return len(matched_ids), []
 
 
 def repeated_line_flags(final_text: str) -> list[str]:
@@ -479,7 +662,26 @@ def evaluate_case(
         quality_flags.append("invalid_completion_status")
 
     min_claim_rows = int(case.get("min_claim_rows", 2))
-    claim_rows = data_row_count(claims_registry_text)
+    parsed_claim_rows, claim_registry_errors = parse_csv_rows(
+        claims_registry_text,
+        {"claim_id", "claim"},
+    )
+    claim_id_values: dict[str, list[str]] = {}
+    for row in parsed_claim_rows:
+        claim_id = row["claim_id"]
+        claim_id_key = normalize_identifier_key(claim_id)
+        claim_id_values.setdefault(claim_id_key, []).append(claim_id)
+    duplicate_claim_ids = duplicate_value_labels(claim_id_values)
+    if duplicate_claim_ids:
+        claim_registry_errors.append(
+            "duplicate claim_id values: " + ", ".join(duplicate_claim_ids)
+        )
+    claim_rows = len(claim_id_values)
+    if claim_registry_errors:
+        findings.append(
+            "Malformed claim registry: " + "; ".join(claim_registry_errors)
+        )
+        quality_flags.append("malformed_claim_registry")
     if claim_rows < min_claim_rows:
         findings.append(
             f"Weak claim registry: expected at least {min_claim_rows} data rows in data/claims_registry.csv, found {claim_rows}."
@@ -487,7 +689,10 @@ def evaluate_case(
         quality_flags.append("weak_claim_registry")
 
     min_review_rows = int(case.get("min_review_rows", 1))
-    review_rows = load_review_rows(review_text)
+    review_rows, review_log_errors = parse_review_rows(review_text)
+    if review_log_errors:
+        findings.append("Malformed review log: " + "; ".join(review_log_errors))
+        quality_flags.append("malformed_review_log")
     if len(review_rows) < min_review_rows:
         findings.append(
             f"Weak review loop: expected at least {min_review_rows} review rows in logs/review.jsonl, found {len(review_rows)}."
@@ -519,7 +724,16 @@ def evaluate_case(
     source_registry_text = read_text(run_dir / "data" / "source_registry.csv")
     required_source_ids = case.get("source_ids", [])
     final_reference_hits = count_reader_references(final_text, required_source_ids, sources_by_id)
-    registry_hits = count_registry_sources(source_registry_text, required_source_ids, sources_by_id)
+    registry_hits, source_registry_errors = count_registry_sources(
+        source_registry_text,
+        required_source_ids,
+        sources_by_id,
+    )
+    if source_registry_errors:
+        findings.append(
+            "Malformed source registry: " + "; ".join(source_registry_errors)
+        )
+        quality_flags.append("malformed_source_registry")
     if required_source_ids:
         traceability_score = round(10 * registry_hits / len(required_source_ids))
         reference_score = round(5 * final_reference_hits / len(required_source_ids))
