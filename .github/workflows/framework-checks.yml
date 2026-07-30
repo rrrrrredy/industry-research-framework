@@ -22,3 +22,5 @@ jobs:
         run: python scripts/check_regression_fixtures.py
       - name: Check known-good conformance fixtures
         run: python scripts/check_conformance_fixtures.py
+      - name: Run evaluator unit tests
+        run: python -m unittest discover -s tests -p "test_*.py"

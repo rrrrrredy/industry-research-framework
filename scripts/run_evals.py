@@ -107,6 +107,7 @@ OPEN_ISSUE_KEYS = {
 }
 
 REVIEW_FAIL_TERMS = ["fail", "needs_revision", "unresolved", "open", "blocking_issue"]
+REVIEW_PASS_TERMS = ["pass", "passed", "resolved", "closed", "accepted", "complete", "completed"]
 REVIEW_STATUS_KEYS = {"status", "result", "decision", "verdict", "finding_type", "outcome"}
 ISSUE_HANDLING_KEYS = {"handling", "resolution", "resolved_by", "routed_action", "limitation"}
 ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation", "accepted"]
@@ -256,18 +257,64 @@ def issue_is_unhandled(item: Any) -> bool:
     return True
 
 
+def review_status_matches(row: dict[str, Any], terms: list[str]) -> bool:
+    for key, value in row.items():
+        if str(key).lower() not in REVIEW_STATUS_KEYS:
+            continue
+        value_text = str(value).lower()
+        if any(re.search(rf"\b{re.escape(term)}\b", value_text) for term in terms):
+            return True
+    return False
+
+
+def review_scope_key(row: dict[str, Any]) -> tuple[str, str]:
+    return (
+        str(row.get("review_type", "")).strip().lower(),
+        str(row.get("scope", "")).strip().lower(),
+    )
+
+
+def review_failure_is_routed(row: dict[str, Any]) -> bool:
+    routed_actions = row.get("routed_actions")
+    if isinstance(routed_actions, list) and any(str(action).strip() for action in routed_actions):
+        return True
+    if isinstance(routed_actions, str) and routed_actions.strip():
+        return True
+
+    issues = row.get("issues")
+    if isinstance(issues, list) and issues:
+        return not any(issue_is_unhandled(issue) for issue in issues)
+    return False
+
+
 def review_has_unresolved_failures(review_text: str) -> bool:
+    open_failures: dict[tuple[str, str], bool] = {}
     for row in load_review_rows(review_text):
         raw = str(row.get("raw", ""))
-        if raw and re.search(r"\b(fail|needs_revision|unresolved|open|blocking_issue)\b", raw, flags=re.IGNORECASE):
-            return True
-        for key, value in row.items():
-            if str(key).lower() not in REVIEW_STATUS_KEYS:
-                continue
-            value_text = str(value).lower()
-            if any(re.search(rf"\b{re.escape(term)}\b", value_text) for term in REVIEW_FAIL_TERMS):
-                return True
-    return False
+        if raw:
+            if re.search(
+                r"\b(fail|needs_revision|unresolved|open|blocking_issue)\b",
+                raw,
+                flags=re.IGNORECASE,
+            ):
+                open_failures[("", "")] = False
+            continue
+
+        scope_key = review_scope_key(row)
+        if review_status_matches(row, REVIEW_FAIL_TERMS):
+            open_failures[scope_key] = review_failure_is_routed(row)
+            continue
+
+        if review_status_matches(row, REVIEW_PASS_TERMS):
+            if open_failures.get(scope_key) is True:
+                del open_failures[scope_key]
+            continue
+
+        issues = row.get("issues")
+        if isinstance(issues, list) and any(issue_is_unhandled(issue) for issue in issues):
+            open_failures[scope_key] = False
+
+    return bool(open_failures)
 
 
 def load_review_rows(review_text: str) -> list[dict[str, Any]]:

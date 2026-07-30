@@ -128,6 +128,7 @@ python scripts/check_conformance_fixtures.py
 - claim registries and review logs are not empty shells
 - overconfident absolute claims are flagged when they lack uncertainty language
 - progress completion signals are flagged when unresolved issues or evaluator flags remain
+- historical review failures remain open until their routed fixes are followed by a passing rerun for the same review type and scope
 
 These checks are intentionally mechanical. They catch regressions; they do not replace editorial judgment.
 
