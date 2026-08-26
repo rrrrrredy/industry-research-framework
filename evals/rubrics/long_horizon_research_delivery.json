@@ -1,0 +1,53 @@
+{
+  "rubric_id": "long_horizon_research_delivery_v1",
+  "title": "Long-Horizon Research Delivery Rubric",
+  "scoring_note": "Use after deterministic checks. Judge the delivered report and the full correction trail, not the amount of backstage activity.",
+  "case_id": "model_company_pipeline_long_horizon_zh",
+  "taste_anchor": "evals/taste_anchors/model_company_pipeline_long_horizon_zh/high_quality.md",
+  "comparison": "evals/taste_anchors/model_company_pipeline_long_horizon_zh/baseline_vs_anchor.md",
+  "dimensions": [
+    {
+      "name": "primary_object_fidelity",
+      "weight": 20,
+      "excellent": "The report directly explains pipeline ownership, handoffs, decisions, and feedback loops.",
+      "poor": "The pipeline question is displaced by general AI trends, methodology, source channels, or advice lists."
+    },
+    {
+      "name": "late_requirement_followthrough",
+      "weight": 15,
+      "excellent": "Every material follow-up correction is reflected in the final structure and wording or disclosed as an accepted limitation.",
+      "poor": "Late corrections disappear after earlier drafts or completion is claimed before the final requirement turn."
+    },
+    {
+      "name": "company_specific_mechanism",
+      "weight": 15,
+      "excellent": "Each company has an evidence-bounded operating model with distinct teams, interfaces, decision rights, model-node evolution, and careful use of hiring responsibilities as interface evidence.",
+      "poor": "Industry commonplaces are copied into eight company rows without company-level evidence, or job duties are treated as proof of undisclosed reporting lines."
+    },
+    {
+      "name": "evidence_and_uncertainty",
+      "weight": 15,
+      "excellent": "Claims are traceable and unknown reporting lines or internal processes remain explicitly unknown.",
+      "poor": "Missing company evidence is silently filled with another company's practice or confident inference."
+    },
+    {
+      "name": "delivery_integrity",
+      "weight": 15,
+      "excellent": "User-visible status, current state, global review, artifact hashes, and disclosed limitations agree.",
+      "poor": "A local pass, old receipt, or partial milestone is promoted to final completion."
+    },
+    {
+      "name": "process_proportionality",
+      "weight": 10,
+      "excellent": "State is small, current, and sufficient for recovery and verification.",
+      "poor": "Control files, transaction machinery, or oversized progress logs displace research work."
+    },
+    {
+      "name": "reader_quality",
+      "weight": 10,
+      "excellent": "Insights are specific, comparisons are legible, the prose reads as a finished research report, and explicitly rejected appendices stay absent.",
+      "poor": "The report exposes process narration, generic slogans, repetitive contrasts, unexplained tables, or a glossary/reference appendix the reader rejected."
+    }
+  ],
+  "pass_guidance": "A pass requires no unresolved delivery-integrity failure and a strong score on primary-object fidelity."
+}

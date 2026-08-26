@@ -1,0 +1,10 @@
+{
+  "stage": "final_reader_evidence_closure_and_delivery_reconciliation",
+  "status": "in_progress",
+  "completed_units": ["local reader pass"],
+  "open_issues": [
+    {"id":"I01","description":"Global requirement reconciliation is pending","status":"open"}
+  ],
+  "explicitly_not_completed": ["global delivery audit"],
+  "next_action": "reconcile state"
+}

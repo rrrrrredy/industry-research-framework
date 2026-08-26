@@ -1,0 +1,15 @@
+claim_id,claim,claim_type,source_ids,confidence,status
+C01,Long-lived platforms and model-node teams form a reusable operating pattern,author_judgment,P001|P003|P005,medium,used
+C02,Data and annotation connect all training phases,author_judgment,P001|P004|P008,medium,used
+C03,Company A uses specialized teams plus model-node coordination,source_claim,P001,high,used
+C04,Company B embeds reliability gates in post-training and deployment,source_claim,P002,high,used
+C05,Company C connects a central platform to multiple product lines,source_claim,P003,high,used
+C06,Company D uses parallel controlled experiments and dual evaluation gates,source_claim,P004,high,used
+C07,Company E shortens the loop with a small full-stack team,source_claim,P005,high,used
+C08,Company F co-scales algorithms and training infrastructure,source_claim,P006,high,used
+C09,Company G is evaluated only after the leadership-change boundary,verified_fact,P007,high,used
+C10,Company H is evaluated only after the leadership-change boundary,verified_fact,P008,high,used
+C11,Harness changes the unit of data from answers to replayable trajectories,interpretation,P005|P007|P008,medium,used
+C12,Coding Agent delivery includes model environment and system configuration,author_judgment,P002|P007|P008,medium,used
+C13,Undisclosed reporting lines must remain uncertain,author_judgment,P001|P002|P006,high,used
+C14,Four observable outcomes test pipeline effectiveness,author_judgment,P001|P003|P004|P006,medium,used

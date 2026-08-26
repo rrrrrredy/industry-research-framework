@@ -7,12 +7,14 @@ This directory contains a lightweight evaluation loop for Industry Research Fram
 ```text
 evals/
   cases/                         # one JSON task per eval case
+  conversation_packs/            # sanitized multi-turn requirement sequences
   conformance_fixtures/          # known-good artifacts that must pass
   regression_fixtures/           # known-bad outputs that the runner must flag
   rubrics/                       # human and automated scoring guidance
   source_packs/
     ai_knowledge_sanitized/      # sanitized seed sources generated from local knowledge repos
     prompt_injection_synthetic/  # synthetic source-instruction boundary case
+    model_company_pipeline_synthetic/ # fictional eight-company pipeline evidence
   runs/                          # local eval outputs, ignored by git if desired
 ```
 
@@ -49,10 +51,14 @@ For each case, give `evals/runs/<case_id>/prompt.md` to the agent under test. Th
 ```text
 state/task_spec.md
 state/progress.json
+state/requirements.jsonl         # when required by the case
 data/source_registry.csv
 data/claims_registry.csv
 logs/review.jsonl
 final.md
+conversation/assistant_messages.jsonl # for multi-turn completion timing cases
+delivery_message.md              # intended user-visible status
+state/final_delivery.json        # only for terminal delivery cases
 ```
 
 Then score the run:
@@ -68,9 +74,22 @@ evals/runs/report.md
 evals/runs/report.json
 ```
 
+
+## Check A Delivery Claim
+
+For a task that uses the terminal-delivery artifacts, validate the intended user-visible message against current state and current hashes:
+
+```bash
+python scripts/check_delivery.py <task-directory>
+```
+
+The checker accepts a plainly labeled non-final stage artifact without a terminal receipt. A terminal claim requires canonical `final/complete` state, no open blockers, a global PASS review, disclosed accepted limitations, and a `global_final_delivery` receipt whose hashes match the current report and backstage inputs.
+
+This is a delivery-integrity check. It does not judge whether the report's argument is insightful.
+
 ## Run Regression Fixtures
 
-Regression fixtures are intentionally bad outputs. They are not new research tasks; they verify that the deterministic runner catches recurring failures such as process leakage, depth collapse, evidence drift, overclaiming, false completion, and source-instruction leakage.
+Regression fixtures are intentionally bad outputs. They are not new research tasks; they verify that the deterministic runner catches recurring failures such as process leakage, depth collapse, evidence drift, source-instruction leakage, visible completion against non-final state, stale or local-only receipts, lost or unresolved late corrections, premature completion, hidden limitations, forbidden appendices, noncanonical state, and case-specific process sprawl.
 
 ```bash
 python scripts/check_regression_fixtures.py
@@ -80,7 +99,7 @@ The fixture check passes only when each bad sample is scored as `review` or `fai
 
 ## Run Known-Good Conformance Fixtures
 
-Known-good fixtures guard against an evaluator that catches bad patterns by flagging everything. The positive controls combine manually reviewed state artifacts with high-quality taste anchors. One general report control must pass; a separate source-boundary control must retain the usable 120-customer and 42% vendor claim while rejecting the embedded control directive:
+Known-good fixtures guard against an evaluator that catches bad patterns by flagging everything. The positive controls combine manually reviewed state artifacts with high-quality taste anchors. They include a general report, a source-boundary case, a terminal long-horizon delivery, and the same long-horizon artifact honestly delivered as a non-final stage.
 
 ```bash
 python scripts/check_conformance_fixtures.py
@@ -115,7 +134,14 @@ python scripts/check_conformance_fixtures.py
 - expected sections appear
 - must-cover entities appear
 - backstage sources are traceable in `data/source_registry.csv`
-- final references use reader-facing source titles rather than internal source ids
+- when a case requires reader references, they use reader-facing source titles rather than internal source ids
+- case-specific forbidden headings, such as a rejected glossary or reference appendix, remain absent
+- material follow-up requirement ids are present and resolved before terminal delivery
+- completion is not claimed before the last configured material requirement turn
+- the user-visible delivery message agrees with canonical progress state and open blockers
+- a terminal receipt covers the global delivery and matches current SHA-256 hashes
+- accepted limitations are disclosed in the delivery message
+- case-specific progress-size and control-file budgets detect process sprawl without imposing a global file-count rule
 - uncertainty, risk, limitation, or counter-evidence is present
 - claim/evidence/judgment language is present
 - banned process phrases do not leak into `final.md`
@@ -127,7 +153,7 @@ python scripts/check_conformance_fixtures.py
 - output is not obviously too short
 - claim registries and review logs are not empty shells
 - overconfident absolute claims are flagged when they lack uncertainty language
-- progress completion signals are flagged when unresolved issues or evaluator flags remain
+- progress or user-visible completion signals are flagged when unresolved issues or evaluator flags remain
 
 These checks are intentionally mechanical. They catch regressions; they do not replace editorial judgment.
 
@@ -145,6 +171,11 @@ This repo does not enable an LLM judge by default. The first line of defense is 
 - bullet density
 - repeated source-listing templates
 - output length
+- late-requirement closure
+- completion-claim timing
+- global review scope
+- current artifact hashes
+- honest non-final delivery
 
 Add an LLM judge only after the deterministic runner, positive and negative calibration fixtures, and taste anchors are stable. A future judge should be optional, provider-neutral, and grounded in `evals/rubrics/research_quality.json`; it should explain failures rather than silently overwrite deterministic results.
 
@@ -166,3 +197,7 @@ Add an LLM judge only after the deterministic runner, positive and negative cali
 目前默认不启用 LLM judge。先用确定性 runner 和正负控制样本抓状态文件、来源台账、过程语言、内部编号泄漏、来源指令泄漏、列表密度和重复模板句式；等人工校准集、taste anchor 和规则稳定后，再考虑增加可选的、供应商无关的 LLM judge。
 
 来源边界测试只证明三个预先配置的可观察行为：不把 canary 复制进成稿、拒绝指定的恶意结论、保留带限制条件的可用供应商事实。它不能证明通用 prompt injection 免疫，也不能覆盖所有工具调用、状态修改、秘密泄露或语义改写。
+
+长周期多轮案例 `model_company_pipeline_long_horizon_zh` 使用 13 轮脱敏需求和 8 家虚构公司证据，检查主问题是否被过程话题挤走、晚到纠错是否保留、公司差异是否具体，以及最终完成声明是否有当前状态和哈希支持。它同时包含终稿正例和诚实阶段稿正例，避免把“尚未完成”一律判错。
+
+宣布终稿前可运行 `python scripts/check_delivery.py <任务目录>`。该检查要求聊天中的完成声明、`progress.json`、需求台账、全稿审阅、已接受限制和当前文件哈希一致；任何一项未闭环都应继续修复，或明确交付阶段稿。

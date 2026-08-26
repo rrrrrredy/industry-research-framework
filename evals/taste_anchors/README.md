@@ -6,6 +6,8 @@ Taste anchors are human-readable examples used to calibrate the evaluation loop.
 
 - [`ai_agent_market_landscape_zh/high_quality.md`](./ai_agent_market_landscape_zh/high_quality.md): a reader-facing, thesis-led Chinese sample for the AI Agent market landscape case.
 - [`ai_agent_market_landscape_zh/baseline_vs_anchor.md`](./ai_agent_market_landscape_zh/baseline_vs_anchor.md): comparison between a template-compliant baseline and the taste anchor.
+- [`model_company_pipeline_long_horizon_zh/high_quality.md`](./model_company_pipeline_long_horizon_zh/high_quality.md): an anonymized eight-company pipeline report that preserves late requirements, company-specific mechanisms, and delivery limitations.
+- [`model_company_pipeline_long_horizon_zh/baseline_vs_anchor.md`](./model_company_pipeline_long_horizon_zh/baseline_vs_anchor.md): comparison focused on primary-object drift, lost corrections, process sprawl, and false completion.
 
 ## How To Use
 

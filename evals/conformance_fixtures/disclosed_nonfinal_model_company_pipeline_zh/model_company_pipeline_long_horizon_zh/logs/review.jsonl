@@ -1,0 +1,3 @@
+{"timestamp":"2026-08-26T00:00:00Z","review_type":"evidence","scope":"full_report","result":"PASS","issues":[],"routed_actions":[]}
+{"timestamp":"2026-08-26T00:01:00Z","review_type":"coverage","scope":"full_report","result":"PASS","issues":[],"routed_actions":[]}
+{"timestamp":"2026-08-26T00:02:00Z","review_type":"reader_and_delivery","scope":"global_final_delivery","result":"needs_revision","issues":["reader review pending"],"routed_actions":["run reader review"]}

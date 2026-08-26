@@ -44,6 +44,8 @@ For long tasks, create:
 state/
   task_spec.md
   progress.json
+  requirements.jsonl      # correction-heavy multi-turn tasks
+  final_delivery.json     # only for terminal delivery
   findings.jsonl
   directions_tried.json
   iteration_log.jsonl
@@ -60,6 +62,20 @@ Use state files to survive context loss. Do not rely on chat history as the only
 
 `progress.json` should track current stage, status, completed units, open issues, stale_count, and next action.
 
+Keep `progress.json` as a compact snapshot of current state. Put chronological history in `iteration_log.jsonl` or `work.jsonl`; do not turn progress into an append-only transcript.
+
+For a multi-turn task with material follow-up corrections, add one `requirements.jsonl` row per requirement with `requirement_id`, `source_turn`, `summary`, `status`, and `evidence`. Preserve stable ids when wording changes. Before final delivery, every required id must be `satisfied`, `accepted_limitation`, `waived`, or `out_of_scope`. This ledger tracks reader intent; it does not belong in the published report.
+
+Create `final_delivery.json` only for terminal delivery. It is a receipt for current state, not a substitute for review. Use:
+
+- `schema_version: 1`, `status: pass`, and `scope: global_final_delivery`
+- `artifact`: the primary reader-facing artifact, normally `final.md`
+- `artifacts`: SHA-256 hashes for the primary artifact, `task_spec.md`, source and claim registries, plus `requirements.jsonl` and the uncertainty registry when they exist
+- `open_issues: []`
+- `accepted_limitations`: the limitations that must also appear in the delivery message when material
+
+The delivery checker recomputes hashes and reads current progress, requirements, review scope, and the intended user-visible message. An old or local PASS cannot establish current global completion.
+
 `directions_tried.json` should prevent repeated digging in the same direction. Treat one full operating pass for a bounded unit as a cycle. If it adds no new evidence, case, counterexample, framework, or judgment, increment `stale_count`; reset it to `0` when a later cycle adds one. At `stale_count >= 2`, pivot the structural angle. This counter is separate from the three-consecutive-source-pass stop for one collection direction.
 
 ### Context Recovery Protocol
@@ -68,9 +84,10 @@ When resuming after context loss, session restart, or handoff:
 
 1. Read `state/task_spec.md`.
 2. Read `state/progress.json`.
-3. Read the latest entries in `state/findings.jsonl` and `state/iteration_log.jsonl`.
-4. Read `state/directions_tried.json`.
-5. Resume from the matching staged execution step.
+3. Read `state/requirements.jsonl` when it exists.
+4. Read the latest entries in `state/findings.jsonl` and `state/iteration_log.jsonl`.
+5. Read `state/directions_tried.json`.
+6. Resume from the matching staged execution step.
 
 Do not re-run completed stages. Do not re-ask the research brief if `task_spec.md` already records the answers.
 
@@ -81,6 +98,7 @@ Use these fields unless the task clearly needs a narrower local variant:
 - `progress.json`: `stage`, `status`, `completed_units`, `open_issues`, `stale_count`, `next_action`, `updated_at`
 - `findings.jsonl`: `timestamp`, `unit`, `finding`, `claim_type`, `evidence_level`, `source_refs`, `intended_section`
 - `directions_tried.json`: `direction`, `reason_tried`, `result`, `status`, `next_decision`
+- `requirements.jsonl`: `requirement_id`, `source_turn`, `summary`, `status`, `evidence`
 - `logs/work.jsonl`: `timestamp`, `level`, `decision`, `reason`, `files_changed`, `next_action`
 - `logs/review.jsonl`: `timestamp`, `review_type`, `scope`, `result`, `issues`, `routed_actions`
 - `source_registry.csv`: `source_id`, `title`, `url_or_path`, `source_type`, `publisher_or_author`, `date`, `access_status`, `used_for`, `limitations`

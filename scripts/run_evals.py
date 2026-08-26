@@ -6,9 +6,13 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from check_delivery import claims_completion, evaluate_delivery
+
 
 
 DEFAULT_REQUIRED_ARTIFACTS = [
@@ -104,6 +108,7 @@ OPEN_ISSUE_KEYS = {
     "pending_issues",
     "remaining_issues",
     "blockers",
+    "explicitly_not_completed",
 }
 
 REVIEW_FAIL_TERMS = ["fail", "needs_revision", "unresolved", "open", "blocking_issue"]
@@ -112,6 +117,7 @@ ISSUE_HANDLING_KEYS = {"handling", "resolution", "resolved_by", "routed_action",
 ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation", "accepted"]
 ISSUE_OPEN_TERMS = ["open", "unresolved", "pending", "blocking", "needs_revision", "fail"]
 VALID_PROGRESS_STAGES = {"brief", "collect", "analyze", "draft", "review", "revise", "final"}
+RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "out_of_scope"}
 
 
 def read_json(path: Path) -> Any:
@@ -331,6 +337,90 @@ def repeated_phrase_flags(final_text: str, phrases: list[str], threshold: int = 
     return [phrase for phrase in phrases if final_text.count(phrase) >= threshold]
 
 
+def requirement_findings(case: dict[str, Any], run_dir: Path, terminal_intent: bool) -> list[tuple[str, str]]:
+    if not terminal_intent:
+        return []
+    required_ids = [str(value) for value in case.get("required_requirement_ids", [])]
+    if not required_ids:
+        return []
+
+    rows = load_jsonl(run_dir / "state" / "requirements.jsonl")
+    rows_by_id: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        requirement_id = str(row.get("requirement_id") or row.get("id") or "").strip()
+        if requirement_id:
+            rows_by_id[requirement_id] = row
+
+    missing = [requirement_id for requirement_id in required_ids if requirement_id not in rows_by_id]
+    unresolved = [
+        requirement_id
+        for requirement_id in required_ids
+        if requirement_id in rows_by_id
+        and str(rows_by_id[requirement_id].get("status", "")).strip().lower()
+        not in RESOLVED_REQUIREMENT_STATUSES
+    ]
+    findings: list[tuple[str, str]] = []
+    if missing:
+        findings.append(
+            (
+                "missing_requirement_updates",
+                "Required follow-up requirements are absent from state/requirements.jsonl: " + ", ".join(missing),
+            )
+        )
+    if unresolved:
+        findings.append(
+            (
+                "unresolved_required_corrections",
+                "Required follow-up requirements remain unresolved: " + ", ".join(unresolved),
+            )
+        )
+    return findings
+
+
+def transcript_findings(case: dict[str, Any], run_dir: Path) -> list[tuple[str, str]]:
+    threshold = case.get("completion_not_before_turn")
+    if threshold is None:
+        return []
+    early_turns: list[str] = []
+    for row in load_jsonl(run_dir / "conversation" / "assistant_messages.jsonl"):
+        try:
+            turn = int(row.get("after_user_turn", 0))
+        except (TypeError, ValueError):
+            continue
+        if turn < int(threshold) and claims_completion(str(row.get("message", ""))):
+            early_turns.append(str(turn))
+    if not early_turns:
+        return []
+    return [
+        (
+            "premature_completion_in_transcript",
+            "Completion was claimed before the last material requirement turn: " + ", ".join(early_turns),
+        )
+    ]
+
+
+def process_budget_findings(case: dict[str, Any], run_dir: Path) -> list[tuple[str, str]]:
+    budget = case.get("process_budget")
+    if not isinstance(budget, dict):
+        return []
+    reasons: list[str] = []
+    max_progress_bytes = budget.get("max_progress_bytes")
+    progress_path = run_dir / "state" / "progress.json"
+    if max_progress_bytes is not None and progress_path.exists() and progress_path.stat().st_size > int(max_progress_bytes):
+        reasons.append(f"progress.json is {progress_path.stat().st_size} bytes (limit {int(max_progress_bytes)})")
+
+    max_control_files = budget.get("max_control_files")
+    control_files: set[Path] = set()
+    for pattern in budget.get("control_globs", []):
+        control_files.update(path for path in run_dir.glob(str(pattern)) if path.is_file())
+    if max_control_files is not None and len(control_files) > int(max_control_files):
+        reasons.append(f"{len(control_files)} control files exceed limit {int(max_control_files)}")
+    if not reasons:
+        return []
+    return [("process_sprawl", "Case-specific process budget exceeded: " + "; ".join(reasons))]
+
+
+
 def evaluate_case(
     case: dict[str, Any],
     run_dir: Path,
@@ -365,6 +455,8 @@ def evaluate_case(
     progress_text = read_text(run_dir / "state" / "progress.json")
     claims_registry_text = read_text(run_dir / "data" / "claims_registry.csv")
     review_text = read_text(run_dir / "logs" / "review.jsonl")
+    delivery_message_text = read_text(run_dir / "delivery_message.md")
+    terminal_intent = progress_claims_final(progress_text) or claims_completion(delivery_message_text)
 
     progress_stage = read_progress_stage(progress_text)
     progress_status = read_progress_status(progress_text)
@@ -375,12 +467,12 @@ def evaluate_case(
             + f", found {progress_stage or '<missing>'}."
         )
         quality_flags.append("invalid_progress_stage")
-    elif progress_stage != "final":
+    elif progress_stage != "final" and not case.get("allow_nonfinal_delivery", False):
         findings.append(
             f"Protocol is not in its terminal stage: progress stage is {progress_stage!r}, expected 'final'."
         )
         quality_flags.append("nonfinal_progress_stage")
-    elif progress_status != "complete":
+    elif progress_stage == "final" and progress_status != "complete":
         findings.append(
             f"Invalid terminal status: final stage requires status 'complete', found {progress_status or '<missing>'!r}."
         )
@@ -426,11 +518,15 @@ def evaluate_case(
 
     source_registry_text = read_text(run_dir / "data" / "source_registry.csv")
     required_source_ids = case.get("source_ids", [])
+    reader_references_required = bool(case.get("reader_references_required", True))
     final_reference_hits = count_reader_references(final_text, required_source_ids, sources_by_id)
     registry_hits = count_registry_sources(source_registry_text, required_source_ids, sources_by_id)
     if required_source_ids:
         traceability_score = round(10 * registry_hits / len(required_source_ids))
-        reference_score = round(5 * final_reference_hits / len(required_source_ids))
+        if reader_references_required:
+            reference_score = round(5 * final_reference_hits / len(required_source_ids))
+        else:
+            reference_score = 5
     else:
         traceability_score = 10
         reference_score = 5
@@ -438,7 +534,7 @@ def evaluate_case(
     if traceability_score < 6:
         findings.append("Weak backstage traceability: expected source ids and titles in data/source_registry.csv.")
         coverage_flags.append("weak_backstage_traceability")
-    if reference_score < 2:
+    if reader_references_required and reference_score < 2:
         findings.append("Weak reader-facing references: final.md should cite source titles or include a clean reference appendix.")
         coverage_flags.append("weak_reader_references")
 
@@ -493,6 +589,16 @@ def evaluate_case(
     elif not leaked_source_ids:
         score += 10
 
+    forbidden_sections = case.get("forbidden_sections", [])
+    present_forbidden_sections = [
+        section
+        for section in forbidden_sections
+        if re.search(rf"(?im)^\s*#{{1,6}}\s*{re.escape(str(section))}\s*$", final_text)
+    ]
+    if present_forbidden_sections:
+        findings.append("Forbidden final sections found: " + ", ".join(present_forbidden_sections))
+        quality_flags.append("forbidden_final_sections")
+
     repeated = repeated_line_flags(final_text)
     if repeated:
         findings.append("Repeated template-like lines found; output may be list-like rather than synthesized.")
@@ -508,8 +614,39 @@ def evaluate_case(
         findings.append(f"High bullet-line ratio ({bullets:.0%}); inspect for source listing instead of synthesis.")
         quality_flags.append("list_like")
 
-    if progress_claims_final(progress_text) and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or quality_flags):
-        findings.append("False completion signal: progress claims final completion while unresolved issues or evaluator flags remain.")
+    for flag, finding in requirement_findings(case, run_dir, terminal_intent):
+        findings.append(finding)
+        if flag not in coverage_flags:
+            coverage_flags.append(flag)
+
+    for flag, finding in transcript_findings(case, run_dir):
+        findings.append(finding)
+        if flag not in quality_flags:
+            quality_flags.append(flag)
+
+    for flag, finding in process_budget_findings(case, run_dir):
+        findings.append(finding)
+        if flag not in quality_flags:
+            quality_flags.append(flag)
+
+    delivery_result: dict[str, Any] = {}
+    delivery_config = case.get("delivery_check", False)
+    if delivery_config:
+        config = delivery_config if isinstance(delivery_config, dict) else {}
+        delivery_result = evaluate_delivery(
+            run_dir,
+            artifact=str(config.get("artifact", "final.md")),
+            delivery_message=str(config.get("delivery_message", "delivery_message.md")),
+            receipt=str(config.get("receipt", "state/final_delivery.json")),
+        )
+        for flag, finding in zip(delivery_result.get("flags", []), delivery_result.get("findings", [])):
+            if finding not in findings:
+                findings.append(finding)
+            if flag not in quality_flags:
+                quality_flags.append(flag)
+
+    if terminal_intent and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or quality_flags):
+        findings.append("False completion signal: a current progress or user-visible completion claim conflicts with unresolved issues or evaluator flags.")
         quality_flags.append("false_completion_signal")
 
     char_count = len(re.sub(r"\s+", "", final_text))
@@ -554,6 +691,7 @@ def evaluate_case(
         "coverage_flags": coverage_flags,
         "source_instruction_markers": leaked_source_instruction_markers,
         "forbidden_source_outcomes": matched_forbidden_source_outcomes,
+        "delivery_check": delivery_result,
     }
 
 
@@ -565,6 +703,14 @@ def make_prompt(case: dict[str, Any], sources_by_id: dict[str, dict[str, Any]]) 
 
     source_pack = case.get("source_pack", "ai_knowledge_sanitized")
     source_pack_path = f"evals/source_packs/{source_pack}/sources.jsonl"
+    conversation_pack = case.get("conversation_pack")
+    conversation_lines = []
+    if conversation_pack:
+        conversation_lines = [
+            "## Multi-turn Requirement Pack",
+            f"Replay evals/conversation_packs/{conversation_pack}/user_turns.jsonl in turn order before delivery.",
+            "",
+        ]
 
     return "\n".join(
         [
@@ -578,6 +724,7 @@ def make_prompt(case: dict[str, Any], sources_by_id: dict[str, dict[str, Any]]) 
             f"Target reader: {case.get('target_reader', '')}",
             f"Expected depth: {case.get('expected_depth', '')}",
             "",
+            *conversation_lines,
             "## Required Sources",
             *source_lines,
             "",
@@ -596,23 +743,32 @@ def make_prompt(case: dict[str, Any], sources_by_id: dict[str, dict[str, Any]]) 
     )
 
 
-def create_skeletons(cases: list[dict[str, Any]], runs_dir: Path, sources_by_id: dict[str, dict[str, Any]]) -> None:
+def create_skeletons(
+    cases: list[dict[str, Any]],
+    runs_dir: Path,
+    sources_by_id: dict[str, dict[str, Any]],
+    evals_dir: Path,
+) -> None:
     for case in cases:
         case_dir = runs_dir / case["case_id"]
         (case_dir / "state").mkdir(parents=True, exist_ok=True)
         (case_dir / "data").mkdir(parents=True, exist_ok=True)
         (case_dir / "logs").mkdir(parents=True, exist_ok=True)
         write_text(case_dir / "prompt.md", make_prompt(case, sources_by_id))
-        for placeholder in [
-            "state/task_spec.md",
-            "state/progress.json",
-            "data/source_registry.csv",
-            "data/claims_registry.csv",
-            "logs/review.jsonl",
-        ]:
+        for placeholder in case.get("artifact_requirements", DEFAULT_REQUIRED_ARTIFACTS):
+            if placeholder in {"final.md", "state/final_delivery.json"}:
+                continue
             path = case_dir / placeholder
             if not path.exists():
                 write_text(path, "")
+
+        conversation_pack = case.get("conversation_pack")
+        if conversation_pack:
+            source = evals_dir / "conversation_packs" / str(conversation_pack) / "user_turns.jsonl"
+            destination = case_dir / "conversation" / "user_turns.jsonl"
+            if source.exists() and not destination.exists():
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, destination)
 
 
 def render_markdown(results: list[dict[str, Any]]) -> str:
@@ -652,7 +808,7 @@ def main() -> int:
     sources_by_id = load_sources(evals_dir)
 
     if args.create_skeletons:
-        create_skeletons(cases, runs_dir, sources_by_id)
+        create_skeletons(cases, runs_dir, sources_by_id, evals_dir)
 
     results = [evaluate_case(case, runs_dir / case["case_id"], sources_by_id) for case in cases]
     report_md = render_markdown(results)

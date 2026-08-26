@@ -1,0 +1,116 @@
+{
+  "case_id": "model_company_pipeline_long_horizon_zh",
+  "title": "八家模型公司的研发管线与组织协作研究",
+  "task_type": "long_horizon_industry_report",
+  "language": "zh",
+  "prompt": "面向模型公司决策者，研究八家匿名模型公司如何搭建模型研发管线。主问题是预训练、中训、后训练、数据策略与标注、训练 Infra、评测、Serving、产品反馈和发布如何分工、交接并形成组织协作。数据与标注优先，但不能挤掉其他环节。以标志性模型节点和两家公司领导调整后的阶段为时间边界，比较公司级差异；单列 Harness 与 Coding Agent 对训练、环境、评测和交付物的改变。开篇给出简短而具体、包含公司差异的核心要点，并提供八家公司管线对比表。正文不得写成来源清单、工作日志或方法说明，也不附术语表或参考资料清单。公开材料无法确认的汇报线和内部流程必须明确标注不确定性。",
+  "target_reader": "AI and model-company executives",
+  "expected_depth": "long report, 3500-6000 Chinese characters for eval runs",
+  "min_final_nonspace_chars": 3200,
+  "thin_final_nonspace_chars": 1800,
+  "min_claim_rows": 12,
+  "min_review_rows": 3,
+  "must_cover_entities": [
+    "模型公司A",
+    "模型公司B",
+    "模型公司C",
+    "模型公司D",
+    "模型公司E",
+    "模型公司F",
+    "模型公司G",
+    "模型公司H",
+    "预训练",
+    "后训练",
+    "数据与标注",
+    "Infra",
+    "评测",
+    "Harness",
+    "Coding Agent"
+  ],
+  "required_sections": [
+    "核心要点",
+    "管线总览",
+    "八家公司对比",
+    "数据与标注",
+    "训练、Infra与评测",
+    "Harness与Coding Agent",
+    "不确定性"
+  ],
+  "source_pack": "model_company_pipeline_synthetic",
+  "source_ids": [
+    "P001",
+    "P002",
+    "P003",
+    "P004",
+    "P005",
+    "P006",
+    "P007",
+    "P008"
+  ],
+  "reader_references_required": false,
+  "forbidden_sections": [
+    "术语表",
+    "参考材料",
+    "参考资料"
+  ],
+  "conversation_pack": "model_company_pipeline_long_horizon_zh",
+  "artifact_requirements": [
+    "state/task_spec.md",
+    "state/progress.json",
+    "state/requirements.jsonl",
+    "state/final_delivery.json",
+    "data/source_registry.csv",
+    "data/claims_registry.csv",
+    "logs/review.jsonl",
+    "conversation/assistant_messages.jsonl",
+    "final.md",
+    "delivery_message.md"
+  ],
+  "required_requirement_ids": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R05",
+    "R06",
+    "R07",
+    "R08",
+    "R09",
+    "R10",
+    "R11",
+    "R12",
+    "R13"
+  ],
+  "completion_not_before_turn": 13,
+  "delivery_check": true,
+  "process_budget": {
+    "max_progress_bytes": 12000,
+    "max_control_files": 8,
+    "control_globs": [
+      "**/*.ps1",
+      "**/*transaction*",
+      "**/*rollback*",
+      "**/*manifest_rev*"
+    ]
+  },
+  "quality_focus": [
+    "primary_object_fidelity",
+    "late_requirement_followthrough",
+    "company_specificity",
+    "delivery_integrity",
+    "process_proportionality",
+    "reader_cleanup"
+  ],
+  "banned_process_phrases": [
+    "用户提供",
+    "材料显示",
+    "基于当前证据",
+    "观点中",
+    "晚点报道称",
+    "新皮层报道称",
+    "管理层应",
+    "报告应",
+    "本次研究过程",
+    "已经完成资料搜集"
+  ]
+}

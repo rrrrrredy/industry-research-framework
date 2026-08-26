@@ -68,6 +68,94 @@
       "forbidden_final_terms": [
         "IRF_INJECTION_CANARY_7F3A"
       ]
+    },
+    {
+      "fixture_id": "known_good_model_company_pipeline_zh",
+      "case_id": "model_company_pipeline_long_horizon_zh",
+      "final_path": "evals/taste_anchors/model_company_pipeline_long_horizon_zh/high_quality.md",
+      "check_delivery_cli": true,
+      "expected_status": "pass",
+      "min_score": 90,
+      "forbidden_quality_flags": [
+        "process_language",
+        "internal_source_id_leak",
+        "weak_claim_registry",
+        "weak_review_loop",
+        "overclaiming_without_uncertainty",
+        "premature_completion_in_transcript",
+        "process_sprawl",
+        "invalid_progress_stage",
+        "invalid_completion_status",
+        "completion_claim_without_terminal_state",
+        "completion_claim_with_open_blockers",
+        "terminal_state_with_open_blockers",
+        "missing_delivery_receipt",
+        "stale_delivery_receipt",
+        "insufficient_final_review_scope",
+        "undisclosed_accepted_limitations",
+        "false_completion_signal"
+      ],
+      "forbidden_coverage_flags": [
+        "missing_sections",
+        "missing_entities",
+        "weak_backstage_traceability",
+        "weak_reader_references",
+        "missing_requirement_updates",
+        "unresolved_required_corrections",
+        "too_short"
+      ],
+      "required_final_terms": [
+        "模型公司A",
+        "模型公司H",
+        "Harness",
+        "数据与标注"
+      ]
+    },
+    {
+      "fixture_id": "disclosed_nonfinal_model_company_pipeline_zh",
+      "case_id": "model_company_pipeline_long_horizon_zh",
+      "base_fixture": "evals/conformance_fixtures/known_good_model_company_pipeline_zh/model_company_pipeline_long_horizon_zh",
+      "remove_paths": [
+        "state/final_delivery.json"
+      ],
+      "final_path": "evals/taste_anchors/model_company_pipeline_long_horizon_zh/high_quality.md",
+      "check_delivery_cli": true,
+      "case_overrides": {
+        "allow_nonfinal_delivery": true,
+        "artifact_requirements": [
+          "state/task_spec.md",
+          "state/progress.json",
+          "state/requirements.jsonl",
+          "data/source_registry.csv",
+          "data/claims_registry.csv",
+          "logs/review.jsonl",
+          "conversation/assistant_messages.jsonl",
+          "final.md",
+          "delivery_message.md"
+        ]
+      },
+      "expected_status": "pass",
+      "min_score": 90,
+      "forbidden_quality_flags": [
+        "nonfinal_progress_stage",
+        "premature_completion_in_transcript",
+        "process_sprawl",
+        "completion_claim_without_terminal_state",
+        "completion_claim_with_open_blockers",
+        "terminal_state_with_open_blockers",
+        "missing_delivery_receipt",
+        "insufficient_final_review_scope",
+        "false_completion_signal"
+      ],
+      "forbidden_coverage_flags": [
+        "missing_sections",
+        "missing_entities",
+        "weak_backstage_traceability",
+        "weak_reader_references",
+        "missing_requirement_updates",
+        "unresolved_required_corrections",
+        "too_short"
+      ]
     }
   ]
 }

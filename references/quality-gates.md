@@ -94,4 +94,16 @@ Full review-revise cycles for a single section are capped at two unless the user
 - Major judgments are traceable backstage.
 - No visible audit labels, file paths, or source IDs remain in the body.
 - Remaining limitations are stated cleanly when they matter.
-- A completion note exists if the user needs one.
+- Every material follow-up requirement has a closed status and evidence.
+- `progress.json.stage` is `final` and `status` is `complete` only for a terminal delivery.
+- The last PASS review covers the full report or global final delivery, not a section or one review dimension.
+- The intended user-visible message matches current state and discloses accepted limitations that affect the result.
+- `state/final_delivery.json` names the actual final artifact and binds current artifact, brief, requirement, source, claim, and uncertainty files with SHA-256 hashes.
+
+When the repository scripts are available, run:
+
+```bash
+python scripts/check_delivery.py <task-directory>
+```
+
+If the work is still in progress, deliver it explicitly as a stage artifact, state the open work and next action, and do not create a final receipt or use terminal completion language.

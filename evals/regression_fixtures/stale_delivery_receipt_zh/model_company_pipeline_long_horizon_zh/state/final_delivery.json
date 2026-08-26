@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "scope": "global_final_delivery",
+  "artifact": "final.md",
+  "artifacts": {
+    "final.md": "0000000000000000000000000000000000000000000000000000000000000000",
+    "state/task_spec.md": "0fbcad4a27e67f5b267e8a0ad148f899ee8a55d4410bc1895a112cc8b19cc0d3",
+    "state/requirements.jsonl": "3124fab025f6c438b7b2d2513d0db3f196d8bc1e48954e50167c591c10fdd413",
+    "data/source_registry.csv": "f8d7182832e9f40f5cfea25ffcb5f9b62422c0f45b6d7c6a32bd7cf98e7c8523",
+    "data/claims_registry.csv": "d855f95c782c589a477e3b9e1a632aa0815081a14cd7ca10829924447288178b"
+  },
+  "open_issues": [],
+  "accepted_limitations": [
+    "合成评测证据不能确认真实公司的内部汇报线，也不能证明新组织跨多代稳定。"
+  ]
+}

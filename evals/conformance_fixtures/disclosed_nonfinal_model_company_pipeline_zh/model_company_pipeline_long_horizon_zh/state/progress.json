@@ -1,0 +1,18 @@
+{
+  "stage": "revise",
+  "status": "in_progress",
+  "completed_units": [
+    "evidence review",
+    "coverage review"
+  ],
+  "open_issues": [
+    {
+      "id": "I01",
+      "description": "Reader review and final delivery receipt remain pending.",
+      "status": "open"
+    }
+  ],
+  "explicitly_not_completed": ["reader review", "final delivery"],
+  "stale_count": 0,
+  "next_action": "run reader review"
+}

@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -22,8 +24,9 @@ def main() -> int:
     parser.add_argument("--fixtures-dir", default="evals/regression_fixtures")
     args = parser.parse_args()
 
-    evals_dir = Path(args.evals_dir).resolve()
-    fixtures_dir = Path(args.fixtures_dir).resolve()
+    repo_root = Path(__file__).resolve().parents[1]
+    evals_dir = (repo_root / args.evals_dir).resolve()
+    fixtures_dir = (repo_root / args.fixtures_dir).resolve()
     manifest_path = fixtures_dir / "manifest.json"
     manifest = read_json(manifest_path)
     cases_by_id = {case["case_id"]: case for case in load_cases(evals_dir / "cases")}
@@ -33,9 +36,30 @@ def main() -> int:
     for fixture in manifest["fixtures"]:
         fixture_id = fixture["fixture_id"]
         case_id = fixture["case_id"]
-        case = cases_by_id[case_id]
-        run_dir = fixtures_dir / fixture_id / case_id
-        result = evaluate_case(case, run_dir, sources_by_id)
+        case = dict(cases_by_id[case_id])
+        case.update(fixture.get("case_overrides", {}))
+        fixture_dir = fixtures_dir / fixture_id / case_id
+        with tempfile.TemporaryDirectory(prefix="irf-regression-") as temp_dir:
+            run_dir = Path(temp_dir) / case_id
+            base_fixture = fixture.get("base_fixture")
+            if base_fixture:
+                shutil.copytree((repo_root / base_fixture).resolve(), run_dir)
+                if fixture_dir.exists():
+                    shutil.copytree(fixture_dir, run_dir, dirs_exist_ok=True)
+            elif fixture_dir.exists():
+                shutil.copytree(fixture_dir, run_dir)
+            else:
+                run_dir.mkdir(parents=True)
+
+            final_path = fixture.get("final_path")
+            if final_path:
+                shutil.copy2((repo_root / final_path).resolve(), run_dir / "final.md")
+            append_final_text = fixture.get("append_final_text")
+            if append_final_text:
+                with (run_dir / "final.md").open("a", encoding="utf-8", newline="") as f:
+                    f.write(str(append_final_text))
+
+            result = evaluate_case(case, run_dir, sources_by_id)
 
         allowed_statuses = set(fixture.get("allowed_statuses", ["fail", "review"]))
         if result["status"] not in allowed_statuses:

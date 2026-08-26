@@ -7,6 +7,8 @@ import argparse
 import json
 import shutil
 import tempfile
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +18,27 @@ from run_evals import evaluate_case, load_cases, load_sources
 def read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def assemble_fixture(repo_root: Path, fixture: dict[str, Any], fixture_dir: Path, run_dir: Path) -> None:
+    base_fixture = fixture.get("base_fixture")
+    if base_fixture:
+        shutil.copytree((repo_root / base_fixture).resolve(), run_dir)
+        if fixture_dir.exists():
+            shutil.copytree(fixture_dir, run_dir, dirs_exist_ok=True)
+    elif fixture_dir.exists():
+        shutil.copytree(fixture_dir, run_dir)
+    else:
+        run_dir.mkdir(parents=True)
+
+    for relative in fixture.get("remove_paths", []):
+        target = (run_dir / str(relative)).resolve()
+        target.relative_to(run_dir.resolve())
+        if target.is_dir():
+            shutil.rmtree(target)
+        elif target.exists():
+            target.unlink()
+
 
 
 def main() -> int:
@@ -35,17 +58,28 @@ def main() -> int:
     for fixture in manifest["fixtures"]:
         fixture_id = fixture["fixture_id"]
         case_id = fixture["case_id"]
-        case = cases_by_id[case_id]
+        case = dict(cases_by_id[case_id])
+        case.update(fixture.get("case_overrides", {}))
         fixture_dir = fixtures_dir / fixture_id / case_id
         final_path = (repo_root / fixture["final_path"]).resolve()
         final_text = final_path.read_text(encoding="utf-8")
 
         mutation_results: list[tuple[dict[str, Any], dict[str, Any]]] = []
+        delivery_cli_result: subprocess.CompletedProcess[str] | None = None
         with tempfile.TemporaryDirectory(prefix="irf-conformance-") as temp_dir:
             run_dir = Path(temp_dir) / case_id
-            shutil.copytree(fixture_dir, run_dir)
+            assemble_fixture(repo_root, fixture, fixture_dir, run_dir)
             shutil.copy2(final_path, run_dir / "final.md")
             result = evaluate_case(case, run_dir, sources_by_id)
+            if fixture.get("check_delivery_cli"):
+                delivery_cli_result = subprocess.run(
+                    [sys.executable, str(repo_root / "scripts" / "check_delivery.py"), str(run_dir)],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                    errors="replace",
+                    check=False,
+                )
 
             progress_path = run_dir / "state" / "progress.json"
             original_progress = read_json(progress_path)
@@ -65,6 +99,14 @@ def main() -> int:
         min_score = int(fixture.get("min_score", 80))
         if result["score"] < min_score:
             failures.append(f"{fixture_id}: expected score >= {min_score}, got {result['score']}")
+
+        if fixture.get("check_delivery_cli") and (
+            delivery_cli_result is None
+            or delivery_cli_result.returncode != 0
+            or "PASS:" not in delivery_cli_result.stdout
+        ):
+            output = "" if delivery_cli_result is None else (delivery_cli_result.stdout + delivery_cli_result.stderr)
+            failures.append(f"{fixture_id}: standalone delivery CLI did not emit PASS: {output.strip()}")
 
         for flag in fixture.get("forbidden_quality_flags", []):
             if flag in result.get("quality_flags", []):

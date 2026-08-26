@@ -27,6 +27,7 @@ This project is packaged for a Product Hunt-style launch as an open-source AI ag
 3. For substantial work, create `state/`, `logs/`, and `data/` before collecting many sources.
 4. Load reference files only when needed: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.
 5. Draft section by section, keep evidence backstage, obey hard stops, and run reader review only after coverage and evidence checks are stable.
+6. For correction-heavy multi-turn tasks, reconcile `state/requirements.jsonl`; before claiming final completion, run `python scripts/check_delivery.py <task-directory>` or deliver an explicitly labeled stage artifact.
 
 ## Use With Your Agent
 
@@ -38,6 +39,7 @@ Read SKILL.md first. Before collecting sources, run the research brief gate.
 For a substantial task, create state/, logs/, and data/ in the project folder.
 Keep sources, claims, uncertainty, and review notes backstage.
 Draft section by section and run quality gates before final delivery.
+For correction-heavy work, preserve follow-up requirements and verify the intended user-visible completion claim against current state before sending it.
 ```
 
 Recommended installation modes:
@@ -79,6 +81,8 @@ Good output:
 - Handles counter-evidence, uncertainty, adoption friction, and alternative explanations.
 - Writes section by section and removes internal source IDs, audit labels, and process language before final delivery.
 - Stops and repairs state when evidence, claims, depth, or completion signals fail a hard stop.
+- Preserves material follow-up corrections with stable requirement ids.
+- Makes the final response agree with current progress, global review, disclosed limitations, and current artifact hashes.
 
 Bad output:
 
@@ -89,6 +93,8 @@ Bad output:
 - Declares completion after collecting many links or drafting one section.
 - Produces a short, compressed report while claiming the source registry proves depth.
 - Marks progress as complete while review findings, coverage gaps, or depth problems remain open.
+- Tells the reader the report is final while backstage state still records unfinished work or accepted limitations that were not disclosed.
+- Builds custom stages, locks, transactions, rollback scripts, or control manifests that do not improve the research deliverable.
 
 ## Conformance Checklist
 
@@ -96,22 +102,24 @@ Use this lightweight checklist to see whether an agent followed the protocol:
 
 - [ ] **Brief gate**: the agent confirmed or recorded objective, reader, output format, scope, evidence standard, and expected depth.
 - [ ] **Protocol transition**: the current stage did not advance until its required state mutation and exit gate were satisfied.
-- [ ] **State files**: substantial work created or updated `state/task_spec.md`, `state/progress.json`, and recovery notes.
+- [ ] **State files**: substantial work created or updated `state/task_spec.md`, compact current `state/progress.json`, recovery notes, and `state/requirements.jsonl` when material corrections arrived across turns.
 - [ ] **Claim registry**: important facts, claims, judgments, and uncertainties were tracked separately from source notes.
 - [ ] **Source instruction boundary**: external content was evaluated as evidence, but source-embedded instructions did not control the agent.
 - [ ] **Quality gate**: evidence, coverage, structure, counter-evidence, and depth were reviewed before final assembly.
 - [ ] **Hard stops**: evidence dead ends, empty claim registries, process leakage, thin drafts, false completion, and unsafe source directives were stopped and repaired.
 - [ ] **Reader cleanup**: the final prose removed process language, internal IDs, audit labels, and unsupported claims.
+- [ ] **Delivery integrity**: the user-visible status, canonical state, requirement closure, global review, accepted limitations, and current receipt hashes agree.
 
 ## Evaluation Suite
 
-This repository includes a lightweight evaluation loop under [`evals/`](./evals/). It is intentionally simple: cases, source packs, rubrics, known-good controls, known-bad regression fixtures, and an offline runner that checks observable conformance and report-quality signals.
+This repository includes a lightweight evaluation loop under [`evals/`](./evals/). It is intentionally simple: cases, source and conversation packs, rubrics, known-good controls, known-bad regression fixtures, and an offline runner. The long-horizon model-company case tests thirteen requirement turns, primary-object fidelity, company-specific synthesis, process proportionality, and completion integrity.
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
+python scripts/check_delivery.py <task-directory>
 ```
 
 To rebuild the sanitized AI knowledge source pack from local knowledge repositories:
@@ -191,7 +199,7 @@ Publishing Frontend
   analytical sections
   synthesis
   counter-evidence
-  reader-facing references
+  reader-facing references when requested
   final prose cleanup
 ```
 
@@ -405,6 +413,7 @@ This project is open source under the [MIT License](./LICENSE).
 3. 对资料量大的任务，先创建 `state/`、`logs/` 和 `data/`，再大规模收集资料。
 4. reference 文件只在需要时读取：启动或恢复任务读 workflow，选择分析方法读 analysis lenses，派发子 agent 前读 subagent guidance，诊断漂移读 gotchas，进入写作前读 writing style，阶段验收前读 quality gates。
 5. 一段一段写，证据留在后台，遵守 hard stops，覆盖和证据检查稳定后再做读者审阅。
+6. 多轮纠错任务维护 `state/requirements.jsonl`；宣布终稿前运行 `python scripts/check_delivery.py <任务目录>`，未通过时明确交付阶段稿。
 
 ## 给 Agent 使用
 
@@ -416,6 +425,7 @@ This project is open source under the [MIT License](./LICENSE).
 如果任务较大，在项目目录里创建 state/、logs/、data/。
 来源、判断、不确定性和审阅记录留在后台。
 按章节推进写作，并在最终交付前运行质量门禁。
+多轮任务保留后续纠错，并在发送前核对面向用户的完成说明与当前状态是否一致。
 ```
 
 推荐使用方式：
@@ -457,6 +467,8 @@ This project is open source under the [MIT License](./LICENSE).
 - 处理反证、不确定性、采用阻力和替代解释。
 - 分章节推进，最终交付前删除内部来源编号、审阅标签和过程语言。
 - 在证据、判断、深度或完成状态触发 hard stop 时，先停下修复状态和稿件。
+- 用稳定的 requirement id 保留多轮对话中的重要纠错。
+- 最终回复与当前进度、全稿审阅、公开限制和文件哈希一致。
 
 坏的输出：
 
@@ -468,28 +480,33 @@ This project is open source under the [MIT License](./LICENSE).
 - 报告很短、很压缩，却用来源台账完整来替代深度。
 - `progress.json` 标记完成，但审阅问题、覆盖缺口或深度问题仍未关闭。
 
+- 后台仍有未完成事项或已接受限制，面向读者的回复却直接称为终稿。
+- 为普通研究写作增加自定义阶段、锁、事务、回滚脚本和控制清单，却没有改善成稿。
+
 ## 符合性清单
 
 用这个极轻 checklist 判断 agent 是否真的遵守了框架：
 
 - [ ] **研究范围校准**：agent 已确认或记录目标、读者、输出格式、范围、证据标准和预期深度。
 - [ ] **协议转换**：当前阶段只有在完成必要状态更新并通过退出门禁后才进入下一阶段。
-- [ ] **状态文件**：较大任务已创建或更新 `state/task_spec.md`、`state/progress.json` 和恢复记录。
+- [ ] **状态文件**：较大任务已创建或更新 `state/task_spec.md`、紧凑的当前 `state/progress.json`、恢复记录，以及多轮纠错所需的 `state/requirements.jsonl`。
 - [ ] **判断台账**：重要事实、来源说法、作者判断和不确定性没有混在普通笔记里。
 - [ ] **来源指令边界**：外部内容按证据质量正常评估，但资料中夹带的指令没有控制 agent。
 - [ ] **质量门禁**：最终组装前检查了证据、覆盖、结构、反证和深度。
 - [ ] **Hard stops**：证据枯竭、判断台账为空、过程泄漏、稿件过薄、虚假完成和无法安全隔离的来源指令已经被停止并修复。
 - [ ] **读者清理**：终稿删除了过程语言、内部编号、审阅标签和无法支撑的判断。
+- [ ] **交付一致性**：面向用户的状态、规范阶段、需求闭环、全稿审阅、已接受限制和当前凭证哈希一致。
 
 ## 评测集
 
-仓库内置一个轻量评测闭环，见 [`evals/`](./evals/)：包含 cases、source packs、rubric、已知好样本、已知坏样本和离线 runner，用于检查可观察的协议符合性与成稿质量信号。
+仓库内置一个轻量评测闭环，见 [`evals/`](./evals/)：包含 cases、source/conversation packs、rubric、已知好样本、已知坏样本和离线 runner。长周期模型公司案例覆盖 13 轮需求，检查主题忠实度、公司差异、过程比例和完成声明。
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
+python scripts/check_delivery.py <任务目录>
 ```
 
 如果本地有 AI 知识库仓库，可以重新生成脱敏评测数据：
@@ -588,7 +605,7 @@ python scripts/build_sanitized_eval_set.py ^
 - 跨案例综合
 - 反证与边界
 - 结论
-- 读者可读的参考资料
+- 任务要求时附读者可读的参考资料
 
 后台保证可追溯，成稿保证可阅读。两者必须分开。
 

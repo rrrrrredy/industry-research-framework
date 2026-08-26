@@ -1,0 +1,30 @@
+{
+  "source_pack_id": "model_company_pipeline_synthetic",
+  "title": "Synthetic Model-Company Pipeline Evaluation Pack",
+  "generated_at": "2026-08-26T00:00:00Z",
+  "source_count": 8,
+  "source_ids": [
+    "P001",
+    "P002",
+    "P003",
+    "P004",
+    "P005",
+    "P006",
+    "P007",
+    "P008"
+  ],
+  "evidence_facets": [
+    "model-release and technical-node signals",
+    "organization and interface descriptions",
+    "synthetic hiring responsibilities",
+    "explicit uncertainty about reporting lines and durability"
+  ],
+  "sanitization": [
+    "All company names, people, products, dates, and operational details are fictional.",
+    "The pack preserves research structure and evidence-boundary difficulty, not factual claims from the originating task."
+  ],
+  "limitations": [
+    "This pack evaluates workflow and report quality only.",
+    "It must not be cited as evidence about any real company."
+  ]
+}

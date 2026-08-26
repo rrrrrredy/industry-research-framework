@@ -40,15 +40,28 @@ Eval signal: thin or empty `claims_registry.csv`, absolute language without unce
 
 ## False Completion
 
-Symptom: `progress.json` or the final response claims completion while coverage gaps, review findings, or depth problems remain.
+Symptom: the user-visible response claims completion while progress, late requirements, global review, accepted limitations, or current artifact hashes do not support it.
 
 Repair:
 
-1. Reopen the current stage and record the blocking issue.
-2. Route each review finding to a revision, downgraded claim, or explicit limitation.
-3. Mark final only after quality gates and reader cleanup pass.
+1. Reopen the canonical stage that owns the blocking issue.
+2. Reconcile every material follow-up requirement and route each review finding to a revision, downgraded claim, or accepted limitation.
+3. Inspect the intended delivery message alongside current state, then run `scripts/check_delivery.py` when available.
+4. Mark final only after a global review and current delivery receipt pass; disclose accepted limitations to the user.
 
-Eval signal: progress status claims final completion while the runner still reports coverage or quality flags.
+Eval signal: completion language appears before the last material requirement turn; progress is non-final or noncanonical; blockers remain; review scope is local; limitations are hidden; or receipt hashes are stale.
+
+## State Sprawl
+
+Symptom: `progress.json` becomes a long history, canonical stages are replaced by descriptive custom states, or locks, transactions, rollback scripts, and manifests multiply around a text deliverable.
+
+Repair:
+
+1. Restore one canonical current stage and one next action.
+2. Move chronology to existing append-only logs and keep only the requirement ledger needed to preserve user intent.
+3. Remove proposed control machinery from the plan unless it changes a concrete research decision or verification result.
+
+Eval signal: a case-specific state-size or control-file budget is exceeded while reader-facing work remains unchanged.
 
 ## Depth Collapse
 

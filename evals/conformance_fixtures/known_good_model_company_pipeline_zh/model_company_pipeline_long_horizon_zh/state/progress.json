@@ -1,0 +1,28 @@
+{
+  "stage": "final",
+  "status": "complete",
+  "completed_units": [
+    "brief",
+    "eight company evidence map",
+    "pipeline synthesis",
+    "data and annotation",
+    "training infra and evaluation",
+    "harness and coding agent",
+    "company comparison",
+    "evidence review",
+    "coverage review",
+    "reader review"
+  ],
+  "open_issues": [],
+  "explicitly_not_completed": [],
+  "accepted_limitations": [
+    {
+      "id": "L01",
+      "description": "合成评测证据不能确认真实公司的内部汇报线，也不能证明新组织跨多代稳定。",
+      "status": "accepted_limitation"
+    }
+  ],
+  "stale_count": 0,
+  "next_action": "deliver",
+  "updated_at": "2026-08-26T00:00:00Z"
+}

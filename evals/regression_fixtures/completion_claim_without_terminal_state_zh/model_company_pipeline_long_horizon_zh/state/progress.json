@@ -1,0 +1,14 @@
+{
+  "stage": "revise",
+  "status": "in_progress",
+  "completed_units": ["evidence review"],
+  "open_issues": [
+    {
+      "id": "I01",
+      "description": "Company-specific reader corrections remain open.",
+      "status": "open"
+    }
+  ],
+  "explicitly_not_completed": ["reader review", "final requirement audit"],
+  "next_action": "revise company comparisons"
+}

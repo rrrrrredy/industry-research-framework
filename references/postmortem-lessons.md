@@ -21,6 +21,10 @@ These lessons were distilled from a demanding longform industry research project
 - Large registries were useful backstage but unreadable as public appendices.
 - Declaring completion after a partial milestone caused false closure.
 - A forward test can pass state-file and registry checks while still producing a report that is too short. Backend completeness is not the same thing as publishable depth.
+- Detailed instructions did not prevent a chat response from overstating completion because the visible claim was outside the existing deterministic check.
+- Material corrections added across many turns were vulnerable to loss without stable requirement ids and terminal reconciliation.
+- A PASS for one section or review dimension was wrongly treated as evidence for the whole delivery.
+- Extra lifecycle machinery increased state volume without improving the reader-facing artifact or the truth of the completion claim.
 
 ## User Preference Pattern
 
@@ -44,3 +48,5 @@ Use a two-layer system:
 2. Publishing frontend: argument, structure, prose, references.
 
 The backend makes the article reliable. The frontend makes it worth reading.
+
+The delivery boundary connects both layers: current requirements, global review, accepted limitations, artifact hashes, and the user-visible status must agree. A stage artifact may be useful and honestly delivered without passing the terminal gate.

@@ -1,0 +1,9 @@
+source_id,title,source_type,status,limitation
+P001,模型公司A：专业化实验室与模型节点机制,synthetic_company_dossier,used,reporting lines incomplete
+P002,模型公司B：可靠性约束下的训练与部署闭环,synthetic_company_dossier,used,data organization unknown
+P003,模型公司C：中央平台连接多产品矩阵,synthetic_company_dossier,used,escalation path unknown
+P004,模型公司D：细粒度实验与客户场景返还,synthetic_company_dossier,used,throughput unspecified
+P005,模型公司E：小团队全链项目与快速回流,synthetic_company_dossier,used,scaling uncertain
+P006,模型公司F：训练 Infra 与算法协同扩展,synthetic_company_dossier,used,ownership partly visible
+P007,模型公司G：负责人到任后的中央化重组,synthetic_company_dossier,used,post-change structure provisional
+P008,模型公司H：负责人到任后的端到端节点组,synthetic_company_dossier,used,multi-generation durability unknown
