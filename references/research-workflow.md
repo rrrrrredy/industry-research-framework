@@ -70,7 +70,7 @@ Create `final_delivery.json` only for terminal delivery. It is a receipt for cur
 
 - `schema_version: 1`, `status: pass`, and `scope: global_final_delivery`
 - `artifact`: the primary reader-facing artifact, normally `final.md`
-- `artifacts`: SHA-256 hashes for the primary artifact, `task_spec.md`, source and claim registries, plus `requirements.jsonl` and the uncertainty registry when they exist
+- `artifacts`: SHA-256 hashes for the primary artifact, `task_spec.md`, source and claim registries, plus `requirements.jsonl` and the uncertainty registry when they exist; text inputs use LF-normalized bytes so receipts are portable across operating systems
 - `open_issues: []`
 - `accepted_limitations`: the limitations that must also appear in the delivery message when material
 

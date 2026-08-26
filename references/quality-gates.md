@@ -98,7 +98,7 @@ Full review-revise cycles for a single section are capped at two unless the user
 - `progress.json.stage` is `final` and `status` is `complete` only for a terminal delivery.
 - The last PASS review covers the full report or global final delivery, not a section or one review dimension.
 - The intended user-visible message matches current state and discloses accepted limitations that affect the result.
-- `state/final_delivery.json` names the actual final artifact and binds current artifact, brief, requirement, source, claim, and uncertainty files with SHA-256 hashes.
+- `state/final_delivery.json` names the actual final artifact and binds current artifact, brief, requirement, source, claim, and uncertainty files with SHA-256 hashes; text hashes are computed after CRLF/CR normalization to LF.
 
 When the repository scripts are available, run:
 

@@ -4,11 +4,11 @@
   "scope": "global_final_delivery",
   "artifact": "final.md",
   "artifacts": {
-    "final.md": "8d3427260e36d048618cba221303ed6ed3b78e4bfaef84c03b3798ecfde85660",
-    "state/task_spec.md": "e46cf71eb0a1cc3a558d090632eaf1f2a00f0bff583524b4d8efef8e7e9abb5b",
-    "state/requirements.jsonl": "e60960f762e69c2fb4900719d0ecdeea30151701af54353af2e66da110d028d3",
-    "data/source_registry.csv": "b5f1c7141bb658dff83440cc577c0248f87a485fd18a4aa4863d66bf388315df",
-    "data/claims_registry.csv": "3430db33453d680ca52c88455012069cef449f49d0a6cd43a26462ce6f834a29"
+    "final.md": "58752733e8cb75056f77ddbb86cc92ef98cb4a659a5a8d9ac8235a1088c9af9f",
+    "state/task_spec.md": "d5fcc5b5a085954a95d949e6b12edb9cb6bc910fad528429cc896362a83dffcc",
+    "state/requirements.jsonl": "ccbaabf02df435ae299a959e094715730689aad5848ac1c174881b85fdf7e6a7",
+    "data/source_registry.csv": "ba3242a260f7a7bd95314d51d198cedce62d5c3ef60339b5a2f425fa370c4ace",
+    "data/claims_registry.csv": "0756c86bcf45773b05aba0e82d3bb366dd4a6caf88333d1681cdc0c811c2b2d4"
   },
   "open_issues": [],
   "accepted_limitations": [

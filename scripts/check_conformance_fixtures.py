@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from check_delivery import sha256_file
 from run_evals import evaluate_case, load_cases, load_sources
 
 
@@ -55,6 +56,17 @@ def main() -> int:
     sources_by_id = load_sources(evals_dir)
 
     failures: list[str] = []
+    with tempfile.TemporaryDirectory(prefix="irf-hash-conformance-") as temp_dir:
+        temp_root = Path(temp_dir)
+        lf_path = temp_root / "lf.txt"
+        crlf_path = temp_root / "crlf.txt"
+        lf_path.write_bytes(b"alpha\nbeta\n")
+        crlf_path.write_bytes(b"alpha\r\nbeta\r\n")
+        if sha256_file(lf_path) != sha256_file(crlf_path):
+            failures.append(
+                "delivery hash portability: LF and CRLF text produced different canonical hashes"
+            )
+
     for fixture in manifest["fixtures"]:
         fixture_id = fixture["fixture_id"]
         case_id = fixture["case_id"]

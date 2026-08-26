@@ -58,6 +58,7 @@ OPTIONAL_HASH_INPUTS = [
     "state/requirements.jsonl",
     "data/uncertainty_registry.csv",
 ]
+CANONICAL_TEXT_HASH_SUFFIXES = {".csv", ".html", ".json", ".jsonl", ".md", ".py", ".txt", ".yaml", ".yml"}
 GLOBAL_REVIEW_SCOPES = {
     "global_final_delivery",
     "full_report",
@@ -198,10 +199,24 @@ def collect_accepted_limitations(data: Any) -> list[str]:
 
 
 def sha256_file(path: Path) -> str:
+    """Hash binary files byte-for-byte and text files with canonical LF newlines."""
+
     digest = hashlib.sha256()
+    canonical_text = path.suffix.lower() in CANONICAL_TEXT_HASH_SUFFIXES
+    pending_cr = b""
     with path.open("rb") as f:
         for chunk in iter(lambda: f.read(1024 * 1024), b""):
-            digest.update(chunk)
+            if not canonical_text:
+                digest.update(chunk)
+                continue
+            chunk = pending_cr + chunk
+            pending_cr = b""
+            if chunk.endswith(b"\r"):
+                pending_cr = b"\r"
+                chunk = chunk[:-1]
+            digest.update(chunk.replace(b"\r\n", b"\n").replace(b"\r", b"\n"))
+    if pending_cr:
+        digest.update(b"\n")
     return digest.hexdigest()
 
 

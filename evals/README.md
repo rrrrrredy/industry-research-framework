@@ -139,7 +139,7 @@ python scripts/check_conformance_fixtures.py
 - material follow-up requirement ids are present and resolved before terminal delivery
 - completion is not claimed before the last configured material requirement turn
 - the user-visible delivery message agrees with canonical progress state and open blockers
-- a terminal receipt covers the global delivery and matches current SHA-256 hashes
+- a terminal receipt covers the global delivery and matches current cross-platform SHA-256 hashes (text newlines are normalized to LF)
 - accepted limitations are disclosed in the delivery message
 - case-specific progress-size and control-file budgets detect process sprawl without imposing a global file-count rule
 - uncertainty, risk, limitation, or counter-evidence is present
