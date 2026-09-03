@@ -49,8 +49,9 @@
     {
       "name": "reader_quality",
       "weight": 10,
-      "excellent": "The final prose reads like an authored research article or report.",
-      "poor": "The final prose reads like a process transcript with source IDs, audit labels, or agent workflow language."
+      "anchor": "evals/taste_anchors/figurative_load_zh/baseline_vs_anchor.md",
+      "excellent": "The final prose reads like an authored research article or report. Figurative language is purposeful: mappings are clear, and concrete actors, mechanisms, and evidence boundaries remain recoverable.",
+      "poor": "The final prose reads like a process transcript with source IDs, audit labels, or agent workflow language, or it stacks decorative metaphors that obscure facts, mechanisms, or uncertainty."
     },
     {
       "name": "taste_anchor_alignment",

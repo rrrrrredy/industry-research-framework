@@ -78,8 +78,11 @@ Assess:
 - continuity
 - friction points
 - research-report quality
+- figurative load: whether imagery replaces concrete actors, actions, mechanisms, or evidence boundaries; whether unrelated metaphor domains stack in one sentence or paragraph; and whether removing them would improve precision without losing insight
 
 Reader review may revise ordering, transitions, paragraph density, titles, and wording. It must not invent facts or silently change evidence boundaries.
+
+Do not target zero metaphor use. Keep a metaphor or analogy when its mapping is explicit and it improves comprehension; rewrite decorative or obscuring imagery. Treat figurative load as an editorial signal, not a mechanical count or a standalone quality conclusion.
 
 If reader review finds serious issues, revise and repeat. Cap reader-review cycles at three unless the user asks for more.
 

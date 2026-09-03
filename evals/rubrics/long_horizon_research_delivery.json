@@ -45,8 +45,9 @@
     {
       "name": "reader_quality",
       "weight": 10,
-      "excellent": "Insights are specific, comparisons are legible, the prose reads as a finished research report, and explicitly rejected appendices stay absent.",
-      "poor": "The report exposes process narration, generic slogans, repetitive contrasts, unexplained tables, or a glossary/reference appendix the reader rejected."
+      "anchor": "evals/taste_anchors/figurative_load_zh/baseline_vs_anchor.md",
+      "excellent": "Insights are specific, comparisons are legible, the prose reads as a finished research report, figurative language clarifies rather than replaces concrete mechanisms or evidence boundaries, and explicitly rejected appendices stay absent.",
+      "poor": "The report exposes process narration, generic slogans, repetitive contrasts, stacked decorative metaphors, unexplained tables, or a glossary/reference appendix the reader rejected."
     }
   ],
   "pass_guidance": "A pass requires no unresolved delivery-integrity failure and a strong score on primary-object fidelity."

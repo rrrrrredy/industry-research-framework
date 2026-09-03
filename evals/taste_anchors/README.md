@@ -8,6 +8,9 @@ Taste anchors are human-readable examples used to calibrate the evaluation loop.
 - [`ai_agent_market_landscape_zh/baseline_vs_anchor.md`](./ai_agent_market_landscape_zh/baseline_vs_anchor.md): comparison between a template-compliant baseline and the taste anchor.
 - [`model_company_pipeline_long_horizon_zh/high_quality.md`](./model_company_pipeline_long_horizon_zh/high_quality.md): an anonymized eight-company pipeline report that preserves late requirements, company-specific mechanisms, and delivery limitations.
 - [`model_company_pipeline_long_horizon_zh/baseline_vs_anchor.md`](./model_company_pipeline_long_horizon_zh/baseline_vs_anchor.md): comparison focused on primary-object drift, lost corrections, process sprawl, and false completion.
+- [`figurative_load_zh/baseline.md`](./figurative_load_zh/baseline.md): a synthetic Chinese paragraph that preserves the factual payload but stacks unrelated metaphors.
+- [`figurative_load_zh/high_quality.md`](./figurative_load_zh/high_quality.md): the same facts and conclusion with one explicit, useful analogy and a recoverable literal interpretation.
+- [`figurative_load_zh/baseline_vs_anchor.md`](./figurative_load_zh/baseline_vs_anchor.md): a focused reader-review comparison for figurative load; it is an editorial anchor, not a metaphor-rate threshold.
 
 ## How To Use
 
