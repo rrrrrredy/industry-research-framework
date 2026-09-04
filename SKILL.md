@@ -70,6 +70,8 @@ These constraints are stage-transition requirements, not optional advice. `progr
 
 "Atomically" means one coherent final state update. It does not require database transactions, file locks, rollback machinery, or a custom lifecycle.
 
+Terminal state is bidirectional: `stage: final` requires `status: complete`, and `status: complete` requires `stage: final`. For terminal delivery, the latest full-report or global-final review supersedes earlier reviews and must be a parseable PASS with no open issues. A later failure, malformed review record, or unresolved blocker invalidates completion. The delivery receipt must bind the actual final artifact, current progress, global review log, intended delivery message, and required backstage inputs by hash.
+
 Creating an artifact is not enough to satisfy a transition. The recorded content must meet the exit gate. If a gate fails, keep or return the task to the stage that owns that gate and repair state before continuing.
 
 For each bounded unit, repeat `draft -> review -> revise -> review` until its gates pass. `final` is a terminal label, not a work-in-progress stage: never set `stage` to `final` or `status` to `complete` before every required unit and final quality gate has passed.
@@ -263,7 +265,7 @@ Before declaring completion:
 
 10. Every material follow-up requirement is satisfied, waived, out of scope, or accepted as a limitation.
 11. The intended user-visible delivery message agrees with the current stage, status, open issues, and accepted limitations.
-12. A full-report review covers the actual final artifact; a section, local, or reader-only PASS has not been promoted to global completion.
+12. The latest full-report or global-final review covers the actual final artifact, is parseable, passes with no open issues, and supersedes any earlier result; a section, local, or reader-only PASS has not been promoted to global completion.
 
 When this repository's scripts are available for a correction-heavy task, mirror the intended delivery note into `delivery_message.md`, create `state/final_delivery.json` from current artifact hashes, and run:
 
@@ -273,7 +275,7 @@ python scripts/check_delivery.py <task-directory>
 
 Limits:
 
-1. The framework reduces citation and evidence errors; it does not eliminate them.
+1. The framework is designed to reduce citation and evidence errors, but current conformance checks do not establish an effect size or guarantee that it reduces them in real tasks.
 2. Subagent review is a check, not external truth.
 3. Optional lenses can overfit the report if used mechanically.
 4. State files help recovery, but they only work if updated during the task, not reconstructed after the fact.

@@ -2,20 +2,17 @@
   "source_pack_id": "ai_knowledge_sanitized",
   "title": "Sanitized AI Knowledge Evaluation Source Pack",
   "generated_at": "2026-06-26T08:02:20.115327+00:00",
-  "source_count": 12,
+  "source_count": 9,
   "source_ids": [
     "S001",
     "S002",
     "S003",
     "S004",
     "S005",
-    "S006",
     "S007",
     "S008",
     "S009",
-    "S010",
-    "S011",
-    "S012"
+    "S011"
   ],
   "sanitization": [
     "Removed internal URLs.",
@@ -27,5 +24,12 @@
     "This pack is for workflow evaluation.",
     "It is not a complete public benchmark.",
     "Keep private source packs out of public releases unless rights and sensitivity are cleared."
-  ]
+  ],
+  "quarantined_source_count": 3,
+  "quarantined_source_ids": [
+    "S006",
+    "S010",
+    "S012"
+  ],
+  "quarantine_policy": "Sources with self-contradictory content availability and factual key_points are retained for audit but excluded from cases and factual evaluation."
 }

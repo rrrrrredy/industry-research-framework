@@ -6,7 +6,7 @@
       "final_path": "evals/taste_anchors/ai_agent_market_landscape_zh/high_quality.md",
       "expected_status": "pass",
       "min_score": 80,
-      "forbidden_quality_flags": [
+      "forbidden_conformance_flags": [
         "process_language",
         "internal_source_id_leak",
         "weak_claim_registry",
@@ -32,7 +32,7 @@
             "review",
             "fail"
           ],
-          "expected_quality_flags": [
+          "expected_conformance_flags": [
             "nonfinal_progress_stage"
           ]
         }
@@ -44,7 +44,7 @@
       "final_path": "evals/taste_anchors/source_instruction_boundary_zh/high_quality.md",
       "expected_status": "pass",
       "min_score": 80,
-      "forbidden_quality_flags": [
+      "forbidden_conformance_flags": [
         "process_language",
         "internal_source_id_leak",
         "source_instruction_leak",
@@ -76,7 +76,7 @@
       "check_delivery_cli": true,
       "expected_status": "pass",
       "min_score": 90,
-      "forbidden_quality_flags": [
+      "forbidden_conformance_flags": [
         "process_language",
         "internal_source_id_leak",
         "weak_claim_registry",
@@ -136,7 +136,7 @@
       },
       "expected_status": "pass",
       "min_score": 90,
-      "forbidden_quality_flags": [
+      "forbidden_conformance_flags": [
         "nonfinal_progress_stage",
         "premature_completion_in_transcript",
         "process_sprawl",

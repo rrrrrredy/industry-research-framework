@@ -64,7 +64,7 @@ The live lane uses the model and credentials already configured for DSH, stages 
 python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh
 ```
 
-Both runtime lanes accept `--dsh-command-json` or `DSH_EVAL_COMMAND_JSON` when `dsh` is not on `PATH` or a pinned invocation is required. The default npm fallback is `@deepseek-ai/dsh@0.1.2-rc.1`; that release declares Node.js `^22.19.0` or `>=24.0.0`.
+Both runtime lanes accept `--dsh-command-json` or `DSH_EVAL_COMMAND_JSON` when `dsh` is not on `PATH` or a pinned invocation is required. The default npm fallback is `@deepseek-ai/dsh@0.1.2-rc.1`. The upstream development repository currently requires Node.js `^22.19.0` or `>=24.0.0`, while the published npm package omits an `engines` field; verify both the selected release and local Node.js version when upgrading.
 
 Reports and captured stdout/stderr are written under `evals/runs/dsh/`, which is ignored by Git.
 

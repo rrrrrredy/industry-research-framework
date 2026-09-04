@@ -6,9 +6,12 @@
   "artifacts": {
     "final.md": "58752733e8cb75056f77ddbb86cc92ef98cb4a659a5a8d9ac8235a1088c9af9f",
     "state/task_spec.md": "d5fcc5b5a085954a95d949e6b12edb9cb6bc910fad528429cc896362a83dffcc",
+    "state/progress.json": "19b1b4889fc335f4756f802069e923acee747bfac3b0bb5c31a5fd97ad4693a8",
     "state/requirements.jsonl": "ccbaabf02df435ae299a959e094715730689aad5848ac1c174881b85fdf7e6a7",
     "data/source_registry.csv": "ba3242a260f7a7bd95314d51d198cedce62d5c3ef60339b5a2f425fa370c4ace",
-    "data/claims_registry.csv": "0756c86bcf45773b05aba0e82d3bb366dd4a6caf88333d1681cdc0c811c2b2d4"
+    "data/claims_registry.csv": "0756c86bcf45773b05aba0e82d3bb366dd4a6caf88333d1681cdc0c811c2b2d4",
+    "logs/review.jsonl": "a49fe1ae0592970548603763d98c9e7f5e49dd11a3ce5a8835d59a6780addaa4",
+    "delivery_message.md": "5b3e9c551051d6f9ab7bb2d6f8730131cf7a600140307292a66f74c176ec710e"
   },
   "open_issues": [],
   "accepted_limitations": [

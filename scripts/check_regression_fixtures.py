@@ -51,9 +51,39 @@ def main() -> int:
             else:
                 run_dir.mkdir(parents=True)
 
+            for relative in fixture.get("remove_paths", []):
+                target = (run_dir / str(relative)).resolve()
+                target.relative_to(run_dir.resolve())
+                if target.is_dir():
+                    shutil.rmtree(target)
+                elif target.exists():
+                    target.unlink()
+
+            for relative, content in fixture.get("write_files", {}).items():
+                target = (run_dir / str(relative)).resolve()
+                target.relative_to(run_dir.resolve())
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(str(content), encoding="utf-8")
+
+            for relative, content in fixture.get("append_files", {}).items():
+                target = (run_dir / str(relative)).resolve()
+                target.relative_to(run_dir.resolve())
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with target.open("a", encoding="utf-8", newline="") as f:
+                    f.write(str(content))
+
             final_path = fixture.get("final_path")
             if final_path:
                 shutil.copy2((repo_root / final_path).resolve(), run_dir / "final.md")
+            generated_final = fixture.get("generated_final")
+            if generated_final:
+                prefix = str(generated_final.get("prefix", ""))
+                sentence = str(generated_final.get("repeat_sentence", ""))
+                repeat_count = int(generated_final.get("repeat_count", 0))
+                (run_dir / "final.md").write_text(
+                    prefix + sentence * repeat_count,
+                    encoding="utf-8",
+                )
             append_final_text = fixture.get("append_final_text")
             if append_final_text:
                 with (run_dir / "final.md").open("a", encoding="utf-8", newline="") as f:
@@ -62,14 +92,14 @@ def main() -> int:
             result = evaluate_case(case, run_dir, sources_by_id)
 
         allowed_statuses = set(fixture.get("allowed_statuses", ["fail", "review"]))
-        if result["status"] not in allowed_statuses:
+        if result["conformance_status"] not in allowed_statuses:
             failures.append(
-                f"{fixture_id}: expected status in {sorted(allowed_statuses)}, got {result['status']}"
+                f"{fixture_id}: expected status in {sorted(allowed_statuses)}, got {result['conformance_status']}"
             )
 
-        for flag in fixture.get("expected_quality_flags", []):
-            if flag not in result.get("quality_flags", []):
-                failures.append(f"{fixture_id}: missing quality flag {flag}")
+        for flag in fixture.get("expected_conformance_flags", []):
+            if flag not in result.get("conformance_flags", []):
+                failures.append(f"{fixture_id}: missing conformance flag {flag}")
 
         for flag in fixture.get("expected_coverage_flags", []):
             if flag not in result.get("coverage_flags", []):
@@ -81,9 +111,9 @@ def main() -> int:
                 failures.append(f"{fixture_id}: finding did not contain {needle!r}")
 
         print(
-            f"{fixture_id}: {result['status']} "
-            f"{result['score']}/{result['max_score']} "
-            f"quality={result.get('quality_flags', [])} "
+            f"{fixture_id}: {result['conformance_status']} "
+            f"{result['conformance_score']}/{result['max_conformance_score']} "
+            f"conformance={result.get('conformance_flags', [])} "
             f"coverage={result.get('coverage_flags', [])}"
         )
 

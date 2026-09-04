@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1270" height="760" viewBox="0 0 1270 760" role="img" aria-labelledby="title desc">
   <title id="title">Use Industry Research Framework with your agent</title>
-  <desc id="desc">A Product Hunt gallery image showing how to hand the repository to Codex, Claude, Gemini, Cursor, ChatGPT, OpenClaw, or Hermes.</desc>
+  <desc id="desc">A Product Hunt gallery image showing how to hand the repository to Codex, Claude, Gemini, Cursor, ChatGPT, DeepSeek Harness, OpenClaw, or Hermes.</desc>
   <rect width="1270" height="760" fill="#f3efe6"/>
   <rect x="58" y="52" width="1154" height="656" fill="#fffaf0" stroke="#b8a995" stroke-width="4"/>
   <text x="94" y="122" fill="#151412" font-family="Georgia, serif" font-size="56" font-weight="700">Use it with your agent</text>
@@ -35,5 +35,5 @@
   </g>
 
   <text x="94" y="646" fill="#151412" font-family="Georgia, serif" font-size="33" font-weight="700">The main agent owns final judgment. Subagents inspect evidence.</text>
-  <text x="94" y="684" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Codex / Claude / Gemini CLI / Cursor / ChatGPT / OpenClaw / Hermes</text>
+  <text x="94" y="684" fill="#746d63" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="700">Codex / Claude / Gemini CLI / Cursor / ChatGPT / DSH / OpenClaw / Hermes</text>
 </svg>

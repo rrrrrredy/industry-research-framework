@@ -693,6 +693,7 @@
       <header class="topbar">
         <nav>
           <a href="https://github.com/rrrrrredy/industry-research-framework">Repository</a>
+          <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/README.zh-CN.md">中文 README</a>
           <a href="#fullmd">Full SKILL.md</a>
           <a href="#demo">Before/After</a>
           <a href="#copy-run">Copy Prompts</a>
@@ -700,15 +701,15 @@
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
         </nav>
-        <div>Open Framework Spec / July 2026</div>
+        <div>Open Framework Spec / Living document</div>
       </header>
 
       <section class="hero">
         <div class="hero-inner">
           <div>
-            <div class="crumb">Open-Source AI Agent Protocol</div>
+            <div class="crumb">Agent-Agnostic ResearchOps Protocol</div>
             <h1>Industry Research Framework</h1>
-            <p class="lede">An open-source protocol that helps AI agents avoid turning industry research into shallow summaries. It adds stage gates, evidence registries, hard stops, and offline conformance checks so longform reports stay source-backed and publishable.</p>
+            <p class="lede">An open-source ResearchOps protocol for AI agents doing longform industry research. It defines stage gates, evidence registries, delivery integrity, and offline conformance checks while keeping semantic research quality as a separate human judgment.</p>
             <div class="hero-actions">
               <a class="button" href="#fullmd">Start with SKILL.md</a>
               <a class="button secondary" href="#demo">See before/after</a>
@@ -866,6 +867,8 @@
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
 python scripts/run_dsh_evals.py validate
 python scripts/run_dsh_evals.py smoke
+python scripts/check_eval_source_integrity.py
+python scripts/check_cross_agent_protocol.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py</code></pre>
@@ -891,7 +894,7 @@ python scripts/check_docs_sync.py</code></pre>
               </article>
               <article class="asset-card">
                 <strong>Short description</strong>
-                <p>An open-source protocol that helps AI agents produce source-backed longform industry research without shallow summaries, process leakage, evidence drift, or false completion.</p>
+                <p>An open-source protocol designed to help AI agents produce source-backed longform industry research while reducing the risk of shallow summaries, process leakage, evidence drift, and false completion.</p>
               </article>
               <article class="asset-card">
                 <strong>Launch links</strong>
@@ -942,12 +945,12 @@ python scripts/check_docs_sync.py</code></pre>
               <article class="card">
                 <div class="card-number">What ships</div>
                 <h3>Cases, source packs, rubric</h3>
-                <p>The <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">evals directory</a> contains task cases, rubrics, known-good controls, known-bad regressions, a sanitized source pack, and a synthetic source-instruction boundary case.</p>
+                <p>The <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">evals directory</a> contains task cases, rubrics, known-good controls, 22 known-bad regressions, quarantined source records, and synthetic evidence packs.</p>
               </article>
               <article class="card dark">
                 <div class="card-number">Runner</div>
                 <h3>Run offline checks</h3>
-                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to score state files, claim discipline, review logs, depth, process leakage, source-instruction leakage, and false completion signals.</p>
+                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to report mechanical conformance for state files, claim discipline, review logs, depth signals, process leakage, source-instruction leakage, and false completion. Its heuristic score is not a research-quality grade.</p>
               </article>
               <article class="card">
                 <div class="card-number">DSH adapter</div>
@@ -962,6 +965,7 @@ python scripts/check_docs_sync.py</code></pre>
             </div>
             <div class="wide">
               <p>Source-boundary fixtures cover configured final-text markers, specified malicious conclusions, and preservation of selected usable facts. They do not prove general prompt-injection resistance or cover every tool or state side effect.</p>
+              <p>A frozen baseline/framework protocol for four planned agents is available under <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals/cross_agent">evals/cross_agent</a>. It currently has no model runs or comparative result; its publication gate requires at least three complete agent pairs and blinded review.</p>
             </div>
           </section>
 
@@ -1252,7 +1256,7 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">12</div>
               <div>
                 <h2>Validation And Limits</h2>
-                <p class="section-kicker">The framework improves reliability, but it does not make an agent immune to bad sources, weak reasoning, or unsupported claims.</p>
+                <p class="section-kicker">The framework is designed to improve reliability, but deterministic conformance checks do not prove real-task effect and no protocol makes an agent immune to bad sources, weak reasoning, or unsupported claims.</p>
               </div>
             </div>
             <div class="cards">
@@ -1372,6 +1376,8 @@ These constraints are stage-transition requirements, not optional advice. `progr
 | `final` | all bounded units are revised and all quality gates already pass | produce reader-facing prose and atomically set `stage` to `final` and `status` to `complete` | the delivered artifact matches the recorded scope and contains no unresolved blocking issue or backstage leakage |
 
 "Atomically" means one coherent final state update. It does not require database transactions, file locks, rollback machinery, or a custom lifecycle.
+
+Terminal state is bidirectional: `stage: final` requires `status: complete`, and `status: complete` requires `stage: final`. For terminal delivery, the latest full-report or global-final review supersedes earlier reviews and must be a parseable PASS with no open issues. A later failure, malformed review record, or unresolved blocker invalidates completion. The delivery receipt must bind the actual final artifact, current progress, global review log, intended delivery message, and required backstage inputs by hash.
 
 Creating an artifact is not enough to satisfy a transition. The recorded content must meet the exit gate. If a gate fails, keep or return the task to the stage that owns that gate and repair state before continuing.
 
@@ -1566,7 +1572,7 @@ Before declaring completion:
 
 10. Every material follow-up requirement is satisfied, waived, out of scope, or accepted as a limitation.
 11. The intended user-visible delivery message agrees with the current stage, status, open issues, and accepted limitations.
-12. A full-report review covers the actual final artifact; a section, local, or reader-only PASS has not been promoted to global completion.
+12. The latest full-report or global-final review covers the actual final artifact, is parseable, passes with no open issues, and supersedes any earlier result; a section, local, or reader-only PASS has not been promoted to global completion.
 
 When this repository's scripts are available for a correction-heavy task, mirror the intended delivery note into `delivery_message.md`, create `state/final_delivery.json` from current artifact hashes, and run:
 
@@ -1576,7 +1582,7 @@ python scripts/check_delivery.py &lt;task-directory&gt;
 
 Limits:
 
-1. The framework reduces citation and evidence errors; it does not eliminate them.
+1. The framework is designed to reduce citation and evidence errors, but current conformance checks do not establish an effect size or guarantee that it reduces them in real tasks.
 2. Subagent review is a check, not external truth.
 3. Optional lenses can overfit the report if used mechanically.
 4. State files help recovery, but they only work if updated during the task, not reconstructed after the fact.
@@ -1635,7 +1641,7 @@ Stop the current path and repair state before continuing when any of these occur
           </section>
 
           <footer>
-            Industry Research Framework / Open Spec / July 2026
+            Industry Research Framework / Open Spec / Versioned in Git
           </footer>
         </div>
       </div>

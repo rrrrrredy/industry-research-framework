@@ -1,0 +1,61 @@
+{
+  "protocol_version": 1,
+  "status": "prepared_no_runs",
+  "claim_boundary": "No model runs or comparative results have been published. This is a one-task portability showcase, not a general efficacy estimate.",
+  "task_id": "fictional_model_company_pipeline_v1",
+  "conditions": [
+    "baseline",
+    "framework"
+  ],
+  "minimum_agents_for_publication": 3,
+  "agents": [
+    {
+      "agent_id": "codex-cli",
+      "runtime": "Codex CLI"
+    },
+    {
+      "agent_id": "claude-code",
+      "runtime": "Claude Code"
+    },
+    {
+      "agent_id": "gemini-cli",
+      "runtime": "Gemini CLI"
+    },
+    {
+      "agent_id": "deepseek-harness",
+      "runtime": "DeepSeek Harness"
+    }
+  ],
+  "frozen_inputs": [
+    "evals/cross_agent/frozen_task.md",
+    "evals/cross_agent/baseline_prompt.md",
+    "evals/cross_agent/framework_prompt.md",
+    "evals/cross_agent/review_rubric.md",
+    "evals/source_packs/model_company_pipeline_synthetic/manifest.json",
+    "evals/source_packs/model_company_pipeline_synthetic/sources.jsonl",
+    "SKILL.md",
+    "references/gotchas.md",
+    "references/horizontal-vertical-analysis.md",
+    "references/optional-analysis-lenses.md",
+    "references/postmortem-lessons.md",
+    "references/quality-gates.md",
+    "references/research-workflow.md",
+    "references/subagents-and-review-loop.md",
+    "references/writing-style.md"
+  ],
+  "run_directory": "evals/cross_agent/runs/<agent_id>/<condition>",
+  "required_run_files": [
+    "run.json",
+    "prompt.md",
+    "stdout.txt",
+    "stderr.txt",
+    "workspace"
+  ],
+  "required_review_files": [
+    "evals/cross_agent/reviews/blind_reviews.jsonl",
+    "evals/cross_agent/reviews/blinding-map.json",
+    "evals/cross_agent/reviews/adjudication.md",
+    "evals/cross_agent/summary.md"
+  ],
+  "reviewers_per_run": 2
+}

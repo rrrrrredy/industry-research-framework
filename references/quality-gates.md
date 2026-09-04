@@ -98,10 +98,10 @@ Full review-revise cycles for a single section are capped at two unless the user
 - No visible audit labels, file paths, or source IDs remain in the body.
 - Remaining limitations are stated cleanly when they matter.
 - Every material follow-up requirement has a closed status and evidence.
-- `progress.json.stage` is `final` and `status` is `complete` only for a terminal delivery.
-- The last PASS review covers the full report or global final delivery, not a section or one review dimension.
+- `progress.json.stage` is `final` if and only if `status` is `complete`; neither terminal value may appear alone.
+- The latest parseable review for the full report or global final delivery is PASS with no open issues. A later failure supersedes an earlier PASS, and malformed review rows fail closed.
 - The intended user-visible message matches current state and discloses accepted limitations that affect the result.
-- `state/final_delivery.json` names the actual final artifact and binds current artifact, brief, requirement, source, claim, and uncertainty files with SHA-256 hashes; text hashes are computed after CRLF/CR normalization to LF.
+- `state/final_delivery.json` names the actual final artifact and binds the current artifact, brief, progress, source, claim, review log, intended delivery message, and any present requirement and uncertainty files with SHA-256 hashes; text hashes are computed after CRLF/CR normalization to LF.
 
 When the repository scripts are available, run:
 

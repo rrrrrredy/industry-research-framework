@@ -10,19 +10,19 @@
     "reasoning_model_competition_zh": [
       "S003",
       "S007",
-      "S012"
+      "S009"
     ],
     "ai_video_generation_investment_memo_zh": [
       "S004",
       "S005",
-      "S010",
+      "S009",
       "S008"
     ],
     "model_price_war_competitive_analysis_zh": [
-      "S006",
+      "S007",
+      "S008",
       "S009",
-      "S011",
-      "S010"
+      "S011"
     ],
     "monthly_observation_synthesis_zh": [
       "S007",

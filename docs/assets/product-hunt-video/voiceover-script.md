@@ -24,7 +24,7 @@ It also ships an offline eval layer: task cases, source packs, rubrics, and regr
 
 ## 0:57-1:10 Use Flow
 
-You do not need a hosted app. Give the repo to Codex, Claude, Gemini, Cursor, ChatGPT, OpenClaw, or Hermes, and tell the agent to treat `SKILL.md` as the research protocol.
+You do not need a hosted app. Give the repo to Codex, Claude, Gemini, Cursor, ChatGPT, DeepSeek Harness, OpenClaw, or Hermes, and tell the agent to treat `SKILL.md` as the research protocol.
 
 ## 1:10-1:23 Ask
 

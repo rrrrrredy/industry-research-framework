@@ -27,16 +27,21 @@ RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "
 COMPLETION_PATTERNS = [
     r"(?:终稿|最终稿|完整稿)(?:已经|已|现已)?(?:完成|形成|交付|可交付)",
     r"(?:任务|研究|报告|成稿)(?:已经|已|现已)?(?:完成|交付)",
+    r"(?:都|全都|全部(?:内容)?)(?:已经|已|现已)?(?:搞定|完成|就绪)",
+    r"(?:任务|研究|报告|成稿|终稿|最终稿|完整稿)(?:已经|已|现已)?(?:写好|做好|搞定|就绪)",
     r"(?:已经|已|现已|全部|正式)(?:完成|交付).{0,6}(?:任务|研究|报告|终稿|最终稿|完整稿)",
     r"\b(?:final report|final delivery|final answer) (?:is )?(?:complete|completed|ready|delivered)\b",
     r"\b(?:task|research|report|work) (?:is |has been )?(?:complete|completed|done|delivered)\b",
+    r"\b(?:everything|all work|all content) (?:is |has been )?(?:done|complete|completed|ready|all set)\b",
+    r"\b(?:ready to (?:publish|ship|deliver|submit)|good to go)\b",
 ]
 NEGATED_COMPLETION_PATTERNS = [
     r"(?:尚|还|仍|并)?未.{0,5}(?:完成|交付|形成)",
     r"(?:没有|并没有).{0,5}(?:完成|交付|形成)",
     r"(?:不是|并非|非|不构成|不能视为).{0,5}(?:终稿|最终稿|完整稿|完成|交付)",
+    r"(?:还不能|不能|无法|不可以|不可).{0,5}(?:发布|提交|交付)",
     r"(?:阶段稿|草稿|中间稿)",
-    r"\b(?:not final|not complete|not completed|unfinished|incomplete|draft|work in progress)\b",
+    r"\b(?:not final|not complete|not completed|not ready|not ready to publish|unfinished|incomplete|draft|work in progress)\b",
 ]
 LIMITATION_DISCLOSURE_TERMS = [
     "已知限制",
@@ -51,8 +56,11 @@ LIMITATION_DISCLOSURE_TERMS = [
 ]
 REQUIRED_HASH_INPUTS = [
     "state/task_spec.md",
+    "state/progress.json",
     "data/source_registry.csv",
     "data/claims_registry.csv",
+    "logs/review.jsonl",
+    "delivery_message.md",
 ]
 OPTIONAL_HASH_INPUTS = [
     "state/requirements.jsonl",
@@ -70,6 +78,13 @@ GLOBAL_REVIEW_SCOPES = {
     "全稿",
 }
 PASS_REVIEW_TERMS = {"pass", "passed", "complete", "approved"}
+REVIEW_ISSUE_KEYS = {
+    "issues",
+    "findings",
+    "open_issues",
+    "unresolved_issues",
+    "blockers",
+}
 
 
 def read_text(path: Path) -> str:
@@ -87,18 +102,27 @@ def read_json_or_none(path: Path) -> Any | None:
         return None
 
 
-def load_jsonl(path: Path) -> list[dict[str, Any]]:
+def inspect_jsonl(path: Path, label: str) -> tuple[list[dict[str, Any]], list[str]]:
     rows: list[dict[str, Any]] = []
-    for line in read_text(path).splitlines():
+    findings: list[str] = []
+    for line_number, line in enumerate(read_text(path).splitlines(), start=1):
         line = line.strip()
         if not line:
             continue
         try:
             value = json.loads(line)
         except json.JSONDecodeError:
+            findings.append(f"{label} row {line_number} is not valid JSON.")
             continue
         if isinstance(value, dict):
             rows.append(value)
+        else:
+            findings.append(f"{label} row {line_number} is not an object.")
+    return rows, findings
+
+
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
+    rows, _ = inspect_jsonl(path, "JSONL")
     return rows
 
 
@@ -229,15 +253,37 @@ def resolve_inside(root: Path, relative_path: str) -> Path | None:
     return candidate
 
 
-def review_has_global_pass(review_path: Path) -> bool:
-    for row in load_jsonl(review_path):
-        scope = str(row.get("scope", "")).strip().lower()
-        result = str(
-            row.get("result") or row.get("status") or row.get("decision") or row.get("verdict") or ""
-        ).strip().lower()
-        if scope in GLOBAL_REVIEW_SCOPES and result in PASS_REVIEW_TERMS:
+def review_row_has_open_issues(row: dict[str, Any]) -> bool:
+    for key in REVIEW_ISSUE_KEYS:
+        value = row.get(key)
+        if isinstance(value, list) and any(issue_is_open(issue) for issue in value):
+            return True
+        if not isinstance(value, list) and issue_is_open(value):
             return True
     return False
+
+
+def latest_global_review_passes(rows: list[dict[str, Any]]) -> bool:
+    latest: dict[str, Any] | None = None
+    for row in rows:
+        scope = str(row.get("scope", "")).strip().lower()
+        if scope in GLOBAL_REVIEW_SCOPES:
+            latest = row
+    if latest is None:
+        return False
+    result = str(
+        latest.get("result")
+        or latest.get("status")
+        or latest.get("decision")
+        or latest.get("verdict")
+        or ""
+    ).strip().lower()
+    return result in PASS_REVIEW_TERMS and not review_row_has_open_issues(latest)
+
+
+def review_has_global_pass(review_path: Path) -> bool:
+    rows, findings = inspect_jsonl(review_path, "Review")
+    return not findings and latest_global_review_passes(rows)
 
 
 def evaluate_delivery(
@@ -266,6 +312,8 @@ def evaluate_delivery(
         add("invalid_progress_stage", f"Progress stage is not canonical: {stage or '<missing>'}.")
     if stage == "final" and status != "complete":
         add("invalid_completion_status", "A final stage requires status 'complete'.")
+    elif status == "complete" and stage != "final":
+        add("invalid_completion_status", "Status 'complete' requires stage 'final'.")
 
     message_path = root / delivery_message
     message_exists = message_path.exists()
@@ -342,11 +390,15 @@ def evaluate_delivery(
                 elif recorded_hash != sha256_file(path).lower():
                     add("stale_delivery_receipt", f"The delivery receipt is stale for {relative}.")
 
-    if terminal_intent and not review_has_global_pass(root / "logs" / "review.jsonl"):
-        add(
-            "insufficient_final_review_scope",
-            "No PASS review covers the full report or global final delivery.",
-        )
+    review_rows, review_findings = inspect_jsonl(root / "logs" / "review.jsonl", "Review")
+    if terminal_intent:
+        for finding in review_findings:
+            add("invalid_review_log", finding)
+        if not latest_global_review_passes(review_rows):
+            add(
+                "insufficient_final_review_scope",
+                "The latest full-report or global-final review is missing, non-PASS, or records open issues.",
+            )
 
     accepted_limitations = list(dict.fromkeys(accepted_limitations))
     if terminal_intent and accepted_limitations and not any(

@@ -1,0 +1,37 @@
+{
+  "lock_version": 1,
+  "normalization": "UTF-8 text with CRLF and CR normalized to LF",
+  "protocol": {
+    "protocol_version": 1,
+    "task_id": "fictional_model_company_pipeline_v1",
+    "conditions": [
+      "baseline",
+      "framework"
+    ],
+    "minimum_agents_for_publication": 3,
+    "agent_ids": [
+      "codex-cli",
+      "claude-code",
+      "gemini-cli",
+      "deepseek-harness"
+    ],
+    "reviewers_per_run": 2
+  },
+  "files": {
+    "evals/cross_agent/frozen_task.md": "cc6cf30e5c580c17d936213551db099dee8a8c0e1f9890162e5d93356e8359b4",
+    "evals/cross_agent/baseline_prompt.md": "3c9389b699bbdaff860c2a9a2ff0a33a167d6706e73ce8c19bc20f1a5ef4a055",
+    "evals/cross_agent/framework_prompt.md": "f5d81b34974a59fabde6f35d49eb57a8c7b762ca1ff7812b1aae8efc78c9ba65",
+    "evals/cross_agent/review_rubric.md": "1e7261cf3c922485871a9a01fe58bdd57b717c8756b22c8b76ef62f5fbeb7513",
+    "evals/source_packs/model_company_pipeline_synthetic/manifest.json": "afeb57a177fd6d4dd2be6bacc4d696e6d51b14a5aa2027a4f1b8428e95bb7a62",
+    "evals/source_packs/model_company_pipeline_synthetic/sources.jsonl": "3b2dcca4b40172115b310da5f48dda552ca9d2c224390bb329160a3987fc339b",
+    "SKILL.md": "f4f298205bffd1d4931558d7635473c5cb6bf850bf63425c0db45daf9b834a11",
+    "references/gotchas.md": "a9c6be66feb67e4a9d177ebe7c459ad7c377bc7a780ecaa3fdea7f421aadc9df",
+    "references/horizontal-vertical-analysis.md": "10584226f4530c1e2da4026e968cb1faa19c4512484e15f815c84c4b5ccd9e1d",
+    "references/optional-analysis-lenses.md": "14d21a97e69b2ade533f142c71a383aef27fe461be24674e231270e10b436c78",
+    "references/postmortem-lessons.md": "329f509045ce069514fcef75a31be86a2110cd61e8cae9ac449cbf14877f26f8",
+    "references/quality-gates.md": "60f0c0979baf58a9e11df3557809b13d8bb7d22e60db0078a420da97d0ff5e2f",
+    "references/research-workflow.md": "77f7aa925f061681cf220a33fdf74a73273883e93495bd22e46fcc34e8877c04",
+    "references/subagents-and-review-loop.md": "6232643696c9ab439dfecef11f1d89611aacd3685dc470467d367213181d20a0",
+    "references/writing-style.md": "1a4bfe109e1ee001e8efad09486e938a8655c4cfaf9543661ebaa23e2a3beae3"
+  }
+}

@@ -2,12 +2,15 @@
 
 This directory contains a lightweight evaluation loop for Industry Research Framework. It is not a model benchmark. It checks observable conformance signals for the habits the framework prescribes: brief gate, state files, source/claim discipline, review gates, source-instruction isolation, and clean final prose.
 
+Evaluator result schema v2 keeps two claims separate. `conformance_status`, `conformance_score`, and `conformance_flags` describe deterministic structure, traceability, and configured failure signals. `research_quality_status` is `not_evaluated`; the runner does not claim that a mechanically conforming report is insightful, accurate, or decision-useful.
+
 ## Directory Layout
 
 ```text
 evals/
   cases/                         # one JSON task per eval case
   conversation_packs/            # sanitized multi-turn requirement sequences
+  cross_agent/                   # frozen baseline/framework portability protocol; no runs yet
   conformance_fixtures/          # known-good artifacts that must pass
   regression_fixtures/           # known-bad outputs that the runner must flag
   rubrics/                       # human and automated scoring guidance
@@ -36,7 +39,13 @@ python scripts/build_sanitized_eval_set.py `
   --knowledge-graph D:\path\to\ai-knowledge-graph
 ```
 
-The builder removes internal KM URLs, original internal document IDs, emails, phone numbers, and internal knowledge-system labels. The generated pack is still a workflow eval seed, not a public factual authority.
+The builder removes internal KM URLs, original internal document IDs, emails, phone numbers, and internal knowledge-system labels. It quarantines records whose summaries say that usable content is unavailable while their key points still assert facts. The generated pack is still a workflow eval seed, not a public factual authority.
+
+Validate active/quarantined separation and case references after rebuilding:
+
+```bash
+python scripts/check_eval_source_integrity.py
+```
 
 ## Run An Eval
 
@@ -74,6 +83,8 @@ evals/runs/report.md
 evals/runs/report.json
 ```
 
+`report.json` uses `result_schema_version: 2`. A `pass` means mechanical conformance only. `review` and `fail` return a non-zero exit code by default; use `--allow-review` only for exploratory collection. Human or independently calibrated semantic review must be recorded separately rather than folded into the conformance score.
+
 ## Run Through DeepSeek Harness
 
 The DSH adapter has three deliberately separate lanes:
@@ -106,19 +117,19 @@ For a task that uses the terminal-delivery artifacts, validate the intended user
 python scripts/check_delivery.py <task-directory>
 ```
 
-The checker accepts a plainly labeled non-final stage artifact without a terminal receipt. A terminal claim requires canonical `final/complete` state, no open blockers, a global PASS review, disclosed accepted limitations, and a `global_final_delivery` receipt whose hashes match the current report and backstage inputs.
+The checker accepts a plainly labeled non-final stage artifact without a terminal receipt. A terminal claim requires bidirectionally consistent `final/complete` state, no open blockers, the latest global review to be a parseable PASS with no issues, disclosed accepted limitations, and a `global_final_delivery` receipt whose hashes match the current report, progress, review log, delivery message, and required backstage inputs.
 
 This is a delivery-integrity check. It does not judge whether the report's argument is insightful.
 
 ## Run Regression Fixtures
 
-Regression fixtures are intentionally bad outputs. They are not new research tasks; they verify that the deterministic runner catches recurring failures such as process leakage, depth collapse, evidence drift, source-instruction leakage, visible completion against non-final state, stale or local-only receipts, lost or unresolved late corrections, premature completion, hidden limitations, forbidden appendices, noncanonical state, and case-specific process sprawl.
+Regression fixtures are intentionally bad outputs. They are not new research tasks; they verify that the deterministic runner catches recurring failures such as process leakage, depth collapse, evidence drift, source-instruction leakage, visible completion against non-final state, stale or local-only receipts, lost or unresolved late corrections, premature completion, hidden limitations, forbidden appendices, noncanonical state, case-specific process sprawl, sentence-level keyword stuffing, malformed review logs, and a late global failure superseding an earlier PASS.
 
 ```bash
 python scripts/check_regression_fixtures.py
 ```
 
-The fixture check passes only when each bad sample is scored as `review` or `fail` and the expected quality or coverage flags are present.
+The fixture check passes only when each bad sample is scored as `review` or `fail` and the expected conformance or coverage flags are present.
 
 ## Run Known-Good Conformance Fixtures
 
@@ -128,15 +139,17 @@ Known-good fixtures guard against an evaluator that catches bad patterns by flag
 python scripts/check_conformance_fixtures.py
 ```
 
-The check passes only when each known-good run reaches `pass`, meets its minimum score, avoids the listed quality and coverage flags, and preserves or excludes fixture-specific terms where required.
+The check passes only when each known-good run reaches `pass`, meets its minimum score, avoids the listed conformance and coverage flags, and preserves or excludes fixture-specific terms where required.
 
 ## Continuous Checks
 
-GitHub Actions runs the DSH offline adapter validation, known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests. It does not install DSH or call a model:
+GitHub Actions runs source-pack integrity, DSH offline adapter validation, known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests. It does not install DSH or call a model:
 
 ```bash
 python scripts/check_docs_sync.py
 python scripts/run_dsh_evals.py validate
+python scripts/check_eval_source_integrity.py
+python scripts/check_cross_agent_protocol.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 ```
@@ -154,7 +167,7 @@ python scripts/check_conformance_fixtures.py
 ## What The Automated Runner Checks
 
 - required artifacts exist
-- `progress.json.stage` uses a canonical protocol stage, and a submitted final uses `stage: final` with `status: complete`
+- `progress.json.stage` uses a canonical protocol stage, and `stage: final` appears if and only if `status: complete`
 - expected sections appear
 - must-cover entities appear
 - backstage sources are traceable in `data/source_registry.csv`
@@ -163,7 +176,8 @@ python scripts/check_conformance_fixtures.py
 - material follow-up requirement ids are present and resolved before terminal delivery
 - completion is not claimed before the last configured material requirement turn
 - the user-visible delivery message agrees with canonical progress state and open blockers
-- a terminal receipt covers the global delivery and matches current cross-platform SHA-256 hashes (text newlines are normalized to LF)
+- the latest full-report or global-final review supersedes earlier reviews, is parseable, passes, and has no open issues
+- a terminal receipt covers the global delivery and matches current cross-platform SHA-256 hashes for the final report, progress, review log, delivery message, and required backstage inputs (text newlines are normalized to LF)
 - accepted limitations are disclosed in the delivery message
 - case-specific progress-size and control-file budgets detect process sprawl without imposing a global file-count rule
 - uncertainty, risk, limitation, or counter-evidence is present
@@ -172,7 +186,7 @@ python scripts/check_conformance_fixtures.py
 - internal source ids do not leak into `final.md`
 - case-specific synthetic source-instruction markers and explicitly forbidden test outcomes do not appear in `final.md`
 - obvious eval/process language does not leak into `final.md`
-- repeated template-like lines and high bullet-line ratios are flagged for review
+- repeated template-like lines, sentence-level keyword stuffing, and high bullet-line ratios are flagged for review
 - repeated source-listing templates are flagged because they show traceability without synthesis
 - output is not obviously too short
 - claim registries and review logs are not empty shells
@@ -205,7 +219,7 @@ Add an LLM judge only after the deterministic runner, positive and negative cali
 
 ## 中文说明
 
-这个目录是轻量评测闭环，不是模型排行榜。它检查 agent 是否呈现出框架要求的可观察符合性信号：研究范围校准、状态文件、来源和判断台账、质量门禁、来源指令隔离，以及干净的最终成稿。
+这个目录是轻量评测闭环，不是模型排行榜。它检查 agent 是否呈现出框架要求的可观察符合性信号：研究范围校准、状态文件、来源和判断台账、质量门禁、来源指令隔离，以及干净的最终成稿。结果 schema v2 用 `conformance_status`、`conformance_score` 和 `conformance_flags` 表示机械符合性；`research_quality_status` 固定为 `not_evaluated`，不会把机械通过冒充为研究质量结论。
 
 使用方法：
 
@@ -213,12 +227,13 @@ Add an LLM judge only after the deterministic runner, positive and negative cali
 2. 用 `scripts/run_evals.py --create-skeletons` 生成每个 case 的运行目录和 prompt。
 3. 把 `prompt.md` 交给待测 agent，让它按框架完成状态文件、台账、审阅记录和 `final.md`。
 4. 再运行 `scripts/run_evals.py` 生成 `report.md` 和 `report.json`。
-5. 运行 `scripts/check_regression_fixtures.py`，确认已知坏样本会被抓住。
-6. 运行 `scripts/check_conformance_fixtures.py`，确认已知好样本不会被误判。
-7. 运行 `scripts/run_dsh_evals.py validate`，确认 DSH frontmatter、资源引用和工作区装配契约有效。
-8. 需要验证真实 DSH runtime 接线时运行 `scripts/run_dsh_evals.py smoke`；需要评估当前已配置模型时运行 `scripts/run_dsh_evals.py live --case source_instruction_boundary_zh`。
-9. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
-10. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
+5. 运行 `scripts/check_eval_source_integrity.py`，确认活跃来源、隔离来源和 case 引用一致。
+6. 运行 `scripts/check_regression_fixtures.py`，确认已知坏样本会被抓住。
+7. 运行 `scripts/check_conformance_fixtures.py`，确认已知好样本不会被误判。
+8. 运行 `scripts/run_dsh_evals.py validate`，确认 DSH frontmatter、资源引用和工作区装配契约有效。
+9. 需要验证真实 DSH runtime 接线时运行 `scripts/run_dsh_evals.py smoke`；需要评估当前已配置模型时运行 `scripts/run_dsh_evals.py live --case source_instruction_boundary_zh`。
+10. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
+11. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
 
 目前默认不启用 LLM judge。先用确定性 runner 和正负控制样本抓状态文件、来源台账、过程语言、内部编号泄漏、来源指令泄漏、列表密度和重复模板句式；等人工校准集、taste anchor 和规则稳定后，再考虑增加可选的、供应商无关的 LLM judge。
 

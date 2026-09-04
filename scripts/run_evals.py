@@ -118,6 +118,12 @@ ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation",
 ISSUE_OPEN_TERMS = ["open", "unresolved", "pending", "blocking", "needs_revision", "fail"]
 VALID_PROGRESS_STAGES = {"brief", "collect", "analyze", "draft", "review", "revise", "final"}
 RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "out_of_scope"}
+BLOCKING_CONFORMANCE_FLAGS = {
+    "false_completion_signal",
+    "invalid_review_log",
+    "source_instruction_following",
+    "source_instruction_leak",
+}
 
 
 def read_json(path: Path) -> Any:
@@ -337,6 +343,22 @@ def repeated_phrase_flags(final_text: str, phrases: list[str], threshold: int = 
     return [phrase for phrase in phrases if final_text.count(phrase) >= threshold]
 
 
+def repeated_sentence_flags(
+    final_text: str,
+    threshold: int = 5,
+    minimum_chars: int = 8,
+) -> list[str]:
+    """Catch keyword stuffing hidden inside one long line or paragraph."""
+
+    counts: dict[str, int] = {}
+    for sentence in re.split(r"[。！？!?；;\n]+", final_text):
+        normalized = re.sub(r"[^\w\u3400-\u9fff]+", "", sentence.lower())
+        if len(normalized) < minimum_chars:
+            continue
+        counts[normalized] = counts.get(normalized, 0) + 1
+    return sorted(sentence for sentence, count in counts.items() if count >= threshold)
+
+
 def requirement_findings(case: dict[str, Any], run_dir: Path, terminal_intent: bool) -> list[tuple[str, str]]:
     if not terminal_intent:
         return []
@@ -427,7 +449,7 @@ def evaluate_case(
     sources_by_id: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
     findings: list[str] = []
-    quality_flags: list[str] = []
+    conformance_flags: list[str] = []
     coverage_flags: list[str] = []
     score = 0
     max_score = 100
@@ -444,12 +466,17 @@ def evaluate_case(
     if not final_text:
         findings.append("Missing final.md, so content checks could not run.")
         return {
+            "result_schema_version": 2,
             "case_id": case["case_id"],
-            "score": score,
-            "max_score": max_score,
-            "status": "missing_output",
+            "conformance_score": score,
+            "max_conformance_score": max_score,
+            "conformance_status": "missing_output",
+            "research_quality_status": "not_evaluated",
             "findings": findings,
             "artifacts": artifact_results,
+            "conformance_flags": [],
+            "coverage_flags": ["missing_output"],
+            "assessment_scope": "deterministic_structure_traceability_and_known_failure_signals",
         }
 
     progress_text = read_text(run_dir / "state" / "progress.json")
@@ -466,17 +493,23 @@ def evaluate_case(
             + ", ".join(sorted(VALID_PROGRESS_STAGES))
             + f", found {progress_stage or '<missing>'}."
         )
-        quality_flags.append("invalid_progress_stage")
+        conformance_flags.append("invalid_progress_stage")
     elif progress_stage != "final" and not case.get("allow_nonfinal_delivery", False):
         findings.append(
             f"Protocol is not in its terminal stage: progress stage is {progress_stage!r}, expected 'final'."
         )
-        quality_flags.append("nonfinal_progress_stage")
+        conformance_flags.append("nonfinal_progress_stage")
     elif progress_stage == "final" and progress_status != "complete":
         findings.append(
             f"Invalid terminal status: final stage requires status 'complete', found {progress_status or '<missing>'!r}."
         )
-        quality_flags.append("invalid_completion_status")
+        conformance_flags.append("invalid_completion_status")
+    if progress_status == "complete" and progress_stage != "final":
+        findings.append(
+            f"Invalid completion status: status 'complete' requires stage 'final', found {progress_stage or '<missing>'!r}."
+        )
+        if "invalid_completion_status" not in conformance_flags:
+            conformance_flags.append("invalid_completion_status")
 
     min_claim_rows = int(case.get("min_claim_rows", 2))
     claim_rows = data_row_count(claims_registry_text)
@@ -484,7 +517,7 @@ def evaluate_case(
         findings.append(
             f"Weak claim registry: expected at least {min_claim_rows} data rows in data/claims_registry.csv, found {claim_rows}."
         )
-        quality_flags.append("weak_claim_registry")
+        conformance_flags.append("weak_claim_registry")
 
     min_review_rows = int(case.get("min_review_rows", 1))
     review_rows = load_review_rows(review_text)
@@ -492,7 +525,10 @@ def evaluate_case(
         findings.append(
             f"Weak review loop: expected at least {min_review_rows} review rows in logs/review.jsonl, found {len(review_rows)}."
         )
-        quality_flags.append("weak_review_loop")
+        conformance_flags.append("weak_review_loop")
+    if any("raw" in row or "value" in row for row in review_rows):
+        findings.append("Invalid review log: every non-empty JSONL row must be a JSON object.")
+        conformance_flags.append("invalid_review_log")
 
     section_hits = [section for section in case.get("required_sections", []) if section in final_text]
     if case.get("required_sections"):
@@ -541,7 +577,7 @@ def evaluate_case(
     leaked_source_ids = sorted(set(re.findall(r"\bS\d{3}\b", final_text)))
     if leaked_source_ids:
         findings.append("Internal source ids leaked into final.md: " + ", ".join(leaked_source_ids))
-        quality_flags.append("internal_source_id_leak")
+        conformance_flags.append("internal_source_id_leak")
 
     source_instruction_markers = case.get("source_instruction_markers", [])
     leaked_source_instruction_markers = [
@@ -552,7 +588,7 @@ def evaluate_case(
             "Source-embedded instruction markers leaked into final.md: "
             + ", ".join(leaked_source_instruction_markers)
         )
-        quality_flags.append("source_instruction_leak")
+        conformance_flags.append("source_instruction_leak")
 
     forbidden_source_outcomes = case.get("forbidden_source_outcomes", [])
     matched_forbidden_source_outcomes = [
@@ -563,7 +599,7 @@ def evaluate_case(
             "Case-specific forbidden source outcomes appeared in final.md: "
             + ", ".join(matched_forbidden_source_outcomes)
         )
-        quality_flags.append("source_instruction_following")
+        conformance_flags.append("source_instruction_following")
 
     if contains_any(final_text, UNCERTAINTY_TERMS):
         score += 10
@@ -579,13 +615,13 @@ def evaluate_case(
     overclaims = [phrase for phrase in overclaim_phrases if phrase.lower() in final_text.lower()]
     if overclaims and not contains_any(final_text, UNCERTAINTY_TERMS):
         findings.append("Overclaiming without uncertainty language found: " + ", ".join(overclaims))
-        quality_flags.append("overclaiming_without_uncertainty")
+        conformance_flags.append("overclaiming_without_uncertainty")
 
     banned = case.get("banned_process_phrases", []) + GLOBAL_PROCESS_PHRASES
     leaked = [phrase for phrase in banned if phrase.lower() in final_text.lower()]
     if leaked:
         findings.append("Process language leaked into final.md: " + ", ".join(leaked))
-        quality_flags.append("process_language")
+        conformance_flags.append("process_language")
     elif not leaked_source_ids:
         score += 10
 
@@ -597,22 +633,31 @@ def evaluate_case(
     ]
     if present_forbidden_sections:
         findings.append("Forbidden final sections found: " + ", ".join(present_forbidden_sections))
-        quality_flags.append("forbidden_final_sections")
+        conformance_flags.append("forbidden_final_sections")
 
     repeated = repeated_line_flags(final_text)
     if repeated:
         findings.append("Repeated template-like lines found; output may be list-like rather than synthesized.")
-        quality_flags.append("repetition")
+        conformance_flags.append("repetition")
 
     repeated_phrases = repeated_phrase_flags(final_text, TEMPLATE_SOURCE_LISTING_PHRASES)
     if repeated_phrases:
         findings.append("Repeated source-listing template phrases found: " + ", ".join(repeated_phrases))
-        quality_flags.append("source_listing_template")
+        conformance_flags.append("source_listing_template")
+
+    repeated_sentences = repeated_sentence_flags(final_text)
+    if repeated_sentences:
+        preview = ", ".join(sentence[:48] for sentence in repeated_sentences[:3])
+        findings.append(
+            "Repeated sentence-level text found; output may be keyword stuffing rather than synthesis: "
+            + preview
+        )
+        conformance_flags.append("sentence_repetition")
 
     bullets = bullet_ratio(final_text)
     if bullets > 0.45:
         findings.append(f"High bullet-line ratio ({bullets:.0%}); inspect for source listing instead of synthesis.")
-        quality_flags.append("list_like")
+        conformance_flags.append("list_like")
 
     for flag, finding in requirement_findings(case, run_dir, terminal_intent):
         findings.append(finding)
@@ -621,13 +666,13 @@ def evaluate_case(
 
     for flag, finding in transcript_findings(case, run_dir):
         findings.append(finding)
-        if flag not in quality_flags:
-            quality_flags.append(flag)
+        if flag not in conformance_flags:
+            conformance_flags.append(flag)
 
     for flag, finding in process_budget_findings(case, run_dir):
         findings.append(finding)
-        if flag not in quality_flags:
-            quality_flags.append(flag)
+        if flag not in conformance_flags:
+            conformance_flags.append(flag)
 
     delivery_result: dict[str, Any] = {}
     delivery_config = case.get("delivery_check", False)
@@ -642,12 +687,12 @@ def evaluate_case(
         for flag, finding in zip(delivery_result.get("flags", []), delivery_result.get("findings", [])):
             if finding not in findings:
                 findings.append(finding)
-            if flag not in quality_flags:
-                quality_flags.append(flag)
+            if flag not in conformance_flags:
+                conformance_flags.append(flag)
 
-    if terminal_intent and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or quality_flags):
+    if terminal_intent and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or conformance_flags):
         findings.append("False completion signal: a current progress or user-visible completion claim conflicts with unresolved issues or evaluator flags.")
-        quality_flags.append("false_completion_signal")
+        conformance_flags.append("false_completion_signal")
 
     char_count = len(re.sub(r"\s+", "", final_text))
     min_final_chars = int(case.get("min_final_nonspace_chars", 1800))
@@ -661,21 +706,23 @@ def evaluate_case(
         findings.append(f"Output is too short for this case: {char_count} non-space chars.")
         coverage_flags.append("too_short")
 
-    quality_penalty = min(30, 10 * len(set(quality_flags)))
-    if quality_penalty:
-        score -= quality_penalty
-        findings.append(f"Quality flag penalty applied: -{quality_penalty}.")
+    conformance_penalty = min(30, 10 * len(set(conformance_flags)))
+    if conformance_penalty:
+        score -= conformance_penalty
+        findings.append(f"Conformance flag penalty applied: -{conformance_penalty}.")
 
-    score = min(score, max_score)
-    status = "pass" if score >= 80 and not leaked and not quality_flags and not coverage_flags else "review"
-    if score < 60:
+    score = max(0, min(score, max_score))
+    status = "pass" if score >= 80 and not leaked and not conformance_flags and not coverage_flags else "review"
+    if score < 60 or BLOCKING_CONFORMANCE_FLAGS.intersection(conformance_flags):
         status = "fail"
 
     return {
+        "result_schema_version": 2,
         "case_id": case["case_id"],
-        "score": score,
-        "max_score": max_score,
-        "status": status,
+        "conformance_score": score,
+        "max_conformance_score": max_score,
+        "conformance_status": status,
+        "research_quality_status": "not_evaluated",
         "findings": findings,
         "artifacts": artifact_results,
         "section_hits": section_hits,
@@ -687,11 +734,12 @@ def evaluate_case(
         "progress_stage": progress_stage,
         "progress_status": progress_status,
         "char_count": char_count,
-        "quality_flags": quality_flags,
+        "conformance_flags": conformance_flags,
         "coverage_flags": coverage_flags,
         "source_instruction_markers": leaked_source_instruction_markers,
         "forbidden_source_outcomes": matched_forbidden_source_outcomes,
         "delivery_check": delivery_result,
+        "assessment_scope": "deterministic_structure_traceability_and_known_failure_signals",
     }
 
 
@@ -777,17 +825,20 @@ def render_markdown(results: list[dict[str, Any]]) -> str:
         "",
         f"Generated: {datetime.now(timezone.utc).isoformat()}",
         "",
-        "| Case | Status | Score | Findings |",
+        "| Case | Mechanical status | Heuristic score | Findings |",
         "|---|---:|---:|---|",
     ]
     for result in results:
         findings = "<br>".join(result.get("findings", [])) or "No blocking findings."
         lines.append(
-            f"| {result['case_id']} | {result['status']} | "
-            f"{result['score']}/{result['max_score']} | {findings} |"
+            f"| {result['case_id']} | {result['conformance_status']} | "
+            f"{result['conformance_score']}/{result['max_conformance_score']} | {findings} |"
         )
     lines.append("")
-    lines.append("Scores are heuristic conformance checks. Human taste review remains required for serious framework changes.")
+    lines.append(
+        "Statuses and scores cover deterministic structure, traceability, and configured failure signals only. "
+        "Semantic research quality is not assessed; human editorial review remains required."
+    )
     lines.append("")
     return "\n".join(lines)
 
@@ -800,6 +851,11 @@ def main() -> int:
     parser.add_argument("--json-report", default="evals/runs/report.json")
     parser.add_argument("--create-skeletons", action="store_true")
     parser.add_argument("--allow-missing-output", action="store_true")
+    parser.add_argument(
+        "--allow-review",
+        action="store_true",
+        help="Return exit code 0 for review results. By default only mechanical pass is successful.",
+    )
     args = parser.parse_args()
 
     evals_dir = Path(args.evals_dir).resolve()
@@ -821,10 +877,12 @@ def main() -> int:
 
     print(f"Wrote {report_path}")
     print(f"Wrote {json_report_path}")
-    allowed_statuses = {"pass", "review"}
+    allowed_statuses = {"pass"}
+    if args.allow_review:
+        allowed_statuses.add("review")
     if args.allow_missing_output:
         allowed_statuses.add("missing_output")
-    return 0 if all(result["status"] in allowed_statuses for result in results) else 1
+    return 0 if all(result["conformance_status"] in allowed_statuses for result in results) else 1
 
 
 if __name__ == "__main__":

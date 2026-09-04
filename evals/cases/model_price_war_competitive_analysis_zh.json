@@ -25,10 +25,10 @@
   ],
   "source_pack": "ai_knowledge_sanitized",
   "source_ids": [
-    "S006",
+    "S007",
+    "S008",
     "S009",
-    "S011",
-    "S010"
+    "S011"
   ],
   "artifact_requirements": [
     "state/task_spec.md",

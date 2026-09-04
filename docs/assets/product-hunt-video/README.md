@@ -2,9 +2,11 @@
 
 This folder contains a Product Hunt launch video pack for Industry Research Framework.
 
+The committed MP4 and slide PNGs are the July 2026 launch snapshot, not the canonical current product description. The maintained sources are the public framework page, `SKILL.md`, the gallery SVG files, and `voiceover-script.md`. Regenerate the video before a new launch instead of silently treating the historical MP4 as current.
+
 ## Files
 
-- `industry-research-framework-product-hunt.mp4`: 1920x1080, 83-second, caption-first MP4 with silent audio. Upload this to YouTube or Loom if you want a quick launch video.
+- `industry-research-framework-product-hunt.mp4`: historical July 2026 launch snapshot, 1920x1080, 83-second, caption-first MP4 with silent audio.
 - `voiceover-script.md`: Maker voiceover script for recording a stronger Loom with your own voice.
 - `slides/`: 1920x1080 PNG frames used to build the MP4.
 
@@ -18,9 +20,10 @@ Best version:
 4. Show the framework page, Product Hunt gallery images, `SKILL.md`, eval loop, and launch asset page.
 5. Paste the Loom URL into Product Hunt if accepted.
 
-Fallback version:
+Fallback for reproducing the original July 2026 launch:
 
-1. Upload `industry-research-framework-product-hunt.mp4` to YouTube as public or unlisted.
-2. Paste the full YouTube URL into Product Hunt.
+1. Review the historical MP4 against the current adapter list and claims; regenerate it when they differ.
+2. Upload the regenerated MP4 to YouTube as public or unlisted.
+3. Paste the full YouTube URL into Product Hunt.
 
 Product Hunt help documentation has historically said only full YouTube URLs are supported, while newer submission UI may mention Loom. If Loom does not validate, use YouTube.

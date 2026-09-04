@@ -560,7 +560,7 @@ def run_live(args: argparse.Namespace) -> int:
     if result.returncode != 0:
         status = "runtime_fail"
     else:
-        status = evaluation["status"]
+        status = evaluation["conformance_status"]
     report = {
         "mode": "live",
         "status": status,
@@ -585,7 +585,11 @@ def run_live(args: argparse.Namespace) -> int:
     }
     report_path = output_dir / "dsh-live-eval.json"
     write_json(report_path, report)
-    print(f"DSH live eval: {status} ({evaluation['score']}/{evaluation['max_score']})")
+    print(
+        f"DSH live conformance: {status} "
+        f"({evaluation['conformance_score']}/{evaluation['max_conformance_score']}); "
+        "research quality not evaluated"
+    )
     print(f"Report: {report_path}")
     if result.returncode != 0:
         print(runtime_error or "DSH exited non-zero; inspect dsh.stderr.txt.")
@@ -593,7 +597,7 @@ def run_live(args: argparse.Namespace) -> int:
     allowed = {"pass"}
     if args.allow_review:
         allowed.add("review")
-    return 0 if evaluation["status"] in allowed else 1
+    return 0 if evaluation["conformance_status"] in allowed else 1
 
 
 def add_runtime_arguments(parser: argparse.ArgumentParser, *, default_timeout: int) -> None:

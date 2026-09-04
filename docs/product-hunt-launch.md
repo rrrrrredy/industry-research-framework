@@ -105,10 +105,10 @@ Recommended gallery frames:
 
 Recommendation: add a short video only if it is crisp and specific. For this project, a 60-90 second Loom or YouTube walkthrough is useful because the product is a protocol, not a conventional UI. The video should make the workflow concrete.
 
-Ready video assets:
+Video assets:
 
-- `docs/assets/product-hunt-video/industry-research-framework-product-hunt.mp4`
-- `docs/assets/product-hunt-video/voiceover-script.md`
+- `docs/assets/product-hunt-video/voiceover-script.md` is the maintained narration source.
+- `docs/assets/product-hunt-video/industry-research-framework-product-hunt.mp4` and `slides/` are the historical July 2026 launch snapshot; review and regenerate them before presenting them as current.
 - `docs/assets/product-hunt-video/README.md`
 
 Suggested structure:
@@ -164,7 +164,7 @@ https://rrrrrredy.github.io/industry-research-framework/framework.html
 Shorter variant:
 
 ```text
-Industry Research Framework helps AI agents avoid shallow research reports through state files, evidence discipline, stage gates, hard stops, and offline conformance checks.
+Industry Research Framework is designed to help AI agents avoid shallow research reports through state files, evidence discipline, stage gates, hard stops, and offline conformance checks.
 
 https://github.com/rrrrrredy/industry-research-framework
 ```

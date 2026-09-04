@@ -27,7 +27,7 @@
   "source_ids": [
     "S003",
     "S007",
-    "S012"
+    "S009"
   ],
   "artifact_requirements": [
     "state/task_spec.md",

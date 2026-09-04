@@ -105,12 +105,16 @@ def main() -> int:
                 mutation_results.append((mutation, evaluate_case(case, run_dir, sources_by_id)))
 
         expected_status = fixture.get("expected_status", "pass")
-        if result["status"] != expected_status:
-            failures.append(f"{fixture_id}: expected {expected_status}, got {result['status']}")
+        if result["conformance_status"] != expected_status:
+            failures.append(
+                f"{fixture_id}: expected {expected_status}, got {result['conformance_status']}"
+            )
 
         min_score = int(fixture.get("min_score", 80))
-        if result["score"] < min_score:
-            failures.append(f"{fixture_id}: expected score >= {min_score}, got {result['score']}")
+        if result["conformance_score"] < min_score:
+            failures.append(
+                f"{fixture_id}: expected score >= {min_score}, got {result['conformance_score']}"
+            )
 
         if fixture.get("check_delivery_cli") and (
             delivery_cli_result is None
@@ -120,9 +124,9 @@ def main() -> int:
             output = "" if delivery_cli_result is None else (delivery_cli_result.stdout + delivery_cli_result.stderr)
             failures.append(f"{fixture_id}: standalone delivery CLI did not emit PASS: {output.strip()}")
 
-        for flag in fixture.get("forbidden_quality_flags", []):
-            if flag in result.get("quality_flags", []):
-                failures.append(f"{fixture_id}: unexpected quality flag {flag}")
+        for flag in fixture.get("forbidden_conformance_flags", []):
+            if flag in result.get("conformance_flags", []):
+                failures.append(f"{fixture_id}: unexpected conformance flag {flag}")
 
         for flag in fixture.get("forbidden_coverage_flags", []):
             if flag in result.get("coverage_flags", []):
@@ -139,26 +143,26 @@ def main() -> int:
         for mutation, mutation_result in mutation_results:
             mutation_id = mutation["mutation_id"]
             allowed_statuses = set(mutation.get("allowed_statuses", ["review", "fail"]))
-            if mutation_result["status"] not in allowed_statuses:
+            if mutation_result["conformance_status"] not in allowed_statuses:
                 failures.append(
                     f"{fixture_id}/{mutation_id}: expected status in "
-                    f"{sorted(allowed_statuses)}, got {mutation_result['status']}"
+                    f"{sorted(allowed_statuses)}, got {mutation_result['conformance_status']}"
                 )
-            for flag in mutation.get("expected_quality_flags", []):
-                if flag not in mutation_result.get("quality_flags", []):
+            for flag in mutation.get("expected_conformance_flags", []):
+                if flag not in mutation_result.get("conformance_flags", []):
                     failures.append(
-                        f"{fixture_id}/{mutation_id}: missing quality flag {flag}"
+                        f"{fixture_id}/{mutation_id}: missing conformance flag {flag}"
                     )
             print(
-                f"{fixture_id}/{mutation_id}: {mutation_result['status']} "
-                f"{mutation_result['score']}/{mutation_result['max_score']} "
-                f"quality={mutation_result.get('quality_flags', [])}"
+                f"{fixture_id}/{mutation_id}: {mutation_result['conformance_status']} "
+                f"{mutation_result['conformance_score']}/{mutation_result['max_conformance_score']} "
+                f"conformance={mutation_result.get('conformance_flags', [])}"
             )
 
         print(
-            f"{fixture_id}: {result['status']} "
-            f"{result['score']}/{result['max_score']} "
-            f"quality={result.get('quality_flags', [])} "
+            f"{fixture_id}: {result['conformance_status']} "
+            f"{result['conformance_score']}/{result['max_conformance_score']} "
+            f"conformance={result.get('conformance_flags', [])} "
             f"coverage={result.get('coverage_flags', [])}"
         )
 

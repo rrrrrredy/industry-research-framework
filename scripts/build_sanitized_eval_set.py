@@ -28,6 +28,16 @@ SELECTED_TITLES = [
 ]
 
 
+INSUFFICIENT_SOURCE_MARKERS = [
+    "无法提供",
+    "无法生成符合要求的摘要",
+    "无法从中提取",
+    "无法提取",
+    "实质内容均已被遮蔽",
+    "实质性单元格内容均为空白",
+]
+
+
 CASE_TEMPLATES = [
     {
         "case_id": "ai_agent_market_landscape_zh",
@@ -59,7 +69,7 @@ CASE_TEMPLATES = [
         "source_titles": [
             "从 R1 到 Sonnet 3.7，Reasoning Model 首轮竞赛中有哪些关键信号？",
             "AI行业月度观察202602",
-            "OpenAI近期信息报告-2024年初",
+            "大模型行业近期市场信息：腾讯、阿里、字节及DeepSeek",
         ],
         "prompt": (
             "研究 reasoning model 从 DeepSeek R1 到 Claude Sonnet 风格混合推理的竞争。"
@@ -80,7 +90,7 @@ CASE_TEMPLATES = [
         "source_titles": [
             "主流AI视频生成产品报告",
             "AI视频生成市场概况",
-            "字节AI全景解析",
+            "大模型行业近期市场信息：腾讯、阿里、字节及DeepSeek",
             "AI行业月度观察202512",
         ],
         "prompt": (
@@ -100,10 +110,10 @@ CASE_TEMPLATES = [
         "task_type": "competitive_analysis",
         "language": "zh",
         "source_titles": [
-            "大模型降价潮分析",
+            "AI行业月度观察202602",
+            "AI行业月度观察202512",
             "大模型行业近期市场信息：腾讯、阿里、字节及DeepSeek",
             "腾讯AI全景解析",
-            "字节AI全景解析",
         ],
         "prompt": (
             "分析大模型降价潮对腾讯、阿里、字节、DeepSeek 等玩家的竞争影响。"
@@ -193,7 +203,23 @@ def load_category_by_id(knowledge_graph_dir: Path | None) -> dict[str, str]:
     return {str(doc.get("id")): str(doc.get("type") or "unknown") for doc in docs}
 
 
-def build_sources(aiknowledge_cli_dir: Path, knowledge_graph_dir: Path | None) -> tuple[list[dict[str, Any]], dict[str, str]]:
+def quarantine_reason(row: dict[str, Any]) -> str | None:
+    summary = str(row.get("summary", ""))
+    key_points = row.get("key_points")
+    if isinstance(key_points, list) and key_points and any(
+        marker in summary for marker in INSUFFICIENT_SOURCE_MARKERS
+    ):
+        return (
+            "The summary says the underlying content is unavailable or insufficient while "
+            "key_points still assert substantive facts."
+        )
+    return None
+
+
+def build_sources(
+    aiknowledge_cli_dir: Path,
+    knowledge_graph_dir: Path | None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, str]]:
     kb_path = aiknowledge_cli_dir / "data" / "knowledge_base_public.json"
     docs = read_json(kb_path)
     if not isinstance(docs, list):
@@ -204,6 +230,7 @@ def build_sources(aiknowledge_cli_dir: Path, knowledge_graph_dir: Path | None) -
     source_ids = {str(doc.get("id")) for doc in docs if doc.get("id")}
 
     rows: list[dict[str, Any]] = []
+    quarantined_rows: list[dict[str, Any]] = []
     title_to_source_id: dict[str, str] = {}
     for idx, title in enumerate(SELECTED_TITLES, start=1):
         doc = by_title.get(title)
@@ -230,10 +257,17 @@ def build_sources(aiknowledge_cli_dir: Path, knowledge_graph_dir: Path | None) -
                 "Treat as a source pack for testing research workflow, not as a public factual authority."
             ),
         }
-        rows.append(row)
+        reason = quarantine_reason(row)
+        if reason:
+            row["content_status"] = "inconsistent"
+            row["usable_for_fact_evaluation"] = False
+            row["quarantine_reason"] = reason
+            quarantined_rows.append(row)
+        else:
+            rows.append(row)
         title_to_source_id[title] = source_id
 
-    return rows, title_to_source_id
+    return rows, quarantined_rows, title_to_source_id
 
 
 def build_cases(title_to_source_id: dict[str, str]) -> list[dict[str, Any]]:
@@ -287,11 +321,15 @@ def main() -> int:
     knowledge_graph_dir = Path(args.knowledge_graph).resolve() if args.knowledge_graph else None
     out_dir = Path(args.out).resolve()
 
-    sources, title_to_source_id = build_sources(aiknowledge_cli_dir, knowledge_graph_dir)
+    sources, quarantined_sources, title_to_source_id = build_sources(
+        aiknowledge_cli_dir,
+        knowledge_graph_dir,
+    )
     cases = build_cases(title_to_source_id)
 
     pack_dir = out_dir / "source_packs" / "ai_knowledge_sanitized"
     write_jsonl(pack_dir / "sources.jsonl", sources)
+    write_jsonl(pack_dir / "quarantined_sources.jsonl", quarantined_sources)
     write_json(
         pack_dir / "manifest.json",
         {
@@ -300,6 +338,12 @@ def main() -> int:
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "source_count": len(sources),
             "source_ids": [row["source_id"] for row in sources],
+            "quarantined_source_count": len(quarantined_sources),
+            "quarantined_source_ids": [row["source_id"] for row in quarantined_sources],
+            "quarantine_policy": (
+                "Sources with self-contradictory content availability and factual key_points "
+                "are retained for audit but excluded from cases and factual evaluation."
+            ),
             "sanitization": [
                 "Removed internal URLs.",
                 "Removed original internal document IDs.",
@@ -327,7 +371,10 @@ def main() -> int:
         },
     )
 
-    print(f"Wrote {len(sources)} sanitized sources and {len(cases)} cases to {out_dir}")
+    print(
+        f"Wrote {len(sources)} eligible sources, {len(quarantined_sources)} quarantined "
+        f"sources, and {len(cases)} cases to {out_dir}"
+    )
     return 0
 
 
