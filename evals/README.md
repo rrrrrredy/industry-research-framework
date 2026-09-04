@@ -74,6 +74,29 @@ evals/runs/report.md
 evals/runs/report.json
 ```
 
+## Run Through DeepSeek Harness
+
+The DSH adapter has three deliberately separate lanes:
+
+```bash
+# Offline: validate DSH frontmatter, resources, and workspace staging.
+python scripts/run_dsh_evals.py validate
+
+# Runtime smoke: launch real DSH headless against a local scripted endpoint.
+python scripts/run_dsh_evals.py smoke
+
+# Live case: use the model and credentials already configured for DSH.
+python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh
+```
+
+`smoke` stages the repository at `.dsh/skills/industry-research-framework`, launches the actual DSH CLI with the `headless` profile, forces the model protocol to call DSH's native `skill` tool, and checks that the returned body includes the framework heading and referenced-resource instructions. The local endpoint receives a placeholder key; it does not call a live model or score research quality.
+
+`live` stages an existing eval prompt, source pack, required artifact skeletons, and the same native Skill layout in an isolated run directory. After DSH exits, it calls the existing `evaluate_case()` logic rather than a DSH-specific scorer. A passing smoke therefore proves runtime wiring; a live result measures only the selected deterministic case and still needs human editorial review.
+
+Both runtime lanes write a JSON report plus captured stdout/stderr under `evals/runs/dsh/`. They accept `--dsh-command-json` or the `DSH_EVAL_COMMAND_JSON` environment variable when DSH needs an explicit argv. If neither is supplied, the runner uses `dsh` from `PATH`, then falls back to the pinned `@deepseek-ai/dsh@0.1.2-rc.1` npm package through `npx`.
+
+The default live lane is strict and returns non-zero for both `review` and `fail`; use `--allow-review` only when collecting exploratory outputs. Do not put credentials in command JSON, prompts, or committed reports.
+
 
 ## Check A Delivery Claim
 
@@ -109,10 +132,11 @@ The check passes only when each known-good run reaches `pass`, meets its minimum
 
 ## Continuous Checks
 
-GitHub Actions runs the known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests:
+GitHub Actions runs the DSH offline adapter validation, known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests. It does not install DSH or call a model:
 
 ```bash
 python scripts/check_docs_sync.py
+python scripts/run_dsh_evals.py validate
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 ```
@@ -191,10 +215,14 @@ Add an LLM judge only after the deterministic runner, positive and negative cali
 4. 再运行 `scripts/run_evals.py` 生成 `report.md` 和 `report.json`。
 5. 运行 `scripts/check_regression_fixtures.py`，确认已知坏样本会被抓住。
 6. 运行 `scripts/check_conformance_fixtures.py`，确认已知好样本不会被误判。
-7. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
-8. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
+7. 运行 `scripts/run_dsh_evals.py validate`，确认 DSH frontmatter、资源引用和工作区装配契约有效。
+8. 需要验证真实 DSH runtime 接线时运行 `scripts/run_dsh_evals.py smoke`；需要评估当前已配置模型时运行 `scripts/run_dsh_evals.py live --case source_instruction_boundary_zh`。
+9. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
+10. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
 
 目前默认不启用 LLM judge。先用确定性 runner 和正负控制样本抓状态文件、来源台账、过程语言、内部编号泄漏、来源指令泄漏、列表密度和重复模板句式；等人工校准集、taste anchor 和规则稳定后，再考虑增加可选的、供应商无关的 LLM judge。
+
+DSH 的 `smoke` 会真正启动 headless runtime，并确认 Skill 被发现、通过原生 `skill` 工具调用、完整正文被加载；它使用本地脚本化接口，不代表模型研究质量。`live` 才调用当前 DSH 已配置的真实模型，产物仍由仓库原有 evaluator 评分。两条通道的结果都不能替代人工阅读。
 
 来源边界测试只证明三个预先配置的可观察行为：不把 canary 复制进成稿、拒绝指定的恶意结论、保留带限制条件的可用供应商事实。它不能证明通用 prompt injection 免疫，也不能覆盖所有工具调用、状态修改、秘密泄露或语义改写。
 

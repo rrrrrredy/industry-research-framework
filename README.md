@@ -45,6 +45,7 @@ Recommended installation modes:
 - **Codex / local coding agents**: clone this repository into the agent's skill or instructions directory, then mention `$industry-research-framework` or point the agent at `SKILL.md`.
 - **Claude / Gemini CLI / Cursor**: paste the repository URL into the session and ask the agent to read `SKILL.md` as the controlling instruction. Load `references/` files only on demand.
 - **ChatGPT or any general agent**: attach or paste `SKILL.md`, then give the task brief. If file access is available, provide the whole repository.
+- **DeepSeek Harness (DSH)**: clone the repository as a direct child at `<workspace>/.dsh/skills/industry-research-framework` or `<workspace>/.agents/skills/industry-research-framework`. DSH discovers the existing `SKILL.md` natively and loads the full instructions through its `skill` tool; no plugin manifest is required.
 - **OpenClaw**: install as a skill directory containing `SKILL.md`, for example `<workspace>/skills/industry-research-framework` or `~/.openclaw/skills/industry-research-framework`. If skill allowlists are enabled, allow the frontmatter name `industry-research-framework`. No env or API key config is required for this framework.
 - **Hermes Agent**: install as a skill under `~/.hermes/skills/industry-research-framework`, then use `/skills` to confirm it is visible and invoke it by name. If migrating from OpenClaw, use Hermes' official migration flow and verify that `SKILL.md` plus `references/` were imported.
 
@@ -55,6 +56,7 @@ Agent-specific notes live in [`agents/`](./agents/):
 - [`agents/gemini-cli.md`](./agents/gemini-cli.md)
 - [`agents/cursor.md`](./agents/cursor.md)
 - [`agents/chatgpt.md`](./agents/chatgpt.md)
+- [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)
 - [`agents/openclaw.md`](./agents/openclaw.md)
 - [`agents/hermes.md`](./agents/hermes.md)
 
@@ -114,11 +116,14 @@ This repository includes a lightweight evaluation loop under [`evals/`](./evals/
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/run_dsh_evals.py validate
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
 python scripts/check_delivery.py <task-directory>
 ```
+
+For DeepSeek Harness, `python scripts/run_dsh_evals.py smoke` launches the real DSH headless runtime against a local scripted endpoint and verifies native Skill discovery, invocation, and body loading without using a live model. `python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` uses the model and credentials already configured for DSH, then scores the generated artifacts with the same deterministic evaluator. See [`agents/deepseek-harness.md`](./agents/deepseek-harness.md) for installation and scope limits.
 
 To rebuild the sanitized AI knowledge source pack from local knowledge repositories:
 
@@ -349,6 +354,7 @@ industry-research-framework/
 │   ├── gemini-cli.md
 │   ├── cursor.md
 │   ├── chatgpt.md
+│   ├── deepseek-harness.md
 │   ├── openclaw.md
 │   └── hermes.md
 ├── docs/
@@ -367,6 +373,7 @@ industry-research-framework/
 │   ├── check_conformance_fixtures.py
 │   ├── check_docs_sync.py
 │   ├── check_regression_fixtures.py
+│   ├── run_dsh_evals.py
 │   └── run_evals.py
 └── references/
     ├── research-workflow.md
@@ -431,6 +438,7 @@ This project is open source under the [MIT License](./LICENSE).
 - **Codex / 本地 coding agent**：把本仓库克隆到 agent 的 skill 或 instruction 目录，再在任务中提到 `$industry-research-framework` 或直接指向 `SKILL.md`。
 - **Claude / Gemini CLI / Cursor**：把仓库链接发给 agent，让它把 `SKILL.md` 当作控制指令；`references/` 文件只在需要对应方法时读取。
 - **ChatGPT 或通用 agent**：上传或粘贴 `SKILL.md`，再给研究任务；如果支持文件访问，直接提供整个仓库。
+- **DeepSeek Harness（DSH）**：把仓库克隆为 `<workspace>/.dsh/skills/industry-research-framework` 或 `<workspace>/.agents/skills/industry-research-framework` 的直接子目录。DSH 会原生发现现有 `SKILL.md`，并通过 `skill` 工具按需加载完整指令，不需要插件 manifest。
 - **OpenClaw**：按官方 skill 机制安装为包含 `SKILL.md` 的目录，例如 `<workspace>/skills/industry-research-framework` 或 `~/.openclaw/skills/industry-research-framework`。如果启用了 skill allowlist，请允许 frontmatter 名称 `industry-research-framework`。本框架不需要 env 或 API key 配置。
 - **Hermes Agent**：按官方 skill 机制放到 `~/.hermes/skills/industry-research-framework`，启动后用 `/skills` 确认可见，再通过技能名调用。如果从 OpenClaw 迁移到 Hermes，使用 Hermes 官方迁移流程，并确认 `SKILL.md` 和 `references/` 已导入。
 
@@ -441,6 +449,7 @@ This project is open source under the [MIT License](./LICENSE).
 - [`agents/gemini-cli.md`](./agents/gemini-cli.md)
 - [`agents/cursor.md`](./agents/cursor.md)
 - [`agents/chatgpt.md`](./agents/chatgpt.md)
+- [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)
 - [`agents/openclaw.md`](./agents/openclaw.md)
 - [`agents/hermes.md`](./agents/hermes.md)
 
@@ -501,11 +510,14 @@ This project is open source under the [MIT License](./LICENSE).
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/run_dsh_evals.py validate
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py
 python scripts/check_delivery.py <任务目录>
 ```
+
+DSH 适配提供两条实跑通道：`python scripts/run_dsh_evals.py smoke` 会真的启动 DSH headless，用本地脚本化接口验证原生 Skill 的发现、调用和完整加载，不消耗真实模型；`python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` 会使用当前 DSH 已配置的模型和凭据完成 case，再交给同一个确定性 evaluator 评分。安装方式和证明边界见 [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)。
 
 如果本地有 AI 知识库仓库，可以重新生成脱敏评测数据：
 

@@ -855,10 +855,17 @@
                 <pre><code>I am attaching or pasting SKILL.md from Industry Research Framework. Follow it as a protocol for this longform research task. Ask one compact brief-gate question set if needed, maintain claim and uncertainty notes, and return only reader-facing final prose after quality gates pass.</code></pre>
               </article>
               <article class="prompt-card">
+                <div class="card-number">DeepSeek Harness (DSH)</div>
+                <h3>Native Skill mode</h3>
+                <pre><code>Install the repository at .dsh/skills/industry-research-framework, then run DSH from the research workspace. Use the industry-research-framework Skill, load it before work begins, keep state/, logs/, and data/ in the workspace, and complete the requested research deliverable.</code></pre>
+              </article>
+              <article class="prompt-card">
                 <div class="card-number">Eval follow-up</div>
                 <h3>Check the run</h3>
                 <pre><code>After the research run, place the artifacts under evals/runs/&lt;run-id&gt;/ and execute:
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
+python scripts/run_dsh_evals.py validate
+python scripts/run_dsh_evals.py smoke
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_docs_sync.py</code></pre>
@@ -918,7 +925,7 @@ python scripts/check_docs_sync.py</code></pre>
               <article class="card dark">
                 <div class="card-number">Adapters</div>
                 <h3>Use the agent-specific notes</h3>
-                <p>Codex, Claude, Gemini CLI, Cursor, ChatGPT-style agents, OpenClaw, and Hermes Agent have short setup notes in the <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/agents">agents directory</a>.</p>
+                <p>Codex, Claude, Gemini CLI, Cursor, ChatGPT-style agents, DeepSeek Harness, OpenClaw, and Hermes Agent have short setup notes in the <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/agents">agents directory</a>.</p>
               </article>
             </div>
           </section>
@@ -941,6 +948,11 @@ python scripts/check_docs_sync.py</code></pre>
                 <div class="card-number">Runner</div>
                 <h3>Run offline checks</h3>
                 <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to score state files, claim discipline, review logs, depth, process leakage, source-instruction leakage, and false completion signals.</p>
+              </article>
+              <article class="card">
+                <div class="card-number">DSH adapter</div>
+                <h3>Separate runtime wiring from model quality</h3>
+                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_dsh_evals.py">scripts/run_dsh_evals.py</a> to validate the native Skill layout, smoke-test real DSH headless invocation against a local scripted endpoint, or run a configured model and score its artifacts with the shared evaluator.</p>
               </article>
               <article class="card">
                 <div class="card-number">Calibration</div>

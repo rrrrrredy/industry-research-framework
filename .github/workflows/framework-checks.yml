@@ -18,6 +18,8 @@ jobs:
           python-version: "3.12"
       - name: Check published SKILL sync
         run: python scripts/check_docs_sync.py
+      - name: Check DeepSeek Harness adapter
+        run: python scripts/run_dsh_evals.py validate
       - name: Check known-bad regression fixtures
         run: python scripts/check_regression_fixtures.py
       - name: Check known-good conformance fixtures
