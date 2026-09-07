@@ -1,0 +1,106 @@
+{
+  "content": "{\n  \"cases\": [\n    {\n      \"id\": \"case-01\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"证据仅显示10:10一次写入三条PASS，且明确没有逐节中间审查事件；A把末尾PASS当作逐节验收记录，并据此推断严格顺序和Strong质量，与证据冲突。\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"准确区分已有三节正文和末尾PASS与能证明逐节验收顺序/读者质量证据之间的差别，并指出不能事后补记录还原未观测过程。\"\n      }\n    },\n    {\n      \"id\": \"case-02\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"把8/10的已处理请求解决率误称为全部客户需求的80%；按全部合格请求计算，解决率应为8/20=40%。\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"正确区分已处理解决率80%、覆盖率50%和全量合格请求解决率40%，并指出是否扩大接入需先查未覆盖10条的复杂度和失败风险。\"\n      }\n    },\n    {\n      \"id\": \"case-03\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"贴合证据：甲适合已有视频底片修改，乙单次报价低但20次仅4次通过标签检查；A按工作方式选择并把费用分摊到可用结果，同时对样本量保持谨慎。\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"完全未使用或回应所给证据，只给出通用管理表述；未对甲乙工具的选择和费用风险提出可核验的具体判断。\"\n      }\n    },\n    {\n      \"id\": \"case-04\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"准确反映价格页面无法完整读取和未做生成实测，主动限制结论范围，不进行总采购成本排名。\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"引入证据未支持的已读取Skill、来源登记、分节门禁通过等过程声明，也未说明未做生成实测对结论的限制；仅把缺价作为待补证问题，结论边界不清。\"\n      }\n    },\n    {\n      \"id\": \"case-05\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"正确区分普通账户仍允许训练与企业合同可另约定不训练，要求先确认适用的企业合同和账户范围再上传未公开素材，符合证据。\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"证据显示普通账户仍允许内容用于训练，B却称可用普通付费账户处理保密品牌素材；把企业合同的可能保护误套到普通账户。\"\n      }\n    },\n    {\n      \"id\": \"case-06\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"E1仅记录每秒最多处理40个请求，没有复杂问题解决率或续约数据；A却称该平台已证明能稳定解决九成复杂问题且证据充分，明显偏离证据。\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"准确限定E1只支持请求处理能力结论，不扩展到解决率和续约收益，并指出需要实际工单和续约队列数据再作扩大采购判断。\"\n      }\n    }\n  ],\n  \"limitations\": [\n    \"仅基于提供的虚构证据片段进行一致性评审，不引入外部事实。\",\n    \"对PASS是否为自评等证据未明确细节，按字面证据处理。\"\n  ]\n}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "case-01",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "证据仅显示10:10一次写入三条PASS，且明确没有逐节中间审查事件；A把末尾PASS当作逐节验收记录，并据此推断严格顺序和Strong质量，与证据冲突。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确区分已有三节正文和末尾PASS与能证明逐节验收顺序/读者质量证据之间的差别，并指出不能事后补记录还原未观测过程。"
+        }
+      },
+      {
+        "id": "case-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "把8/10的已处理请求解决率误称为全部客户需求的80%；按全部合格请求计算，解决率应为8/20=40%。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确区分已处理解决率80%、覆盖率50%和全量合格请求解决率40%，并指出是否扩大接入需先查未覆盖10条的复杂度和失败风险。"
+        }
+      },
+      {
+        "id": "case-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "贴合证据：甲适合已有视频底片修改，乙单次报价低但20次仅4次通过标签检查；A按工作方式选择并把费用分摊到可用结果，同时对样本量保持谨慎。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "完全未使用或回应所给证据，只给出通用管理表述；未对甲乙工具的选择和费用风险提出可核验的具体判断。"
+        }
+      },
+      {
+        "id": "case-04",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确反映价格页面无法完整读取和未做生成实测，主动限制结论范围，不进行总采购成本排名。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "引入证据未支持的已读取Skill、来源登记、分节门禁通过等过程声明，也未说明未做生成实测对结论的限制；仅把缺价作为待补证问题，结论边界不清。"
+        }
+      },
+      {
+        "id": "case-05",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确区分普通账户仍允许训练与企业合同可另约定不训练，要求先确认适用的企业合同和账户范围再上传未公开素材，符合证据。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "证据显示普通账户仍允许内容用于训练，B却称可用普通付费账户处理保密品牌素材；把企业合同的可能保护误套到普通账户。"
+        }
+      },
+      {
+        "id": "case-06",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "E1仅记录每秒最多处理40个请求，没有复杂问题解决率或续约数据；A却称该平台已证明能稳定解决九成复杂问题且证据充分，明显偏离证据。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确限定E1只支持请求处理能力结论，不扩展到解决率和续约收益，并指出需要实际工单和续约队列数据再作扩大采购判断。"
+        }
+      }
+    ],
+    "limitations": [
+      "仅基于提供的虚构证据片段进行一致性评审，不引入外部事实。",
+      "对PASS是否为自评等证据未明确细节，按字面证据处理。"
+    ]
+  },
+  "model_returned": "deepseek-v4-pro",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1131,
+    "completion_tokens": 4780,
+    "total_tokens": 5911,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3836
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1131
+  },
+  "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+  "external_fact_check": false
+}

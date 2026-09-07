@@ -129,7 +129,9 @@ python scripts/check_delivery.py <task-directory>
 
 For DeepSeek Harness, `python scripts/run_dsh_evals.py smoke` launches the real DSH headless runtime against a local scripted endpoint and verifies native Skill discovery, invocation, and body loading without using a live model. `python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` uses the model and credentials already configured for DSH, then scores the generated artifacts with the same deterministic evaluator. See [`agents/deepseek-harness.md`](./agents/deepseek-harness.md) for installation and scope limits.
 
-The repository also contains a frozen three-to-four-agent baseline/framework comparison protocol under [`evals/cross_agent/`](./evals/cross_agent/). It is currently prepared but has no published model runs. Its publication checker refuses a comparative bundle with fewer than three complete agent pairs or inadequate blinded review; do not treat the protocol itself as result evidence.
+For actual outputs, read the [September 2026 calibration reports and repairs](./evals/diagnostics/2026-09-07/): four original reader reports, two repairs, retained failed reviews and a three-model text diagnostic, including an incomplete reply. These are development evidence, not a framework win rate.
+
+The repository also contains a frozen three-to-four-agent baseline/framework comparison protocol under [`evals/cross_agent/`](./evals/cross_agent/). It is currently prepared but has no published completed runtime pairs. Its publication checker refuses a comparative bundle with fewer than three complete agent pairs or inadequate blinded review; the separate model text diagnostic does not satisfy this gate.
 
 See [`docs/evaluation-roadmap.md`](./docs/evaluation-roadmap.md) for the separate conformance, portability, real-task efficacy, and external-adoption tracks and their claim boundaries.
 

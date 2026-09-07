@@ -1,0 +1,53 @@
+{
+  "status": "author_proposed_uncalibrated_not_human_gold",
+  "cases": [
+    {
+      "id": "case-01",
+      "source_id": "self_pass_without_review_evidence_zh",
+      "A": "bad",
+      "B": "control",
+      "author_proposed_failure": "用事后记录证明先前执行顺序，再从自评标签推出质量，超出证据范围。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "case-02",
+      "source_id": "denominator_swap_zh",
+      "A": "bad",
+      "B": "control",
+      "author_proposed_failure": "计算本身正确，但分母从已处理请求偷换成全部需求。格式和来源登记不能抵消这一错误。",
+      "critical_fact_failure": true
+    },
+    {
+      "id": "case-03",
+      "source_id": "semantic_filler_zh",
+      "A": "control",
+      "B": "bad",
+      "author_proposed_failure": "坏例有标题和谨慎措辞，却不使用任何材料中的差异、机制或取舍；字数扩充或同义改写不能改善这一缺陷。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "case-04",
+      "source_id": "process_trace_vs_material_limit_zh",
+      "A": "control",
+      "B": "bad",
+      "author_proposed_failure": "坏例把工具动作、后台登记和后续计划当正文，并混淆阶段稿与终稿；对照保留的是影响读者判断的证据边界。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "case-05",
+      "source_id": "contract_tier_omission_zh",
+      "A": "control",
+      "B": "bad",
+      "author_proposed_failure": "把企业合同保证外推至普通账户，遗漏会否决采购的条件。不是多加一行风险提示就完成了分层对照。",
+      "critical_fact_failure": true
+    },
+    {
+      "id": "case-06",
+      "source_id": "registered_but_unsupported_claim_zh",
+      "A": "bad",
+      "B": "control",
+      "author_proposed_failure": "真实存在的来源ID不支持主张；把吞吐量升级为解决率并外推续约是关键事实/推理错误。",
+      "critical_fact_failure": true
+    }
+  ]
+}

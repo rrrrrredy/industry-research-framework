@@ -1,0 +1,53 @@
+{
+  "kind": "development_calibration_not_held_out",
+  "tasks_authored_for_development": true,
+  "condition_order": "framework first for both tasks",
+  "human_reviews_completed": 0,
+  "original_frozen_files_checked": 145,
+  "runs": [
+    {
+      "task": "customer-service",
+      "condition": "framework",
+      "run_id": "run-01",
+      "original_capture_sha256": "17fc8d8f1f0b52e3032371b8cb72a932ae291ab2f7ee1d57a620baefc7695f86",
+      "reader_export": "reports/customer-service/original-framework.md",
+      "reader_export_sha256_lf": "b21e5d24e115657908e362915432c414a2be8fc1a5123d24fa1055d0df7d4626",
+      "removed_client_memory_blocks": 0,
+      "removed_local_download_footers": 0,
+      "transformation": "Normalize newlines and outer whitespace; remove only recorded client/local-download footers; no analytical prose removed"
+    },
+    {
+      "task": "customer-service",
+      "condition": "baseline",
+      "run_id": "run-02",
+      "original_capture_sha256": "db86cf052a508e8031e845ea443004cad24198b7153ea0fcedca1515bb0479de",
+      "reader_export": "reports/customer-service/original-baseline.md",
+      "reader_export_sha256_lf": "b520d76a490cf96b726d45e3f4f6b1f27c50b3fa46086bb31da64f07791298ba",
+      "removed_client_memory_blocks": 0,
+      "removed_local_download_footers": 0,
+      "transformation": "Normalize newlines and outer whitespace; remove only recorded client/local-download footers; no analytical prose removed"
+    },
+    {
+      "task": "video-production",
+      "condition": "framework",
+      "run_id": "run-03",
+      "original_capture_sha256": "ea54bc4d23d730b6afa870c7f348c2e5af871529dde88db1b6972ea9739326a2",
+      "reader_export": "reports/video-production/original-framework.md",
+      "reader_export_sha256_lf": "99ef61a1cee9a980de8d159b1f47201f0ea3361f7b9e104f6788cd9e5f704898",
+      "removed_client_memory_blocks": 0,
+      "removed_local_download_footers": 1,
+      "transformation": "Normalize newlines and outer whitespace; remove only recorded client/local-download footers; no analytical prose removed"
+    },
+    {
+      "task": "video-production",
+      "condition": "baseline",
+      "run_id": "run-04",
+      "original_capture_sha256": "e3720c3334316095ec3fcf2e59da3183633237d20b29a6fb6b28ab3b11c501a0",
+      "reader_export": "reports/video-production/original-baseline.md",
+      "reader_export_sha256_lf": "34eee95896c5436f65e743c612cda47f01e5cae285dd32de76e2b961de1fd2c5",
+      "removed_client_memory_blocks": 0,
+      "removed_local_download_footers": 1,
+      "transformation": "Normalize newlines and outer whitespace; remove only recorded client/local-download footers; no analytical prose removed"
+    }
+  ]
+}

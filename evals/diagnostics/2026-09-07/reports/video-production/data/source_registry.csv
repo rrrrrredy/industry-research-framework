@@ -1,0 +1,27 @@
+source_id,title,url,source_type,access_status,access_date,limitations
+S01,Kling VIDEO3 guide,https://kling.ai/quickstart/klingai-video-3-model-user-guide,official_product,opened_target_table,2026-09-07,App family capability not entitlement or every reseller endpoint
+S02,fal Kling3 Pro endpoint,https://fal.ai/models/fal-ai/kling-video/v3/pro/image-to-video,provider_endpoint,opened,2026-09-07,fal price not Kling direct price; no paid generation
+S03,fal Kling3 Pro schema,https://fal.ai/models/fal-ai/kling-video/v3/pro/image-to-video/api,provider_schema,opened_target_schema,2026-09-07,Chinese and English only native voice per endpoint; no resolution parameter
+S04,fal Kling3 comparison guide,https://fal.ai/learn/tools/seedance-2-0-vs-kling-3-0,provider_specification,opened_target_specification,2026-09-07,Used only for Pro1080p label; not quality or speed ranking
+S05,Runway Gen4.5 guide,https://help.runwayml.com/hc/en-us/articles/46974685288467-Creating-with-Gen-4-5,official_product,opened_specification_and_export,2026-09-07,App720p Standard+; premium export separate not quality guarantee
+S06,Runway Aleph2 video editor,https://runway.com/product/ai-video-editor,official_product,opened,2026-09-07,30s1080p editing capability; zero-drift marketing not adopted as fact
+S07,Runway API pricing,https://docs.dev.runwayml.com/guides/pricing/,official_pricing,opened_video_table,2026-09-07,APIcredit0.01USD not app-credit conversion
+S08,Runway API setup,https://docs.dev.runwayml.com/guides/setup/,official_access,opened,2026-09-07,Organization key minimum10USD per documentation; no actual checkout
+S09,Flow regions,https://support.google.com/flow/answer/16353544?hl=en,official_access,full_supported_region_list_read,2026-09-07,Mainland absent; feature restrictions differ by region; Chinese UI not eligibility
+S10,Flow model feature matrix,https://support.google.com/flow/answer/16352836?hl=en,official_product,opened_Veo_and_Omni_sections,2026-09-07,Do not attribute Omni editing to Veo
+S11,Veo3.1 Cloud model reference,https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate,official_model_reference,opened_model_specs_and_versions,2026-09-07,GA Generate/Fast vsPreviewLite; quota line contains ambiguous units; no numeric capacity guarantee
+S12,Gemini API pricing,https://ai.google.dev/gemini-api/docs/pricing,official_pricing,opened_Veo_section,2026-09-07,Developer API Preview IDs and paid tier distinct from Cloud GA and Flow
+S13,fal Veo3.1 endpoint,https://fal.ai/models/fal-ai/veo3.1/image-to-video,provider_endpoint,opened,2026-09-07,fal1080p audio0.40USD/s not cheapest Veo variant
+S14,fal Veo3.1 schema,https://fal.ai/models/fal-ai/veo3.1/image-to-video/api,provider_schema,opened_target_schema,2026-09-07,8s1080p16:9 first image supported; no observed acceptance or matched fps
+S15,Kling international general terms,https://kling.ai/docs/user-policy,official_terms,opened_4.5_to4.9,2026-09-07,General restrictions and training grant with withdrawal request; not domestic/API blanket
+S16,Kling paid terms,https://kling.ai/docs/payment-policy,official_terms,opened_3.1.2_and_credit_rules,2026-09-07,Member commercial grant during subscribed benefits; credit purchase not membership
+S17,Kling API Aliyun market contract,https://market.aliyun.com/product/protocol.htm?code=cmgjllm00073513,supplier_contract,opened_5_and6,2026-09-07,Named purchase contract; no-training but30daypromptresponse retention; not fal or consumer
+S18,Runway general terms,https://runway.com/terms-of-use,official_terms,opened_4.3_and4.4,2026-09-07,Commercial use does not negate perpetual input/output training license
+S19,Runway enterprise third-party FAQ,https://help.runwayml.com/hc/en-us/articles/51248305153683-Enterprise-FAQ-Third-party-Models-in-Runway,official_enterprise_policy,opened_FAQ,2026-09-07,Third-party no-training under actual enterprise terms; not ordinary-account promise
+S20,Flow data management,https://support.google.com/flow/answer/17025472?hl=en,official_privacy_help,opened,2026-09-07,Improvement switch and human review distinct from enterprise contract; no blanket zero retention
+S21,Google Cloud service terms,https://cloud.google.com/terms/service-terms,official_terms,opened_training_and_generated_output_sections,2026-09-07,No training absent prior permission; contract and exceptions apply
+S22,Google indemnified services,https://cloud.google.com/terms/generative-ai-indemnified-services,official_terms_list,opened_GA_Veo_list_and_S21_exceptions,2026-09-07,CoveredpaidCloudGA; unmodified output and inputrights requirements; trademark exclusion
+S23,Artificial Analysis video leaderboard,https://artificialanalysis.ai/video/leaderboard/text-to-video,independent_primary_benchmark,opened_table_and_blind_vote_methodology,2026-09-07,No fixed rank or observed production reliability claim; sameprompt blindpreference is not commercial acceptance
+S24,Runway API tiers,https://docs.dev.runwayml.com/usage/tiers/,official_quota,opened_concurrency_and_throttling,2026-09-07,No uptime or latency guarantee inferred; lower-than-maximum capacity explicitly possible
+S25,Runway Gen4.5 research,https://runway.com/research/introducing-runway-gen-4.5,official_model_report,opened_limitations,2026-09-07,Causality/permanence/successbias disclosed; no measured frequency
+S26,Kling direct API pricing,https://kling.ai/dev/pricing,official_pricing,empty_dynamic_response,2026-09-07,Do not quote unverified current direct prices or use fal as direct substitute

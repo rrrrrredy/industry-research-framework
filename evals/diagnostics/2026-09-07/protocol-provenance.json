@@ -1,0 +1,16 @@
+{
+  "base_commit": "b541a667b89a4ea9da8fffd8d58851e5f03b795e",
+  "normative_files_unchanged": 9,
+  "sha256_lf": {
+    "SKILL.md": "f4f298205bffd1d4931558d7635473c5cb6bf850bf63425c0db45daf9b834a11",
+    "references/gotchas.md": "a9c6be66feb67e4a9d177ebe7c459ad7c377bc7a780ecaa3fdea7f421aadc9df",
+    "references/horizontal-vertical-analysis.md": "10584226f4530c1e2da4026e968cb1faa19c4512484e15f815c84c4b5ccd9e1d",
+    "references/optional-analysis-lenses.md": "14d21a97e69b2ade533f142c71a383aef27fe461be24674e231270e10b436c78",
+    "references/postmortem-lessons.md": "329f509045ce069514fcef75a31be86a2110cd61e8cae9ac449cbf14877f26f8",
+    "references/quality-gates.md": "60f0c0979baf58a9e11df3557809b13d8bb7d22e60db0078a420da97d0ff5e2f",
+    "references/research-workflow.md": "77f7aa925f061681cf220a33fdf74a73273883e93495bd22e46fcc34e8877c04",
+    "references/subagents-and-review-loop.md": "6232643696c9ab439dfecef11f1d89611aacd3685dc470467d367213181d20a0",
+    "references/writing-style.md": "1a4bfe109e1ee001e8efad09486e938a8655c4cfaf9543661ebaa23e2a3beae3"
+  },
+  "scope": "Both repairs used the full frozen Skill and references, not the installed compact variant"
+}

@@ -2,6 +2,8 @@
 
 Taste anchors are human-readable examples used to calibrate the evaluation loop. They are not gold answers and should not be treated as model training data. Their job is to show the difference between mechanical conformance and publishable research quality.
 
+The filename `high_quality.md` is an editorial example label, not a validated quality score. In particular, the AI Agent landscape sample uses undated historical summaries with unavailable original provenance; it is not a current market report or factual answer key. See the [source-data audit](../../docs/evaluation-data-audit.md). Synthetic anchors remain fictional even when their structure is useful. Do not use these development examples as held-out test tasks.
+
 ## Anchors
 
 - [`ai_agent_market_landscape_zh/high_quality.md`](./ai_agent_market_landscape_zh/high_quality.md): a reader-facing, thesis-led Chinese sample for the AI Agent market landscape case.

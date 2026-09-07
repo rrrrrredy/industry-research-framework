@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from check_eval_source_integrity import apply_source_exclusions, read_source_policy
+
 
 SELECTED_TITLES = [
     "AI Agent研究报告",
@@ -267,6 +269,8 @@ def build_sources(
             rows.append(row)
         title_to_source_id[title] = source_id
 
+    policies = read_source_policy(Path(__file__).resolve().parents[1] / "evals/source_policy.json")
+    rows = apply_source_exclusions(rows, policies["ai_knowledge_sanitized"])
     return rows, quarantined_rows, title_to_source_id
 
 
@@ -326,6 +330,8 @@ def main() -> int:
         knowledge_graph_dir,
     )
     cases = build_cases(title_to_source_id)
+
+    write_json(out_dir / "source_policy.json", read_json(Path(__file__).resolve().parents[1] / "evals/source_policy.json"))
 
     pack_dir = out_dir / "source_packs" / "ai_knowledge_sanitized"
     write_jsonl(pack_dir / "sources.jsonl", sources)

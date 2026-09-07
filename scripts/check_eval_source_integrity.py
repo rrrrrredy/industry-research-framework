@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 from pathlib import Path
 from typing import Any
@@ -22,6 +23,51 @@ INSUFFICIENT_SOURCE_MARKERS = [
 def read_json(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def read_source_policy(path: Path) -> dict[str, dict[str, Any]]:
+    policy = read_json(path)
+    if not isinstance(policy, dict) or policy.get("schema_version") != 1 or not isinstance(policy.get("packs"), dict):
+        raise ValueError(f"{path}: expected source policy version 1 with a packs object")
+    for pack_id, entry in policy["packs"].items():
+        if not isinstance(entry, dict) or entry.get("allowed_purposes") != ["workflow"] or entry.get("factual_authority") is not False:
+            raise ValueError(f"{path}/{pack_id}: this suite permits workflow inputs only, not self-certified factual authority")
+        for field in ("kind", "provenance_status", "rights_status"):
+            if not isinstance(entry.get(field), str) or not entry[field].strip():
+                raise ValueError(f"{path}/{pack_id}: missing {field}")
+        exclusions = entry.get("excluded_claims", [])
+        if not isinstance(exclusions, list):
+            raise ValueError(f"{path}/{pack_id}: excluded_claims must be a list")
+        for item in exclusions:
+            if not isinstance(item, dict) or item.get("field") not in {"summary", "key_points"}:
+                raise ValueError(f"{path}/{pack_id}: invalid claim exclusion")
+            if any(not isinstance(item.get(key), str) or not item[key].strip() for key in ("source_id", "text", "reason", "evidence")):
+                raise ValueError(f"{path}/{pack_id}: claim exclusion lacks its original text or audit evidence")
+    return policy["packs"]
+
+
+def apply_source_exclusions(rows: list[dict[str, Any]], policy: dict[str, Any]) -> list[dict[str, Any]]:
+    """Remove reviewed exact excerpts, preserving caller inputs and the original text in the policy."""
+    curated = copy.deepcopy(rows)
+    for item in policy.get("excluded_claims", []):
+        for row in curated:
+            if row.get("source_id") != item["source_id"]:
+                continue
+            if item["field"] == "key_points":
+                row["key_points"] = [value for value in row.get("key_points", []) if value != item["text"]]
+            else:
+                row["summary"] = str(row.get("summary", "")).replace(item["text"], "")
+    return curated
+
+
+def excluded_claim_findings(rows: list[dict[str, Any]], policy: dict[str, Any]) -> list[str]:
+    findings: list[str] = []
+    for item in policy.get("excluded_claims", []):
+        for row in rows:
+            content = str(row.get("summary", "")) + "\n" + "\n".join(str(value) for value in row.get("key_points", []))
+            if item["text"] in content:
+                findings.append(f"{row.get('source_id')}: an audited excluded claim was reintroduced")
+    return findings
 
 
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -55,6 +101,7 @@ def contradictory_content(row: dict[str, Any]) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evals-dir", default="evals")
+    parser.add_argument("--purpose", choices=("workflow", "factual"), default="workflow")
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parents[1]
@@ -65,6 +112,12 @@ def main() -> int:
     source_owner: dict[str, str] = {}
     active_count = 0
     quarantined_count = 0
+
+    try:
+        policies = read_source_policy(evals_dir / "source_policy.json")
+    except (OSError, ValueError) as exc:
+        print(f"Eval source policy failure: {exc}")
+        return 1
 
     for pack_dir in sorted((evals_dir / "source_packs").iterdir()):
         if not pack_dir.is_dir():
@@ -83,6 +136,10 @@ def main() -> int:
             failures.append(str(exc))
             continue
 
+        if not isinstance(manifest, dict):
+            failures.append(f"{manifest_path}: manifest must be an object")
+            continue
+
         pack_id = str(manifest.get("source_pack_id", "")).strip()
         if not pack_id:
             failures.append(f"{manifest_path}: missing source_pack_id")
@@ -90,6 +147,13 @@ def main() -> int:
         if pack_id in pack_sources:
             failures.append(f"Duplicate source_pack_id: {pack_id}")
             continue
+        policy = policies.get(pack_id)
+        if policy is None:
+            failures.append(f"{pack_id}: no explicit source-use policy")
+        else:
+            if args.purpose not in policy["allowed_purposes"]:
+                failures.append(f"{pack_id}: not eligible for {args.purpose} evaluation; factual authority is not established")
+            failures.extend(f"{pack_id}/{finding}" for finding in excluded_claim_findings(sources, policy))
 
         source_ids = [str(row.get("source_id", "")).strip() for row in sources]
         quarantine_ids = [str(row.get("source_id", "")).strip() for row in quarantined]
@@ -141,8 +205,11 @@ def main() -> int:
     for case_path in sorted((evals_dir / "cases").glob("*.json")):
         try:
             case = read_json(case_path)
-        except (OSError, json.JSONDecodeError) as exc:
+        except (OSError, ValueError) as exc:
             failures.append(f"{case_path}: {exc}")
+            continue
+        if not isinstance(case, dict):
+            failures.append(f"{case_path.name}: case must be an object")
             continue
         pack_id = str(case.get("source_pack", "")).strip()
         available = pack_sources.get(pack_id)
@@ -170,6 +237,7 @@ def main() -> int:
         f"PASS: {len(pack_sources)} source packs, {active_count} active sources, "
         f"{quarantined_count} quarantined sources, and all case references are consistent."
     )
+    print("Use: workflow only. Factual benchmark readiness and original-document reuse rights are not certified.")
     return 0
 
 

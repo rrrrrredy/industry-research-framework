@@ -1,8 +1,38 @@
 # Changelog
 
-All notable repository changes are recorded here. Until the first tagged release, entries remain under `Unreleased` and must not be described as a published version.
+Released changes are grouped by tag. `Unreleased` describes work not yet included in a published version.
 
 ## Unreleased
+
+## [v0.1.1](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.1) — 2026-09-07
+
+Engineering and evidence prerelease. The original SKILL.md and all eight core references are unchanged. Ten offline suites pass; retained development diagnostics are not a held-out efficacy result or three-runtime comparison.
+
+### Changed
+
+- Remove redundant online-reading sections from both READMEs, retain links near the introduction, and make integration guidance platform-neutral; move synchronization and packaging policy to maintenance documentation.
+- Reject unknown progress statuses and delivery paths outside the task directory.
+- Bind the selected delivery-message filename instead of always requiring the default filename.
+- Reject invalid UTF-8 delivery inputs instead of silently replacing bytes or crashing during JSON reads.
+- Keep an issue open when it only assigns a routed action; planning a follow-up is not resolution.
+- Exclude unresolved numeric-scope claims and a wrong XGBoost attribution from active legacy sources; retain exact originals and audit reasons, and prevent regeneration from restoring them.
+- Narrow unsupported assertions in the historical AI Agent editorial example; explicitly distinguish example labels from verified factual or quality results.
+
+### Added
+
+- Optional comparison with a caller-supplied actual reply capture; an absent capture is explicitly `not_provided`.
+- Optional verification of task-declared review scopes in addition to the global review.
+- Isolated delivery-contract regressions and bounded review-order/state-transition checks.
+- Evaluator schema v2 migration guidance and explicit delivery-checker observation limits.
+- Workflow-only source-use policy, provenance/rights limitations, and positive/negative regeneration controls.
+- Six synthetic semantic bad/control pairs for diagnostic review, not automatic quality scores or held-out evidence.
+- Actual calibration report exports, two editorial repairs, retained failed reviews and a frozen three-model text diagnostic with its incomplete response; no efficacy or three-runtime claim.
+- Offline public-bundle integrity checks and disclosure of heuristic thresholds, reviewer context exposure and partial stage observability.
+- Read-only installed-payload comparison against a selected Git commit and safe-update guidance; local variants are never overwritten.
+
+## [v0.1.0](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.0) — 2026-09-04
+
+First public prerelease. Mechanical checks do not establish research quality or general framework efficacy.
 
 ### Changed
 

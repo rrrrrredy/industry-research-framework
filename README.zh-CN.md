@@ -118,7 +118,9 @@ python scripts/check_delivery.py <任务目录>
 
 DSH 适配提供两条实跑通道：`python scripts/run_dsh_evals.py smoke` 会真的启动 DSH headless，用本地脚本化接口验证原生 Skill 的发现、调用和完整加载，不消耗真实模型；`python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` 会使用当前 DSH 已配置的模型和凭据完成 case，再交给同一个确定性 evaluator 评分。安装方式和证明边界见 [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)。
 
-仓库还在 [`evals/cross_agent/`](./evals/cross_agent/) 准备了一套冻结的 3–4 Agent baseline/framework 对照协议。目前只有协议，没有公开的模型运行结果。发布检查器会拒绝少于 3 个完整 Agent 配对或盲审不足的比较包；不能把“协议已经写好”当成“结果已经证明”。
+想直接看产出，可阅读[2026 年 9 月校准报告与修订案例](./evals/diagnostics/2026-09-07/)：保留四份原始读者稿、两份修订稿、失败审查及三模型文本诊断，也保留未返回完整结论的记录。这些是开发期证据，不是框架胜率。
+
+仓库还在 [`evals/cross_agent/`](./evals/cross_agent/) 准备了一套冻结的 3–4 Agent baseline/framework 对照协议。目前没有公开的完整运行时配对结果。发布检查器会拒绝少于 3 个完整 Agent 配对或盲审不足的比较包；单独的三模型文本诊断不满足这一门槛。
 
 符合性、跨 Agent 可移植性、真实任务效果和外部采用四条证据线的边界与执行顺序见 [`docs/evaluation-roadmap.md`](./docs/evaluation-roadmap.md)。
 

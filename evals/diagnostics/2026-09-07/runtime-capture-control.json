@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "model_requested": "gpt-6-astra",
+  "execution": "Codex ChatGPT login, no OpenAI API",
+  "exit_code": 0,
+  "elapsed_seconds": 10.641,
+  "event_matches_actual_final": true,
+  "positive": {
+    "ok": true,
+    "flags": [],
+    "findings": [],
+    "completion_claim": false,
+    "terminal_state": true,
+    "stage": "final",
+    "status": "complete",
+    "accepted_limitations": [
+      "合成评测证据不能确认真实公司的内部汇报线，也不能证明新组织跨多代稳定。"
+    ],
+    "delivery_observation": "matched"
+  },
+  "negative": {
+    "ok": false,
+    "flags": [
+      "actual_delivery_mismatch"
+    ],
+    "findings": [
+      "The captured actual reply differs from the receipt-bound intended message."
+    ],
+    "completion_claim": false,
+    "terminal_state": true,
+    "stage": "final",
+    "status": "complete",
+    "accepted_limitations": [
+      "合成评测证据不能确认真实公司的内部汇报线，也不能证明新组织跨多代稳定。"
+    ],
+    "delivery_observation": "mismatch"
+  },
+  "limitations": [
+    "Synthetic state fixture",
+    "Not report quality",
+    "Not desktop UI delivery attestation",
+    "Caller invoked the checker after capture; not an enforced runtime hook"
+  ],
+  "completed_utc": "2026-09-07T10:04:19.782791+00:00"
+}

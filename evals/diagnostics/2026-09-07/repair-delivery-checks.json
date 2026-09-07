@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "task": "customer-service",
+      "artifact": "reports/customer-service/repaired.md",
+      "artifact_sha256_lf": "39dfba7a054f0b2dcf90b054dffbfb67552c723230b63b42b46fc9f179ffc0e9",
+      "check": {
+        "ok": true,
+        "flags": [],
+        "findings": [],
+        "completion_claim": false,
+        "terminal_state": true,
+        "stage": "final",
+        "status": "complete",
+        "accepted_limitations": [
+          "SeatGeek historical original is not directly accessible and its numbers remain qualified source notes",
+          "Vendor-selected cases and a human-assistance study do not establish a causal vendor ranking",
+          "This is a seen-task editorial repair without independent human acceptance; not a held-out framework effect test",
+          "Traceable primary support and explicit evidence limits"
+        ],
+        "delivery_observation": "not_provided"
+      },
+      "receipt_inputs_public": false,
+      "limit": "Author-recorded private-state check; not independently rerunnable from this report export; no actual reply capture supplied"
+    },
+    {
+      "task": "video-production",
+      "artifact": "reports/video-production/repaired.md",
+      "artifact_sha256_lf": "591bcdae37672070a61b16016e3a95a04a38600e76fbb9ea1c537bb657ac7c89",
+      "check": {
+        "ok": true,
+        "flags": [],
+        "findings": [],
+        "completion_claim": false,
+        "terminal_state": true,
+        "stage": "final",
+        "status": "complete",
+        "accepted_limitations": [
+          "Target-enterprise region account payment and contract qualification remain unconfirmed",
+          "fal and Gemini Developer API are not cleared confidential-material procurement routes",
+          "No paid video generation measured acceptance quality uptime or savings; direct dynamic Kling pricing was not verified",
+          "Kimi's video diagnostic has no final answer after output-token exhaustion; no independent human acceptance is claimed",
+          "Separate documented surfaces models tiers and regional/account qualification",
+          "Contract-specific rights training and conditions that overturn selection"
+        ],
+        "delivery_observation": "not_provided"
+      },
+      "receipt_inputs_public": false,
+      "limit": "Author-recorded private-state check; not independently rerunnable from this report export; no actual reply capture supplied"
+    }
+  ]
+}

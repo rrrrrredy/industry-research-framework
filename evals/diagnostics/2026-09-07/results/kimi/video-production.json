@@ -1,0 +1,16 @@
+{
+  "content": "",
+  "parsed": null,
+  "model_returned": "kimi-k3",
+  "finish_reason": "length",
+  "usage": {
+    "prompt_tokens": 5652,
+    "completion_tokens": 8192,
+    "total_tokens": 13844,
+    "completion_tokens_details": {
+      "reasoning_tokens": 8189
+    }
+  },
+  "input_sha256": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444",
+  "external_fact_check": false
+}

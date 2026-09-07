@@ -1,0 +1,19 @@
+{
+  "record_type": "structured_summary_not_verbatim_transcript",
+  "reviewer": "Astra in Codex; same prior video-review agent with historical context",
+  "date": "2026-09-07",
+  "report_byte_sha256": "591bcdae37672070a61b16016e3a95a04a38600e76fbb9ea1c537bb657ac7c89",
+  "scope": "Four changed procurement/contract/resolution boundaries and their effect on reading; not a new full source search",
+  "result": "PASS",
+  "checks": [
+    "fal is a price illustration only; commercial use, training, retention and target-account qualification remain unconfirmed",
+    "Gemini Developer API does not inherit Google Cloud contract protections",
+    "Documented entry points are candidates, not verified regional/account/payment procurement eligibility",
+    "Provider-labelled Kling 1080p is distinguished from a selectable API resolution"
+  ],
+  "ratings": {"reading_flow": "Strong", "cognitive_load": "Manageable", "argument_continuity": "Strong", "research_report_quality": "Strong"},
+  "open_issues": [],
+  "nonblocking_suggestion": "One repeated resolution explanation could be shortened; left unchanged because it is adjacent to the arithmetic and not a blocker",
+  "withdrawn_prior_suggestion": "A shared total concurrency pool was an unsupported inference; the source has a per-model simultaneous example",
+  "limitations": ["Model review, not human review", "Reviewer had prior context; not blinded", "No paid generation or target-enterprise checkout performed"]
+}

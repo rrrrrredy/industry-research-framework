@@ -1,0 +1,13 @@
+{
+  "kind": "single_model_revision_diagnostic",
+  "execution": "Astra Codex subagent followup; no OpenAI API",
+  "model_requested": "gpt-6-astra",
+  "record_type": "faithful structured summary; not verbatim tool transcript",
+  "evidence_coverage": "PASS limited to A1-A5 recheck with accepted SeatGeek access limitation",
+  "closed_findings": ["A1 organization billing incompatibility","A2 HelpAgent400credits and2h10m3d windows","A3 SeatGeek source limitation adjacent; exact numbers not independently reverified by reviewer","A4 total versus postAI sample and highest-skill quality decline","A5 Zendesk unified features versus separately bought Forethought"],
+  "reader": {"reading_flow":"Strong","cognitive_load":"Manageable","argument_continuity":"Strong","research_report_quality":"Acceptable"},
+  "reader_reason": "Adequate for initial procurement and trial discussion; selected vendor cases and SeatGeek source access limit effect inference",
+  "blocking_findings": [],
+  "scope_limit": "No full fact re-research; current edits compared with primary material read in initial review",
+  "not_evidence_of": ["human review","framework efficacy","held-out performance","cross-runtime reproduction"]
+}

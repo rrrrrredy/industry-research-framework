@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "purpose": "development text diagnosis; not framework efficacy",
+  "attempt_count": 9,
+  "complete_responses": 8,
+  "failures": [
+    {
+      "provider": "kimi",
+      "task": "video-production",
+      "finish_reason": "length",
+      "reason": "Output token limit exhausted; no final answer; no retry"
+    }
+  ],
+  "semantic_observations": [
+    {
+      "provider": "astra",
+      "author_proposed_bad_rejected": 6,
+      "author_proposed_controls_accepted": 6,
+      "of_each": 6
+    },
+    {
+      "provider": "deepseek",
+      "author_proposed_bad_rejected": 6,
+      "author_proposed_controls_accepted": 6,
+      "of_each": 6
+    },
+    {
+      "provider": "kimi",
+      "author_proposed_bad_rejected": 6,
+      "author_proposed_controls_accepted": 6,
+      "of_each": 6
+    }
+  ],
+  "critical_flag_differences": [
+    {
+      "provider": "astra",
+      "case": "self_pass_without_review_evidence_zh",
+      "side": "A",
+      "author_proposed": false,
+      "model_judgment": true,
+      "status": "uncalibrated terminology difference; not used as a quality score"
+    },
+    {
+      "provider": "deepseek",
+      "case": "self_pass_without_review_evidence_zh",
+      "side": "A",
+      "author_proposed": false,
+      "model_judgment": true,
+      "status": "uncalibrated terminology difference; not used as a quality score"
+    },
+    {
+      "provider": "kimi",
+      "case": "self_pass_without_review_evidence_zh",
+      "side": "A",
+      "author_proposed": false,
+      "model_judgment": true,
+      "status": "uncalibrated terminology difference; not used as a quality score"
+    }
+  ],
+  "budget": {
+    "deepseek": {
+      "cap_cny": 50,
+      "requests": 3,
+      "reserved_guard_cny": 2.0875,
+      "usage_cost_guard_cny_not_invoice": 0.800501
+    },
+    "kimi": {
+      "cap_cny": 50,
+      "requests": 3,
+      "reserved_guard_cny": 4.2268,
+      "usage_cost_guard_cny_not_invoice": 1.50658
+    }
+  },
+  "records": [
+    {
+      "provider": "astra",
+      "task": "semantic",
+      "reserved_cny": 0.0,
+      "reserved_utc": "2026-09-07T09:56:05.838712+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+      "model_requested": "gpt-6-astra",
+      "execution": "Codex CLI; existing ChatGPT login; no OpenAI API key",
+      "reasoning_effort": "high",
+      "exit_code": 0,
+      "actual_final_matches_runtime_event": true,
+      "tool_event_count": 0,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "usage": [
+        {
+          "input_tokens": 16582,
+          "cached_input_tokens": 11776,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 879,
+          "reasoning_output_tokens": 89
+        }
+      ],
+      "served_model_independently_attested": false,
+      "finished_utc": "2026-09-07T09:56:41.598102+00:00",
+      "elapsed_seconds": 35.75,
+      "text_verdict": null
+    },
+    {
+      "provider": "astra",
+      "task": "customer-service",
+      "reserved_cny": 0.0,
+      "reserved_utc": "2026-09-07T09:56:41.598102+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "8a82c913223bde9b81c7357f948c1e93f8b782189998ccc275d971207244a11e",
+      "model_requested": "gpt-6-astra",
+      "execution": "Codex CLI; existing ChatGPT login; no OpenAI API key",
+      "reasoning_effort": "high",
+      "exit_code": 0,
+      "actual_final_matches_runtime_event": true,
+      "tool_event_count": 0,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "usage": [
+        {
+          "input_tokens": 21315,
+          "cached_input_tokens": 11776,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1146,
+          "reasoning_output_tokens": 493
+        }
+      ],
+      "served_model_independently_attested": false,
+      "finished_utc": "2026-09-07T09:57:32.675902+00:00",
+      "elapsed_seconds": 51.062,
+      "text_verdict": "usable_with_limits"
+    },
+    {
+      "provider": "astra",
+      "task": "video-production",
+      "reserved_cny": 0.0,
+      "reserved_utc": "2026-09-07T09:57:32.679564+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444",
+      "model_requested": "gpt-6-astra",
+      "execution": "Codex CLI; existing ChatGPT login; no OpenAI API key",
+      "reasoning_effort": "high",
+      "exit_code": 0,
+      "actual_final_matches_runtime_event": true,
+      "tool_event_count": 0,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "usage": [
+        {
+          "input_tokens": 21747,
+          "cached_input_tokens": 11776,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1343,
+          "reasoning_output_tokens": 395
+        }
+      ],
+      "served_model_independently_attested": false,
+      "finished_utc": "2026-09-07T09:58:33.065082+00:00",
+      "elapsed_seconds": 60.375,
+      "text_verdict": "usable_with_limits"
+    },
+    {
+      "provider": "deepseek",
+      "task": "semantic",
+      "reserved_cny": 0.4963,
+      "reserved_utc": "2026-09-07T09:58:27.386359+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+      "model_requested": "deepseek-v4-pro",
+      "endpoint": "https://api.deepseek.com/chat/completions",
+      "pricing_basis": "peak USD rates with conservative 10 CNY/USD guard, not market FX",
+      "max_output_tokens": 8192,
+      "model_returned": "deepseek-v4-pro",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1131,
+        "completion_tokens": 4780,
+        "total_tokens": 5911,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3836
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1131
+      },
+      "usage_cost_guard_cny_not_invoice": 0.20421720000000002,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T09:59:38.587409+00:00",
+      "elapsed_seconds": 71.187,
+      "text_verdict": null
+    },
+    {
+      "provider": "deepseek",
+      "task": "customer-service",
+      "reserved_cny": 0.7911,
+      "reserved_utc": "2026-09-07T09:59:38.589571+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "8a82c913223bde9b81c7357f948c1e93f8b782189998ccc275d971207244a11e",
+      "model_requested": "deepseek-v4-pro",
+      "endpoint": "https://api.deepseek.com/chat/completions",
+      "pricing_basis": "peak USD rates with conservative 10 CNY/USD guard, not market FX",
+      "max_output_tokens": 8192,
+      "model_returned": "deepseek-v4-pro",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5454,
+        "completion_tokens": 5639,
+        "total_tokens": 11093,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 4916
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5454
+      },
+      "usage_cost_guard_cny_not_invoice": 0.29529720000000004,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T10:01:12.262533+00:00",
+      "elapsed_seconds": 93.641,
+      "text_verdict": "usable_with_limits"
+    },
+    {
+      "provider": "deepseek",
+      "task": "video-production",
+      "reserved_cny": 0.8001,
+      "reserved_utc": "2026-09-07T10:01:12.267540+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444",
+      "model_requested": "deepseek-v4-pro",
+      "endpoint": "https://api.deepseek.com/chat/completions",
+      "pricing_basis": "peak USD rates with conservative 10 CNY/USD guard, not market FX",
+      "max_output_tokens": 8192,
+      "model_returned": "deepseek-v4-pro",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5828,
+        "completion_tokens": 5658,
+        "total_tokens": 11486,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 4901
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 5828
+      },
+      "usage_cost_guard_cny_not_invoice": 0.30098640000000004,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T10:02:53.725699+00:00",
+      "elapsed_seconds": 101.438,
+      "text_verdict": "usable_with_limits"
+    },
+    {
+      "provider": "kimi",
+      "task": "semantic",
+      "reserved_cny": 1.1066,
+      "reserved_utc": "2026-09-07T09:58:29.183988+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+      "model_requested": "kimi-k3",
+      "endpoint": "https://api.moonshot.cn/v1/chat/completions",
+      "pricing_basis": "China platform CNY cache-miss rates",
+      "max_output_tokens": 8192,
+      "model_returned": "kimi-k3",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1091,
+        "completion_tokens": 2463,
+        "total_tokens": 3554,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1631
+        }
+      },
+      "usage_cost_guard_cny_not_invoice": 0.26812,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T09:59:51.653246+00:00",
+      "elapsed_seconds": 82.453,
+      "text_verdict": null
+    },
+    {
+      "provider": "kimi",
+      "task": "customer-service",
+      "reserved_cny": 1.5533,
+      "reserved_utc": "2026-09-07T09:59:51.655254+00:00",
+      "status": "response_complete",
+      "reservation_not_released": true,
+      "input_sha256": "8a82c913223bde9b81c7357f948c1e93f8b782189998ccc275d971207244a11e",
+      "model_requested": "kimi-k3",
+      "endpoint": "https://api.moonshot.cn/v1/chat/completions",
+      "pricing_basis": "China platform CNY cache-miss rates",
+      "max_output_tokens": 8192,
+      "model_returned": "kimi-k3",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5256,
+        "completion_tokens": 2011,
+        "total_tokens": 7267,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1096
+        }
+      },
+      "usage_cost_guard_cny_not_invoice": 0.30622,
+      "valid_json_object": true,
+      "task_schema_complete": true,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T10:01:04.201242+00:00",
+      "elapsed_seconds": 72.516,
+      "text_verdict": "usable_with_limits"
+    },
+    {
+      "provider": "kimi",
+      "task": "video-production",
+      "reserved_cny": 1.5669,
+      "reserved_utc": "2026-09-07T10:01:04.206240+00:00",
+      "status": "response_needs_inspection",
+      "reservation_not_released": true,
+      "input_sha256": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444",
+      "model_requested": "kimi-k3",
+      "endpoint": "https://api.moonshot.cn/v1/chat/completions",
+      "pricing_basis": "China platform CNY cache-miss rates",
+      "max_output_tokens": 8192,
+      "model_returned": "kimi-k3",
+      "finish_reason": "length",
+      "usage": {
+        "prompt_tokens": 5652,
+        "completion_tokens": 8192,
+        "total_tokens": 13844,
+        "completion_tokens_details": {
+          "reasoning_tokens": 8189
+        }
+      },
+      "usage_cost_guard_cny_not_invoice": 0.93224,
+      "valid_json_object": false,
+      "task_schema_complete": false,
+      "model_identity_expected": true,
+      "finished_utc": "2026-09-07T10:05:26.152226+00:00",
+      "elapsed_seconds": 261.875,
+      "text_verdict": null
+    }
+  ],
+  "human_reviews": 0,
+  "limits": [
+    "Six easy synthetic development pairs, not held-out tasks or calibrated human labels",
+    "API and Codex wrappers, tokenization and tool environments differ; do not rank models by this run",
+    "Report task briefs included author provisional theses; report reviewers were not blinded to those theses",
+    "Text reviewers had no external fact verification; earlier retrieval-enabled Astra audits are a different condition",
+    "Revised report files after the run have different hashes; these verdicts do not automatically attach to later edits",
+    "Model-specific patterns can share biases; cross-vendor agreement is not independent truth"
+  ]
+}

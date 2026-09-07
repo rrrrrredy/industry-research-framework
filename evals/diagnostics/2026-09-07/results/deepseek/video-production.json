@@ -1,0 +1,60 @@
+{
+  "content": "{\n  \"verdict\": \"usable_with_limits\",\n  \"reader_assessment\": {\n    \"conclusion\": \"结论明确，按生产工作流区分候选并给出可灵、Runway、Veo的差异化试用路线，同时给出撤回条件，没有宣称单一抽象赢家。\",\n    \"specificity\": \"具体程度高，包含产品入口、功能差异、地区限制、费率算例、合同条款和可靠性边界。\",\n    \"structure\": \"五节结构与任务单元基本对应，层级清晰，便于内容业务负责人按需读取。\",\n    \"depth\": \"论证深入，区分普通账户与企业合同、会员与API、Flow与Cloud等关键边界，并说明了这些条件为何会推翻初步选择。\",\n    \"cleanliness\": \"未发现正文过程痕迹语言；成本数字与采用率推理一致，内部无明显冲突。\"\n  },\n  \"findings\": [\n    {\n      \"id\": \"R1\",\n      \"severity\": \"material\",\n      \"quote\": \"地区是实质约束。Flow 的支持列表有香港、澳门和台湾，没有中国大陆；提供中文界面不等于在大陆开放。\",\n      \"issue\": \"报告对Veo/Flow的地区、功能限制展开了具体说明，但对可灵和Runway的适用地区、支付或合同主体边界没有同等展开，导致‘actual access by surface/region/tier’对另两家覆盖不完整。\",\n      \"basis\": \"正文入口表对可灵、Runway主要列出产品/接口、计划层级和渠道规格，未给出区域或支付可用性条件；任务明确要求按surface/region/tier说明实际访问。\",\n      \"fix\": \"补充可灵国内/国际站及Runway支持地区、支付、组织账户资格的可核信息，或明确标待查，并说明这些条件会影响默认入口选择。\"\n    },\n    {\n      \"id\": \"R2\",\n      \"severity\": \"minor\",\n      \"quote\": \"可灵 Pro 的 1080p 来自 fal 规格说明，Veo 在接口中显式选择 1080p。\",\n      \"issue\": \"算例前文称可灵Pro为1080p，但后文又说明可灵该接口未单独暴露分辨率选项，表格中也未标注Kling分辨率，可能让读者误以为两端输出参数已完全对齐。\",\n      \"basis\": \"同一成本算例段落内部表述。\",\n      \"fix\": \"在算例表或紧邻说明中明确Kling输出分辨率的假设来源，并突出与Veo显式1080p选择之间的参数差异。\"\n    }\n  ],\n  \"strengths\": [\n    \"按工作流和合同面而非模型品牌推荐，符合任务初始论点。\",\n    \"对Runway普通条款与企业承诺、可灵会员/API合同、Flow消费者入口与Google Cloud条款作出了具体区分。\",\n    \"成本算例有单价单位和相同8秒口径，并明确采用率是假设，不影响相对生成价判断。\",\n    \"可靠性与采购部分没有把已有证据夸大为生产可靠性，并给出了可执行的两类试用和退出条件。\"\n  ],\n  \"external_facts_verified\": false,\n  \"limitations\": [\n    \"所有价格、条款、地区和支持能力均依赖提供的外部来源，本评审未核实链接内容。\",\n    \"可灵和Runway的区域、支付或合同主体访问条件尚未完全展开。\",\n    \"报告明确未进行付费生成或企业账户验收，实际质量、延迟和合同资格仍须业务侧验证。\"\n  ]\n}",
+  "parsed": {
+    "verdict": "usable_with_limits",
+    "reader_assessment": {
+      "conclusion": "结论明确，按生产工作流区分候选并给出可灵、Runway、Veo的差异化试用路线，同时给出撤回条件，没有宣称单一抽象赢家。",
+      "specificity": "具体程度高，包含产品入口、功能差异、地区限制、费率算例、合同条款和可靠性边界。",
+      "structure": "五节结构与任务单元基本对应，层级清晰，便于内容业务负责人按需读取。",
+      "depth": "论证深入，区分普通账户与企业合同、会员与API、Flow与Cloud等关键边界，并说明了这些条件为何会推翻初步选择。",
+      "cleanliness": "未发现正文过程痕迹语言；成本数字与采用率推理一致，内部无明显冲突。"
+    },
+    "findings": [
+      {
+        "id": "R1",
+        "severity": "material",
+        "quote": "地区是实质约束。Flow 的支持列表有香港、澳门和台湾，没有中国大陆；提供中文界面不等于在大陆开放。",
+        "issue": "报告对Veo/Flow的地区、功能限制展开了具体说明，但对可灵和Runway的适用地区、支付或合同主体边界没有同等展开，导致‘actual access by surface/region/tier’对另两家覆盖不完整。",
+        "basis": "正文入口表对可灵、Runway主要列出产品/接口、计划层级和渠道规格，未给出区域或支付可用性条件；任务明确要求按surface/region/tier说明实际访问。",
+        "fix": "补充可灵国内/国际站及Runway支持地区、支付、组织账户资格的可核信息，或明确标待查，并说明这些条件会影响默认入口选择。"
+      },
+      {
+        "id": "R2",
+        "severity": "minor",
+        "quote": "可灵 Pro 的 1080p 来自 fal 规格说明，Veo 在接口中显式选择 1080p。",
+        "issue": "算例前文称可灵Pro为1080p，但后文又说明可灵该接口未单独暴露分辨率选项，表格中也未标注Kling分辨率，可能让读者误以为两端输出参数已完全对齐。",
+        "basis": "同一成本算例段落内部表述。",
+        "fix": "在算例表或紧邻说明中明确Kling输出分辨率的假设来源，并突出与Veo显式1080p选择之间的参数差异。"
+      }
+    ],
+    "strengths": [
+      "按工作流和合同面而非模型品牌推荐，符合任务初始论点。",
+      "对Runway普通条款与企业承诺、可灵会员/API合同、Flow消费者入口与Google Cloud条款作出了具体区分。",
+      "成本算例有单价单位和相同8秒口径，并明确采用率是假设，不影响相对生成价判断。",
+      "可靠性与采购部分没有把已有证据夸大为生产可靠性，并给出了可执行的两类试用和退出条件。"
+    ],
+    "external_facts_verified": false,
+    "limitations": [
+      "所有价格、条款、地区和支持能力均依赖提供的外部来源，本评审未核实链接内容。",
+      "可灵和Runway的区域、支付或合同主体访问条件尚未完全展开。",
+      "报告明确未进行付费生成或企业账户验收，实际质量、延迟和合同资格仍须业务侧验证。"
+    ]
+  },
+  "model_returned": "deepseek-v4-pro",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 5828,
+    "completion_tokens": 5658,
+    "total_tokens": 11486,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 4901
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 5828
+  },
+  "input_sha256": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444",
+  "external_fact_check": false
+}

@@ -1,0 +1,28 @@
+claim_id,claim,type,source_ids,scope_or_boundary
+C01,Kling supports first-image and reference elements plus multishot workflow,official_capability,S01|S03,Subject-consistency success not measured
+C02,Kling Chinese/English audio supported on selected fal endpoint,provider_capability,S03,Other app languages do not propagate to reseller endpoint
+C03,Runway Aleph2 edits existing30s1080p sequences,official_capability,S06,No exact-preservation or measured reshoot saving claim
+C04,Gen4.5 app requires Standard+ and produces2-10s720p,official_specification,S05,Not equivalent to native1080p audio comparator
+C05,Runway API credit costs0.01USD andGen4.5 12/s,official_pricing,S07,APInotwebsubscription;8s0.96USD is not matched audio1080p
+C06,Runway developer onboarding needs organization key and minimum10USD,official_access,S08,Documentary route not actual account test
+C07,Flow region list excludes mainland while includes HK Macau Taiwan,official_access,S09,No bypass advice; language not geographic permission
+C08,Flow VeoQuality lacks references and video editing while Lite handles extension,official_capability,S10,Cloud GA feature set differs; Omnifeatures not attributedtoVeo
+C09,Cloud Veo3.1Generate andFast001 areGA andLite001Preview,official_model_status,S11,No allsurfaceGAclaim or universally available quota
+C10,Gemini Developer API Veo3.1 uses Preview IDs and paid tier,official_access,S12,Not CloudGA or consumer subscription
+C11,fal Kling Pro withaudio0.168USD/s withoutvoicecontrol,provider_price,S02,Selected channel and endpoint
+C12,fal Veo3.1audio1080p0.40USD/s,provider_price,S13,Selected Standard endpoint not family minimum
+C13,Selected8s clips cost1.344USD and3.20USD,illustrative_arithmetic,S02|S03|S04|S13|S14,Matched exposed input duration aspect audio nominalresolution only; not measured equal quality or fps
+C14,Runway ordinary terms4.4 allow input/output training,contract_text,S18,Do not infer every input actually trained or blanket enterprise applicability
+C15,Runway enterprise thirdparty no-training commitment is contract-specific,contract_text,S19,Not ordinary subscription or unconditional allmodel no-training assurance
+C16,Kling general terms need written commercial permission while membership explicitly grants commercial use,contract_text,S15|S16,Purchase surface and active benefits matter; credits alone not membership
+C17,Kling international consumer terms contain training-use license,contract_text,S15,Withdrawal by email is described but not verified enforcement or retroactive erasure
+C18,Named Aliyun KlingAPI contract permits commercial output and disallows training with30dayretention,contract_text,S17,Not consumer or other provider blanket
+C19,Flow improvement setting allows interaction use and humanreview,official_privacy,S20,Turning switch off not equivalent to independent enterprise security audit
+C20,Cloud will not train on CustomerData without prior permission/instruction,contract_text,S21,Not zeroretention or guarantee everyoutput legallyexclusive
+C21,Choose workflow and contract before judging accepted-output economics,author_judgment,S01|S03|S06|S10|S15|S18|S21,Conditional trial recommendation not efficacy ranking
+C22,Google indemnified list covers paidCloudGA Veo subject to contractual exceptions,contract_text,S21|S22,Not blanket insurance for edited brand ads or Preview
+C23,AA blind sameprompt preference comparisons are distinct from production acceptance,benchmark_methodology_and_inference,S23,No benchmark winner or frozen historical ranking reported
+C24,Runway aboveconcurrency requests becomeTHROTTLED and loadmayreduceactualconcurrency,official_operational_documentation,S24,Not measured uptime or guaranteeddeadline
+C25,Runway discloses causal ordering and objectpermanence failures,official_model_limitations,S25,Not an empirical frequency estimate
+C26,Gen4.5 Web ProRes/PNG restricted toMax LegacyUnlimited Enterprise plus5credits/s,official_specification,S05,Not all paidtierfeature or one-time unlimitedconversion
+C27,Hypothetical adoptedsecond costs0.168/0.20=0.84 and0.40/0.50=0.80USD,illustrative_arithmetic,S02|S13,20percentand50percentnotobserved; otherproductioncostsexcludedfromexample

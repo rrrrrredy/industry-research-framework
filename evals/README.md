@@ -4,16 +4,25 @@ This directory contains a lightweight evaluation loop for Industry Research Fram
 
 Evaluator result schema v2 keeps two claims separate. `conformance_status`, `conformance_score`, and `conformance_flags` describe deterministic structure, traceability, and configured failure signals. `research_quality_status` is `not_evaluated`; the runner does not claim that a mechanically conforming report is insightful, accurate, or decision-useful.
 
+Actual outputs are available in the [2026-09-07 development package](./diagnostics/2026-09-07/): four original calibration reader reports, two repairs, three-model text replies and an explicitly retained incomplete response. These are not held-out efficacy results or three-runtime runs.
+
 ## Directory Layout
+
+Existing consumers can use the [schema v2 migration guide](../docs/evaluator-v2-migration.md). The [delivery checker interface](../docs/delivery-verification.md) documents intended-message binding and the limits of optional actual-reply comparison.
+
+See the [source-data audit](../docs/evaluation-data-audit.md) for provenance and exclusion decisions, and [semantic diagnostic pairs](./semantic_diagnostics/) for six author-proposed bad/control pairs. These development excerpts are not held-out tasks or calibrated human ratings.
 
 ```text
 evals/
   cases/                         # one JSON task per eval case
   conversation_packs/            # sanitized multi-turn requirement sequences
+  diagnostics/                   # dated actual outputs and non-scoring model reviews
   cross_agent/                   # frozen baseline/framework portability protocol; no runs yet
   conformance_fixtures/          # known-good artifacts that must pass
   regression_fixtures/           # known-bad outputs that the runner must flag
   rubrics/                       # human and automated scoring guidance
+  semantic_diagnostics/          # non-scoring, synthetic editorial diagnostic pairs
+  source_policy.json             # workflow-only use and audited exact claim exclusions
   source_packs/
     ai_knowledge_sanitized/      # sanitized seed sources generated from local knowledge repos
     prompt_injection_synthetic/  # synthetic source-instruction boundary case
@@ -40,6 +49,8 @@ python scripts/build_sanitized_eval_set.py `
 ```
 
 The builder removes internal KM URLs, original internal document IDs, emails, phone numbers, and internal knowledge-system labels. It quarantines records whose summaries say that usable content is unavailable while their key points still assert facts. The generated pack is still a workflow eval seed, not a public factual authority.
+
+The builder also applies the reviewed exclusions in source_policy.json, preserving the original excluded wording and reasons there. The integrity checker rejects recurrence of those exact claims. It checks the declared workflow purpose; `--purpose factual` must fail for the current packs. Missing source dates, unavailable original provenance and unverified reuse rights remain explicit, not inferred from a pack generation timestamp.
 
 Validate active/quarantined separation and case references after rebuilding:
 
@@ -143,7 +154,7 @@ The check passes only when each known-good run reaches `pass`, meets its minimum
 
 ## Continuous Checks
 
-GitHub Actions runs source-pack integrity, DSH offline adapter validation, known-bad fixtures, known-good fixtures, and the copyable Full SKILL synchronization check on pushes and pull requests. It does not install DSH or call a model:
+GitHub Actions runs the following offline checks on pushes and pull requests. It does not install DSH or call a model:
 
 ```bash
 python scripts/check_docs_sync.py
@@ -152,6 +163,9 @@ python scripts/check_eval_source_integrity.py
 python scripts/check_cross_agent_protocol.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
+python scripts/check_delivery_contract.py
+python scripts/check_source_policy_contract.py
+python scripts/check_installation_contract.py
 ```
 
 ## How To Iterate

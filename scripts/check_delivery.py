@@ -12,6 +12,7 @@ from typing import Any
 
 
 CANONICAL_STAGES = {"brief", "collect", "analyze", "draft", "review", "revise", "final"}
+PROGRESS_STATUSES = {"in_progress", "paused", "blocked", "complete"}
 OPEN_ISSUE_KEYS = {
     "open_issues",
     "unresolved_issues",
@@ -90,7 +91,7 @@ REVIEW_ISSUE_KEYS = {
 def read_text(path: Path) -> str:
     if not path.exists():
         return ""
-    return path.read_text(encoding="utf-8", errors="replace")
+    return path.read_text(encoding="utf-8")
 
 
 def read_json_or_none(path: Path) -> Any | None:
@@ -98,14 +99,18 @@ def read_json_or_none(path: Path) -> Any | None:
         return None
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError):
+    except (json.JSONDecodeError, OSError, UnicodeError):
         return None
 
 
 def inspect_jsonl(path: Path, label: str) -> tuple[list[dict[str, Any]], list[str]]:
     rows: list[dict[str, Any]] = []
     findings: list[str] = []
-    for line_number, line in enumerate(read_text(path).splitlines(), start=1):
+    try:
+        content = read_text(path)
+    except (OSError, UnicodeError):
+        return [], [f"{label} log is unreadable or is not valid UTF-8."]
+    for line_number, line in enumerate(content.splitlines(), start=1):
         line = line.strip()
         if not line:
             continue
@@ -134,7 +139,11 @@ def inspect_requirements(path: Path) -> tuple[list[str], list[str]]:
     if not path.exists():
         return findings, accepted_limitations
 
-    for line_number, line in enumerate(read_text(path).splitlines(), start=1):
+    try:
+        content = read_text(path)
+    except (OSError, UnicodeError):
+        return ["Requirements are unreadable or are not valid UTF-8."], []
+    for line_number, line in enumerate(content.splitlines(), start=1):
         if not line.strip():
             continue
         try:
@@ -185,7 +194,7 @@ def issue_is_open(issue: Any) -> bool:
         return False
     if status in OPEN_ISSUE_TERMS:
         return True
-    if any(issue.get(key) for key in ("resolution", "handling", "accepted_as_limitation", "routed_action")):
+    if any(issue.get(key) for key in ("resolution", "handling", "accepted_as_limitation")):
         return False
     return True
 
@@ -271,14 +280,23 @@ def latest_global_review_passes(rows: list[dict[str, Any]]) -> bool:
             latest = row
     if latest is None:
         return False
+    return review_passes(latest)
+
+
+def review_passes(row: dict[str, Any]) -> bool:
     result = str(
-        latest.get("result")
-        or latest.get("status")
-        or latest.get("decision")
-        or latest.get("verdict")
+        row.get("result")
+        or row.get("status")
+        or row.get("decision")
+        or row.get("verdict")
         or ""
     ).strip().lower()
-    return result in PASS_REVIEW_TERMS and not review_row_has_open_issues(latest)
+    return result in PASS_REVIEW_TERMS and not review_row_has_open_issues(row)
+
+
+def scope_key(value: str) -> str:
+    normalized = value.strip().lower()
+    return "__global__" if normalized in GLOBAL_REVIEW_SCOPES else normalized
 
 
 def review_has_global_pass(review_path: Path) -> bool:
@@ -291,6 +309,7 @@ def evaluate_delivery(
     artifact: str = "final.md",
     delivery_message: str = "delivery_message.md",
     receipt: str = "state/final_delivery.json",
+    actual_message: Path | None = None,
 ) -> dict[str, Any]:
     root = project_root.resolve()
     flags: list[str] = []
@@ -310,14 +329,25 @@ def evaluate_delivery(
     status = str(progress.get("status", "")).strip().lower()
     if stage not in CANONICAL_STAGES:
         add("invalid_progress_stage", f"Progress stage is not canonical: {stage or '<missing>'}.")
+    if status not in PROGRESS_STATUSES:
+        add("invalid_progress_status", f"Progress status is not canonical: {status or '<missing>'}.")
     if stage == "final" and status != "complete":
         add("invalid_completion_status", "A final stage requires status 'complete'.")
     elif status == "complete" and stage != "final":
         add("invalid_completion_status", "Status 'complete' requires stage 'final'.")
 
-    message_path = root / delivery_message
-    message_exists = message_path.exists()
-    message = read_text(message_path)
+    message_path = resolve_inside(root, delivery_message)
+    receipt_path = resolve_inside(root, receipt)
+    artifact_path = resolve_inside(root, artifact)
+    for label, path in (("delivery message", message_path), ("receipt", receipt_path), ("artifact", artifact_path)):
+        if path is None:
+            add("invalid_delivery_path", f"The {label} path must stay inside the task directory.")
+    message_exists = message_path is not None and message_path.is_file()
+    try:
+        message = read_text(message_path) if message_exists else ""
+    except (OSError, UnicodeError):
+        message = ""
+        add("invalid_delivery_message", "The intended delivery message is unreadable or is not valid UTF-8.")
     completion_claim = claims_completion(message)
     terminal_state = stage == "final" and status == "complete"
     terminal_intent = completion_claim or terminal_state
@@ -349,9 +379,8 @@ def evaluate_delivery(
         for finding in requirement_findings:
             add("unresolved_required_corrections", finding)
 
-    receipt_path = root / receipt
-    receipt_exists = receipt_path.exists()
-    receipt_data = read_json_or_none(receipt_path)
+    receipt_exists = receipt_path is not None and receipt_path.is_file()
+    receipt_data = read_json_or_none(receipt_path) if receipt_exists else None
     if terminal_intent and not receipt_exists:
         add("missing_delivery_receipt", "Terminal delivery is missing state/final_delivery.json.")
     elif receipt_exists and not isinstance(receipt_data, dict):
@@ -373,7 +402,10 @@ def evaluate_delivery(
         if collect_open_issues(receipt_data):
             add("invalid_delivery_receipt", "The delivery receipt records unresolved issues despite PASS status.")
 
-        expected_inputs = [artifact, *REQUIRED_HASH_INPUTS]
+        expected_inputs = [
+            artifact, *[path for path in REQUIRED_HASH_INPUTS if path != "delivery_message.md"],
+            delivery_message,
+        ]
         expected_inputs.extend(path for path in OPTIONAL_HASH_INPUTS if (root / path).exists())
         hashes = receipt_data.get("artifacts")
         if not isinstance(hashes, dict):
@@ -391,6 +423,16 @@ def evaluate_delivery(
                     add("stale_delivery_receipt", f"The delivery receipt is stale for {relative}.")
 
     review_rows, review_findings = inspect_jsonl(root / "logs" / "review.jsonl", "Review")
+    required_scopes = progress.get("required_review_scopes", [])
+    valid_scopes = (
+        isinstance(required_scopes, list)
+        and all(isinstance(value, str) and value.strip() for value in required_scopes)
+    )
+    if valid_scopes:
+        keys = [scope_key(value) for value in required_scopes]
+        valid_scopes = len(keys) == len(set(keys))
+    if not valid_scopes:
+        add("invalid_required_review_scopes", "required_review_scopes must be a list of distinct, non-empty scope names.")
     if terminal_intent:
         for finding in review_findings:
             add("invalid_review_log", finding)
@@ -399,6 +441,16 @@ def evaluate_delivery(
                 "insufficient_final_review_scope",
                 "The latest full-report or global-final review is missing, non-PASS, or records open issues.",
             )
+        if valid_scopes:
+            latest_by_scope = {
+                scope_key(str(row.get("scope", ""))): row for row in review_rows
+            }
+            for scope in required_scopes:
+                latest = latest_by_scope.get(scope_key(scope))
+                if latest is None:
+                    add("missing_required_review", f"No review exists for required scope {scope!r}.")
+                elif not review_passes(latest):
+                    add("failed_required_review", f"The latest review for required scope {scope!r} is not a clean PASS.")
 
     accepted_limitations = list(dict.fromkeys(accepted_limitations))
     if terminal_intent and accepted_limitations and not any(
@@ -409,6 +461,22 @@ def evaluate_delivery(
             "Accepted limitations exist backstage but are absent from the user-visible delivery message.",
         )
 
+    delivery_observation = "not_provided"
+    if actual_message is not None:
+        captured_path = Path(actual_message)
+        try:
+            captured = captured_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            delivery_observation = "unreadable"
+            add("missing_actual_delivery", "The caller-provided actual delivery capture is missing or unreadable.")
+        else:
+            normalize = lambda text: text.replace("\r\n", "\n").replace("\r", "\n").strip()
+            if not message_exists or normalize(captured) != normalize(message):
+                delivery_observation = "mismatch"
+                add("actual_delivery_mismatch", "The captured actual reply differs from the receipt-bound intended message.")
+            else:
+                delivery_observation = "matched"
+
     return {
         "ok": not flags,
         "flags": flags,
@@ -418,6 +486,7 @@ def evaluate_delivery(
         "stage": stage,
         "status": status,
         "accepted_limitations": accepted_limitations,
+        "delivery_observation": delivery_observation,
     }
 
 
@@ -427,6 +496,10 @@ def main() -> int:
     parser.add_argument("--artifact", default="final.md")
     parser.add_argument("--delivery-message", default="delivery_message.md")
     parser.add_argument("--receipt", default="state/final_delivery.json")
+    parser.add_argument(
+        "--actual-message", type=Path,
+        help="Compare a caller-provided runtime capture with the receipt-bound message; no capture is inferred.",
+    )
     parser.add_argument("--json", action="store_true")
     args = parser.parse_args()
 
@@ -435,6 +508,7 @@ def main() -> int:
         artifact=args.artifact,
         delivery_message=args.delivery_message,
         receipt=args.receipt,
+        actual_message=args.actual_message,
     )
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))

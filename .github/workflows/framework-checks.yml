@@ -22,9 +22,17 @@ jobs:
         run: python scripts/run_dsh_evals.py validate
       - name: Check eval source integrity
         run: python scripts/check_eval_source_integrity.py
+      - name: Check source-use and regeneration controls
+        run: python scripts/check_source_policy_contract.py
       - name: Check frozen cross-agent protocol
         run: python scripts/check_cross_agent_protocol.py
       - name: Check known-bad regression fixtures
         run: python scripts/check_regression_fixtures.py
       - name: Check known-good conformance fixtures
         run: python scripts/check_conformance_fixtures.py
+      - name: Check isolated delivery contract
+        run: python scripts/check_delivery_contract.py
+      - name: Check installation comparison
+        run: python scripts/check_installation_contract.py
+      - name: Check public diagnostic bundle and failure-preservation controls
+        run: python scripts/check_diagnostic_bundle.py --self-test

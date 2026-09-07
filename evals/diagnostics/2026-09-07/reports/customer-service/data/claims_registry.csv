@@ -1,0 +1,28 @@
+claim_id,claim,type,source_ids,scope_or_boundary
+C01,Fin may integrate with existing helpdesks and execute Procedures,official_product,S01|S02,No measured one-hour enterprise rollout claim
+C02,Fin public outcome includes completed handoff procedure,official_billing,S01,Billable outcome differs from human-free resolution
+C03,Fin price is 0.99 USD per outcome and example minimum is 50,official_pricing,S01,Separate from seats and channel costs
+C04,Synthesia reports 55 percent Fin resolution and 96 percent elapsed time reduction,attributed_customer_claim,S03,Not 96 percent labor or cost reduction
+C05,Synthesia knowledge-base rebuilding contributed to deployment,attributed_customer_claim,S03,No causal separation from model effect
+C06,Zendesk Suite Team and Professional annual USD seats are 55 and 115,official_pricing,S04,Not AI outcome unit price
+C07,Zendesk new dashboard numerator adds Contained to Verified,official_definition,S06,Historical series remapped; no automatic same-method improvement
+C08,Zendesk Verified resolution uses vendor LLM and alone draws allowance,official_definition,S05|S06,Not independent customer-side quality audit
+C09,Zendesk sample invoice prices are placeholders and unused resolutions do not roll over,official_billing,S07,Contract quote needed
+C10,SeatGeek reports 51.5 percent automated and CSAT 34 to70 by Q2 2025,attributed_customer_claim,S08,Indexed official content; different date and denominator
+C11,Forethought add-on is purchasable and supports other platforms,official_announcement,S09,Do not infer included in Suite seat fee
+C12,Agentforce offers 2 USD conversations and 500 USD per100k Flex Credits,official_pricing,S10,Action-dependent consumption not interchangeable billable outcomes
+C13,Standard20-credit action costs 0.10 USD at published base rate,derived_arithmetic,S10,Only action fee; excludes data and other consumption
+C14,Help Agent 2 USD resolution includes actions and Data360 queries per resolution,official_pricing,S11,Not all underlying licensing and channel costs
+C15,Help Agent resolution depends on nonabandonment and feedback or nonescalation windows,official_billing,S12,No proven no-recontact success
+C16,Engine reports half chat inquiries resolved and15 percent lower handle time,attributed_customer_claim,S13,Not half all channels or independently measured headcount savings
+C17,Agentforce ARR exceeds1.5B with expanded AI offering scope,official_financial_disclosure,S14,ARR not realized revenue or customer ROI; not service-only
+C18,Fin acquisition is proposed and Aug26 expected future closing,official_disclosure,S14|S15,No verified closing announcement by cutoff; no integration assumption
+C19,Total sample5172 and postAI observations1636;15percent average issues-per-hour gain,independent_study,S16,Not all5172 treated; assistance not autonomous agents or three-vendor causal effect
+C20,Vendor fit should depend on existing workflow and verified cost/quality,author_judgment,S01|S02|S04|S09|S10|S11,Conditional buying judgment not measured ranking
+C21,7000 qualifying Fin outcomes cost6930 USD and1000 cost990 USD at stated rate,illustrative_arithmetic,S01,Not an observed bill; excludes seats channels maintenance and residual human work
+C22,Track cohort full-cost per independently accepted no-recontact resolution and unresolved share,author_proposed_management_method,S01|S05|S12|S16,No measured return or universal pass threshold
+C23,Escalation labor and severe errors can overturn expansion despite favorable average metrics,author_judgment,S02|S05|S13,Mechanism-based decision rule not quantified market outcome
+C24,Flex Credits and Conversations cannot coexist in same org and switching replaces all ConversationSKUs,official_contract_boundary,S10,Organization-level purchase not per-ticket selection
+C25,Help Agent resolution consumes400FlexCredits;chat2h voice10m email3d with12m voice2resolutions,official_billing,S12,Standard metered HelpAgent scope; not unlimited followup until business completion
+C26,Unified Zendesk AI agents no longer need old Advanced add-on,official_packaging,S07,Does not make Forethought included
+C27,Most-experienced highest-skilled study groups had small quality decline,independent_study,S16,Segment workforce outcomes; no universal15percent improvement

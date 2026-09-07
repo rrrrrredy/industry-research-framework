@@ -1,0 +1,18 @@
+{
+  "kind": "single_model_diagnostic",
+  "execution": "Astra Codex subagent; no OpenAI API",
+  "model_requested": "gpt-6-astra",
+  "reasoning_effort_requested": "high",
+  "agent_task": "astra_video_report_review",
+  "record_type": "faithful structured summary; not verbatim tool transcript",
+  "evidence_coverage": "PASS within 12 bounded material fact units",
+  "reader": {"reading_flow":"Strong","cognitive_load":"Manageable","argument_continuity":"Strong","research_report_quality":"Strong"},
+  "nonblocking_findings": [
+    {"id":"V1","issue":"Add Aleph2 EditStudio paid-plan eligibility","disposition":"accepted after author direct primary-page check"},
+    {"id":"V2","issue":"Reviewer proposed pooled video-model concurrency wording","disposition":"not accepted literally: same source explicitly gives per-model simultaneous example; author removed model-pool inference and retained organization limits and THROTTLED semantics"},
+    {"id":"V3","issue":"Split long Kling consumer/API contracts paragraph and trim repeated route conclusion","disposition":"accepted"}
+  ],
+  "verified_units": ["Kling app/channel controls and languages","Runway generation/edit specifications","Account and regional access","Veo surface and version distinctions","fal matched nominal price example","Runway credit arithmetic","Runway contract tiers","Kling general and paid terms","Named Kling API contract","Google Flow Cloud privacy and indemnity","AA preference method","Runway failure examples and limits"],
+  "sources_not_independently_checked": ["S26 dynamic direct Kling price page"],
+  "limits": ["not human review","not blinded efficacy evaluation","no paid video generation","no enterprise-account acceptance","not cross-runtime comparison"]
+}

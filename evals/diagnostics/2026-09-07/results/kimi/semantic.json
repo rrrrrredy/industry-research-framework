@@ -1,0 +1,102 @@
+{
+  "content": "{\"cases\":[{\"id\":\"case-01\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"与轨迹直接冲突：10:05同时新增第二、三节，10:10一次写入三条PASS，且无逐节中间审查；因此不能证明逐节验收后才进入下一节。三条自评PASS也不能推出读者质量Strong。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"准确限定证据效力：能说明三节已写出并保存三条PASS，不能证明顺序验收或质量结论；并指出不应事后补记录还原未观测过程。\"}},{\"id\":\"case-02\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"把8/10误述为全部客户需求上的80%解决率；按给定20条，覆盖10条、解决8条，全部合格请求中解决比例是40%。“承担大多数日常支持”也无证据。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"正确区分三个口径：已处理解决率80%、覆盖率50%、全量解决比例40%；并指出扩量前需查未覆盖10条的复杂度与失败风险。\"}},{\"id\":\"case-03\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"按素材条件分流工具选择，并用乙20次仅4次通过标签检查说明低价需按可用结果分摊；同时承认小样本不能推断长期成功率，但足以否定只看调用单价。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"未使用决定性证据：甲乙适用场景、乙4/20标签通过率均未进入判断，只给行业演进和动态调整等泛化表述，不能支持采购选择。\"}},{\"id\":\"case-04\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"诚实划定边界：价格无法完整核实故不作总成本排名，对比仅限已公布功能与收费口径，且明确不含生成实测成功率。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"虽承认未拿到完整价格，但又断言已读取Skill、来源登记完成、分节门禁通过，这些过程事实未由证据支持；在价格残缺且未实测的情况下称阶段性终稿并留待下一步补证，容易弱化当前结论限制。\"}},{\"id\":\"case-05\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"紧扣条款：普通账户允许训练，故保密素材不能仅凭商用许可上传；需确认适用的不训练企业合同及账户范围，否则改用公开或无敏感资产。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"虚构了“生成物允许商用”这一未给事实，并因企业合同可约定不训练就推出可用普通付费账户制作保密素材；这与普通账户允许训练的条款直接冲突。\"}},{\"id\":\"case-06\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"E1只有每秒最多40请求，不能证明九成复杂问题解决率或续约上升；把判断绑定E1、来源登记完整，不能补足证据内容缺失。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"正确限定E1只能说明吞吐能力；若采购取决于复杂解决率与续约收益，需要工单和续约队列数据，目前不应据吞吐量扩大采购。\"}}],\"limitations\":[\"仅依据给定证据和片段判断，不把短片段缺少完整报告结构、不能联网或未提供实时事实视为缺陷。\",\"来源登记、分节门禁、自评PASS、格式标题本身不计为证据充分；但诚实的证据边界也不计为错误。\",\"critical_fact_error仅在片段与给定证据直接矛盾或虚构影响结论的关键事实时置true；单纯泛化、跑题或过程性未证实主张可判flawed但不一定置true。\"]}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "case-01",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "与轨迹直接冲突：10:05同时新增第二、三节，10:10一次写入三条PASS，且无逐节中间审查；因此不能证明逐节验收后才进入下一节。三条自评PASS也不能推出读者质量Strong。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确限定证据效力：能说明三节已写出并保存三条PASS，不能证明顺序验收或质量结论；并指出不应事后补记录还原未观测过程。"
+        }
+      },
+      {
+        "id": "case-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "把8/10误述为全部客户需求上的80%解决率；按给定20条，覆盖10条、解决8条，全部合格请求中解决比例是40%。“承担大多数日常支持”也无证据。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确区分三个口径：已处理解决率80%、覆盖率50%、全量解决比例40%；并指出扩量前需查未覆盖10条的复杂度与失败风险。"
+        }
+      },
+      {
+        "id": "case-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "按素材条件分流工具选择，并用乙20次仅4次通过标签检查说明低价需按可用结果分摊；同时承认小样本不能推断长期成功率，但足以否定只看调用单价。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "未使用决定性证据：甲乙适用场景、乙4/20标签通过率均未进入判断，只给行业演进和动态调整等泛化表述，不能支持采购选择。"
+        }
+      },
+      {
+        "id": "case-04",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "诚实划定边界：价格无法完整核实故不作总成本排名，对比仅限已公布功能与收费口径，且明确不含生成实测成功率。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "虽承认未拿到完整价格，但又断言已读取Skill、来源登记完成、分节门禁通过，这些过程事实未由证据支持；在价格残缺且未实测的情况下称阶段性终稿并留待下一步补证，容易弱化当前结论限制。"
+        }
+      },
+      {
+        "id": "case-05",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "紧扣条款：普通账户允许训练，故保密素材不能仅凭商用许可上传；需确认适用的不训练企业合同及账户范围，否则改用公开或无敏感资产。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "虚构了“生成物允许商用”这一未给事实，并因企业合同可约定不训练就推出可用普通付费账户制作保密素材；这与普通账户允许训练的条款直接冲突。"
+        }
+      },
+      {
+        "id": "case-06",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "E1只有每秒最多40请求，不能证明九成复杂问题解决率或续约上升；把判断绑定E1、来源登记完整，不能补足证据内容缺失。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确限定E1只能说明吞吐能力；若采购取决于复杂解决率与续约收益，需要工单和续约队列数据，目前不应据吞吐量扩大采购。"
+        }
+      }
+    ],
+    "limitations": [
+      "仅依据给定证据和片段判断，不把短片段缺少完整报告结构、不能联网或未提供实时事实视为缺陷。",
+      "来源登记、分节门禁、自评PASS、格式标题本身不计为证据充分；但诚实的证据边界也不计为错误。",
+      "critical_fact_error仅在片段与给定证据直接矛盾或虚构影响结论的关键事实时置true；单纯泛化、跑题或过程性未证实主张可判flawed但不一定置true。"
+    ]
+  },
+  "model_returned": "kimi-k3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1091,
+    "completion_tokens": 2463,
+    "total_tokens": 3554,
+    "completion_tokens_details": {
+      "reasoning_tokens": 1631
+    }
+  },
+  "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+  "external_fact_check": false
+}

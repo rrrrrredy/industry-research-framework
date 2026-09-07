@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "purpose": "development_text_diagnostic_only",
+  "held_out": false,
+  "created_utc": "2026-09-07T09:48:26.238868+00:00",
+  "models": {
+    "astra": "gpt-6-astra via Codex ChatGPT login",
+    "deepseek": "deepseek-v4-pro",
+    "kimi": "kimi-k3"
+  },
+  "input_sha256": {
+    "semantic": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+    "customer-service": "8a82c913223bde9b81c7357f948c1e93f8b782189998ccc275d971207244a11e",
+    "video-production": "30f583e31c1a79b4d16c9924702a580eaa5de3c97dd83b1bd4c0b65f720d9444"
+  },
+  "source_sha256": {
+    "semantic_cases": "df24615678a57dbb83c0b8f112aa826e2915ab45eae6f62297bef40a76e73514",
+    "customer-service": "305eb2740c55206778f2e06145bb400a9fba75c7344849cef330760f6c20938a",
+    "video-production": "4530f8e230abe2a0af4f7ab0160ddb7e2bdfc727d0b6006b85665a253e1d4644"
+  },
+  "framework_candidate": "engineering-20260907-01; normative SKILL and references unchanged",
+  "design": "Identical text-only task inputs; A/B labels hidden, fixed ordering. Model-specific wrappers and runtime differ. Not an end-to-end research run or rank.",
+  "request_limit_per_provider": 3,
+  "cny_cap_each_paid_provider": 50,
+  "automatic_retries": 0,
+  "stop_rules": [
+    "No purchasing credit",
+    "No retry after uncertain response",
+    "Reserve worst-case guard cost before each request",
+    "Do not fix frozen inputs after seeing outputs"
+  ],
+  "human_review": "none; do not present model judgments or author labels as human review"
+}

@@ -1,0 +1,12 @@
+# Customer-service report repair brief
+
+- Reader: enterprise AI product owner. Language: Chinese. Output: a substantial research report with traceable references, information cutoff 2026-09-07.
+- Required subjects: Intercom/Fin, Zendesk, Salesforce; problems solved, business workflow integration, charging definitions, adoption and effectiveness evidence, investment/avoid conditions, observable next-quarter indicators.
+- Original target was approximately 3,500–5,000 Chinese characters. Later user feedback rejects compression, generic conclusions, weak navigation, process traces and inadequate depth. Prioritize adequate explanation rather than enforcing a new universal length target.
+- Distinguish official product/pricing facts, selected vendor-hosted customer outcomes, independent findings, and conditional author judgment. No same-denominator vendor ranking or claimed measured ROI without data.
+- Initial thesis: production expansion is real but the buying decision turns on workflow fit, independently checked resolution quality and all-in delivery cost; native stack integration and narrow verified use cases matter more than reported resolution rates.
+- Unit plan, in drafting order: 01 decision and comparison (~15%); 02 Intercom/Fin mechanics and evidence (~20%); 03 Zendesk mechanics and evidence (~20%); 04 Salesforce mechanics and evidence (~20%); 05 investment boundaries, cost logic and next-quarter indicators (~25%). Each unit must be checked before the next unit is drafted.
+- Keep analysis of Fin acquisition status separate from product integration assumptions. Cover Help Agent alongside generic Agentforce pricing. Explicitly distinguish Zendesk dashboard metrics from billed verified resolution.
+- Source map: current vendor product/pricing/help documents for contract definitions; dated financial disclosures for commercial scale; original customer cases for attributed outcomes; original academic/regulatory material for non-vendor counterweight. Verify important reused sources; record access failures. No need for another round of user briefing.
+- Exclusions: confidential deployments, paid account purchase, broad market sizing, unsupported model superiority, causal framework effectiveness.
+- Acceptance: clear actionable opening, real chapter navigation, company-specific mechanisms and tradeoffs, supported numbers and denominators, meaningful synthesis and concrete monitoring rules, no process markers in reader body.

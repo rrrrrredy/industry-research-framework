@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "scope": "Workflow and synthetic reasoning inputs only; not a factual benchmark or rights certification.",
+  "audited_at": "2026-09-07",
+  "original_snapshot": "b541a667b89a4ea9da8fffd8d58851e5f03b795e",
+  "packs": {
+    "ai_knowledge_sanitized": {
+      "kind": "legacy_sanitized",
+      "allowed_purposes": [
+        "workflow"
+      ],
+      "factual_authority": false,
+      "provenance_status": "Original public source URLs and document dates are unavailable; contents are unverified historical notes.",
+      "rights_status": "Original-document reuse rights have not been independently re-established. Do not publish private originals or call this rights-cleared factual data.",
+      "excluded_claims": [
+        {
+          "source_id": "S007",
+          "field": "key_points",
+          "text": "中国AI模型Token周调用量（4.12万亿）首次超越美国（2.94万亿），全球开发者生态市场份额实现质变",
+          "reason": "The undated key point and summary give different weekly token totals (4.12 and 5.16 trillion) without identifying the respective weeks or measurement population. Neither is retained as a numeric benchmark.",
+          "evidence": "Internal comparison of S007 at b541a667b89a4ea9da8fffd8d58851e5f03b795e; no missing date was invented."
+        },
+        {
+          "source_id": "S007",
+          "field": "summary",
+          "text": "与此同时，2月中国模型单周Token调用量（5.16万亿）已显著超越美国（2.94万亿），三周增长127%。",
+          "reason": "Same unresolved measurement-window conflict as the excluded S007 key point; exclusion is not a finding that both numbers are necessarily false.",
+          "evidence": "Internal comparison of S007 at b541a667b89a4ea9da8fffd8d58851e5f03b795e."
+        },
+        {
+          "source_id": "S011",
+          "field": "key_points",
+          "text": "腾讯提出XGBoost梯度提升决策树算法并多次在Kaggle竞赛夺冠，NLP系统TexSmart在腾讯内部实现数千亿次调用",
+          "reason": "The clause attributes the invention of XGBoost to Tencent. The original 2016 paper is by Tianqi Chen and Carlos Guestrin at the University of Washington. The combined key point is removed rather than silently repaired from an unrelated source.",
+          "evidence": "https://arxiv.org/pdf/1603.02754"
+        }
+      ]
+    },
+    "model_company_pipeline_synthetic": {
+      "kind": "synthetic",
+      "allowed_purposes": [
+        "workflow"
+      ],
+      "factual_authority": false,
+      "provenance_status": "Fictional companies and events; not evidence about real companies.",
+      "rights_status": "Repository-authored synthetic fixture under the repository license; not a license to any originating private task.",
+      "excluded_claims": []
+    },
+    "prompt_injection_synthetic": {
+      "kind": "synthetic",
+      "allowed_purposes": [
+        "workflow"
+      ],
+      "factual_authority": false,
+      "provenance_status": "Fictional vendor facts and configured malicious instructions.",
+      "rights_status": "Repository-authored synthetic fixture under the repository license.",
+      "excluded_claims": []
+    }
+  }
+}

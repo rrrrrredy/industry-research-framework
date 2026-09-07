@@ -1,0 +1,102 @@
+{
+  "content": "{\"cases\":[{\"id\":\"case-01\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"第二、三节同时新增，PASS集中写入，且没有逐节中间审查事件；这些记录不能证明先验收再写下一节，也不能支撑Strong质量评级。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"准确区分已写正文、最终自评记录和未获证明的验收顺序；未把缺失过程证据直接等同于正文质量差。\"}},{\"id\":\"case-02\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"8除以10是已处理请求的解决率；全部20条合格请求的解决比例为40%。将80%套用到全部需求，夸大了实际效果。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"80%解决率、50%覆盖率和40%总体解决比例均计算正确，且没有预设未覆盖请求的难度。\"}},{\"id\":\"case-03\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"根据已有底片与商品图区分试用路径，并将20次生成费用分摊到4次通过标签检查的结果；明确限制小样本外推，采购判断有具体依据。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"未利用两种工具的适用条件及4次通过检查的试做结果，通用表述无法支持工具选择或成本判断；行业加速演进也缺少所给证据支持。\"}},{\"id\":\"case-04\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"如实披露价格核实和实测的限制，并据此收缩比较范围，不作缺乏依据的总采购成本排名。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"主要陈述Skill、来源登记和门禁等内部流程，未给出实质研究判断，也未交代未实测对结论范围的限制；流程通过不能替代可供读者使用的研究结果。\"}},{\"id\":\"case-05\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"正确区分商用许可与训练授权，要求确认不训练合同及适用账户后再考虑上传，符合未公开素材的采购约束。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"将另签企业合同才可约定的不训练保护套用于普通付费账户；普通账户条款仍允许训练，商用许可不能消除这一冲突。\"}},{\"id\":\"case-06\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"E1仅记录每秒最多40个请求，无法证明九成复杂问题解决率、稳定性或续约增长；绑定来源编号没有补足这些关键事实的证据。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"正确限定吞吐量证据的适用范围，指出解决率和续约收益需要对应数据，未据此夸大采购价值。\"}}],\"limitations\":[\"判断仅针对提供的虚构片段及证据，不推断完整报告质量或未提供的执行记录。\",\"critical_fact_error标记实质性误述或将证据不支持的关键事实宣称为已证实；一般空泛、交付不足与诚实披露边界不据此标记。\"]}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "case-01",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "第二、三节同时新增，PASS集中写入，且没有逐节中间审查事件；这些记录不能证明先验收再写下一节，也不能支撑Strong质量评级。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确区分已写正文、最终自评记录和未获证明的验收顺序；未把缺失过程证据直接等同于正文质量差。"
+        }
+      },
+      {
+        "id": "case-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "8除以10是已处理请求的解决率；全部20条合格请求的解决比例为40%。将80%套用到全部需求，夸大了实际效果。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "80%解决率、50%覆盖率和40%总体解决比例均计算正确，且没有预设未覆盖请求的难度。"
+        }
+      },
+      {
+        "id": "case-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "根据已有底片与商品图区分试用路径，并将20次生成费用分摊到4次通过标签检查的结果；明确限制小样本外推，采购判断有具体依据。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "未利用两种工具的适用条件及4次通过检查的试做结果，通用表述无法支持工具选择或成本判断；行业加速演进也缺少所给证据支持。"
+        }
+      },
+      {
+        "id": "case-04",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "如实披露价格核实和实测的限制，并据此收缩比较范围，不作缺乏依据的总采购成本排名。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "主要陈述Skill、来源登记和门禁等内部流程，未给出实质研究判断，也未交代未实测对结论范围的限制；流程通过不能替代可供读者使用的研究结果。"
+        }
+      },
+      {
+        "id": "case-05",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确区分商用许可与训练授权，要求确认不训练合同及适用账户后再考虑上传，符合未公开素材的采购约束。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "将另签企业合同才可约定的不训练保护套用于普通付费账户；普通账户条款仍允许训练，商用许可不能消除这一冲突。"
+        }
+      },
+      {
+        "id": "case-06",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "E1仅记录每秒最多40个请求，无法证明九成复杂问题解决率、稳定性或续约增长；绑定来源编号没有补足这些关键事实的证据。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确限定吞吐量证据的适用范围，指出解决率和续约收益需要对应数据，未据此夸大采购价值。"
+        }
+      }
+    ],
+    "limitations": [
+      "判断仅针对提供的虚构片段及证据，不推断完整报告质量或未提供的执行记录。",
+      "critical_fact_error标记实质性误述或将证据不支持的关键事实宣称为已证实；一般空泛、交付不足与诚实披露边界不据此标记。"
+    ]
+  },
+  "model_requested": "gpt-6-astra",
+  "input_sha256": "030ee35d9313b970f067247cfe538bb8791ea953e5f29b0f61d64d5da05a2f8a",
+  "usage": [
+    {
+      "input_tokens": 16582,
+      "cached_input_tokens": 11776,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 879,
+      "reasoning_output_tokens": 89
+    }
+  ],
+  "external_fact_check": false,
+  "actual_final_matches_runtime_event": true
+}
