@@ -49,3 +49,9 @@ Include:
 - limitations and any intentionally deferred work.
 
 Do not claim improved report quality from a green deterministic test alone. Real efficacy claims require held-out tasks, matched baseline/framework runs, calibrated independent review, and disclosure of failures, retries, cost, and latency.
+
+## Reader Entry Points And Distribution
+
+The English and Chinese READMEs introduce the same framework and link to the web guide near the beginning. Keep these entry points focused on what readers can do and where to start. Copy synchronization and packaging decisions belong in maintenance documentation, not a separate introductory chapter.
+
+This repository supplies the reusable Skill. If a particular environment needs a plugin or another installation package, package the same Skill and link back here instead of maintaining a second protocol. Environment-specific setup belongs in `agents/`; it must not imply that the framework is tailored to one vendor or that different environments have demonstrated equal research quality.

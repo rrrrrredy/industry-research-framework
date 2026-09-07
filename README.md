@@ -8,9 +8,9 @@ It ships no scraper, data source, or fixed report template. Instead, it prescrib
 
 Scope Contract Research Brief Task State Recovery Guardrails Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
 
-[Open framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html#fullmd)
+[Open framework page](https://rrrrrredy.github.io/industry-research-framework/framework.html)
 
-The framework page is the structured reading guide. `SKILL.md` is the authoritative agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
+The framework page is the structured reading guide. [`SKILL.md`](./SKILL.md) is the agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
 
 ## Product Hunt Launch Pack
 
@@ -344,10 +344,6 @@ Limits:
 - If new work falls outside `task_spec.md`, record it as a proposed extension and ask before expanding.
 - Subagent prompts must ask reviewers to actively look for issues; if no issue is found, they must explain the basis for PASS.
 
-## 13 Full SKILL.md
-
-The authoritative instruction file is [`SKILL.md`](./SKILL.md). The framework page includes the full skill text in a copyable block. `python scripts/check_docs_sync.py` verifies that this distribution copy is identical to the authoritative file, and `--write` refreshes it.
-
 ## Repository Structure
 
 ```text
@@ -402,7 +398,9 @@ industry-research-framework/
     └── postmortem-lessons.md
 ```
 
-## Reuse
+## Use and Integration
+
+The framework is not tied to a particular agent product or model.
 
 Clone or copy this repository into the directory where your agent system loads reusable skills or instruction bundles:
 
@@ -413,9 +411,9 @@ git clone https://github.com/rrrrrredy/industry-research-framework.git \
 
 For systems without a formal skill loader, use `SKILL.md` as the main instruction file and load files under `references/` only when the task requires them.
 
-This repository is already the canonical standalone Skill; do not create a second Skill repository. If easier installation in Codex becomes important, publish a thin skills-only plugin that packages this same Skill and points back to this repository. Keep `SKILL.md` here as the sole normative source, so standalone installs, agent adapters, the public page, and any plugin cannot evolve into competing protocols. OpenAI's [Skills](https://developers.openai.com/codex/skills) and [Plugins](https://developers.openai.com/codex/plugins) documentation describes this workflow-first, distribution-second split.
+See the [agent integration notes](./agents/README.md) for environment-specific setup. Check that the required file access, source retrieval, and other capabilities are available; setup guidance does not establish equivalent research quality across environments.
 
-See [`CHANGELOG.md`](./CHANGELOG.md) for unreleased changes and [`CONTRIBUTING.md`](./CONTRIBUTING.md) for evidence and validation requirements.
+See [`CHANGELOG.md`](./CHANGELOG.md) for project changes and [`CONTRIBUTING.md`](./CONTRIBUTING.md) for maintenance and contribution guidance.
 
 ## License
 

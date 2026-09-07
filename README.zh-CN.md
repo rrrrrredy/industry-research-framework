@@ -6,7 +6,7 @@
 
 它不是抓取工具、数据源或固定报告模板。它提供的是一套可复用的研究执行框架：帮助 agent 在开工前澄清关键任务信息，保存任务状态，区分来源与判断，分阶段推进写作，完成审阅与读者视角修订，并把复杂的后台研究整理成干净的成稿。
 
-框架页面是给读者看的结构化导览，`SKILL.md` 是 agent 实际使用的权威指令文件，`references/` 下的文件是按需加载的扩展模块。只有任务需要某个方法、审阅循环或写作规则时，才读取对应 reference。
+[框架页面](https://rrrrrredy.github.io/industry-research-framework/framework.html)提供结构化导览，[`SKILL.md`](./SKILL.md) 是 agent 实际使用的指令文件，`references/` 下的文件是按需加载的扩展模块。只有任务需要某个方法、审阅循环或写作规则时，才读取对应 reference。
 
 ## 30 秒快速开始
 
@@ -259,24 +259,14 @@ python scripts/build_sanitized_eval_set.py ^
 - 没有资料约束的创意写作
 - 用户真正想要代码、仪表盘或自动化工具的任务
 
-## 08 与框架页面的关系
+## 08 使用与集成
 
-完整框架页面在这里：
+框架不绑定特定的 Agent 产品或模型。支持 Skill 的环境可以加载本仓库；没有 Skill 加载器的环境，可以将 [`SKILL.md`](./SKILL.md) 用作研究指令，并按任务需要读取 [`references/`](./references/) 中的参考资料。
 
-[Industry Research Framework](https://rrrrrredy.github.io/industry-research-framework/framework.html#fullmd)
+不同环境的配置方法见 [Agent 接入说明](./agents/README.md)。使用前请确认文件读写、资料检索等所需能力是否可用；接入说明不代表已经验证各环境具有相同的研究效果。
 
-网页里的 Full SKILL 是给其他 agent 环境复制使用的分发副本。仓库 CI 会逐字校验它与权威 `SKILL.md` 一致；维护者可运行 `python scripts/check_docs_sync.py --write` 自动刷新。
+项目变更见 [`CHANGELOG.md`](./CHANGELOG.md)，维护与贡献说明见 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
 
-仓库源码在这里：
-
-[rrrrrredy/industry-research-framework](https://github.com/rrrrrredy/industry-research-framework)
-
-## 09 分发形态
-
-本仓库本身已经是权威的独立 Skill，不应再复制一个 Skill 仓库。如果以后确实需要提升 Codex 内的安装便利性，可以发布一个很薄的纯 Skill 插件，把这里的同一份 Skill 打包分发并回链本仓库。`SKILL.md` 继续作为唯一规范源，避免独立安装、Agent 适配器、公开页面和插件演化成多套互相冲突的协议。OpenAI 的 [Skills](https://developers.openai.com/codex/skills) 与 [Plugins](https://developers.openai.com/codex/plugins) 文档对应的也是“先定义工作流，再按需打包分发”的关系。
-
-未发布变更见 [`CHANGELOG.md`](./CHANGELOG.md)，贡献所需的证据与验证规则见 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
-
-## 10 许可协议
+## 09 许可协议
 
 本项目采用 [MIT License](./LICENSE) 开源。
