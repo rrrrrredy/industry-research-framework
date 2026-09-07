@@ -4,6 +4,15 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
+## [v0.1.2](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.2) — 2026-09-07
+
+Delivery-checker prerelease. The core protocol and frozen research inputs are unchanged.
+
+### Fixed
+
+- Recognize explicit completion claims that name the selected primary report through a Markdown link or inline filename. Previously, a reply such as `已完成 [report.md](report.md)` could pass the checker while progress remained nonterminal. Keep bare links, unrelated artifacts, negations and explicitly partial work as non-completion controls.
+- Add six delivery-contract tests derived from a real Codex reply and bounded wording variants. This closes a known lexical gap; natural-language claim detection is still heuristic, not a semantic guarantee. The core Skill, references and frozen experimental inputs are unchanged.
+
 ## [v0.1.1](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.1) — 2026-09-07
 
 Engineering and evidence prerelease. The original SKILL.md and all eight core references are unchanged. Ten offline suites pass; retained development diagnostics are not a held-out efficacy result or three-runtime comparison.

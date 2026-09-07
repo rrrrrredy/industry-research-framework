@@ -23,10 +23,11 @@ def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def seal(root: Path, message: str = "delivery_message.md") -> None:
+def seal(root: Path, message: str = "delivery_message.md", artifact: str = "final.md") -> None:
     receipt_path = root / "state/final_delivery.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    paths = ["final.md", *[p for p in checker.REQUIRED_HASH_INPUTS if p != "delivery_message.md"], message]
+    receipt["artifact"] = artifact
+    paths = [artifact, *[p for p in checker.REQUIRED_HASH_INPUTS if p != "delivery_message.md"], message]
     paths += [p for p in checker.OPTIONAL_HASH_INPUTS if (root / p).is_file()]
     receipt["artifacts"] = {p: checker.sha256_file(root / p) for p in paths}
     write_json(receipt_path, receipt)
@@ -152,6 +153,70 @@ class DeliveryContractTests(unittest.TestCase):
         (self.root / "delivery_message.md").write_text("都搞定了，可以发布。限制仍如上。\n", encoding="utf-8")
         seal(self.root)
         self.assert_flag("completion_claim_without_terminal_state")
+
+    def test_linked_primary_artifact_completion_is_not_a_stage_delivery(self):
+        # Derived from an actual Codex reply; no private path or report is needed.
+        self.progress(stage="review", status="in_progress")
+        for message in ("已完成 [final.md](final.md)。", "Completed [final.md](final.md)."):
+            with self.subTest(message=message):
+                (self.root / "delivery_message.md").write_text(message + " 已知限制保持披露。\n", encoding="utf-8")
+                seal(self.root)
+                self.assert_flag("completion_claim_without_terminal_state")
+
+    def test_linked_primary_artifact_keeps_valid_terminal_control(self):
+        (self.root / "delivery_message.md").write_text(
+            "已完成 [final.md](final.md)。已知限制保持披露。\n", encoding="utf-8"
+        )
+        seal(self.root)
+        result = self.evaluate()
+        self.assertTrue(result["ok"], result)
+        self.assertTrue(result["completion_claim"], result)
+
+    def test_link_or_partial_unit_alone_is_not_whole_report_completion(self):
+        self.progress(stage="review", status="in_progress")
+        for message in (
+            "查看 [final.md](final.md)。",
+            "[final.md](final.md)",
+            "已完成 [outline.md](outline.md)，正文仍在整理。",
+            "已完成 [final.md](final.md) 的提纲，全文仍在整理。",
+            "Completed [final.md](final.md)'s outline. The report is still being written.",
+            "已完成草稿 [final.md](final.md)，全文仍在整理。",
+            "Draft [final.md](final.md) is complete.",
+            "Completed the draft of [final.md](final.md).",
+        ):
+            with self.subTest(message=message):
+                (self.root / "delivery_message.md").write_text(message + "\n", encoding="utf-8")
+                seal(self.root)
+                result = self.evaluate()
+                self.assertTrue(result["ok"], result)
+                self.assertFalse(result["completion_claim"], result)
+
+    def test_negated_linked_completion_is_honest(self):
+        self.progress(stage="review", status="in_progress")
+        for message in ("尚未完成 [final.md](final.md)。", "没有完成 [final.md](final.md)。",
+                        "Not completed [final.md](final.md)."):
+            with self.subTest(message=message):
+                (self.root / "delivery_message.md").write_text(message + "\n", encoding="utf-8")
+                seal(self.root)
+                self.assertTrue(self.evaluate()["ok"])
+
+    def test_linked_completion_uses_selected_primary_artifact(self):
+        self.progress(stage="review", status="in_progress")
+        shutil.copyfile(self.root / "final.md", self.root / "report.md")
+        (self.root / "delivery_message.md").write_text(
+            "已完成 [report.md](report.md)。已知限制保持披露。\n", encoding="utf-8"
+        )
+        seal(self.root, artifact="report.md")
+        self.assert_flag("completion_claim_without_terminal_state", artifact="report.md")
+
+    def test_inline_primary_filename_completion(self):
+        self.progress(stage="review", status="in_progress")
+        for message in ("已完成 `final.md`。", "`final.md` 已完成。", "Completed `final.md`.",
+                        "`final.md` is complete."):
+            with self.subTest(message=message):
+                (self.root / "delivery_message.md").write_text(message + " 已知限制保持披露。\n", encoding="utf-8")
+                seal(self.root)
+                self.assert_flag("completion_claim_without_terminal_state")
 
     def test_each_required_receipt_binding(self):
         path = self.root / "state/final_delivery.json"

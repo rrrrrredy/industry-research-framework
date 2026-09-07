@@ -172,13 +172,41 @@ def inspect_requirements(path: Path) -> tuple[list[str], list[str]]:
     return findings, accepted_limitations
 
 
-def claims_completion(message: str) -> bool:
+def claims_completion(message: str, artifact: str = "final.md") -> bool:
     """Return True only for an affirmative user-visible completion claim."""
 
     scrubbed = message.lower()
     for pattern in NEGATED_COMPLETION_PATTERNS:
         scrubbed = re.sub(pattern, " ", scrubbed, flags=re.IGNORECASE)
-    return any(re.search(pattern, scrubbed, flags=re.IGNORECASE) for pattern in COMPLETION_PATTERNS)
+    if any(re.search(pattern, scrubbed, flags=re.IGNORECASE) for pattern in COMPLETION_PATTERNS):
+        return True
+
+    # Runtime replies often name the primary file instead of saying "the report".
+    # Only its visible filename counts; unrelated links and link targets do not.
+    name = re.escape(Path(artifact.replace("\\", "/")).name)
+    if not name:
+        return False
+    reference = rf"(?<!!)\[\s*`?{name}`?\s*\]\([^\n)]+\)|`{name}`"
+    linked = re.sub(reference, " irf_primary_artifact ", message.lower(), flags=re.IGNORECASE)
+    linked = re.sub(
+        r"(?:\b(?:draft|outline|chapter|section)\b|阶段稿|草稿|中间稿|提纲)\s*irf_primary_artifact",
+        " partial_artifact ", linked, flags=re.IGNORECASE,
+    )
+    # Keep partial-work nouns in place here, so "completed a draft of file"
+    # cannot become "completed file" by deleting its qualification.
+    for pattern in NEGATED_COMPLETION_PATTERNS[:4]:
+        linked = re.sub(pattern, " ", linked, flags=re.IGNORECASE)
+    linked = re.sub(
+        r"\b(?:not(?: yet)?|never)\s+(?:complete|completed|done|finished|delivered)\b",
+        " ", linked, flags=re.IGNORECASE,
+    )
+    patterns = (
+        r"(?:已经|现已|已)\s*(?:完成|交付|写好|做好)\s*(?:了\s*)?irf_primary_artifact\b(?!\s*(?:的|中|['’]s\b))",
+        r"\birf_primary_artifact\s*(?:已经|现已|已)\s*(?:完成|交付|写好|做好)",
+        r"\b(?:completed|finished|delivered)\s+(?:the\s+)?irf_primary_artifact\b(?!\s*(?:的|中|['’]s\b))",
+        r"\birf_primary_artifact\s+(?:(?:is|has been)\s+)?(?:complete|completed|done|delivered)\b",
+    )
+    return any(re.search(pattern, linked, flags=re.IGNORECASE) for pattern in patterns)
 
 
 def issue_is_open(issue: Any) -> bool:
@@ -348,7 +376,7 @@ def evaluate_delivery(
     except (OSError, UnicodeError):
         message = ""
         add("invalid_delivery_message", "The intended delivery message is unreadable or is not valid UTF-8.")
-    completion_claim = claims_completion(message)
+    completion_claim = claims_completion(message, artifact=artifact)
     terminal_state = stage == "final" and status == "complete"
     terminal_intent = completion_claim or terminal_state
 
