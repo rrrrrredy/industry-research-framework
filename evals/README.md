@@ -96,7 +96,7 @@ evals/runs/report.md
 evals/runs/report.json
 ```
 
-`report.json` uses `result_schema_version: 2`. A `pass` means mechanical conformance only. `review` and `fail` return a non-zero exit code by default; use `--allow-review` only for exploratory collection. Human or independently calibrated semantic review must be recorded separately rather than folded into the conformance score.
+`report.json` uses `result_schema_version: 2`. A `pass` means mechanical conformance only. `review` and `fail` return a non-zero exit code by default; use `--allow-review` only for exploratory collection. Semantic reviews, their calibration status and evidence limits must be recorded separately rather than folded into the conformance score.
 
 ## Run Through DeepSeek Harness
 
@@ -115,7 +115,7 @@ python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh
 
 `smoke` stages the repository at `.dsh/skills/industry-research-framework`, launches the actual DSH CLI with the `headless` profile, forces the model protocol to call DSH's native `skill` tool, and checks that the returned body includes the framework heading and referenced-resource instructions. The local endpoint receives a placeholder key; it does not call a live model or score research quality.
 
-`live` stages an existing eval prompt, source pack, required artifact skeletons, and the same native Skill layout in an isolated run directory. After DSH exits, it calls the existing `evaluate_case()` logic rather than a DSH-specific scorer. A passing smoke therefore proves runtime wiring; a live result measures only the selected deterministic case and still needs human editorial review.
+`live` stages an existing eval prompt, source pack, required artifact skeletons, and the same native Skill layout in an isolated run directory. After DSH exits, it calls the existing `evaluate_case()` logic rather than a DSH-specific scorer. A passing smoke therefore proves runtime wiring; a live result measures only the selected deterministic case and still needs a separate content and evidence assessment.
 
 Both runtime lanes write a JSON report plus captured stdout/stderr under `evals/runs/dsh/`. They accept `--dsh-command-json` or the `DSH_EVAL_COMMAND_JSON` environment variable when DSH needs an explicit argv. If neither is supplied, the runner uses `dsh` from `PATH`, then falls back to the pinned `@deepseek-ai/dsh@0.1.2-rc.1` npm package through `npx`.
 
@@ -235,7 +235,9 @@ This repo does not enable an LLM judge by default. The first line of defense is 
 - current artifact hashes
 - honest non-final delivery
 
-Optional model reviews are recorded in the dated development packages, with separate reasons, critical-error flags and disagreements. They do not silently overwrite deterministic results and are not calibrated human judgments. An automated quality gate still needs human calibration, suitable positive/negative controls and testing beyond the development examples; provider neutrality and explicit evidence limits remain required.
+Optional model reviews are recorded in the dated development packages, with separate reasons, critical-error flags and disagreements. They do not overwrite deterministic results and are not calibrated human judgments. Known-error and valid controls, testing beyond development examples, reviewer-context disclosure and explicit evidence limits remain necessary; model agreement is not factual ground truth.
+
+The [current report/review plan](../docs/evaluation-roadmap.md#current-report-and-review-plan) uses Astra inside Codex as the author and exactly three reviewers for each draft and re-review: GPT-5.6 Sol (`gpt-5.6-sol`, `high`) in a fresh Codex context, DeepSeek, and Kimi. They receive the same complete input version and do not see one another's current-round opinions before locking their own. Missing one review leaves the round incomplete. Critical findings require evidence-based resolution, not majority voting. This planned lane does not require human reviewers or change the framework into a model-specific product. New author/judge runs wait until all accepted improvements are verified; this plan is not a completed study.
 
 ## 中文说明
 
@@ -255,11 +257,13 @@ Optional model reviews are recorded in the dated development packages, with sepa
 10. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
 11. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
 
-目前默认不启用 LLM judge 作为质量判定器。日期化开发案例保留了可选模型评审，分别记录理由、严重错误标记和分歧，不覆盖确定性检查结果，也不代表经过校准的人类评价。要建立自动质量门槛，仍需人工校准、合适正负例和开发集以外的验证，并明确模型及证据条件。
+目前默认不启用 LLM judge 作为自动质量判定器。日期化开发案例保留了可选模型评审，分别记录理由、严重错误标记和分歧，不覆盖确定性检查结果，也不代表经过校准的人类评价。仍须用已知错误和正常对照检验评审说明、在开发集以外验证，并披露上下文和证据条件；模型一致不等于事实真值。
+
+[当前报告与评审计划](../docs/evaluation-roadmap.md#current-report-and-review-plan)由Astra在Codex内实际使用框架写作和返工；每份稿件的初评、复评均固定三名：新Codex上下文的GPT-5.6 Sol（`gpt-5.6-sol`，`high`）、DeepSeek、Kimi。三者读取同版完整需求、正文和所提供证据，在各自意见锁定前不互看本轮评分；少一份即该轮不完整，重大问题须查证处理，不能靠多数票通过。此计划不要求真人评审，也不是把框架限定于这些模型。先验收全部已采纳改进，再启动新的写作和模型评审；计划不等于已经跑完的结果。
 
 语义诊断的两模型八次调用也已公开，保留共同漏检、严重性分歧、顺序/上下文敏感和两项修订的独立复审。当前样本通过保留修订生成；旧输入和旧结论不会回写，更不能把模型同意作者标签称为准确率。
 
-DSH 的 `smoke` 会真正启动 headless runtime，并确认 Skill 被发现、通过原生 `skill` 工具调用、完整正文被加载；它使用本地脚本化接口，不代表模型研究质量。`live` 才调用当前 DSH 已配置的真实模型，产物仍由仓库原有 evaluator 评分。两条通道的结果都不能替代人工阅读。
+DSH 的 `smoke` 会真正启动 headless runtime，并确认 Skill 被发现、通过原生 `skill` 工具调用、完整正文被加载；它使用本地脚本化接口，不代表模型研究质量。`live` 才调用当前 DSH 已配置的真实模型，产物仍由仓库原有 evaluator 评分。两条通道都不能替代独立的正文与证据审阅。
 
 来源边界测试只证明三个预先配置的可观察行为：不把 canary 复制进成稿、拒绝指定的恶意结论、保留带限制条件的可用供应商事实。它不能证明通用 prompt injection 免疫，也不能覆盖所有工具调用、状态修改、秘密泄露或语义改写。
 

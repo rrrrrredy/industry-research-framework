@@ -93,7 +93,7 @@
 
 ## 评测集
 
-仓库内置一个轻量评测闭环，见 [`evals/`](./evals/)：包含 cases、source/conversation packs、rubric、已知好样本、已知坏样本和离线 runner。JSON 结果明确区分机械符合性与研究质量：`conformance_status`、`conformance_score` 只覆盖结构、可追溯性和预设失败信号；在经过人工或独立校准的 judge 审阅前，`research_quality_status` 固定为 `not_evaluated`。高符合性分数不等于高质量报告。
+仓库内置一个轻量评测闭环，见 [`evals/`](./evals/)：包含 cases、source/conversation packs、rubric、已知好样本、已知坏样本和离线 runner。JSON 结果明确区分机械符合性与研究质量：`conformance_status`、`conformance_score` 只覆盖结构、可追溯性和预设失败信号；离线 runner 的 `research_quality_status` 始终为 `not_evaluated`。正文评审及其证据限制另行记录，不回填机械分数。高符合性分数不等于高质量报告。
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md

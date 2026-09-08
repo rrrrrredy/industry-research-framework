@@ -24,7 +24,7 @@ High-risk flags such as false completion, malformed final review records, and co
 
 ## Development Reports And Review Diagnostics
 
-The [2026-09-07 evidence package](../evals/diagnostics/2026-09-07/) includes actual calibration reports, retained failures, editorial repairs and three-model text diagnostics. It is not part of the held-out study or the cross-runtime publication gate. Model/provider, context exposure, retrieval access, requested and returned identity where available, incomplete responses and adjudication are disclosed separately. Different vendors diversify viewpoints; they do not make model judgments independent truth or replace human review.
+The [2026-09-07 evidence package](../evals/diagnostics/2026-09-07/) includes actual calibration reports, retained failures, editorial repairs and three-model text diagnostics. It is not part of the held-out study or the cross-runtime publication gate. Model/provider, context exposure, retrieval access, requested and returned identity where available, incomplete responses and adjudication are disclosed separately. Different vendors diversify viewpoints; their agreement is neither factual ground truth nor human calibration.
 
 The protocol's numbers (usually 3–7 clarification questions, ledger maintenance intervals, stagnation triggers and review-loop budgets) are operational heuristics, not empirically optimized thresholds. No current ablation establishes their superiority. The clarification rule still asks only for missing essential information. Preserve these defaults until observed premature stops, missed stalls, redundant searches or maintenance costs justify a scoped comparison; do not infer validity from numerical precision.
 
@@ -36,6 +36,18 @@ The two stagnation signals observe different units:
 | Three unproductive searches/source passes | A collection direction yields no useful evidence | Stop that collection direction |
 
 This is an explanation of existing rules, not a new schema or extra required stage files. Self-authored non-empty gate files would not prove that a stage happened before the next one. Current receipts bind final artifacts and reviews; full intermediate-stage chronology remains only partly observable.
+
+## Current Report And Review Plan
+
+Complete and verify all accepted method, execution, checker, data and documentation corrections before starting new report-writing or model-review runs. Offline regressions are preparation, not an efficacy study; green CI alone does not authorize a study start.
+
+The current development lane uses Astra inside Codex as the sole author, actually loading the pinned framework and using its research workflow. Every report, in both initial review and re-review, receives three separate reviews: GPT-5.6 Sol (`gpt-5.6-sol`, `high`) in a fresh Codex context, DeepSeek, and Kimi. DeepSeek and Kimi are reviewers, not API-only substitute authors. This is a study configuration, not a Codex dependency or a three-model requirement of the framework itself.
+
+Give all three reviewers the same complete report version, task and supplied evidence, with version hashes. Do not expose another reviewer's current-round opinion before their response is locked. Record actual context, tools, evidence access, model identity when exposed, truncation and failures. Two responses constitute an incomplete panel, not a completed three-reviewer round. Author self-checks do not count as independent reviews; different models do not guarantee statistical independence.
+
+Run the complete chain: task admission, frozen setup, outline, research, section drafting, locked first draft, three reviews, evidence-based adjudication, author revision, three re-reviews, and usable final report. Preserve the first draft and failures. A review of an old version cannot approve a new one. A concrete critical finding must be checked and resolved or explicitly bounded; two favorable votes and a high average cannot erase it. Unsupported model corrections must not be copied into the report.
+
+This route does not require human reviewers. Use known-error and valid controls to check the rubric before freezing a new study, and report results explicitly as LLM-judged with an evidence-audit boundary, not human-calibrated truth. It does not enable an automatic research-quality PASS in the deterministic runner. Existing frozen experiments and their original reviewer counts remain historical records; do not rewrite them to claim this new plan was executed.
 
 ## Track B: Frozen Cross-Agent Portability
 
@@ -54,12 +66,14 @@ For each task and production agent environment:
 1. Run baseline and framework conditions with the same model, reasoning setting, normal tools, starting memory, context budget, timeout, and retry rule. Prevent cross-condition access to outputs or experiment-generated memory. Disable only the tested framework in the baseline; verify the treatment loads the pinned version rather than a drifting installed copy.
 2. Keep the request, initial materials, target reader, and information cutoff fixed; randomize condition order within the same time block. Preserve normal web access when the real task needs it, letting each condition choose its own searches and sources. Use identical fixed sources only when the original task requires that restriction.
 3. Preserve complete outputs, failures, latency, cost or token usage when exposed, and user corrections.
-4. Have two distinct target-reader reviewers assess outputs independently while blinded to condition. Complete an additional evidence audit; one reader may take that role only after their reader assessment is locked. Record material disagreement and any unresolved adjudication. A single human plus model votes is not two independent human reviews.
-5. Score task fidelity, factual/evidence discipline, synthesis, counter-evidence, decision usefulness, and reader quality separately.
+4. Use the fixed three-reviewer panel above, independently and blinded to condition as far as the report permits. Freeze each review before sharing opinions. Record identity/context leakage and complete a separate evidence audit of material claims and disputes. No human-review prerequisite applies to this new LLM-judged design, and no human calibration may be claimed. Missing, truncated or cross-version reviews leave the panel incomplete.
+5. Score task fidelity, factual/evidence discipline, synthesis, counter-evidence, and reader usefulness separately; reader usefulness includes decision value and readable delivery. Use `not_assessed` when evidence or input is insufficient rather than treating it as zero or a clean bill of health.
 6. Treat invented facts, missing primary deliverables, hidden critical limitations, and false completion as critical failures that averages cannot offset.
 7. Publish every task-level pair, paired differences, descriptive uncertainty, disagreements, exclusions, and reruns. Report win, loss, tie, both-failed, and unresolved outcomes explicitly; neither both-failed nor unresolved outcomes count as framework wins. Any stopping or extension thresholds are preregistered product decision rules, not significance claims. Sequential stopping needs a corresponding statistical design before confirmatory inference.
 
 Do not mix different models into the framework-effect estimate. Cross-model robustness is a later question; the causal contrast is framework versus baseline within the same production environment.
+
+Compare first drafts with first drafts. If revision effects are also measured, give both conditions the same preregistered review and revision opportunities and report initial and revised results separately. Model-review scores alone support only a bounded LLM-judged comparison, not proof that the framework improves real-world decisions.
 
 Twelve tasks in one production environment require 24 primary runs, not 12 tasks multiplied by every showcase agent. If four tasks are selected in advance for one repeat of each condition, those eight additional runs measure sensitivity and are not new independent tasks. Baseline outputs do not lose semantic-quality points for lacking framework-specific registries or receipts; apply conformance checks only where the protocol is applicable, while auditing evidence and truthful delivery in both conditions.
 
@@ -79,6 +93,6 @@ After the first tagged release, invite external users to reproduce one frozen ca
 
 1. Stabilize conformance schema v2 and delivery semantics.
 2. Publish an initial tagged release with migration notes and exact checks.
-3. Execute the frozen cross-agent showcase without changing its inputs.
-4. Run the preregistered real-task efficacy study.
+3. After accepted corrections pass, complete the current single-author report/review lane and freeze the real-task study design before its held-out runs.
+4. Run the preregistered real-task study; execute the separate frozen cross-agent showcase when its runtime environments are available, without changing its inputs. Missing external runtimes do not block the Codex-only lane or justify calling model APIs different runtimes.
 5. Add optional domain packs or distribution plugins only when repeated external use demonstrates the need.

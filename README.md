@@ -104,7 +104,7 @@ Use this lightweight checklist to see whether an agent followed the protocol:
 
 ## Evaluation Suite
 
-This repository includes a lightweight evaluation loop under [`evals/`](./evals/): cases, source and conversation packs, rubrics, known-good controls, known-bad regression fixtures, and an offline runner. Its JSON contract separates mechanical conformance from research quality: `conformance_status` and `conformance_score` cover deterministic structure, traceability, and configured failure signals, while `research_quality_status` remains `not_evaluated` until a human or separately calibrated judge reviews the report. A high conformance score is not a quality verdict.
+This repository includes a lightweight evaluation loop under [`evals/`](./evals/): cases, source and conversation packs, rubrics, known-good controls, known-bad regression fixtures, and an offline runner. Its JSON contract separates mechanical conformance from research quality: `conformance_status` and `conformance_score` cover deterministic structure, traceability, and configured failure signals; the offline runner always leaves `research_quality_status` as `not_evaluated`. Record content reviews and their evidence limits separately. A high conformance score is not a quality verdict.
 
 ```bash
 python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
