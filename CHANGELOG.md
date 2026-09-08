@@ -10,6 +10,10 @@ Development-only semantic diagnostics and clearer integration guidance. These ch
 
 - Consolidate duplicated installation lists into three capability-based choices in both READMEs. Add a bilingual adapter index that separates instructions, runtime abilities, and research evidence; disclose the recovery and delivery-check limits of conversation-only use without changing the core method or claiming cross-runtime validation.
 
+### Fixed
+
+- Fail source-integrity checks when the case or source-pack collection is missing or empty, rather than reporting coverage without checking any cases. Reject missing, empty, malformed or duplicate case references, duplicate quarantine IDs and policy entries for missing packs. Report the actual case count; preserve valid workflow controls and the factual-use prohibition. No frozen sources, reports or research-method rules change.
+
 ### Added
 
 - Publish eight label-masked semantic-review calls, including a shared missed control defect, severity disagreements and one fresh-context/order-sensitive judgment. Retain and re-review two case corrections without overwriting original inputs; the current catalog applies the corrections while keeping twenty underlying cases. Model agreement is not accuracy or human calibration.

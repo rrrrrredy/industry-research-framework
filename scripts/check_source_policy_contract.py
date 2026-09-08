@@ -33,6 +33,83 @@ class SourcePolicyTests(unittest.TestCase):
             capture_output=True, text=True, encoding="utf-8", check=False,
         )
 
+    def copy_suite(self, name="evals", *, packs=True, cases=True):
+        target = self.root / name
+        target.mkdir()
+        shutil.copyfile(REPO / "evals/source_policy.json", target / "source_policy.json")
+        if packs:
+            shutil.copytree(REPO / "evals/source_packs", target / "source_packs")
+        if cases:
+            shutil.copytree(REPO / "evals/cases", target / "cases")
+        return target
+
+    def assert_integrity_failure(self, target, message):
+        result = self.run_checker("--evals-dir", str(target))
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn(message, result.stdout)
+        self.assertNotIn("PASS:", result.stdout)
+        self.assertNotIn("Traceback", result.stderr)
+
+    def test_copied_complete_suite_is_valid_control(self):
+        result = self.run_checker("--evals-dir", str(self.copy_suite()))
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_missing_or_empty_case_directory_cannot_pass(self):
+        for empty in (False, True):
+            with self.subTest(empty=empty):
+                target = self.copy_suite(str(empty), cases=False)
+                if empty:
+                    (target / "cases").mkdir()
+                self.assert_integrity_failure(target, "no case files")
+
+    def test_missing_or_empty_pack_directory_fails_without_traceback(self):
+        for empty in (False, True):
+            with self.subTest(empty=empty):
+                target = self.copy_suite(str(empty), packs=False)
+                if empty:
+                    (target / "source_packs").mkdir()
+                self.assert_integrity_failure(target, "no source pack directories")
+
+    def test_case_source_ids_require_nonempty_distinct_strings(self):
+        mutations = [None, [], "S001", [""], [None], ["S001", "S001"]]
+        for index, value in enumerate(mutations):
+            with self.subTest(value=value):
+                target = self.copy_suite(str(index))
+                path = next((target / "cases").glob("*.json"))
+                case = checker.read_json(path)
+                case["source_ids"] = value
+                path.write_text(json.dumps(case), encoding="utf-8")
+                self.assert_integrity_failure(target, "source_ids must be a non-empty list of distinct non-empty strings")
+
+    def test_missing_case_source_ids_cannot_silently_check_nothing(self):
+        target = self.copy_suite()
+        path = next((target / "cases").glob("*.json"))
+        case = checker.read_json(path)
+        del case["source_ids"]
+        path.write_text(json.dumps(case), encoding="utf-8")
+        self.assert_integrity_failure(target, "source_ids must be a non-empty list of distinct non-empty strings")
+
+    def test_duplicate_quarantine_ids_fail_even_with_matching_manifest(self):
+        target = self.copy_suite()
+        pack = target / "source_packs/ai_knowledge_sanitized"
+        rows = checker.read_jsonl(pack / "quarantined_sources.jsonl")
+        rows.append(copy.deepcopy(rows[0]))
+        (pack / "quarantined_sources.jsonl").write_text(
+            "\n".join(json.dumps(row) for row in rows) + "\n", encoding="utf-8"
+        )
+        manifest = checker.read_json(pack / "manifest.json")
+        manifest["quarantined_source_count"] = len(rows)
+        manifest["quarantined_source_ids"] = [row["source_id"] for row in rows]
+        (pack / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        self.assert_integrity_failure(target, "duplicate quarantined source_id")
+
+    def test_policy_entry_cannot_hide_a_missing_pack(self):
+        target = self.copy_suite()
+        policy = checker.read_json(target / "source_policy.json")
+        policy["packs"]["missing_pack"] = copy.deepcopy(next(iter(policy["packs"].values())))
+        (target / "source_policy.json").write_text(json.dumps(policy), encoding="utf-8")
+        self.assert_integrity_failure(target, "policy references missing source pack")
+
     def uncurated_sources(self):
         rows = copy.deepcopy(self.sources)
         for item in self.policy["excluded_claims"]:

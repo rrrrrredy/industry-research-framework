@@ -37,6 +37,14 @@ python scripts/check_eval_source_integrity.py --purpose factual
 
 The first command checks structure, references, permitted purpose and recurrence of the exact reviewed exclusions. The second includes positive controls, negative factual-use checks, an exact non-mutating/idempotent curation check and regeneration from reconstructed pre-curation inputs. The third must exit non-zero for the current packs; that is the expected result, not a failed factual study.
 
+### Source-checker regression — 2026-09-08
+
+An incomplete checkout could previously omit the case directory and still receive a PASS claiming all case references were consistent. A case with missing or empty `source_ids`, duplicate references, duplicated quarantine rows (with matching manifest counts), or an orphan policy entry could also pass. A missing pack directory or null references could instead crash without a useful finding.
+
+The checker now requires a non-empty pack collection and case collection for this fixed-source workflow suite. Each case must declare a non-empty list of distinct non-empty string source IDs. It rejects duplicate quarantine IDs and policy entries whose packs are missing, handles missing directories without a traceback, and prints the number of cases actually checked. Isolated controls preserve a complete copied suite, regeneration, historical exclusions and expected rejection of factual use. These are structural checks, not a license audit or proof that a source supports a claim; they do not prescribe fixed sources for ordinary live-web research.
+
+中文补充：已修复“题目文件缺失却仍声称全部引用一致”的漏检，也拦截空/错误/重复引用、重复隔离来源及缺失资料包。检查输出包含实际题目数。正常资料和再生成控制仍通过；冻结数据未改，17条日期未知记录仍只能用于流程检查，不因此升级为事实评测集。
+
 The source-use policy is an evaluation-data boundary, not a new research protocol schema. Frozen cross-agent files, the synthetic frozen source pack, SKILL.md and all references remain unchanged. Old runs keep their old input hashes; new runs must identify the new candidate rather than retroactively claiming these corrections.
 
 中文结论：本轮清理的是已证实的错误归属、未解开的数字口径冲突和参考稿无来源支持的外推。其余未知项明确保留，不把“检查通过”包装成“数据完全正确、版权全部清楚”。

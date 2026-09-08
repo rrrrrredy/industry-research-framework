@@ -119,9 +119,19 @@ def main() -> int:
         print(f"Eval source policy failure: {exc}")
         return 1
 
-    for pack_dir in sorted((evals_dir / "source_packs").iterdir()):
-        if not pack_dir.is_dir():
-            continue
+    try:
+        packs_dir = evals_dir / "source_packs"
+        pack_dirs = sorted(path for path in packs_dir.iterdir() if path.is_dir()) if packs_dir.is_dir() else []
+        case_paths = sorted(path for path in (evals_dir / "cases").glob("*.json") if path.is_file())
+    except OSError as exc:
+        print(f"Eval source integrity failure: cannot enumerate source packs or cases: {exc}")
+        return 1
+    if not pack_dirs:
+        failures.append("no source pack directories; an empty or missing collection cannot pass integrity checks")
+    if not case_paths:
+        failures.append("no case files; source-reference coverage was not checked")
+
+    for pack_dir in pack_dirs:
         manifest_path = pack_dir / "manifest.json"
         sources_path = pack_dir / "sources.jsonl"
         if not manifest_path.exists() or not sources_path.exists():
@@ -161,6 +171,8 @@ def main() -> int:
             failures.append(f"{pack_id}: every source and quarantine row requires source_id")
         if len(source_ids) != len(set(source_ids)):
             failures.append(f"{pack_id}: duplicate active source_id")
+        if len(quarantine_ids) != len(set(quarantine_ids)):
+            failures.append(f"{pack_id}: duplicate quarantined source_id")
         if set(source_ids) & set(quarantine_ids):
             failures.append(f"{pack_id}: a source_id appears in both active and quarantine files")
 
@@ -202,7 +214,10 @@ def main() -> int:
         active_count += len(sources)
         quarantined_count += len(quarantined)
 
-    for case_path in sorted((evals_dir / "cases").glob("*.json")):
+    for pack_id in sorted(set(policies) - set(pack_sources)):
+        failures.append(f"{pack_id}: policy references missing source pack")
+
+    for case_path in case_paths:
         try:
             case = read_json(case_path)
         except (OSError, ValueError) as exc:
@@ -211,12 +226,21 @@ def main() -> int:
         if not isinstance(case, dict):
             failures.append(f"{case_path.name}: case must be an object")
             continue
+        references = case.get("source_ids")
+        if (
+            not isinstance(references, list)
+            or not references
+            or not all(isinstance(value, str) and value.strip() for value in references)
+            or len(references) != len(set(references))
+        ):
+            failures.append(f"{case_path.name}: source_ids must be a non-empty list of distinct non-empty strings")
+            continue
         pack_id = str(case.get("source_pack", "")).strip()
         available = pack_sources.get(pack_id)
         if available is None:
             failures.append(f"{case_path.name}: unknown source_pack {pack_id!r}")
             continue
-        missing = [str(source_id) for source_id in case.get("source_ids", []) if str(source_id) not in available]
+        missing = [source_id for source_id in references if source_id not in available]
         if missing:
             failures.append(
                 f"{case_path.name}: references missing or quarantined sources: {', '.join(missing)}"
@@ -235,7 +259,7 @@ def main() -> int:
 
     print(
         f"PASS: {len(pack_sources)} source packs, {active_count} active sources, "
-        f"{quarantined_count} quarantined sources, and all case references are consistent."
+        f"{quarantined_count} quarantined sources, and {len(case_paths)} cases have consistent references."
     )
     print("Use: workflow only. Factual benchmark readiness and original-document reuse rights are not certified.")
     return 0
