@@ -2,9 +2,11 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-An agent-agnostic ResearchOps protocol for longform, source-backed industry research and publishable writing.
+An open-source industry research framework that guides AI agents through planning, source collection, analysis, review, and writing evidence-backed articles and reports.
 
-It ships no scraper, data source, or fixed report template. Instead, it prescribes conventions for how an agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
+Designed for substantial, long-running research, it provides reusable research methods and workflows: clarify the objective and scope before starting, distinguish sources from interpretation, preserve progress, draft section by section, and review and revise for the reader before delivery.
+
+The framework is not tied to one agent tool; setup instructions are below. It does not include a scraper, data source, or fixed report template.
 
 Scope Contract Research Brief Task State Recovery Guardrails Source Registry Claim Discipline Staged Drafting Review Loop Reader Revision
 

@@ -15,6 +15,7 @@ Checker-consistency prerelease. These fixes do not change the core research meth
 - Reject recognized blanket denials of accepted limitations. Report unmatched or partial disclosure as requiring semantic review, not as verified by a generic keyword; literal coverage is explicitly not semantic certification.
 - Add 24 cross-entry regressions to CI, including invalid UTF-8 even when the optional receipt check is disabled. Preserve existing tests, core protocol text, frozen inputs and historical outputs.
 - Label the public comparison as illustrative design goals in English and Chinese, and link separately to actual reports and limitations instead of implying measured before/after improvement.
+- Explain the framework's purpose in plain language across both READMEs and the public introduction. Replace the ambiguous runtime-agnostic ResearchOps label without changing the core research method or execution rules.
 
 ## [v0.1.2](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.2) — 2026-09-07
 
