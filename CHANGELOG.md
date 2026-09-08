@@ -4,6 +4,11 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
+### Added
+
+- Expand the synthetic semantic diagnostic catalog from six to twenty bad/control pairs. Include justified positive judgments so caution is not mistaken for quality; retain the original six and all historical results. The new labels are author-proposed, uncalibrated development material, not held-out efficacy evidence.
+- Validate diagnostic data structure and claim boundaries in CI, with negative cases for missing evidence or controls, duplicate identifiers and invalid types. Passing these checks does not establish that the semantic labels are correct.
+
 ## [v0.1.3](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.3) — 2026-09-08
 
 Checker-consistency prerelease. These fixes do not change the core research method or establish research-quality efficacy.
