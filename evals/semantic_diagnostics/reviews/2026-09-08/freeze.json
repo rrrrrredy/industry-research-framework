@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-09-08T04:03:55.590191+00:00",
+  "origins": {
+    "cases.json": "df24615678a57dbb83c0b8f112aa826e2915ab45eae6f62297bef40a76e73514",
+    "additional-cases.json": "4c6e7e708c9abba550f0340e721f7c3bc2b7d7b04620f2ceed5ae767cf61a8fa"
+  },
+  "files": {
+    "run.py": "2f4577be8704fb1618e3a063b5399e3173989724bf0a2da9f65170a49535691f",
+    "PROTOCOL.md": "7a2eec5a7e098ff1ca0510c488a37977f7a0593a8383a7404a2788e4cf67f3ec",
+    "mapping.private.json": "94cc309591efd99c0f07ea80e5c0f1574ea8081769fc9b842597c3b2adf0f3d9",
+    "inputs/batch-01.json": "b6500295020a1d2b0a2fc9baefbee41c389d894e6ca75af1450ad1eb83bda096",
+    "inputs/batch-02.json": "db2f77d3a1e694fe7729d14c3e2121e1faf3f42d8a97465e88eeb5881f8a8757",
+    "inputs/order-control.json": "9461b901e4f33ee8c853c825111f564ff641e653fa5c9d22827c8bf55b0438a0"
+  },
+  "provider_helper_sha256": "1e6b987e323aa6be8a5540aeeff10379b6f2fb4a39594a43aa4c4fdbcda1b716",
+  "budget_code_sha256": "ad57c9bb0293e712d1c7a5c5f9611d36a1da1561a37e76191db10c8929f3baba",
+  "jobs": [
+    "batch-01",
+    "batch-02",
+    "order-control"
+  ],
+  "max_output_tokens": 32768,
+  "transport_timeout_seconds": 600,
+  "reviewers": [
+    "deepseek",
+    "kimi"
+  ],
+  "labels_are_truth": false,
+  "automatic_retries": 0
+}

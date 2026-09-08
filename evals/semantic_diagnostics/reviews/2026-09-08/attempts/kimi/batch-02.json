@@ -1,0 +1,32 @@
+{
+  "task": "batch-02",
+  "reserved_cny": 3.8766,
+  "reserved_utc": "2026-09-08T04:20:08.149360+00:00",
+  "status": "response_complete",
+  "reservation_not_released": true,
+  "budget_accounting_version": 2,
+  "prior_liability_guard_cny": 19.8683,
+  "cumulative_liability_after_reservation_cny": 23.7449,
+  "all_original_reservation_records_retained": true,
+  "input_sha256": "db2f77d3a1e694fe7729d14c3e2121e1faf3f42d8a97465e88eeb5881f8a8757",
+  "model_requested": "kimi-k3",
+  "endpoint": "https://api.moonshot.cn/v1/chat/completions",
+  "pricing_basis": "China platform CNY cache-miss rates",
+  "max_output_tokens": 32768,
+  "model_returned": "kimi-k3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1743,
+    "completion_tokens": 3959,
+    "total_tokens": 5702,
+    "completion_tokens_details": {
+      "reasoning_tokens": 2293
+    }
+  },
+  "usage_cost_guard_cny_not_invoice": 0.43076,
+  "valid_json_object": true,
+  "task_schema_complete": true,
+  "model_identity_expected": true,
+  "finished_utc": "2026-09-08T04:22:11.149666+00:00",
+  "elapsed_seconds": 122.984
+}

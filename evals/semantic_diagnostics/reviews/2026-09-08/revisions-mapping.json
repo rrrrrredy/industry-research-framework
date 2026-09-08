@@ -1,0 +1,20 @@
+{
+  "seed": 8306668222743275644,
+  "items": [
+    {
+      "id": "item-01",
+      "case_id": "semantic_filler_zh",
+      "revision_id": "semantic_filler_zh_r2",
+      "A": "bad",
+      "B": "control"
+    },
+    {
+      "id": "item-02",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "revision_id": "process_trace_vs_material_limit_zh_r2",
+      "A": "bad",
+      "B": "control"
+    }
+  ],
+  "labels_are_truth": false
+}

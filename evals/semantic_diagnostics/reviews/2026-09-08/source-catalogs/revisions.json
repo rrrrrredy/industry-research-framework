@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "purpose": "diagnostic_only",
+  "labels": "author_proposed_uncalibrated",
+  "held_out": false,
+  "automatic_quality_scoring": false,
+  "notice": "Retained revisions, not additional independent cases. Raw original catalogs and dated model inputs remain unchanged. These corrections are operator-proposed, not human-calibrated labels.",
+  "revisions": [
+    {
+      "revision_id": "semantic_filler_zh_r2",
+      "case_id": "semantic_filler_zh",
+      "base_case_sha256": "ea903bcd479eb7034478b315f0a5259f955804760a2e1f60ae46bf5814be6477",
+      "reason": "The original control equated four label-check passes with four usable results. Both non-author models missed that unsupported denominator; the original evidence also did not establish camera/person preservation. Keep the failure and correct the control instead of treating model agreement as truth.",
+      "changes": {
+        "control": "## 先选工作方式，再比生成费\n已有底片、需要局部修改的团队先试甲；只有商品图的团队可试乙，但要单独检验商品标签。乙20次试做只有4次通过标签检查，这至多留下4个标签合格的候选，不等于4个整体可用结果。应把生成和筛选返工支出分摊到最终验收可用的成片，不能只比较调用单价。现有材料不足以计算完整单位成本，也不能推断长期成功率。",
+        "control_boundary": "标签检查只是可用性的一项条件；不得把4个通过标签的候选当作4个可用成片。对照仍是短段落，不是完整报告或真实产品测试。"
+      }
+    },
+    {
+      "revision_id": "process_trace_vs_material_limit_zh_r2",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "base_case_sha256": "1dab4d9fd44ca20b0c84d6c37ff35f0f6fc3567a05c5abbd18c81577c81469fc",
+      "reason": "The original case did not clearly identify the delivery surface. A progress message can legitimately discuss next steps. Clarify that these are reader-facing report-body excerpts; do not infer that unrecorded process actions necessarily never occurred. One model changed its judgment in the smaller fresh-context order control.",
+      "changes": {
+        "evidence": "虚构调研中价格页面无法完整读取，且未对产品进行生成实测。这里评审的是正式研究报告中直接给读者阅读的正文段落，不是聊天进度消息、方法附录或后台日志；任务允许保留影响结论的资料限制，但正文需给出相应分析。",
+        "expected_failure": "坏例用后台工具动作、登记、门禁和下一步计划替代读者正文中的分析，并混用阶段与终稿称呼；不需要推断这些动作事实上从未发生，才能判定它不适合所指定的正文位置。",
+        "control_boundary": "限制披露可以进入正文；进度消息可诚实说明未完成。不能把这段任务限定推广为禁止一切方法说明、附件链接或阶段交付。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "task": "batch-01",
+  "reserved_cny": 1.601,
+  "reserved_utc": "2026-09-08T04:18:41.913252+00:00",
+  "status": "response_complete",
+  "reservation_not_released": true,
+  "budget_accounting_version": 2,
+  "prior_liability_guard_cny": 11.0324,
+  "cumulative_liability_after_reservation_cny": 12.6334,
+  "all_original_reservation_records_retained": true,
+  "input_sha256": "b6500295020a1d2b0a2fc9baefbee41c389d894e6ca75af1450ad1eb83bda096",
+  "model_requested": "deepseek-v4-pro",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "pricing_basis": "peak USD rates with conservative 10 CNY/USD guard, not market FX",
+  "max_output_tokens": 32768,
+  "model_returned": "deepseek-v4-pro",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1624,
+    "completion_tokens": 5509,
+    "total_tokens": 7133,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3508
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1624
+  },
+  "usage_cost_guard_cny_not_invoice": 0.23959319999999998,
+  "valid_json_object": true,
+  "task_schema_complete": true,
+  "model_identity_expected": true,
+  "finished_utc": "2026-09-08T04:19:52.687087+00:00",
+  "elapsed_seconds": 70.75
+}

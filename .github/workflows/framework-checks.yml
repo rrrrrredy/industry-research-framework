@@ -40,3 +40,5 @@ jobs:
         run: python scripts/check_installation_contract.py
       - name: Check public diagnostic bundle and failure-preservation controls
         run: python scripts/check_diagnostic_bundle.py --self-test
+      - name: Check semantic review evidence and disagreement preservation
+        run: python scripts/check_semantic_review_bundle.py --self-test

@@ -1,0 +1,157 @@
+{
+  "seed": 4478370379441556527,
+  "jobs": {
+    "batch-01": [
+      {
+        "id": "item-01",
+        "original_id": "self_pass_without_review_evidence_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-02",
+        "original_id": "forecast_is_not_actual_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-03",
+        "original_id": "mismatched_fiscal_periods_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-04",
+        "original_id": "source_embedded_rating_request_en",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-05",
+        "original_id": "denominator_swap_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-06",
+        "original_id": "valid_pilot_acceptance_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-07",
+        "original_id": "power_and_energy_en",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-08",
+        "original_id": "late_scope_correction_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-09",
+        "original_id": "self_selected_pilot_causality_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-10",
+        "original_id": "annualized_run_rate_zh",
+        "A": "bad",
+        "B": "control"
+      }
+    ],
+    "batch-02": [
+      {
+        "id": "item-01",
+        "original_id": "supported_local_improvement_en",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-02",
+        "original_id": "semantic_filler_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-03",
+        "original_id": "critical_error_not_offset_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-04",
+        "original_id": "gross_margin_not_cash_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-05",
+        "original_id": "specific_english_synthesis_en",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-06",
+        "original_id": "contract_tier_omission_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-07",
+        "original_id": "copied_sources_not_independent_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-08",
+        "original_id": "registered_but_unsupported_claim_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-09",
+        "original_id": "review_cost_changes_ranking_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-10",
+        "original_id": "process_trace_vs_material_limit_zh",
+        "A": "bad",
+        "B": "control"
+      }
+    ],
+    "order-control": [
+      {
+        "id": "item-01",
+        "original_id": "semantic_filler_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-02",
+        "original_id": "mismatched_fiscal_periods_zh",
+        "A": "bad",
+        "B": "control"
+      },
+      {
+        "id": "item-03",
+        "original_id": "forecast_is_not_actual_zh",
+        "A": "control",
+        "B": "bad"
+      },
+      {
+        "id": "item-04",
+        "original_id": "process_trace_vs_material_limit_zh",
+        "A": "control",
+        "B": "bad"
+      }
+    ]
+  },
+  "held_out": false,
+  "human_calibrated": false
+}

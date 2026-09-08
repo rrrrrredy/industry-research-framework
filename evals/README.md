@@ -10,7 +10,9 @@ Actual outputs are available in the [2026-09-07 development package](./diagnosti
 
 Existing consumers can use the [schema v2 migration guide](../docs/evaluator-v2-migration.md). The [delivery checker interface](../docs/delivery-verification.md) documents intended-message binding and the limits of optional actual-reply comparison.
 
-See the [source-data audit](../docs/evaluation-data-audit.md) for provenance and exclusion decisions, and [semantic diagnostic pairs](./semantic_diagnostics/) for six author-proposed bad/control pairs. These development excerpts are not held-out tasks or calibrated human ratings.
+See the [source-data audit](../docs/evaluation-data-audit.md) for provenance and exclusion decisions, and [semantic diagnostic pairs](./semantic_diagnostics/) for twenty author-proposed bad/control pairs. These development excerpts are not held-out tasks or calibrated human ratings.
+
+The [two-reviewer semantic results](./semantic_diagnostics/reviews/2026-09-08/) retain a shared missed defect, severity disagreements, a context/order-sensitive judgment and separately reviewed case revisions. Use the current catalog loader; original catalogs remain frozen historical inputs. Agreement with the author's labels is not accuracy.
 
 ```text
 evals/
@@ -166,13 +168,17 @@ python scripts/check_conformance_fixtures.py
 python scripts/check_delivery_contract.py
 python scripts/check_source_policy_contract.py
 python scripts/check_installation_contract.py
+python scripts/check_evaluator_contract.py
+python scripts/check_semantic_diagnostics.py
+python scripts/check_diagnostic_bundle.py --self-test
+python scripts/check_semantic_review_bundle.py --self-test
 ```
 
 ## How To Iterate
 
-1. Change `SKILL.md`, `README.md`, or a reference file.
-2. Run the same eval cases.
-3. Compare scores and read `report.md`.
+1. State an observed failure or unmet requirement and preserve the existing frozen inputs and outputs.
+2. Add a failing example and a valid control, then make the smallest justified change to method, execution, checking or documentation. Do not duplicate a method rule merely because an author ignored it.
+3. Run the same checks, read the actual reports and separate mechanical conformance from semantic quality. Create a new version before changing experimental inputs.
 4. Run both positive and negative fixture checks, then manually inspect at least one passing and one failing output.
 5. Convert repeated human feedback into a rubric item or a new case.
 6. Add a regression fixture when a deterministic bad pattern should never pass again.
@@ -229,7 +235,7 @@ This repo does not enable an LLM judge by default. The first line of defense is 
 - current artifact hashes
 - honest non-final delivery
 
-Add an LLM judge only after the deterministic runner, positive and negative calibration fixtures, and taste anchors are stable. A future judge should be optional, provider-neutral, and grounded in `evals/rubrics/research_quality.json`; it should explain failures rather than silently overwrite deterministic results.
+Optional model reviews are recorded in the dated development packages, with separate reasons, critical-error flags and disagreements. They do not silently overwrite deterministic results and are not calibrated human judgments. An automated quality gate still needs human calibration, suitable positive/negative controls and testing beyond the development examples; provider neutrality and explicit evidence limits remain required.
 
 ## 中文说明
 
@@ -249,7 +255,9 @@ Add an LLM judge only after the deterministic runner, positive and negative cali
 10. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
 11. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
 
-目前默认不启用 LLM judge。先用确定性 runner 和正负控制样本抓状态文件、来源台账、过程语言、内部编号泄漏、来源指令泄漏、列表密度和重复模板句式；等人工校准集、taste anchor 和规则稳定后，再考虑增加可选的、供应商无关的 LLM judge。
+目前默认不启用 LLM judge 作为质量判定器。日期化开发案例已保留可选模型评审，完整流程案例中每份报告由两名非作者模型分别评审，理由、严重错误、分歧和返工单独记录，不覆盖确定性检查结果。模型意见不能冒充人类校准；要建立自动质量门槛，仍需人工校准、合适正负例和开发集以外的验证。
+
+语义诊断的两模型八次调用也已公开，保留共同漏检、严重性分歧、顺序/上下文敏感和两项修订的独立复审。当前样本通过保留修订生成；旧输入和旧结论不会回写，更不能把模型同意作者标签称为准确率。
 
 DSH 的 `smoke` 会真正启动 headless runtime，并确认 Skill 被发现、通过原生 `skill` 工具调用、完整正文被加载；它使用本地脚本化接口，不代表模型研究质量。`live` 才调用当前 DSH 已配置的真实模型，产物仍由仓库原有 evaluator 评分。两条通道的结果都不能替代人工阅读。
 

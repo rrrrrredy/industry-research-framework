@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "purpose": "diagnostic_only",
+  "labels": "author_proposed_uncalibrated",
+  "held_out": false,
+  "automatic_quality_scoring": false,
+  "notice": "Paired, deliberately short synthetic excerpts. They exercise semantic review, not report length, model ranking, human calibration or framework efficacy.",
+  "cases": [
+    {
+      "id": "semantic_filler_zh",
+      "focus": "specificity_and_synthesis",
+      "evidence": "虚构材料：甲工具适合已有视频底片的局部修改；乙工具提供低单次报价的图生视频，但试做20次仅4次通过商品标签检查。",
+      "bad": "## 核心判断\n行业正在加速演进，创新和竞争相互促进。\n## 竞争机制\n企业需要以用户为中心，在效率和质量之间取得平衡。生态协同释放增长空间，长期价值需要持续验证。\n## 建议\n把握机遇，稳步推进，动态调整策略并关注风险。",
+      "control": "## 先选工作方式，再比生成费\n已有底片、需要保持机位和人物的团队先试甲；只有商品图、可接受多次挑选的团队再试乙。乙的单次报价虽低，20次试做只有4次保留了正确标签，生成费用要分摊到4次可用结果上。这个小样本尚不足以推断长期成功率，但已经足以否定只按调用单价采购。",
+      "expected_failure": "坏例有标题和谨慎措辞，却不使用任何材料中的差异、机制或取舍；字数扩充或同义改写不能改善这一缺陷。",
+      "control_boundary": "对照只是短段落，不是完整报告或行业事实；不以出现指定关键词为通过条件。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "registered_but_unsupported_claim_zh",
+      "focus": "claim_evidence_entailment",
+      "evidence": "虚构证据E1仅记录每秒最多处理40个请求；没有故障工单、客户续约或完成率数据。",
+      "bad": "该平台已证明能稳定解决九成复杂客户问题，表明续约率将显著上升。后台主张表给这一判断绑定了E1，来源登记完整，因此证据充分。",
+      "control": "E1能说明公布的请求处理能力，不能证明复杂问题解决率或续约收益。若采购取决于这两点，需要实际工单和续约队列数据；目前不据吞吐量作扩大采购的结论。",
+      "expected_failure": "真实存在的来源ID不支持主张；把吞吐量升级为解决率并外推续约是关键事实/推理错误。",
+      "control_boundary": "不能因对照保留不确定性而判为没有结论；这里明确的结论是暂不以该证据扩大采购。",
+      "critical_fact_failure": true
+    },
+    {
+      "id": "denominator_swap_zh",
+      "focus": "metric_definition",
+      "evidence": "虚构测试有20条全部合格请求。系统处理其中10条，实际解决8条；其余10条未接入。",
+      "bad": "系统在全部客户需求上达到80%的解决率，已可承担大多数日常支持。该计算为8除以10，数据完整可追溯。",
+      "control": "已处理请求解决率为80%，但覆盖率只有50%，全部合格请求中的解决比例为40%。这些指标回答不同问题；是否扩大接入，应先查未覆盖10条的复杂度与失败风险。",
+      "expected_failure": "计算本身正确，但分母从已处理请求偷换成全部需求。格式和来源登记不能抵消这一错误。",
+      "control_boundary": "数字和口径正确即可，不要求复述某一句标准答案。",
+      "critical_fact_failure": true
+    },
+    {
+      "id": "process_trace_vs_material_limit_zh",
+      "focus": "reader_cleanliness",
+      "evidence": "虚构调研中价格页面无法完整读取，且未对产品进行生成实测。",
+      "bad": "本研究已读取Skill并完成来源登记，本轮检索没有拿到完整价格。分节门禁已通过，下一步会继续补证；现在先给出阶段性终稿。",
+      "control": "公开现金价格尚无法完整核实，因此不作总采购成本排名。以下对比仅覆盖已公布的功能和收费口径，不包含生成实测成功率。",
+      "expected_failure": "坏例把工具动作、后台登记和后续计划当正文，并混淆阶段稿与终稿；对照保留的是影响读者判断的证据边界。",
+      "control_boundary": "真实未完成的工作可以诚实交付为阶段稿；不把所有限制、研究方法说明或附件链接都当过程污染。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "self_pass_without_review_evidence_zh",
+      "focus": "review_evidence_and_sequence",
+      "evidence": "虚构轨迹：10:00新增第一节；10:05同时新增第二、三节；10:10一次写入三条PASS。没有保留逐节中间审查事件。",
+      "bad": "三节的审查记录齐全且都是PASS，因此可以证明严格遵循每一节验收后才开始下一节，报告质量为Strong。",
+      "control": "轨迹说明三节已写出，且最后保存了三条自评PASS；它不能证明逐节验收顺序，也不能建立读者质量结论。需要区分现有正文质量与缺失的顺序证据，不能事后补记录来还原未观测过程。",
+      "expected_failure": "用事后记录证明先前执行顺序，再从自评标签推出质量，超出证据范围。",
+      "control_boundary": "不推断模型完全没有思考或审阅；缺少可观察证据与已证明未发生不是一回事。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "contract_tier_omission_zh",
+      "focus": "coverage_of_decision_reversing_conditions",
+      "evidence": "虚构厂商条款：普通账户允许内容用于模型训练；另签企业合同可约定不训练。采购任务要求使用未公开品牌素材。",
+      "bad": "厂商的企业合同提供不训练保护，且生成物允许商用，因此该平台适合保密品牌素材，可以用普通付费账户开始制作。",
+      "control": "保密素材不能仅凭商用许可上传普通账户：普通条款仍允许训练。只有确认适用的不训练企业合同及账户范围后，才能考虑上传未公开素材；否则先使用已公开或无敏感性的测试资产。",
+      "expected_failure": "把企业合同保证外推至普通账户，遗漏会否决采购的条件。不是多加一行风险提示就完成了分层对照。",
+      "control_boundary": "这是虚构诊断数据，不是任何真实厂商的法律意见或条款结论。",
+      "critical_fact_failure": true
+    }
+  ]
+}

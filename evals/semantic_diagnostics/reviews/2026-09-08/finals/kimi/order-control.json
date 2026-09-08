@@ -1,0 +1,79 @@
+{
+  "content": "{\"cases\":[{\"id\":\"item-01\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"与证据一致：甲对应已有底片局部修改，乙对应低单价图生视频但20次仅4次通过标签检查；并明确小样本不能推断长期成功率，只否定按单次报价采购。\",\"evidence_boundary\":\"证据支持工具适用场景和20试4过的标签结果；不支持长期成功率、除标签外的质量或完整总成本结论。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"只给行业演进、生态协同等泛泛判断，未使用甲/乙适用场景和乙20次4过的关键证据，并加入证据外的行业趋势断言。\",\"evidence_boundary\":\"证据只允许窄范围的工具选择与试做标签结论；不能支持行业加速、生态协同或“把握机遇”式建议。\"}},{\"id\":\"item-02\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"把乙截至2025-06-30的财年增速当成2025年1-12月口径，断言与甲同一市场环境且高10个百分点；证据明确两口径相差半年且无季度拆分。\",\"evidence_boundary\":\"证据只支持“甲自然年20%、乙财年30%且观察期不同”；不支持同一12个月横向比较或10个百分点领先结论。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"正确区分甲自然年20%与乙财年30%，指出前者数字更高但观察期差半年，缺少季度拆分故不能断言同一12个月领先10个百分点。\",\"evidence_boundary\":\"证据支持口径差异和不可同期限断言；不支持判断哪家真实经营更强，也不支持口径换算。\"}},{\"id\":\"item-03\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"准确说明8亿元是已签约未确认收入、约占明年10亿元目标80%，去年实际仍为6亿元；收入兑现取决于执行、验收和客户条件满足时的延期。\",\"evidence_boundary\":\"证据支持签约覆盖目标、尚未确认收入和延期风险；不支持具体确认概率、利润率或最终能确认多少。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"把“已签约但尚未确认”的8亿元说成实际收入已从6亿元增至8亿元、增幅33%，并宣称增长已兑现；直接违反未确认收入和可延期条件。\",\"evidence_boundary\":\"证据只允许说明明年目标10亿元、其中8亿元签约待确认；不允许确认为当期实际收入或计算已实现33%增长。\"}},{\"id\":\"item-04\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"清楚承认公开现金价格无法完整核实，因此不做总采购成本排名，并限定对比只覆盖已公布功能和收费口径、不含生成实测成功率。\",\"evidence_boundary\":\"证据支持不做完整价格/总成本排名和不报告实测成功率；不验证已公布功能本身是否准确。\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"虽承认本轮未拿到完整价格，但加入“已读取Skill、来源登记完成、分节门禁通过”等证据外过程断言，并以“阶段性终稿”推进，遗漏未做生成实测这一关键限制。\",\"evidence_boundary\":\"证据只允许说明价格读取不全且未实测；不支持来源登记完成、门禁通过或已具备阶段性终稿充分性的结论。\"}}]}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "item-01",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "与证据一致：甲对应已有底片局部修改，乙对应低单价图生视频但20次仅4次通过标签检查；并明确小样本不能推断长期成功率，只否定按单次报价采购。",
+          "evidence_boundary": "证据支持工具适用场景和20试4过的标签结果；不支持长期成功率、除标签外的质量或完整总成本结论。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "只给行业演进、生态协同等泛泛判断，未使用甲/乙适用场景和乙20次4过的关键证据，并加入证据外的行业趋势断言。",
+          "evidence_boundary": "证据只允许窄范围的工具选择与试做标签结论；不能支持行业加速、生态协同或“把握机遇”式建议。"
+        }
+      },
+      {
+        "id": "item-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "把乙截至2025-06-30的财年增速当成2025年1-12月口径，断言与甲同一市场环境且高10个百分点；证据明确两口径相差半年且无季度拆分。",
+          "evidence_boundary": "证据只支持“甲自然年20%、乙财年30%且观察期不同”；不支持同一12个月横向比较或10个百分点领先结论。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "正确区分甲自然年20%与乙财年30%，指出前者数字更高但观察期差半年，缺少季度拆分故不能断言同一12个月领先10个百分点。",
+          "evidence_boundary": "证据支持口径差异和不可同期限断言；不支持判断哪家真实经营更强，也不支持口径换算。"
+        }
+      },
+      {
+        "id": "item-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确说明8亿元是已签约未确认收入、约占明年10亿元目标80%，去年实际仍为6亿元；收入兑现取决于执行、验收和客户条件满足时的延期。",
+          "evidence_boundary": "证据支持签约覆盖目标、尚未确认收入和延期风险；不支持具体确认概率、利润率或最终能确认多少。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "把“已签约但尚未确认”的8亿元说成实际收入已从6亿元增至8亿元、增幅33%，并宣称增长已兑现；直接违反未确认收入和可延期条件。",
+          "evidence_boundary": "证据只允许说明明年目标10亿元、其中8亿元签约待确认；不允许确认为当期实际收入或计算已实现33%增长。"
+        }
+      },
+      {
+        "id": "item-04",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "清楚承认公开现金价格无法完整核实，因此不做总采购成本排名，并限定对比只覆盖已公布功能和收费口径、不含生成实测成功率。",
+          "evidence_boundary": "证据支持不做完整价格/总成本排名和不报告实测成功率；不验证已公布功能本身是否准确。"
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "虽承认本轮未拿到完整价格，但加入“已读取Skill、来源登记完成、分节门禁通过”等证据外过程断言，并以“阶段性终稿”推进，遗漏未做生成实测这一关键限制。",
+          "evidence_boundary": "证据只允许说明价格读取不全且未实测；不支持来源登记完成、门禁通过或已具备阶段性终稿充分性的结论。"
+        }
+      }
+    ]
+  },
+  "model_returned": "kimi-k3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 897,
+    "completion_tokens": 2889,
+    "total_tokens": 3786,
+    "completion_tokens_details": {
+      "reasoning_tokens": 2150
+    }
+  },
+  "input_sha256": "9461b901e4f33ee8c853c825111f564ff641e653fa5c9d22827c8bf55b0438a0",
+  "external_fact_check": false
+}

@@ -1,0 +1,84 @@
+{
+  "content": "{\n  \"cases\": [\n    {\n      \"id\": \"item-01\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Correctly states that B tool had 20 attempts with only 4 passing label checks, treats the sample as small, and says per-call price alone is insufficient.\",\n        \"evidence_boundary\": \"Evidence supports the two tools' stated strengths and the 20-trial/4-pass result; it does not support long-term success rates.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Makes only generic industry/competition/advice statements and does not engage with the supplied evidence about tool selection or the 20/4 trial result.\",\n        \"evidence_boundary\": \"Evidence is limited to the two tools and the trial result; it does not support broad industry or ecosystem claims.\"\n      }\n    },\n    {\n      \"id\": \"item-02\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"Asserts乙 company revenue growth was 10 percentage points higher than甲 in the same Jan-Dec 2025 period, but evidence shows乙's figure is for a fiscal year ending 2025-06-30, not the same 12 months.\",\n        \"evidence_boundary\": \"Evidence gives甲 natural-year 2025 +20% and乙 FY ending 2025-06-30 +30%, with no quarterly split; it does not permit a same-period comparison.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Correctly distinguishes fiscal-year vs natural-year reporting and states that without quarterly splits the two growth rates cannot be compared for the same 12 months.\",\n        \"evidence_boundary\": \"Evidence supports differing reporting periods and the absence of quarterly splits.\"\n      }\n    },\n    {\n      \"id\": \"item-03\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Correctly states the 8亿元 is signed but not yet recognized, that last year actual revenue was 6亿元, and that realization depends on execution, acceptance, and deferral.\",\n        \"evidence_boundary\": \"Evidence supports expected 10亿元 with 8亿元 signed but unrecognized, possible deferral, and prior actual revenue of 6亿元.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"States actual revenue increased from 6亿元 to 8亿元 and treats the signed portion as realized, but evidence says the 8亿元 is signed and not yet recognized revenue.\",\n        \"evidence_boundary\": \"Evidence does not permit treating signed-but-unrecognized 8亿元 as current actual revenue.\"\n      }\n    },\n    {\n      \"id\": \"item-04\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Acknowledges price page incompleteness and absence of generation testing, avoids total cost ranking, and limits comparison to published features/fees.\",\n        \"evidence_boundary\": \"Evidence supports incomplete price reading and no product generation testing; it does not support a total procurement cost ranking.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"Accurately notes incomplete price retrieval and indicates next steps; it does not claim generation testing was done. Process details are not contradicted by the evidence.\",\n        \"evidence_boundary\": \"Evidence permits saying price page was incomplete and no generation test was done; B mentions the price limitation but not the testing limitation.\"\n      }\n    }\n  ]\n}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "item-01",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly states that B tool had 20 attempts with only 4 passing label checks, treats the sample as small, and says per-call price alone is insufficient.",
+          "evidence_boundary": "Evidence supports the two tools' stated strengths and the 20-trial/4-pass result; it does not support long-term success rates."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "Makes only generic industry/competition/advice statements and does not engage with the supplied evidence about tool selection or the 20/4 trial result.",
+          "evidence_boundary": "Evidence is limited to the two tools and the trial result; it does not support broad industry or ecosystem claims."
+        }
+      },
+      {
+        "id": "item-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Asserts乙 company revenue growth was 10 percentage points higher than甲 in the same Jan-Dec 2025 period, but evidence shows乙's figure is for a fiscal year ending 2025-06-30, not the same 12 months.",
+          "evidence_boundary": "Evidence gives甲 natural-year 2025 +20% and乙 FY ending 2025-06-30 +30%, with no quarterly split; it does not permit a same-period comparison."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly distinguishes fiscal-year vs natural-year reporting and states that without quarterly splits the two growth rates cannot be compared for the same 12 months.",
+          "evidence_boundary": "Evidence supports differing reporting periods and the absence of quarterly splits."
+        }
+      },
+      {
+        "id": "item-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly states the 8亿元 is signed but not yet recognized, that last year actual revenue was 6亿元, and that realization depends on execution, acceptance, and deferral.",
+          "evidence_boundary": "Evidence supports expected 10亿元 with 8亿元 signed but unrecognized, possible deferral, and prior actual revenue of 6亿元."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "States actual revenue increased from 6亿元 to 8亿元 and treats the signed portion as realized, but evidence says the 8亿元 is signed and not yet recognized revenue.",
+          "evidence_boundary": "Evidence does not permit treating signed-but-unrecognized 8亿元 as current actual revenue."
+        }
+      },
+      {
+        "id": "item-04",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Acknowledges price page incompleteness and absence of generation testing, avoids total cost ranking, and limits comparison to published features/fees.",
+          "evidence_boundary": "Evidence supports incomplete price reading and no product generation testing; it does not support a total procurement cost ranking."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Accurately notes incomplete price retrieval and indicates next steps; it does not claim generation testing was done. Process details are not contradicted by the evidence.",
+          "evidence_boundary": "Evidence permits saying price page was incomplete and no generation test was done; B mentions the price limitation but not the testing limitation."
+        }
+      }
+    ]
+  },
+  "model_returned": "deepseek-v4-pro",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 887,
+    "completion_tokens": 10175,
+    "total_tokens": 11062,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 9349
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 887
+  },
+  "input_sha256": "9461b901e4f33ee8c853c825111f564ff641e653fa5c9d22827c8bf55b0438a0",
+  "external_fact_check": false
+}

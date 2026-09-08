@@ -4,8 +4,12 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
+Development-only semantic diagnostics. These changes do not modify the core research method or establish general efficacy. The v0.1.4 prerelease was withdrawn; v0.1.3 remains the latest available prerelease.
+
 ### Added
 
+- Publish eight label-masked semantic-review calls, including a shared missed control defect, severity disagreements and one fresh-context/order-sensitive judgment. Retain and re-review two case corrections without overwriting original inputs; the current catalog applies the corrections while keeping twenty underlying cases. Model agreement is not accuracy or human calibration.
+- Add parent-bound case revisions and offline review-bundle checks that recompute observation counts and disagreements from actual model replies, not just document hashes.
 - Expand the synthetic semantic diagnostic catalog from six to twenty bad/control pairs. Include justified positive judgments so caution is not mistaken for quality; retain the original six and all historical results. The new labels are author-proposed, uncalibrated development material, not held-out efficacy evidence.
 - Validate diagnostic data structure and claim boundaries in CI, with negative cases for missing evidence or controls, duplicate identifiers and invalid types. Passing these checks does not establish that the semantic labels are correct.
 

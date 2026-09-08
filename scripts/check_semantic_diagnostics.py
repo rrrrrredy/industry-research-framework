@@ -2,9 +2,11 @@
 """Validate diagnostic data structure, never infer semantic correctness from labels."""
 from __future__ import annotations
 import copy
+import hashlib
 import json
 from pathlib import Path
 import re
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,9 +44,51 @@ def validate_catalog(documents):
                 raise ValueError(f'{name}:{index}: identical bad and control excerpts')
     return identifiers
 
-def load_catalog():
+def load_history():
     return [(name, json.loads((ROOT / 'evals/semantic_diagnostics' / name).read_text(encoding='utf-8')))
             for name in FILES]
+
+def case_digest(case):
+    return hashlib.sha256(json.dumps(case,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
+def apply_revisions(documents, revision_document):
+    validate_catalog(documents)
+    if (type(revision_document.get('schema_version')) is not int or revision_document['schema_version']!=1
+        or revision_document.get('purpose')!='diagnostic_only'
+        or revision_document.get('labels')!='author_proposed_uncalibrated'
+        or revision_document.get('held_out') is not False
+        or revision_document.get('automatic_quality_scoring') is not False):
+        raise ValueError('Revision claim boundary changed')
+    revisions=revision_document.get('revisions')
+    if not isinstance(revisions,list) or not revisions: raise ValueError('Missing revisions')
+    result=copy.deepcopy(documents)
+    lookup={c['id']:c for _,d in result for c in d['cases']}
+    seen=set()
+    for revision in revisions:
+        if not isinstance(revision,dict): raise ValueError('Invalid revision')
+        target=revision.get('case_id')
+        if target not in lookup or target in seen: raise ValueError('Unknown or duplicate revision target')
+        seen.add(target)
+        case=lookup[target]
+        if case_digest(case)!=revision.get('base_case_sha256'): raise ValueError('Revision base changed')
+        identifier=revision.get('revision_id')
+        if not isinstance(identifier,str) or not re.fullmatch(re.escape(target)+r'_r[2-9][0-9]*',identifier):
+            raise ValueError('Invalid revision identity')
+        changes=revision.get('changes')
+        if not isinstance(changes,dict) or not changes or set(changes)-{'evidence','bad','control','expected_failure','control_boundary'}:
+            raise ValueError('Invalid revision fields')
+        if not isinstance(revision.get('reason'),str) or not revision['reason'].strip(): raise ValueError('Missing revision reason')
+        case.update(changes)
+        case['revision_id']=identifier
+    validate_catalog(result)
+    return result
+
+def load_revisions():
+    return json.loads((ROOT/'evals/semantic_diagnostics/revisions.json').read_text(encoding='utf-8'))
+
+def load_catalog():
+    """Current development view; raw historical files are never overwritten."""
+    return apply_revisions(load_history(),load_revisions())
 
 class DiagnosticDataTests(unittest.TestCase):
     def setUp(self):
@@ -105,7 +149,45 @@ class DiagnosticDataTests(unittest.TestCase):
         del self.documents[0][1]['cases'][0]['control_boundary']
         with self.assertRaises(ValueError): validate_catalog(self.documents)
 
+    def test_history_unchanged_by_materialization(self):
+        history=load_history(); before=copy.deepcopy(history)
+        current=apply_revisions(history,load_revisions())
+        self.assertEqual(history,before)
+        self.assertIn('4次可用结果',history[0][1]['cases'][0]['control'])
+        self.assertIn('不等于4个整体可用结果',current[0][1]['cases'][0]['control'])
+
+    def test_revision_parent_tamper_rejected(self):
+        history=load_history(); history[0][1]['cases'][0]['control']+='changed'
+        with self.assertRaises(ValueError): apply_revisions(history,load_revisions())
+
+    def test_unknown_revision_target_rejected(self):
+        revisions=load_revisions(); revisions['revisions'][0]['case_id']='not_an_existing_case'
+        with self.assertRaises(ValueError): apply_revisions(load_history(),revisions)
+
+    def test_duplicate_revision_rejected(self):
+        revisions=load_revisions(); revisions['revisions'].append(copy.deepcopy(revisions['revisions'][0]))
+        with self.assertRaises(ValueError): apply_revisions(load_history(),revisions)
+
+    def test_revision_cannot_change_case_identity(self):
+        revisions=load_revisions(); revisions['revisions'][0]['changes']['id']='new_case'
+        with self.assertRaises(ValueError): apply_revisions(load_history(),revisions)
+
+    def test_revision_cannot_claim_calibration(self):
+        revisions=load_revisions(); revisions['labels']='human_calibrated'
+        with self.assertRaises(ValueError): apply_revisions(load_history(),revisions)
+
+    def test_unchanged_cases_preserved(self):
+        history={c['id']:c for _,d in load_history() for c in d['cases']}
+        current={c['id']:c for _,d in load_catalog() for c in d['cases']}
+        revised={r['case_id'] for r in load_revisions()['revisions']}
+        self.assertEqual(set(history),set(current))
+        for identifier in history.keys()-revised: self.assertEqual(history[identifier],current[identifier])
+
 if __name__ == '__main__':
+    if sys.argv[1:]==['--show-current']:
+        print(json.dumps({'notice':'Current author-proposed development cases, not calibrated labels',
+                          'cases':[c for _,d in load_catalog() for c in d['cases']]},ensure_ascii=False,indent=2))
+        raise SystemExit(0)
     ids = validate_catalog(load_catalog())
     print(f'{len(ids)} development pairs parsed; semantic correctness and research quality NOT evaluated.')
     unittest.main()

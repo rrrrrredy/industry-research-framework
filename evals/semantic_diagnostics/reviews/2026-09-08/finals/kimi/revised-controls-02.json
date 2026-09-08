@@ -1,0 +1,49 @@
+{
+  "content": "{\"cases\":[{\"id\":\"item-01\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"全部由空泛套话构成（'行业加速演进''生态协同'等），完全未涉及甲、乙工具的证据，无任何可检验的具体主张，建议无证据支撑。\",\"evidence_boundary\":\"证据仅支持对甲、乙两工具适用场景与乙标签通过率的判断，不支持泛泛的行业演进结论。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"准确对应证据：甲适合已有底片局部修改，乙适合仅有商品图但需检验标签；如实引用20次试做4次通过，并正确指出4个标签合格≠4个整体可用，且承认现有材料不足以计算完整单位成本。\",\"evidence_boundary\":\"证据支持两工具分工建议与乙的标签通过率警示，但不支持完整单位成本或长期成功率结论，B恰当地守住了此边界。\"}},{\"id\":\"item-02\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"内容为进度消息口吻（'分节门禁已通过''下一步继续补证''阶段性终稿'），属于流程汇报而非报告正文；且未就价格缺失和未实测这一限制给出对结论影响的分析，违反'正文需给出相应分析'的要求。\",\"evidence_boundary\":\"证据允许在正文保留资料限制，但要求正文提供相应分析；A只给进度状态不给分析。\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"如实声明公开现金价格无法完整核实、不做总采购成本排名，并明确对比范围限于已公布功能与收费口径、不含生成实测成功率，符合证据边界且给出了限制对结论的影响。\",\"evidence_boundary\":\"证据表明价格读取不全且未做生成实测，B的结论范围与此严格一致。\"}}]}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "item-01",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "全部由空泛套话构成（'行业加速演进''生态协同'等），完全未涉及甲、乙工具的证据，无任何可检验的具体主张，建议无证据支撑。",
+          "evidence_boundary": "证据仅支持对甲、乙两工具适用场景与乙标签通过率的判断，不支持泛泛的行业演进结论。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "准确对应证据：甲适合已有底片局部修改，乙适合仅有商品图但需检验标签；如实引用20次试做4次通过，并正确指出4个标签合格≠4个整体可用，且承认现有材料不足以计算完整单位成本。",
+          "evidence_boundary": "证据支持两工具分工建议与乙的标签通过率警示，但不支持完整单位成本或长期成功率结论，B恰当地守住了此边界。"
+        }
+      },
+      {
+        "id": "item-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "内容为进度消息口吻（'分节门禁已通过''下一步继续补证''阶段性终稿'），属于流程汇报而非报告正文；且未就价格缺失和未实测这一限制给出对结论影响的分析，违反'正文需给出相应分析'的要求。",
+          "evidence_boundary": "证据允许在正文保留资料限制，但要求正文提供相应分析；A只给进度状态不给分析。"
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "如实声明公开现金价格无法完整核实、不做总采购成本排名，并明确对比范围限于已公布功能与收费口径、不含生成实测成功率，符合证据边界且给出了限制对结论的影响。",
+          "evidence_boundary": "证据表明价格读取不全且未做生成实测，B的结论范围与此严格一致。"
+        }
+      }
+    ]
+  },
+  "model_returned": "kimi-k3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 697,
+    "completion_tokens": 809,
+    "total_tokens": 1506,
+    "completion_tokens_details": {
+      "reasoning_tokens": 406
+    }
+  },
+  "input_sha256": "596e83913573f46a2dc4f9fbd97072c73c5c352f29eaef5186b893cd8edc7afd",
+  "external_fact_check": false
+}

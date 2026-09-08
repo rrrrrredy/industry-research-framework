@@ -1,0 +1,9 @@
+# Expanded semantic diagnostics: two label-masked reviewers
+
+Review the twenty currently published synthetic pairs with DeepSeek and Kimi, the two non-author model families. Astra proposed the labels; it is not an independent judge of those labels. This is not human calibration, held-out evaluation or a model ranking.
+
+Randomize case order and A/B placement before the first call. Retain a private map. Both reviewers see the same evidence and exact masked pairs, without focus labels, proposed failure reasons or control explanations. Ask each to assess A and B independently; both may be acceptable, flawed or insufficiently supported. They must identify the unsupported claim and quote only the location needed to explain it, not reward headings, caution or length. Critical factual errors are separate from relevance, style and process defects.
+
+Two batches of ten cover all twenty pairs. A third batch repeats four preselected items with A/B swapped, in fresh contexts without prior judgments; these four are repeated observations, not extra tasks. The same two provider families are used in all three calls. No aggregate accuracy against author labels is asserted as truth; preserve disagreements and investigate possible defects in the proposed controls too.
+
+Both providers use a 32768 output-token maximum and 600-second transport timeout for these diagnostic batches. No automatic retry, redirect, external tools or outside evidence is enabled. Use the existing conservative separate CNY50 liability ledger, including all prior calls and full reserves for uncertain failures. Keep final model answers, inputs, mapping, usage and incomplete attempts. Raw reasoning and credentials remain private. Public corrections to any old case require a separate retained revision, never overwriting historical experimental inputs or claiming the old label was independently calibrated.

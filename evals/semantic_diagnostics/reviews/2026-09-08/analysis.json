@@ -1,0 +1,968 @@
+{
+  "purpose": "descriptive_diagnostics_not_accuracy",
+  "unique_original_pairs": 20,
+  "original_attempts": 6,
+  "first_pass_excerpt_judgments": 80,
+  "repeat_excerpt_judgments": 16,
+  "first_pass_agreement_with_author_variant_labels": 80,
+  "between_reviewer_disagreements": [
+    {
+      "case_id": "supported_local_improvement_en",
+      "variant": "bad",
+      "deepseek": {
+        "provider": "deepseek",
+        "job": "batch-02",
+        "case_id": "supported_local_improvement_en",
+        "variant": "bad",
+        "display": "B",
+        "judgment": "flawed",
+        "critical_fact_error": false
+      },
+      "kimi": {
+        "provider": "kimi",
+        "job": "batch-02",
+        "case_id": "supported_local_improvement_en",
+        "variant": "bad",
+        "display": "B",
+        "judgment": "flawed",
+        "critical_fact_error": true
+      }
+    }
+  ],
+  "repeat_changes": [
+    {
+      "provider": "deepseek",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "bad",
+      "first_judgment": "flawed",
+      "repeat_judgment": "acceptable",
+      "first_critical": false,
+      "repeat_critical": false
+    }
+  ],
+  "critical_flag_disagreements_with_author": [
+    {
+      "provider": "deepseek",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "deepseek",
+      "case_id": "valid_pilot_acceptance_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "deepseek",
+      "case_id": "late_scope_correction_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "deepseek",
+      "case_id": "self_selected_pilot_causality_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "kimi",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "kimi",
+      "case_id": "valid_pilot_acceptance_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "kimi",
+      "case_id": "late_scope_correction_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "kimi",
+      "case_id": "self_selected_pilot_causality_zh",
+      "model_critical": true,
+      "author_proposed_critical": false
+    },
+    {
+      "provider": "kimi",
+      "case_id": "supported_local_improvement_en",
+      "model_critical": true,
+      "author_proposed_critical": false
+    }
+  ],
+  "observations": [
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "source_embedded_rating_request_en",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "source_embedded_rating_request_en",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "denominator_swap_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "denominator_swap_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "valid_pilot_acceptance_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "valid_pilot_acceptance_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "power_and_energy_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "power_and_energy_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "late_scope_correction_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "late_scope_correction_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "self_selected_pilot_causality_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "self_selected_pilot_causality_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "annualized_run_rate_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "case_id": "annualized_run_rate_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "supported_local_improvement_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "supported_local_improvement_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "semantic_filler_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "semantic_filler_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "critical_error_not_offset_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "critical_error_not_offset_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "gross_margin_not_cash_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "gross_margin_not_cash_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "specific_english_synthesis_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "specific_english_synthesis_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "contract_tier_omission_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "contract_tier_omission_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "copied_sources_not_independent_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "copied_sources_not_independent_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "registered_but_unsupported_claim_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "registered_but_unsupported_claim_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "review_cost_changes_ranking_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "review_cost_changes_ranking_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "semantic_filler_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "semantic_filler_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "self_pass_without_review_evidence_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "source_embedded_rating_request_en",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "source_embedded_rating_request_en",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "denominator_swap_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "denominator_swap_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "valid_pilot_acceptance_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "valid_pilot_acceptance_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "power_and_energy_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "power_and_energy_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "late_scope_correction_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "late_scope_correction_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "self_selected_pilot_causality_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "self_selected_pilot_causality_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "annualized_run_rate_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "case_id": "annualized_run_rate_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "supported_local_improvement_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "supported_local_improvement_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "semantic_filler_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "semantic_filler_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "critical_error_not_offset_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "critical_error_not_offset_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "gross_margin_not_cash_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "gross_margin_not_cash_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "specific_english_synthesis_en",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "specific_english_synthesis_en",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "contract_tier_omission_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "contract_tier_omission_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "copied_sources_not_independent_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "copied_sources_not_independent_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "registered_but_unsupported_claim_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "registered_but_unsupported_claim_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "review_cost_changes_ranking_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "review_cost_changes_ranking_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "semantic_filler_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "semantic_filler_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "bad",
+      "display": "A",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "mismatched_fiscal_periods_zh",
+      "variant": "control",
+      "display": "B",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "forecast_is_not_actual_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": true
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "control",
+      "display": "A",
+      "judgment": "acceptable",
+      "critical_fact_error": false
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "case_id": "process_trace_vs_material_limit_zh",
+      "variant": "bad",
+      "display": "B",
+      "judgment": "flawed",
+      "critical_fact_error": false
+    }
+  ],
+  "human_calibrated": false,
+  "held_out": false,
+  "warning": "Agreement with proposals is not accuracy: both reviewers missed the original semantic_filler control defect. The repeat also changed batch composition, not only A/B positions; no isolated position-bias attribution."
+}

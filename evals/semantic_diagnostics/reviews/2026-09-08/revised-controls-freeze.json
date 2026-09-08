@@ -1,0 +1,23 @@
+{
+  "created_at": "2026-09-08T04:53:53.247659+00:00",
+  "job": "revised-controls-02",
+  "files": {
+    "run_revised_controls.py": "8c27f9000f665a94b2281c1d3b26e17b0b6c197c086bf65cc839592ee0a99c47",
+    "inputs/revised-controls-02.json": "596e83913573f46a2dc4f9fbd97072c73c5c352f29eaef5186b893cd8edc7afd",
+    "revised-controls-map.private.json": "e247f7b765ed741d5ecb3637a35f79b96187a57c67f3a09600c866ce395ed95b"
+  },
+  "catalog_code_sha256": "e73a19d44a6e1b27e8ae8e3e91ca514f6d2ad35b98b46f49c3d27d778ff19ece",
+  "revisions_sha256": "e662536c8f54d61672dd34e97e3df73f2b4727227032f18d9d51b9d0533aa3d1",
+  "provider_helper_sha256": "1e6b987e323aa6be8a5540aeeff10379b6f2fb4a39594a43aa4c4fdbcda1b716",
+  "budget_code_sha256": "ad57c9bb0293e712d1c7a5c5f9611d36a1da1561a37e76191db10c8929f3baba",
+  "max_output_tokens": 32768,
+  "transport_timeout_seconds": 600,
+  "reviewers": [
+    "deepseek",
+    "kimi"
+  ],
+  "held_out": false,
+  "human_calibrated": false,
+  "automatic_retries": 0,
+  "purpose": "Review two separately retained revisions; earlier results and inputs are unchanged."
+}

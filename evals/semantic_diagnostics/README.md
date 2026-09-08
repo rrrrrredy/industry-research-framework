@@ -4,7 +4,9 @@ The six original bad/control pairs in `cases.json` cover paraphrased filler, irr
 
 All business facts are fictional. These are development/calibration excerpts, not held-out tasks, complete reports or a gold quality benchmark. Related examples share failure families: twenty excerpts do not constitute twenty independent real-world task observations.
 
-The paired labels are author-proposed and have not been calibrated by two independent human reviewers. No API call or judge score is stored here. The deterministic evaluator must continue to report research quality as `not_evaluated`; it does not acquire semantic competence by reading these examples.
+The paired labels are author-proposed and have not been calibrated by two independent human reviewers. [Eight actual model-review calls](./reviews/2026-09-08/) retain the original twenty-pair review, order/context sensitivity and separate reviews of two corrected cases. Both models originally missed a defect in an author-proposed control: label-check success is not full usability. The deterministic evaluator must continue to report research quality as `not_evaluated`.
+
+Use the current catalog through `python scripts/check_semantic_diagnostics.py --show-current`. It applies the two retained changes in [`revisions.json`](./revisions.json): a bounded usability denominator and an explicit report-body delivery surface. Raw `cases.json` and `additional-cases.json` are historical inputs and remain unchanged; the two revisions do not add independent tasks. Do not reuse the known-bad old control as a current quality anchor.
 
 How to use:
 
@@ -18,4 +20,4 @@ Run `python scripts/check_semantic_diagnostics.py` for structural validation and
 
 These cases reflect failure types also observed in the internal Codex calibration: broad self-PASS, weak reader navigation, process phrases and a missing decision-reversing comparison. They do not include private raw logs or identify real companies. Structural parsing of the JSON is not evidence that a reviewer detects these failures.
 
-中文：原六组加新增十四组，共二十组成对语义诊断材料，不是新增二十条写作硬规则。正常对照既包括适当保留不确定性，也包括证据允许时作出明确正向判断；不能训练成“越谨慎越正确”。严重事实错误单列，不靠排版或流程分抵消。正式保留任务、人类校准、完整报告及模型实测均另行记录；样本数不证明评测有效性。
+中文：原六组加新增十四组，共二十组成对语义诊断材料，不是新增二十条写作硬规则。正常对照既包括适当保留不确定性，也包括证据允许时作出明确正向判断；不能训练成“越谨慎越正确”。本轮已公开两名非作者模型的八次评审调用：首轮共同漏掉旧正例的可用性分母错误，另有顺序/上下文敏感和严重性分歧。两项保留修订由当前视图应用，旧样本和旧结果不覆盖，不把版本数当题目数。模型同意标签不是准确率，也不替代人类校准。

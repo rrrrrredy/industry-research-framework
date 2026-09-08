@@ -1,0 +1,174 @@
+{
+  "content": "{\n  \"cases\": [\n    {\n      \"id\": \"item-01\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A correctly reports the 20-minute mean difference and equal 90% pass rate, and limits the conclusion to the trial while noting missing variance and long-term data.\",\n        \"evidence_boundary\": \"Evidence supports observed group means and pass rates but not statistical significance, variance, or persistence.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B treats limitations as making the result entirely inconclusive, which overstates the gap between the observed trial result and missing precision or follow-up.\",\n        \"evidence_boundary\": \"Evidence permits a limited within-trial conclusion without requiring all uncertainty to be eliminated.\"\n      }\n    },\n    {\n      \"id\": \"item-02\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A is generic strategy commentary and does not engage the specific product fit or the 4/20 label-check failure in B.\",\n        \"evidence_boundary\": \"Evidence supports product-specific tradeoffs, not broad industry or ecosystem claims.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B correctly uses the 4/20 pass rate and warns against comparing only per-call prices, while limiting long-term inference from the small sample.\",\n        \"evidence_boundary\": \"Evidence supports product-specific use cases and the small-sample failure rate, but not long-term success.\"\n      }\n    },\n    {\n      \"id\": \"item-03\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A correctly identifies the 1,000x unit confusion, its effect on the scale judgment, and the need to correct the analysis before use.\",\n        \"evidence_boundary\": \"Evidence establishes a material unit error that changes the scale threshold.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"B calls the threshold-changing error minor and would deliver the final with the incorrect scale conclusion unchanged.\",\n        \"evidence_boundary\": \"Evidence does not permit treating the unit error as non-material or retaining the derived scale conclusion.\"\n      }\n    },\n    {\n      \"id\": \"item-04\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"A equates the 20 gross profit with net profit and says the business is self-sustaining, ignoring the 30 in other operating expenses and negative operating cash flow.\",\n        \"evidence_boundary\": \"Evidence gives gross profit of 20 but operating loss of 10 and negative operating cash flow of 12 under the stated assumptions.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B correctly reports gross profit, operating loss, and negative operating cash flow under the given simplified conditions.\",\n        \"evidence_boundary\": \"Evidence supports these calculations.\"\n      }\n    },\n    {\n      \"id\": \"item-05\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A correctly distinguishes the existing-footage use case for A and the label-retention failure in B, and advises comparing cost per usable result.\",\n        \"evidence_boundary\": \"Evidence supports at most four label-accurate candidates in the trial and product-specific fit.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B is generic and does not address the 4/20 label failure or the product-specific tradeoff in the evidence.\",\n        \"evidence_boundary\": \"Evidence does not support broad innovation or ecosystem value claims about these products.\"\n      }\n    },\n    {\n      \"id\": \"item-06\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"A recommends an ordinary paid account for confidential brand material, but ordinary terms allow model training, conflicting with the confidentiality requirement.\",\n        \"evidence_boundary\": \"Evidence permits no-training protection only under a separate enterprise contract; ordinary account terms allow training.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B correctly requires confirming an applicable no-training enterprise contract and account scope before uploading unpublished confidential material.\",\n        \"evidence_boundary\": \"Evidence supports that boundary.\"\n      }\n    },\n    {\n      \"id\": \"item-07\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A correctly traces all four pages to the same vendor claim and avoids treating them as independent verification of the customer count.\",\n        \"evidence_boundary\": \"Evidence supports only a vendor-published number; no independent customer data is provided.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"B falsely calls reprints independent sources and says the customer count is multi-source verified.\",\n        \"evidence_boundary\": \"Evidence does not permit independent cross-verification.\"\n      }\n    },\n    {\n      \"id\": \"item-08\",\n      \"A\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A limits E1 to the stated request processing capacity and refuses to infer issue resolution or renewal performance without relevant data.\",\n        \"evidence_boundary\": \"Evidence supports only the published processing capacity, not resolution rate or renewal.\"\n      },\n      \"B\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"B claims 90% complex issue resolution and significant renewal increase, which E1 does not supply.\",\n        \"evidence_boundary\": \"Evidence does not permit that claim.\"\n      }\n    },\n    {\n      \"id\": \"item-09\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": true,\n        \"reason\": \"A ignores the required manual inspection labor; including labor gives A a full unit cost of 17.5, not 12.5, so A is not cheaper in this sample.\",\n        \"evidence_boundary\": \"Evidence includes labor cost and usable counts, supporting full cost comparison.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B correctly includes labor and calculates A as 17.5 versus B as 15, reversing the per-call price order.\",\n        \"evidence_boundary\": \"Evidence supports the full unit cost calculation for this trial sample.\"\n      }\n    },\n    {\n      \"id\": \"item-10\",\n      \"A\": {\n        \"judgment\": \"flawed\",\n        \"critical_fact_error\": false,\n        \"reason\": \"A asserts unsupported process details such as reading Skill, source registration, and passing section gates, and issues a stage final without evidence for those claims.\",\n        \"evidence_boundary\": \"Evidence only shows the price page was incomplete and no product generation test was done; it does not verify those process claims.\"\n      },\n      \"B\": {\n        \"judgment\": \"acceptable\",\n        \"critical_fact_error\": false,\n        \"reason\": \"B correctly withholds total procurement cost ranking and limits comparison to published functionality and pricing, noting the absence of generation success testing.\",\n        \"evidence_boundary\": \"Evidence supports withholding total price ranking and not claiming generation success.\"\n      }\n    }\n  ]\n}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "item-01",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "A correctly reports the 20-minute mean difference and equal 90% pass rate, and limits the conclusion to the trial while noting missing variance and long-term data.",
+          "evidence_boundary": "Evidence supports observed group means and pass rates but not statistical significance, variance, or persistence."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "B treats limitations as making the result entirely inconclusive, which overstates the gap between the observed trial result and missing precision or follow-up.",
+          "evidence_boundary": "Evidence permits a limited within-trial conclusion without requiring all uncertainty to be eliminated."
+        }
+      },
+      {
+        "id": "item-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "A is generic strategy commentary and does not engage the specific product fit or the 4/20 label-check failure in B.",
+          "evidence_boundary": "Evidence supports product-specific tradeoffs, not broad industry or ecosystem claims."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "B correctly uses the 4/20 pass rate and warns against comparing only per-call prices, while limiting long-term inference from the small sample.",
+          "evidence_boundary": "Evidence supports product-specific use cases and the small-sample failure rate, but not long-term success."
+        }
+      },
+      {
+        "id": "item-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "A correctly identifies the 1,000x unit confusion, its effect on the scale judgment, and the need to correct the analysis before use.",
+          "evidence_boundary": "Evidence establishes a material unit error that changes the scale threshold."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "B calls the threshold-changing error minor and would deliver the final with the incorrect scale conclusion unchanged.",
+          "evidence_boundary": "Evidence does not permit treating the unit error as non-material or retaining the derived scale conclusion."
+        }
+      },
+      {
+        "id": "item-04",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "A equates the 20 gross profit with net profit and says the business is self-sustaining, ignoring the 30 in other operating expenses and negative operating cash flow.",
+          "evidence_boundary": "Evidence gives gross profit of 20 but operating loss of 10 and negative operating cash flow of 12 under the stated assumptions."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "B correctly reports gross profit, operating loss, and negative operating cash flow under the given simplified conditions.",
+          "evidence_boundary": "Evidence supports these calculations."
+        }
+      },
+      {
+        "id": "item-05",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "A correctly distinguishes the existing-footage use case for A and the label-retention failure in B, and advises comparing cost per usable result.",
+          "evidence_boundary": "Evidence supports at most four label-accurate candidates in the trial and product-specific fit."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "B is generic and does not address the 4/20 label failure or the product-specific tradeoff in the evidence.",
+          "evidence_boundary": "Evidence does not support broad innovation or ecosystem value claims about these products."
+        }
+      },
+      {
+        "id": "item-06",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "A recommends an ordinary paid account for confidential brand material, but ordinary terms allow model training, conflicting with the confidentiality requirement.",
+          "evidence_boundary": "Evidence permits no-training protection only under a separate enterprise contract; ordinary account terms allow training."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "B correctly requires confirming an applicable no-training enterprise contract and account scope before uploading unpublished confidential material.",
+          "evidence_boundary": "Evidence supports that boundary."
+        }
+      },
+      {
+        "id": "item-07",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "A correctly traces all four pages to the same vendor claim and avoids treating them as independent verification of the customer count.",
+          "evidence_boundary": "Evidence supports only a vendor-published number; no independent customer data is provided."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "B falsely calls reprints independent sources and says the customer count is multi-source verified.",
+          "evidence_boundary": "Evidence does not permit independent cross-verification."
+        }
+      },
+      {
+        "id": "item-08",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "A limits E1 to the stated request processing capacity and refuses to infer issue resolution or renewal performance without relevant data.",
+          "evidence_boundary": "Evidence supports only the published processing capacity, not resolution rate or renewal."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "B claims 90% complex issue resolution and significant renewal increase, which E1 does not supply.",
+          "evidence_boundary": "Evidence does not permit that claim."
+        }
+      },
+      {
+        "id": "item-09",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "A ignores the required manual inspection labor; including labor gives A a full unit cost of 17.5, not 12.5, so A is not cheaper in this sample.",
+          "evidence_boundary": "Evidence includes labor cost and usable counts, supporting full cost comparison."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "B correctly includes labor and calculates A as 17.5 versus B as 15, reversing the per-call price order.",
+          "evidence_boundary": "Evidence supports the full unit cost calculation for this trial sample."
+        }
+      },
+      {
+        "id": "item-10",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "A asserts unsupported process details such as reading Skill, source registration, and passing section gates, and issues a stage final without evidence for those claims.",
+          "evidence_boundary": "Evidence only shows the price page was incomplete and no product generation test was done; it does not verify those process claims."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "B correctly withholds total procurement cost ranking and limits comparison to published functionality and pricing, noting the absence of generation success testing.",
+          "evidence_boundary": "Evidence supports withholding total price ranking and not claiming generation success."
+        }
+      }
+    ]
+  },
+  "model_returned": "deepseek-v4-pro",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1755,
+    "completion_tokens": 7316,
+    "total_tokens": 9071,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 5630
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 1755
+  },
+  "input_sha256": "db2f77d3a1e694fe7729d14c3e2121e1faf3f42d8a97465e88eeb5881f8a8757",
+  "external_fact_check": false
+}

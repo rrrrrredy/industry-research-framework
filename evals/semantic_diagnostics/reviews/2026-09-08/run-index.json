@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "purpose": "semantic_review_diagnostics_not_accuracy",
+  "held_out": false,
+  "human_calibrated": false,
+  "author_labels_are_truth": false,
+  "unique_original_pairs": 20,
+  "revised_pairs": 2,
+  "additional_independent_tasks_from_revisions": 0,
+  "attempts": 8,
+  "complete_responses": 8,
+  "records": [
+    {
+      "provider": "deepseek",
+      "job": "batch-01",
+      "input": "inputs/batch-01.json",
+      "attempt": "attempts/deepseek/batch-01.json",
+      "request": "requests/deepseek/batch-01.json",
+      "final": "finals/deepseek/batch-01.json"
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-01",
+      "input": "inputs/batch-01.json",
+      "attempt": "attempts/kimi/batch-01.json",
+      "request": "requests/kimi/batch-01.json",
+      "final": "finals/kimi/batch-01.json"
+    },
+    {
+      "provider": "deepseek",
+      "job": "batch-02",
+      "input": "inputs/batch-02.json",
+      "attempt": "attempts/deepseek/batch-02.json",
+      "request": "requests/deepseek/batch-02.json",
+      "final": "finals/deepseek/batch-02.json"
+    },
+    {
+      "provider": "kimi",
+      "job": "batch-02",
+      "input": "inputs/batch-02.json",
+      "attempt": "attempts/kimi/batch-02.json",
+      "request": "requests/kimi/batch-02.json",
+      "final": "finals/kimi/batch-02.json"
+    },
+    {
+      "provider": "deepseek",
+      "job": "order-control",
+      "input": "inputs/order-control.json",
+      "attempt": "attempts/deepseek/order-control.json",
+      "request": "requests/deepseek/order-control.json",
+      "final": "finals/deepseek/order-control.json"
+    },
+    {
+      "provider": "kimi",
+      "job": "order-control",
+      "input": "inputs/order-control.json",
+      "attempt": "attempts/kimi/order-control.json",
+      "request": "requests/kimi/order-control.json",
+      "final": "finals/kimi/order-control.json"
+    },
+    {
+      "provider": "deepseek",
+      "job": "revised-controls-02",
+      "input": "inputs/revised-controls-02.json",
+      "attempt": "attempts/deepseek/revised-controls-02.json",
+      "request": "requests/deepseek/revised-controls-02.json",
+      "final": "finals/deepseek/revised-controls-02.json"
+    },
+    {
+      "provider": "kimi",
+      "job": "revised-controls-02",
+      "input": "inputs/revised-controls-02.json",
+      "attempt": "attempts/kimi/revised-controls-02.json",
+      "request": "requests/kimi/revised-controls-02.json",
+      "final": "finals/kimi/revised-controls-02.json"
+    }
+  ],
+  "scope": "Six original batch calls plus two separately frozen calls for retained revisions; no hidden retries."
+}

@@ -1,0 +1,169 @@
+{
+  "content": "{\"cases\":[{\"id\":\"item-01\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Correctly reports a 20-minute mean advantage and equal 90% pass rate, and confines the claim to the randomized trial while flagging missing variance and follow-up.\",\"evidence_boundary\":\"Permits an observed within-trial advantage on time with no observed quality difference; does not permit significance, durability, or broad deployment claims.\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Overcorrects into total skepticism: the randomized design with identical tasks/scoring does support an observed positive result, even if uncertainty remains.\",\"evidence_boundary\":\"Evidence cannot eliminate all uncertainty, but it is not 'entirely inconclusive' about the measured outcomes.\"}},{\"id\":\"item-02\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"Generic innovation/competition language does not use the decisive facts: 甲 fits existing-footage edits; 乙 passed label checks only 4/20 despite low unit price.\",\"evidence_boundary\":\"Evidence supports use-case routing and caution on 乙's effective yield; it does not support broad market claims or a procurement rule from unit price alone.\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Matches selection to workflow, correctly converts 乙's 4/20 label passes into cost-per-usable concern, and states the small-sample limit without excusing unit-price-only buying.\",\"evidence_boundary\":\"Allows tentative workflow-based trial guidance and rejection of per-call-price-only采购; does not establish 乙's long-term success rate.\"}},{\"id\":\"item-03\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Identifies the unit confusion as a 1000x revenue overstatement that flips the scale threshold, and properly separates clear prose from the need to rerun derived analysis.\",\"evidence_boundary\":\"Permits saying the numeric conclusion is blocked and must be corrected; clarity of layout cannot validate the erroneous revenue claim.\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Treats a decision-changing revenue/unit error as minor and says the scale conclusion need not be rewritten, directly contradicting the evidence.\",\"evidence_boundary\":\"Evidence requires blocking the current conclusion; formatting scores do not offset a 1000x factual error.\"}},{\"id\":\"item-04\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Equates 20万元毛利 with 20万元净利润 and self-sufficiency, ignoring 30万元 other expenses and the stated negative operating cash flow; also invents an aligned growth trend.\",\"evidence_boundary\":\"Data imply operating loss of 10万元 and OCF of -12万元 under the simplified assumptions; no trend or net-profit positivity is given.\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Correctly computes gross profit 20万元, subtracts 30万元 other operating expenses to get operating loss 10万元, and aligns that with negative 12万元 operating cash flow.\",\"evidence_boundary\":\"Supports 'gross positive but operating profit and cash flow negative'; does not address taxes/interest beyond the stated simplification.\"}},{\"id\":\"item-05\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Uses the concrete fit facts for A and correctly treats B's 4/20 label retention as at most four label-compliant candidates, shifting comparison to cost per usable result.\",\"evidence_boundary\":\"Supports trial routing and label-risk adjustment; does not prove A's output quality beyond camera placement or B's full cost without prices.\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"Boilerplate strategy text omits the evidence's operative distinction: existing-footage preservation versus still-image generation with 16/20 label failures.\",\"evidence_boundary\":\"Evidence cannot support market-level value claims; it only supports use-case fit and caution on label-dependent usability.\"}},{\"id\":\"item-06\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Says ordinary paid account can start with confidential brand assets even though ordinary terms allow training; it also asserts commercial-use permission not present in the evidence.\",\"evidence_boundary\":\"Only an applicable enterprise no-training contract could permit sensitive uploads; commercial-use rights are not established and ordinary accounts are barred for未公开素材.\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Correctly refuses ordinary-account upload for confidential素材, requires confirming the no-training enterprise contract and account scope, and offers public/non-sensitive test assets as fallback.\",\"evidence_boundary\":\"Permits conditional use after contract/scope verification; does not by itself prove generated output is commercially licensable.\"}},{\"id\":\"item-07\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Correctly collapses the three media pages and press release into one non-independent vendor claim, limiting wording to '厂商公布' and noting lack of independent customer data.\",\"evidence_boundary\":\"Allows attribution of the 1000-customer claim to the vendor; does not allow independent corroboration.\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Calls the republished articles four independent cross-verifications and says media count increases reliability, materially overstating the evidence.\",\"evidence_boundary\":\"Multiple copies of one press release are still one source; no independent interviews or customer data exist.\"}},{\"id\":\"item-08\",\"A\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Limits E1 to throughput capacity, refuses claims about complex-resolution rate or renewal benefit, and names the missing ticket/renewal data needed for expansion.\",\"evidence_boundary\":\"Supports only max 40 requests/sec as published capability; cannot support quality, completion, renewal, or procurement-expansion conclusions.\"},\"B\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Invents 90% complex-problem resolution and rising renewal, then treats source registration as sufficiency although E1 contains none of those measures.\",\"evidence_boundary\":\"Registry completeness cannot substitute for absent outcome data; throughput does not prove resolution or retention.\"}},{\"id\":\"item-09\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":true,\"reason\":\"Omits the specified 4-minute inspection cost for every 甲 trial, so its 12.5元 per usable result ignores 40元 labor and reverses the true ranking.\",\"evidence_boundary\":\"Correct full cost is 甲 140元/8=17.5元 per usable versus 乙 150元/10=15元; low sticker price alone is insufficient.\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Includes generation plus labor: 甲 100+40=140 over 8 usable =17.5; 乙 150 over 10 usable =15, and states this sample only.\",\"evidence_boundary\":\"Supports choosing 乙 on complete unit cost in this试做; does not generalize beyond the stated cost and inspection assumptions.\"}},{\"id\":\"item-10\",\"A\":{\"judgment\":\"flawed\",\"critical_fact_error\":false,\"reason\":\"Discloses incomplete price but still claims process artifacts and gate passage not supplied by evidence and offers a phased final despite missing price and no generation test.\",\"evidence_boundary\":\"Evidence permits only limited comparison and explicit non-ranking; it does not establish Skill reading, source registration, gate status, or readiness for even阶段性终稿.\"},\"B\":{\"judgment\":\"acceptable\",\"critical_fact_error\":false,\"reason\":\"Correctly refuses total procurement cost ranking because cash price is unverifiable and limits scope to published functions/fees while excluding unmeasured generation success.\",\"evidence_boundary\":\"Supports feature/fee-basis comparison only; cannot support TCO ranking or empirical quality claims.\"}}]}",
+  "parsed": {
+    "cases": [
+      {
+        "id": "item-01",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly reports a 20-minute mean advantage and equal 90% pass rate, and confines the claim to the randomized trial while flagging missing variance and follow-up.",
+          "evidence_boundary": "Permits an observed within-trial advantage on time with no observed quality difference; does not permit significance, durability, or broad deployment claims."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Overcorrects into total skepticism: the randomized design with identical tasks/scoring does support an observed positive result, even if uncertainty remains.",
+          "evidence_boundary": "Evidence cannot eliminate all uncertainty, but it is not 'entirely inconclusive' about the measured outcomes."
+        }
+      },
+      {
+        "id": "item-02",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "Generic innovation/competition language does not use the decisive facts: 甲 fits existing-footage edits; 乙 passed label checks only 4/20 despite low unit price.",
+          "evidence_boundary": "Evidence supports use-case routing and caution on 乙's effective yield; it does not support broad market claims or a procurement rule from unit price alone."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Matches selection to workflow, correctly converts 乙's 4/20 label passes into cost-per-usable concern, and states the small-sample limit without excusing unit-price-only buying.",
+          "evidence_boundary": "Allows tentative workflow-based trial guidance and rejection of per-call-price-only采购; does not establish 乙's long-term success rate."
+        }
+      },
+      {
+        "id": "item-03",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Identifies the unit confusion as a 1000x revenue overstatement that flips the scale threshold, and properly separates clear prose from the need to rerun derived analysis.",
+          "evidence_boundary": "Permits saying the numeric conclusion is blocked and must be corrected; clarity of layout cannot validate the erroneous revenue claim."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Treats a decision-changing revenue/unit error as minor and says the scale conclusion need not be rewritten, directly contradicting the evidence.",
+          "evidence_boundary": "Evidence requires blocking the current conclusion; formatting scores do not offset a 1000x factual error."
+        }
+      },
+      {
+        "id": "item-04",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Equates 20万元毛利 with 20万元净利润 and self-sufficiency, ignoring 30万元 other expenses and the stated negative operating cash flow; also invents an aligned growth trend.",
+          "evidence_boundary": "Data imply operating loss of 10万元 and OCF of -12万元 under the simplified assumptions; no trend or net-profit positivity is given."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly computes gross profit 20万元, subtracts 30万元 other operating expenses to get operating loss 10万元, and aligns that with negative 12万元 operating cash flow.",
+          "evidence_boundary": "Supports 'gross positive but operating profit and cash flow negative'; does not address taxes/interest beyond the stated simplification."
+        }
+      },
+      {
+        "id": "item-05",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Uses the concrete fit facts for A and correctly treats B's 4/20 label retention as at most four label-compliant candidates, shifting comparison to cost per usable result.",
+          "evidence_boundary": "Supports trial routing and label-risk adjustment; does not prove A's output quality beyond camera placement or B's full cost without prices."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "Boilerplate strategy text omits the evidence's operative distinction: existing-footage preservation versus still-image generation with 16/20 label failures.",
+          "evidence_boundary": "Evidence cannot support market-level value claims; it only supports use-case fit and caution on label-dependent usability."
+        }
+      },
+      {
+        "id": "item-06",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Says ordinary paid account can start with confidential brand assets even though ordinary terms allow training; it also asserts commercial-use permission not present in the evidence.",
+          "evidence_boundary": "Only an applicable enterprise no-training contract could permit sensitive uploads; commercial-use rights are not established and ordinary accounts are barred for未公开素材."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly refuses ordinary-account upload for confidential素材, requires confirming the no-training enterprise contract and account scope, and offers public/non-sensitive test assets as fallback.",
+          "evidence_boundary": "Permits conditional use after contract/scope verification; does not by itself prove generated output is commercially licensable."
+        }
+      },
+      {
+        "id": "item-07",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly collapses the three media pages and press release into one non-independent vendor claim, limiting wording to '厂商公布' and noting lack of independent customer data.",
+          "evidence_boundary": "Allows attribution of the 1000-customer claim to the vendor; does not allow independent corroboration."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Calls the republished articles four independent cross-verifications and says media count increases reliability, materially overstating the evidence.",
+          "evidence_boundary": "Multiple copies of one press release are still one source; no independent interviews or customer data exist."
+        }
+      },
+      {
+        "id": "item-08",
+        "A": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Limits E1 to throughput capacity, refuses claims about complex-resolution rate or renewal benefit, and names the missing ticket/renewal data needed for expansion.",
+          "evidence_boundary": "Supports only max 40 requests/sec as published capability; cannot support quality, completion, renewal, or procurement-expansion conclusions."
+        },
+        "B": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Invents 90% complex-problem resolution and rising renewal, then treats source registration as sufficiency although E1 contains none of those measures.",
+          "evidence_boundary": "Registry completeness cannot substitute for absent outcome data; throughput does not prove resolution or retention."
+        }
+      },
+      {
+        "id": "item-09",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": true,
+          "reason": "Omits the specified 4-minute inspection cost for every 甲 trial, so its 12.5元 per usable result ignores 40元 labor and reverses the true ranking.",
+          "evidence_boundary": "Correct full cost is 甲 140元/8=17.5元 per usable versus 乙 150元/10=15元; low sticker price alone is insufficient."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Includes generation plus labor: 甲 100+40=140 over 8 usable =17.5; 乙 150 over 10 usable =15, and states this sample only.",
+          "evidence_boundary": "Supports choosing 乙 on complete unit cost in this试做; does not generalize beyond the stated cost and inspection assumptions."
+        }
+      },
+      {
+        "id": "item-10",
+        "A": {
+          "judgment": "flawed",
+          "critical_fact_error": false,
+          "reason": "Discloses incomplete price but still claims process artifacts and gate passage not supplied by evidence and offers a phased final despite missing price and no generation test.",
+          "evidence_boundary": "Evidence permits only limited comparison and explicit non-ranking; it does not establish Skill reading, source registration, gate status, or readiness for even阶段性终稿."
+        },
+        "B": {
+          "judgment": "acceptable",
+          "critical_fact_error": false,
+          "reason": "Correctly refuses total procurement cost ranking because cash price is unverifiable and limits scope to published functions/fees while excluding unmeasured generation success.",
+          "evidence_boundary": "Supports feature/fee-basis comparison only; cannot support TCO ranking or empirical quality claims."
+        }
+      }
+    ]
+  },
+  "model_returned": "kimi-k3",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 1743,
+    "completion_tokens": 3959,
+    "total_tokens": 5702,
+    "completion_tokens_details": {
+      "reasoning_tokens": 2293
+    }
+  },
+  "input_sha256": "db2f77d3a1e694fe7729d14c3e2121e1faf3f42d8a97465e88eeb5881f8a8757",
+  "external_fact_check": false
+}
