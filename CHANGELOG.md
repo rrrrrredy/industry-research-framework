@@ -4,6 +4,18 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
+## [v0.1.3](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.3) — 2026-09-08
+
+Checker-consistency prerelease. These fixes do not change the core research method or establish research-quality efficacy.
+
+### Fixed
+
+- Share current review and open-issue semantics between delivery checks and evals. A later clean global review can recover from an earlier failure; later local blockers still invalidate delivery, and a local PASS cannot erase another scope. Required scopes and malformed history remain blocking. A routed action alone never closes an issue.
+- Preserve English words in repeated-line detection instead of collapsing distinct paragraphs into one placeholder. Keep genuine repetition and citation-variation controls in both languages.
+- Reject recognized blanket denials of accepted limitations. Report unmatched or partial disclosure as requiring semantic review, not as verified by a generic keyword; literal coverage is explicitly not semantic certification.
+- Add 24 cross-entry regressions to CI, including invalid UTF-8 even when the optional receipt check is disabled. Preserve existing tests, core protocol text, frozen inputs and historical outputs.
+- Label the public comparison as illustrative design goals in English and Chinese, and link separately to actual reports and limitations instead of implying measured before/after improvement.
+
 ## [v0.1.2](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.2) — 2026-09-07
 
 Delivery-checker prerelease. The core protocol and frozen research inputs are unchanged.

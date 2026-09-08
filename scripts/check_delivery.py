@@ -22,7 +22,10 @@ OPEN_ISSUE_KEYS = {
     "explicitly_not_completed",
 }
 CLOSED_ISSUE_TERMS = {"closed", "resolved", "handled", "accepted_limitation", "waived"}
-OPEN_ISSUE_TERMS = {"open", "unresolved", "pending", "blocking", "incomplete", "not_completed"}
+OPEN_ISSUE_TERMS = {
+    "open", "unresolved", "pending", "blocking", "incomplete", "not_completed",
+    "in_progress", "needs_revision", "fail", "failed", "blocked", "blocking_issue",
+}
 RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "out_of_scope"}
 
 COMPLETION_PATTERNS = [
@@ -79,6 +82,8 @@ GLOBAL_REVIEW_SCOPES = {
     "全稿",
 }
 PASS_REVIEW_TERMS = {"pass", "passed", "complete", "approved"}
+REVIEW_STATUS_KEYS = {"result", "status", "decision", "verdict", "finding_type", "outcome"}
+FAIL_REVIEW_TERMS = {"fail", "failed", "needs_revision", "unresolved", "open", "blocking_issue", "blocked"}
 REVIEW_ISSUE_KEYS = {
     "issues",
     "findings",
@@ -104,12 +109,16 @@ def read_json_or_none(path: Path) -> Any | None:
 
 
 def inspect_jsonl(path: Path, label: str) -> tuple[list[dict[str, Any]], list[str]]:
-    rows: list[dict[str, Any]] = []
-    findings: list[str] = []
     try:
         content = read_text(path)
     except (OSError, UnicodeError):
         return [], [f"{label} log is unreadable or is not valid UTF-8."]
+    return inspect_jsonl_text(content, label)
+
+
+def inspect_jsonl_text(content: str, label: str) -> tuple[list[dict[str, Any]], list[str]]:
+    rows: list[dict[str, Any]] = []
+    findings: list[str] = []
     for line_number, line in enumerate(content.splitlines(), start=1):
         line = line.strip()
         if not line:
@@ -301,14 +310,39 @@ def review_row_has_open_issues(row: dict[str, Any]) -> bool:
 
 
 def latest_global_review_passes(rows: list[dict[str, Any]]) -> bool:
-    latest: dict[str, Any] | None = None
-    for row in rows:
-        scope = str(row.get("scope", "")).strip().lower()
-        if scope in GLOBAL_REVIEW_SCOPES:
-            latest = row
-    if latest is None:
-        return False
-    return review_passes(latest)
+    return any(scope_key(str(row.get("scope", ""))) == "__global__" for row in rows) and not review_has_unresolved_findings(rows)
+
+
+def review_row_is_blocking(row: dict[str, Any]) -> bool:
+    return review_row_has_open_issues(row) or any(
+        re.search(rf"\b{re.escape(term)}\b", str(row.get(key, "")), flags=re.IGNORECASE)
+        for key in REVIEW_STATUS_KEYS for term in FAIL_REVIEW_TERMS
+    )
+
+
+def review_has_unresolved_findings(rows: list[dict[str, Any]]) -> bool:
+    """A clean global review covers prior ordinary reviews, not later blockers.
+
+    Later local findings need a clean review of the same scope or a new global
+    review. Task-declared required scopes remain independently checked by the
+    delivery contract; this helper does not erase them or require new artifacts.
+    """
+    global_indices = [i for i, row in enumerate(rows)
+                      if scope_key(str(row.get("scope", ""))) == "__global__"]
+    start = 0
+    if global_indices:
+        latest = global_indices[-1]
+        if not review_passes(rows[latest]):
+            return True
+        start = latest + 1
+    pending: set[str] = set()
+    for row in rows[start:]:
+        scope = scope_key(str(row.get("scope") or row.get("review_type") or "__unspecified__"))
+        if review_row_is_blocking(row):
+            pending.add(scope)
+        elif review_passes(row):
+            pending.discard(scope)
+    return bool(pending)
 
 
 def review_passes(row: dict[str, Any]) -> bool:
@@ -319,7 +353,7 @@ def review_passes(row: dict[str, Any]) -> bool:
         or row.get("verdict")
         or ""
     ).strip().lower()
-    return result in PASS_REVIEW_TERMS and not review_row_has_open_issues(row)
+    return result in PASS_REVIEW_TERMS and not review_row_is_blocking(row)
 
 
 def scope_key(value: str) -> str:
@@ -330,6 +364,45 @@ def scope_key(value: str) -> str:
 def review_has_global_pass(review_path: Path) -> bool:
     rows, findings = inspect_jsonl(review_path, "Review")
     return not findings and latest_global_review_passes(rows)
+
+
+def assess_limitation_disclosure(message: str, limitations: list[str]) -> dict[str, Any]:
+    """Observe literal coverage and known contradictions, never certify meaning.
+
+    Unmatched paraphrases require review; they are not automatically false. This
+    does not add a compulsory wording, declaration file or model/API dependency.
+    """
+    normalize = lambda value: re.sub(r"[\W_]+", "", value.casefold())
+    normalized_message = normalize(message)
+    unmatched = [value for value in limitations
+                 if not normalize(value) or normalize(value) not in normalized_message]
+    scrubbed = re.sub(
+        r"(?:并非|并不是|不是|不能说|不应说|不得宣称)\s*(?:没有|不存在|无)(?:任何|已知)?(?:限制|局限|不确定性)",
+        "", message, flags=re.IGNORECASE,
+    )
+    scrubbed = re.sub(
+        r"\bnot\s+(?:without|free\s+of)\s+(?:any\s+|known\s+)?(?:limitations?|uncertainties)\b",
+        "", scrubbed, flags=re.IGNORECASE,
+    )
+    denial = any(re.search(pattern, scrubbed, flags=re.IGNORECASE) for pattern in (
+        r"(?:没有|不存在|无)(?:任何|已知|什么)?(?:限制|局限|不确定性)",
+        r"\b(?:no|without)\s+(?:any\s+|known\s+)?(?:limitations?|uncertainties)\b",
+        r"\bfree\s+of\s+(?:any\s+|known\s+)?(?:limitations?|uncertainties)\b",
+    ))
+    if not limitations:
+        status = "not_applicable"
+    elif denial:
+        status = "contradiction"
+    elif not unmatched:
+        status = "text_covered"
+    elif len(unmatched) == len(limitations) and not any(
+        term.casefold() in message.casefold() for term in LIMITATION_DISCLOSURE_TERMS
+    ):
+        status = "absent"
+    else:
+        status = "needs_review"
+    return {"status": status, "unmatched_limitations": unmatched,
+            "semantic_verification": False}
 
 
 def evaluate_delivery(
@@ -481,12 +554,19 @@ def evaluate_delivery(
                     add("failed_required_review", f"The latest review for required scope {scope!r} is not a clean PASS.")
 
     accepted_limitations = list(dict.fromkeys(accepted_limitations))
-    if terminal_intent and accepted_limitations and not any(
-        term.lower() in message.lower() for term in LIMITATION_DISCLOSURE_TERMS
-    ):
+    disclosure = assess_limitation_disclosure(message, accepted_limitations)
+    warnings: list[str] = []
+    if terminal_intent and disclosure["status"] in {"absent", "contradiction"}:
         add(
             "undisclosed_accepted_limitations",
-            "Accepted limitations exist backstage but are absent from the user-visible delivery message.",
+            "Accepted limitations exist backstage but are absent from the user-visible delivery message."
+            if disclosure["status"] == "absent" else
+            "Accepted limitations exist backstage but the delivery message explicitly denies them.",
+        )
+    elif terminal_intent and disclosure["status"] == "needs_review":
+        warnings.append(
+            "Specific limitation coverage requires semantic review; a generic keyword or unmatched "
+            "paraphrase is not verification. Inspect limitation_disclosure.unmatched_limitations."
         )
 
     delivery_observation = "not_provided"
@@ -514,6 +594,8 @@ def evaluate_delivery(
         "stage": stage,
         "status": status,
         "accepted_limitations": accepted_limitations,
+        "limitation_disclosure": disclosure,
+        "warnings": warnings,
         "delivery_observation": delivery_observation,
     }
 
@@ -541,11 +623,14 @@ def main() -> int:
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif result["ok"]:
-        print("PASS: delivery claim matches current state and receipt.")
+        print("PASS: mechanical delivery checks; not a semantic quality verdict.")
     else:
         print("FAIL: delivery claim is not safe.")
         for finding in result["findings"]:
             print(f"- {finding}")
+    if not args.json:
+        for warning in result["warnings"]:
+            print(f"REVIEW: {warning}")
     return 0 if result["ok"] else 1
 
 

@@ -11,7 +11,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from check_delivery import claims_completion, evaluate_delivery
+from check_delivery import (
+    claims_completion, collect_open_issues, evaluate_delivery, inspect_jsonl, inspect_jsonl_text,
+    issue_is_open, review_has_unresolved_findings,
+)
 
 
 
@@ -102,20 +105,6 @@ FINAL_STAGE_TERMS = [
     "终稿",
 ]
 
-OPEN_ISSUE_KEYS = {
-    "open_issues",
-    "unresolved_issues",
-    "pending_issues",
-    "remaining_issues",
-    "blockers",
-    "explicitly_not_completed",
-}
-
-REVIEW_FAIL_TERMS = ["fail", "needs_revision", "unresolved", "open", "blocking_issue"]
-REVIEW_STATUS_KEYS = {"status", "result", "decision", "verdict", "finding_type", "outcome"}
-ISSUE_HANDLING_KEYS = {"handling", "resolution", "resolved_by", "routed_action", "limitation"}
-ISSUE_CLOSED_TERMS = ["closed", "resolved", "handled", "recorded", "limitation", "accepted"]
-ISSUE_OPEN_TERMS = ["open", "unresolved", "pending", "blocking", "needs_revision", "fail"]
 VALID_PROGRESS_STAGES = {"brief", "collect", "analyze", "draft", "review", "revise", "final"}
 RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "out_of_scope"}
 BLOCKING_CONFORMANCE_FLAGS = {
@@ -224,15 +213,7 @@ def progress_claims_final(progress_text: str) -> bool:
 
 def progress_has_open_issues(progress_text: str) -> bool:
     data = load_json_or_none(progress_text)
-    if not isinstance(data, dict):
-        return False
-    for key in OPEN_ISSUE_KEYS:
-        value = data.get(key)
-        if isinstance(value, list) and any(issue_is_unhandled(item) for item in value):
-            return True
-        if isinstance(value, str) and value.strip():
-            return True
-    return False
+    return bool(collect_open_issues(data))
 
 
 def read_progress_stage(progress_text: str) -> str:
@@ -250,36 +231,12 @@ def read_progress_status(progress_text: str) -> str:
 
 
 def issue_is_unhandled(item: Any) -> bool:
-    if not item:
-        return False
-    if not isinstance(item, dict):
-        return True
-
-    status = str(item.get("status", "")).lower()
-    if status:
-        if any(term in status for term in ISSUE_OPEN_TERMS):
-            return True
-        if any(term in status for term in ISSUE_CLOSED_TERMS):
-            return False
-
-    if any(str(item.get(key, "")).strip() for key in ISSUE_HANDLING_KEYS):
-        return False
-
-    return True
+    return issue_is_open(item)
 
 
 def review_has_unresolved_failures(review_text: str) -> bool:
-    for row in load_review_rows(review_text):
-        raw = str(row.get("raw", ""))
-        if raw and re.search(r"\b(fail|needs_revision|unresolved|open|blocking_issue)\b", raw, flags=re.IGNORECASE):
-            return True
-        for key, value in row.items():
-            if str(key).lower() not in REVIEW_STATUS_KEYS:
-                continue
-            value_text = str(value).lower()
-            if any(re.search(rf"\b{re.escape(term)}\b", value_text) for term in REVIEW_FAIL_TERMS):
-                return True
-    return False
+    rows, findings = inspect_jsonl_text(review_text, "Review")
+    return bool(findings) or review_has_unresolved_findings(rows)
 
 
 def load_review_rows(review_text: str) -> list[dict[str, Any]]:
@@ -321,12 +278,12 @@ def count_registry_sources(source_registry_text: str, source_ids: list[str], sou
 def repeated_line_flags(final_text: str) -> list[str]:
     normalized_counts: dict[str, int] = {}
     for line in final_text.splitlines():
-        line = re.sub(r"\s+", "", line.strip())
-        if len(line) < 24:
+        line = re.sub(r"\s+", " ", line.strip()).casefold()
+        if len(re.sub(r"\s+", "", line)) < 24:
             continue
-        # Keep the stable tail/prefix pattern instead of treating each cited source line as unique.
+        # Normalize citation noise without erasing English words and their meaning.
         line = re.sub(r"《[^》]+》", "《SOURCE》", line)
-        line = re.sub(r"[A-Za-z0-9_.-]+", "X", line)
+        line = re.sub(r"\b[sp]\d{3,}\b", "SOURCE_ID", line)
         normalized_counts[line] = normalized_counts.get(line, 0) + 1
     return [line for line, count in normalized_counts.items() if count >= 3]
 
@@ -520,14 +477,14 @@ def evaluate_case(
         conformance_flags.append("weak_claim_registry")
 
     min_review_rows = int(case.get("min_review_rows", 1))
-    review_rows = load_review_rows(review_text)
+    review_rows, review_parse_findings = inspect_jsonl(run_dir / "logs/review.jsonl", "Review")
     if len(review_rows) < min_review_rows:
         findings.append(
             f"Weak review loop: expected at least {min_review_rows} review rows in logs/review.jsonl, found {len(review_rows)}."
         )
         conformance_flags.append("weak_review_loop")
-    if any("raw" in row or "value" in row for row in review_rows):
-        findings.append("Invalid review log: every non-empty JSONL row must be a JSON object.")
+    if review_parse_findings:
+        findings.extend(review_parse_findings)
         conformance_flags.append("invalid_review_log")
 
     section_hits = [section for section in case.get("required_sections", []) if section in final_text]
@@ -689,6 +646,8 @@ def evaluate_case(
                 findings.append(finding)
             if flag not in conformance_flags:
                 conformance_flags.append(flag)
+        for warning in delivery_result.get("warnings", []):
+            findings.append("Semantic review required: " + warning)
 
     if terminal_intent and (progress_has_open_issues(progress_text) or review_has_unresolved_failures(review_text) or coverage_flags or conformance_flags):
         findings.append("False completion signal: a current progress or user-visible completion claim conflicts with unresolved issues or evaluator flags.")
@@ -739,6 +698,7 @@ def evaluate_case(
         "source_instruction_markers": leaked_source_instruction_markers,
         "forbidden_source_outcomes": matched_forbidden_source_outcomes,
         "delivery_check": delivery_result,
+        "review_warnings": delivery_result.get("warnings", []),
         "assessment_scope": "deterministic_structure_traceability_and_known_failure_signals",
     }
 

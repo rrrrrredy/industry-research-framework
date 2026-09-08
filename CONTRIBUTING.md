@@ -29,6 +29,7 @@ python scripts/check_cross_agent_protocol.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_delivery_contract.py
+python scripts/check_evaluator_contract.py
 python scripts/check_installation_contract.py
 python scripts/check_diagnostic_bundle.py --self-test
 ```

@@ -32,6 +32,8 @@ jobs:
         run: python scripts/check_conformance_fixtures.py
       - name: Check isolated delivery contract
         run: python scripts/check_delivery_contract.py
+      - name: Check evaluator and delivery consistency
+        run: python scripts/check_evaluator_contract.py
       - name: Check installation comparison
         run: python scripts/check_installation_contract.py
       - name: Check public diagnostic bundle and failure-preservation controls

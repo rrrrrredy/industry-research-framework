@@ -695,7 +695,7 @@
           <a href="https://github.com/rrrrrredy/industry-research-framework">Repository</a>
           <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/README.zh-CN.md">中文 README</a>
           <a href="#fullmd">Full SKILL.md</a>
-          <a href="#demo">Before/After</a>
+          <a href="#demo">Design goals</a>
           <a href="#copy-run">Copy Prompts</a>
           <a href="#launch-assets">Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
@@ -712,7 +712,7 @@
             <p class="lede">An open-source ResearchOps protocol for AI agents doing longform industry research. It defines stage gates, evidence registries, delivery integrity, and offline conformance checks while keeping semantic research quality as a separate human judgment.</p>
             <div class="hero-actions">
               <a class="button" href="#fullmd">Start with SKILL.md</a>
-              <a class="button secondary" href="#demo">See before/after</a>
+              <a class="button secondary" href="#demo">See design goals</a>
               <a class="button secondary" href="#launch-assets">Product Hunt assets</a>
               <a class="button secondary" href="https://github.com/rrrrrredy/industry-research-framework">View repository</a>
             </div>
@@ -760,7 +760,7 @@
         <aside class="toc" aria-label="Page navigation">
           <div class="toc-title">Framework Map</div>
           <a href="#quickstart">00 Quickstart</a>
-          <a href="#demo">P1 Before/After</a>
+          <a href="#demo">P1 Design goals</a>
           <a href="#copy-run">P2 Copy Prompts</a>
           <a href="#launch-assets">P3 Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
@@ -801,13 +801,13 @@
             <div class="section-head">
               <div class="index">P1</div>
               <div>
-                <h2>Before And After</h2>
-                <p class="section-kicker">The framework is designed for the gap between a plausible AI summary and a report that survives evidence review.</p>
+                <h2>Failure Modes And Design Goals</h2>
+                <p class="section-kicker">Illustrative workflow comparison, not measured before/after results. See <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals/diagnostics/2026-09-07">actual reports, revisions and diagnostic limitations</a>. 常见失误与设计目标：以下为流程示意，并非效果实测。</p>
               </div>
             </div>
             <div class="comparison">
               <article class="comparison-panel bad">
-                <div class="card-number">Without a protocol</div>
+                <div class="card-number">Failure pattern</div>
                 <h3>Common agent failure</h3>
                 <p>The agent collects many links, writes a compressed overview, leaves research-process language in the prose, and treats partial coverage as completion.</p>
                 <ul>
@@ -818,7 +818,7 @@
                 </ul>
               </article>
               <article class="comparison-panel good">
-                <div class="card-number">With this framework</div>
+                <div class="card-number">Intended practice</div>
                 <h3>Source-backed research flow</h3>
                 <p>The agent confirms scope, persists state, separates evidence from prose, tracks claims and uncertainty, drafts section by section, then runs hard stops before final delivery.</p>
                 <ul>
