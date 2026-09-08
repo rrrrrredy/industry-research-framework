@@ -4,7 +4,11 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
-Development-only semantic diagnostics. These changes do not modify the core research method or establish general efficacy. The v0.1.4 prerelease was withdrawn; v0.1.3 remains the latest available prerelease.
+Development-only semantic diagnostics and clearer integration guidance. These changes do not modify the core research method or establish general efficacy. The v0.1.4 prerelease was withdrawn; v0.1.3 remains the latest available prerelease.
+
+### Changed
+
+- Consolidate duplicated installation lists into three capability-based choices in both READMEs. Add a bilingual adapter index that separates instructions, runtime abilities, and research evidence; disclose the recovery and delivery-check limits of conversation-only use without changing the core method or claiming cross-runtime validation.
 
 ### Added
 

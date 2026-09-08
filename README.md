@@ -44,25 +44,13 @@ Draft section by section and run quality gates before final delivery.
 For correction-heavy work, preserve follow-up requirements and verify the intended user-visible completion claim against current state before sending it.
 ```
 
-Recommended installation modes:
+Choose the setup that matches your environment:
 
-- **Codex / local coding agents**: clone this repository into the agent's skill or instructions directory, then mention `$industry-research-framework` or point the agent at `SKILL.md`.
-- **Claude / Gemini CLI / Cursor**: paste the repository URL into the session and ask the agent to read `SKILL.md` as the controlling instruction. Load `references/` files only on demand.
-- **ChatGPT or any general agent**: attach or paste `SKILL.md`, then give the task brief. If file access is available, provide the whole repository.
-- **DeepSeek Harness (DSH)**: clone the repository as a direct child at `<workspace>/.dsh/skills/industry-research-framework` or `<workspace>/.agents/skills/industry-research-framework`. DSH discovers the existing `SKILL.md` natively and loads the full instructions through its `skill` tool; no plugin manifest is required.
-- **OpenClaw**: install as a skill directory containing `SKILL.md`, for example `<workspace>/skills/industry-research-framework` or `~/.openclaw/skills/industry-research-framework`. If skill allowlists are enabled, allow the frontmatter name `industry-research-framework`. No env or API key config is required for this framework.
-- **Hermes Agent**: install as a skill under `~/.hermes/skills/industry-research-framework`, then use `/skills` to confirm it is visible and invoke it by name. If migrating from OpenClaw, use Hermes' official migration flow and verify that `SKILL.md` plus `references/` were imported.
+- **With a Skill loader**: install this repository using the tool's supported Skill mechanism, then confirm that it loads the intended `SKILL.md` and can read its references.
+- **With file access but no Skill loader**: point the agent at `SKILL.md` and keep research files in a separate task workspace.
+- **With conversation or attachments only**: provide `SKILL.md` and references as needed. This fallback does not establish persistent file recovery or artifact-bound delivery verification.
 
-Agent-specific notes live in [`agents/`](./agents/):
-
-- [`agents/codex.md`](./agents/codex.md)
-- [`agents/claude.md`](./agents/claude.md)
-- [`agents/gemini-cli.md`](./agents/gemini-cli.md)
-- [`agents/cursor.md`](./agents/cursor.md)
-- [`agents/chatgpt.md`](./agents/chatgpt.md)
-- [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)
-- [`agents/openclaw.md`](./agents/openclaw.md)
-- [`agents/hermes.md`](./agents/hermes.md)
+The [agent integration guide](./agents/README.md) compares the available setup notes and their verification boundaries. Tool-specific paths and commands stay in those notes; the framework does not add tools or credentials to a model API.
 
 ## Example Tasks
 

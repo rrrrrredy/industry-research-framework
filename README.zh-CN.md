@@ -32,25 +32,13 @@
 多轮任务保留后续纠错，并在发送前核对面向用户的完成说明与当前状态是否一致。
 ```
 
-推荐使用方式：
+按当前环境选择使用方式：
 
-- **Codex / 本地 coding agent**：把本仓库克隆到 agent 的 skill 或 instruction 目录，再在任务中提到 `$industry-research-framework` 或直接指向 `SKILL.md`。
-- **Claude / Gemini CLI / Cursor**：把仓库链接发给 agent，让它把 `SKILL.md` 当作控制指令；`references/` 文件只在需要对应方法时读取。
-- **ChatGPT 或通用 agent**：上传或粘贴 `SKILL.md`，再给研究任务；如果支持文件访问，直接提供整个仓库。
-- **DeepSeek Harness（DSH）**：把仓库克隆为 `<workspace>/.dsh/skills/industry-research-framework` 或 `<workspace>/.agents/skills/industry-research-framework` 的直接子目录。DSH 会原生发现现有 `SKILL.md`，并通过 `skill` 工具按需加载完整指令，不需要插件 manifest。
-- **OpenClaw**：按官方 skill 机制安装为包含 `SKILL.md` 的目录，例如 `<workspace>/skills/industry-research-framework` 或 `~/.openclaw/skills/industry-research-framework`。如果启用了 skill allowlist，请允许 frontmatter 名称 `industry-research-framework`。本框架不需要 env 或 API key 配置。
-- **Hermes Agent**：按官方 skill 机制放到 `~/.hermes/skills/industry-research-framework`，启动后用 `/skills` 确认可见，再通过技能名调用。如果从 OpenClaw 迁移到 Hermes，使用 Hermes 官方迁移流程，并确认 `SKILL.md` 和 `references/` 已导入。
+- **支持 Skill 加载**：按工具支持的方式安装本仓库，确认实际加载的是预期的 `SKILL.md`，并能读取扩展文件。
+- **能读写文件，但没有 Skill 加载器**：让 Agent 读取 `SKILL.md`，研究文件保存在独立的任务目录中。
+- **只能对话或上传附件**：提供 `SKILL.md`，再按需补充扩展文件。这种替代方式不能证明文件持久化恢复或绑定实际产物的交付校验已经通过。
 
-不同 agent 的适配说明见 [`agents/`](./agents/)：
-
-- [`agents/codex.md`](./agents/codex.md)
-- [`agents/claude.md`](./agents/claude.md)
-- [`agents/gemini-cli.md`](./agents/gemini-cli.md)
-- [`agents/cursor.md`](./agents/cursor.md)
-- [`agents/chatgpt.md`](./agents/chatgpt.md)
-- [`agents/deepseek-harness.md`](./agents/deepseek-harness.md)
-- [`agents/openclaw.md`](./agents/openclaw.md)
-- [`agents/hermes.md`](./agents/hermes.md)
+[Agent 接入速查](./agents/README.md#中文说明)汇总了各接入文档的用途与验证边界。具体路径和命令保留在对应文档中；框架不会为模型 API 自动增加工具或凭据。
 
 ## 真实任务示例
 
