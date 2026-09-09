@@ -111,14 +111,7 @@ python scripts/check_docs_sync.py
 python scripts/check_delivery.py <任务目录>
 ```
 
-DSH 的另外两种检查需要先准备对应运行环境，见 [DSH 使用说明](./agents/deepseek-harness.md)：
-
-| 用途 | 命令 | 前置条件与调用范围 |
-| --- | --- | --- |
-| 检查 Skill 是否被发现、调用和完整读取 | `python scripts/run_dsh_evals.py smoke` | 启动真实 DSH 命令行，通过本地脚本化接口测试；不调用真实模型。 |
-| 运行完整研究题目 | `python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` | 使用 DSH 已配置的模型和凭据，会调用模型并可能收费；产物再由同一检查器检查。 |
-
-加载测试通过，不代表真实研究任务或报告质量已经通过验证。
+具体运行方式、环境准备和模型调用说明见 [`evals/README.md`](./evals/README.md)。加载测试通过，不代表真实研究任务或报告质量已经通过验证。
 
 想直接看产出，可阅读[2026 年 9 月校准报告与修订案例](./evals/diagnostics/2026-09-07/)：保留四份原始读者稿、两份修订稿、失败审查及三模型文本诊断，也保留未返回完整结论的记录。这些是开发期证据，不是框架胜率。
 
@@ -138,7 +131,7 @@ python scripts/build_sanitized_eval_set.py ^
 
 完整使用方法见 [`evals/README.md`](./evals/README.md)。
 
-## 01 动机：五类常见失败
+## 01 研究中常见的问题
 
 长篇研究任务中，agent 很容易出现五类问题：
 

@@ -114,14 +114,7 @@ Delivery check: replace the placeholder with the directory for this research tas
 python scripts/check_delivery.py <task-directory>
 ```
 
-Two further DSH checks require its runtime setup; see the [DSH guide](./agents/deepseek-harness.md).
-
-| Purpose | Command | Setup and model use |
-| --- | --- | --- |
-| Check Skill discovery, invocation, and full loading | `python scripts/run_dsh_evals.py smoke` | Starts the real DSH CLI against a local scripted endpoint; no live model call. |
-| Run a complete research case | `python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh` | Uses DSH's configured model and credentials and may incur charges; the same checker then evaluates its artifacts. |
-
-A successful loading test does not establish that a real research case or its report quality has passed.
+See [`evals/README.md`](./evals/README.md) for runtime setup, execution modes, and model-call details. A successful loading test does not establish that a real research case or its report quality has passed.
 
 For actual outputs, read the [September 2026 calibration reports and repairs](./evals/diagnostics/2026-09-07/): four original reader reports, two repairs, retained failed reviews and a three-model text diagnostic, including an incomplete reply. These are development evidence, not a framework win rate.
 
@@ -141,7 +134,7 @@ python scripts/build_sanitized_eval_set.py ^
 
 See [`evals/README.md`](./evals/README.md) for the full loop.
 
-## 01 Motivation: Five Failure Modes
+## 01 Common Research Problems
 
 Longform research agents tend to fail in five recurring ways:
 
