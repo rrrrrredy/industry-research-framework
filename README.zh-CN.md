@@ -303,8 +303,6 @@ python scripts/build_sanitized_eval_set.py ^
 
 不同环境的配置方法见 [Agent 接入说明](./agents/README.md)。使用前请确认文件读写、资料检索等所需能力是否可用；接入说明不代表已经验证各环境具有相同的研究效果。
 
-项目变更见 [`CHANGELOG.md`](./CHANGELOG.md)，维护与贡献说明见 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
-
 ## 09 许可协议
 
 本项目采用 [MIT License](./LICENSE) 开源。

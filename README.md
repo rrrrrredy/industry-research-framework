@@ -435,8 +435,6 @@ You can also provide `SKILL.md` directly as research instructions and supply fil
 
 See the [agent integration notes](./agents/README.md) for environment-specific setup. Check that the required file access, source retrieval, and other capabilities are available; setup guidance does not establish equivalent research quality across environments.
 
-See [`CHANGELOG.md`](./CHANGELOG.md) for project changes and [`CONTRIBUTING.md`](./CONTRIBUTING.md) for maintenance and contribution guidance.
-
 ## License
 
 This project is open source under the [MIT License](./LICENSE).
