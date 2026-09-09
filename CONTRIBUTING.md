@@ -1,6 +1,6 @@
 # Contributing
 
-Contributions are welcome when they make the protocol easier to follow, harder to game, or more credible in real research work without turning the repository into a heavy orchestration product.
+Contribute changes that improve research methods, make the workflow easier to follow, catch real failures, or strengthen the evidence behind the project's claims. Explain the problem and show how the proposed change addresses it.
 
 ## Authority And Scope
 
@@ -26,6 +26,7 @@ python scripts/run_dsh_evals.py validate
 python scripts/check_eval_source_integrity.py
 python scripts/check_source_policy_contract.py
 python scripts/check_cross_agent_protocol.py
+python scripts/check_cross_agent_input_contract.py
 python scripts/check_regression_fixtures.py
 python scripts/check_conformance_fixtures.py
 python scripts/check_delivery_contract.py

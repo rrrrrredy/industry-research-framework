@@ -1,6 +1,6 @@
 # Evaluation Loop
 
-This directory contains a lightweight evaluation loop for Industry Research Framework. It is not a model benchmark. It checks observable conformance signals for the habits the framework prescribes: brief gate, state files, source/claim discipline, review gates, source-instruction isolation, and clean final prose.
+This directory contains task cases, checking scripts, and report diagnostics for Research Toolkit. The offline checks examine saved state, sources and claims, review records, source-instruction isolation, and final delivery. Their results describe these checks, not a ranking of models or overall report quality.
 
 Evaluator result schema v2 keeps two claims separate. `conformance_status`, `conformance_score`, and `conformance_flags` describe deterministic structure, traceability, and configured failure signals. `research_quality_status` is `not_evaluated`; the runner does not claim that a mechanically conforming report is insightful, accurate, or decision-useful.
 

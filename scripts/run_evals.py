@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run lightweight conformance checks for Industry Research Framework eval cases."""
+"""Run lightweight conformance checks for Research Toolkit eval cases."""
 
 from __future__ import annotations
 
@@ -724,7 +724,7 @@ def make_prompt(case: dict[str, Any], sources_by_id: dict[str, dict[str, Any]]) 
         [
             f"# Eval Case: {case['title']}",
             "",
-            "Use the Industry Research Framework for this task.",
+            "Use the Research Toolkit for this task.",
             "",
             "## Task",
             case["prompt"],
@@ -781,7 +781,7 @@ def create_skeletons(
 
 def render_markdown(results: list[dict[str, Any]]) -> str:
     lines = [
-        "# Industry Research Framework Eval Report",
+        "# Research Toolkit Eval Report",
         "",
         f"Generated: {datetime.now(timezone.utc).isoformat()}",
         "",

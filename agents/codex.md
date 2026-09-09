@@ -7,13 +7,13 @@ Use this when Codex can read or clone repositories in a local workspace.
 Clone this repository into the location where you keep reusable skills or project instructions:
 
 ```bash
-git clone https://github.com/rrrrrredy/industry-research-framework.git agent-skills/industry-research-framework
+git clone https://github.com/rrrrrredy/research-toolkit.git agent-skills/research-toolkit
 ```
 
 Then tell Codex:
 
 ```text
-Use the Industry Research Framework in agent-skills/industry-research-framework.
+Use the Research Toolkit in agent-skills/research-toolkit.
 Read SKILL.md first. Load references only when needed.
 For this research task, create task state files before broad source collection.
 ```
@@ -34,6 +34,6 @@ python scripts/check_delivery.py <task-directory>
 
 ## 中文提示
 
-在 Codex 中使用时，最稳妥的方式是把本仓库克隆到项目或技能目录，让 Codex 先读 `SKILL.md`。长任务必须先建状态文件，再收集大量资料；断点恢复时从 `state/` 读取，而不是依赖聊天记忆。
+把仓库放在本地项目或技能目录中，让 Codex 先读 `SKILL.md`。长任务先保存研究目标和进度，再扩大资料搜集；继续任务时，让它从 `state/` 读取已有记录。
 
 多轮纠错任务需要维护 `state/requirements.jsonl`。准备宣布终稿前，把拟发送的交付说明写入 `delivery_message.md`，运行 `python scripts/check_delivery.py <任务目录>`；未通过时只能明确交付阶段稿，或回到对应阶段修复。

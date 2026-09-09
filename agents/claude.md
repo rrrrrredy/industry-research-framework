@@ -7,7 +7,7 @@ Use this when working with Claude, Claude Code, or a Claude project.
 Attach this repository, paste the repository URL, or add `SKILL.md` to Claude's project instructions. Start with:
 
 ```text
-Use https://github.com/rrrrrredy/industry-research-framework as the research protocol.
+Use https://github.com/rrrrrredy/research-toolkit as the research protocol.
 Read SKILL.md as the controlling instruction.
 Ask the research brief gate before collecting sources if critical information is missing.
 Create and maintain state/, logs/, and data/ for substantial work.
@@ -24,6 +24,6 @@ Create and maintain state/, logs/, and data/ for substantial work.
 
 ## 中文提示
 
-在 Claude 中，建议把 `SKILL.md` 放进项目指令或作为附件。不要让 Claude 一上来直接写全文；先校准范围、读者、深度和证据标准，再分阶段推进。
+把 `SKILL.md` 放进 Claude 的项目指令或作为附件。先明确范围、读者、深度和证据要求，列提纲，再找资料、分析和分节写作。
 
-如果当前环境只能在对话中保存状态，不能据此确认文件持久化恢复或绑定实际产物的交付校验已经通过；长任务先核对[接入说明中的能力限制](./README.md#中文说明)。
+如果只能在聊天中记录进度，请自行保存，继续时重新提供。自动恢复和交付检查需要工具能保存、重新打开文件并运行检查脚本，详见[使用说明](./README.md#中文说明)。

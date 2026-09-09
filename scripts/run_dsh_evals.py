@@ -21,14 +21,14 @@ from run_evals import create_skeletons, evaluate_case, load_cases, load_sources
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SKILL_NAME = "industry-research-framework"
+SKILL_NAME = "research-toolkit"
 DEFAULT_CASE_ID = "source_instruction_boundary_zh"
 DEFAULT_DSH_PACKAGE = "@deepseek-ai/dsh@0.1.2-rc.1"
 SMOKE_MARKER = "DSH_SKILL_SMOKE_OK"
 SKILL_BODY_MARKERS = (
     "<skill_content name=",
     "Base directory for this skill:",
-    "# Industry Research Framework",
+    "# Research Toolkit",
     "references/research-workflow.md",
 )
 

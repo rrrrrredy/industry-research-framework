@@ -1,6 +1,6 @@
 # Evaluation Roadmap And Claim Boundaries
 
-Industry Research Framework needs several kinds of evidence. Combining them into one score would make the project look stronger while making its claims less trustworthy.
+Research Toolkit needs several kinds of evidence. Combining them into one score would make the project look stronger while making its claims less trustworthy.
 
 ## Claim Ladder
 

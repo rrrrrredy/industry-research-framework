@@ -1,6 +1,6 @@
 {
   "rubric_id": "research_quality_v1",
-  "title": "Industry Research Framework Research Quality Rubric",
+  "title": "Research Toolkit Research Quality Rubric",
   "scoring_note": "Use this for human review after the offline runner. The automated score catches conformance regressions; this rubric judges whether the work is actually worth reading.",
   "taste_anchors": [
     {

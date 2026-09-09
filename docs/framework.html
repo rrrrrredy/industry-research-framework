@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Industry Research Framework</title>
-    <meta name="description" content="An open-source industry research framework for AI agents, covering planning, source collection, analysis, review, and evidence-backed writing.">
+    <title>Research Toolkit · 研究工具箱</title>
+    <meta name="description" content="Methods, workflows, and checks for AI-assisted research reports. 研究工具箱：研究方法、工作流程与检查工具。">
+    <link rel="canonical" href="https://rrrrrredy.github.io/research-toolkit/framework.html">
     <style>
       :root {
         --bg: #f3efe6;
@@ -126,18 +127,6 @@
         flex-wrap: wrap;
         gap: 12px;
         margin-top: 32px;
-      }
-
-      .product-hunt-badge {
-        display: inline-flex;
-        line-height: 0;
-        margin-top: 20px;
-      }
-
-      .product-hunt-badge img {
-        width: 250px;
-        height: 54px;
-        max-width: 100%;
       }
 
       .button {
@@ -362,22 +351,19 @@
         border-color: rgba(28, 116, 109, .5);
       }
 
-      .comparison-panel ul,
-      .asset-list {
+      .comparison-panel ul {
         margin: 12px 0 0;
         padding-left: 18px;
         color: var(--ink-soft);
       }
 
-      .prompt-grid,
-      .asset-grid {
+      .prompt-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 16px;
       }
 
-      .prompt-card,
-      .asset-card {
+      .prompt-card {
         border: 1px solid var(--line);
         background: var(--paper);
         padding: 20px;
@@ -389,21 +375,6 @@
         white-space: pre-wrap;
         word-break: break-word;
         max-height: 280px;
-      }
-
-      .asset-card strong {
-        display: block;
-        color: var(--ink);
-        margin-bottom: 6px;
-      }
-
-      .launch-visual {
-        width: min(100%, 240px);
-        aspect-ratio: 1;
-        display: block;
-        margin: 0 auto 16px;
-        border: 1px solid var(--line-strong);
-        background: var(--paper);
       }
 
       .rule-list {
@@ -649,7 +620,6 @@
         .cards,
         .comparison,
         .prompt-grid,
-        .asset-grid,
         .rule-list,
         .diagram,
         .state-grid,
@@ -692,46 +662,42 @@
     <main class="shell">
       <header class="topbar">
         <nav>
-          <a href="https://github.com/rrrrrredy/industry-research-framework">Repository</a>
-          <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/README.zh-CN.md">中文 README</a>
+          <a href="https://github.com/rrrrrredy/research-toolkit">Repository</a>
+          <a href="https://github.com/rrrrrredy/research-toolkit/blob/main/README.zh-CN.md">中文 README</a>
           <a href="#fullmd">Full SKILL.md</a>
           <a href="#demo">Design goals</a>
           <a href="#copy-run">Copy Prompts</a>
-          <a href="#launch-assets">Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
         </nav>
-        <div>Open Framework Spec / Living document</div>
+        <div>Research methods · MIT licensed</div>
       </header>
 
       <section class="hero">
         <div class="hero-inner">
           <div>
-            <div class="crumb">Industry Research With AI Agents</div>
-            <h1>Industry Research Framework</h1>
-            <p class="lede">An open-source framework that guides AI agents through research planning, source collection, analysis, review, and writing evidence-backed articles and reports. It is not tied to one agent tool. Automated checks cover workflow and delivery consistency, not the truth or quality of a report.</p>
+            <div class="crumb">研究工具箱 · Research With AI Agents</div>
+            <h1>Research Toolkit</h1>
+            <p class="lede">Methods, workflows, and checks for AI-assisted research reports. Plan the questions, examine sources, build an argument, draft section by section, and review the finished report.</p>
+            <p lang="zh-CN">研究工具箱：从提纲、资料和分析，到分节写作、审阅与修改。适用于产业、技术、公司与其他需要多来源分析的研究。</p>
             <div class="hero-actions">
-              <a class="button" href="#fullmd">Start with SKILL.md</a>
+              <a class="button" href="#copy-run">Start a research task</a>
               <a class="button secondary" href="#demo">See design goals</a>
-              <a class="button secondary" href="#launch-assets">Product Hunt assets</a>
-              <a class="button secondary" href="https://github.com/rrrrrredy/industry-research-framework">View repository</a>
+              <a class="button secondary" href="https://github.com/rrrrrredy/research-toolkit">View repository</a>
             </div>
-            <a class="product-hunt-badge" href="https://www.producthunt.com/posts/industry-research-framework?utm_source=badge-featured&amp;utm_medium=badge" target="_blank" rel="noopener">
-              <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=industry-research-framework&amp;theme=light" alt="Industry Research Framework - Source-backed research protocol for AI agents | Product Hunt" width="250" height="54">
-            </a>
           </div>
           <aside class="spec-card" aria-label="Framework metadata">
             <div class="spec-item">
               <span class="spec-label">Type</span>
-              <span class="spec-value">Open-source agent protocol</span>
+              <span class="spec-value">Research methods and tools</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Failure Modes</span>
-              <span class="spec-value">5 guarded</span>
+              <span class="spec-label">Report topics</span>
+              <span class="spec-value">Industry · technology · companies</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Eval Layer</span>
-              <span class="spec-value">Positive + regression fixtures</span>
+              <span class="spec-label">Verification</span>
+              <span class="spec-value">Workflow checks and report diagnostics</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">License</span>
@@ -741,19 +707,13 @@
         </div>
       </section>
 
-      <div class="tagbar" aria-label="Framework pillars">
-        <span>Scope Contract</span>
-        <span>Research Brief</span>
-        <span>Task State</span>
-        <span>Recovery</span>
-        <span>Source Registry</span>
-        <span>Claim Discipline</span>
-        <span>Protocol Gates</span>
-        <span>Staged Drafting</span>
-        <span>Hard Stops</span>
-        <span>Positive + Regression Fixtures</span>
-        <span>Review Loop</span>
-        <span>Reader Revision</span>
+      <div class="tagbar" aria-label="Research workflow">
+        <span>Questions and scope</span>
+        <span>Sources and evidence</span>
+        <span>Analysis</span>
+        <span>Section drafts</span>
+        <span>Review and revision</span>
+        <span>Finished report</span>
       </div>
 
       <div class="layout">
@@ -762,7 +722,6 @@
           <a href="#quickstart">00 Quickstart</a>
           <a href="#demo">P1 Design goals</a>
           <a href="#copy-run">P2 Copy Prompts</a>
-          <a href="#launch-assets">P3 Launch Assets</a>
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
           <a href="#motivation">01 Motivation</a>
@@ -786,14 +745,14 @@
             <div class="section-head">
               <div class="index">00</div>
               <div>
-                <h2>30-Second Quickstart</h2>
-                <p class="section-kicker">Start from the authoritative skill file, then load references only when the task needs them.</p>
+                <h2>Getting Started</h2>
+                <p class="section-kicker">Give your agent the repository link and describe the report you need.</p>
               </div>
             </div>
             <div class="wide">
-              <p>Use <code>SKILL.md</code> first. Run research scope calibration, confirm output, reader, depth, evidence standard, and coverage, then create state, logs, and data files before broad source collection.</p>
-              <p>Load references conditionally: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.</p>
-              <p>Obey hard stops before claiming completion: repair missing brief details, evidence dead ends, empty claim registries, process leakage, thin drafts, and unresolved review findings.</p>
+              <p>Ask the agent to read <code>SKILL.md</code>, agree on the questions and outline, then gather sources and write each section. It can read the supporting files in <code>references/</code> as needed.</p>
+              <p>For a long task, ask it to save progress, sources, and review notes in a separate research folder. These files let a later session continue the work. If you are working only in a chat, save those notes yourself before starting a new conversation.</p>
+              <p>Before delivery, check whether the report answers the questions, supports its conclusions, considers counter-evidence, and has enough detail. Automated checks can flag some workflow mistakes; factual and analytical quality still need review.</p>
             </div>
           </section>
 
@@ -802,7 +761,7 @@
               <div class="index">P1</div>
               <div>
                 <h2>Failure Modes And Design Goals</h2>
-                <p class="section-kicker">Illustrative workflow comparison, not measured before/after results. See <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals/diagnostics/2026-09-07">actual reports, revisions and diagnostic limitations</a>. 常见失误与设计目标：以下为流程示意，并非效果实测。</p>
+                <p class="section-kicker">Illustrative workflow comparison, not measured before/after results. See <a href="https://github.com/rrrrrredy/research-toolkit/tree/main/evals/diagnostics/2026-09-07">actual reports, revisions and diagnostic limitations</a>. 常见失误与设计目标：以下为流程示意，并非效果实测。</p>
               </div>
             </div>
             <div class="comparison">
@@ -835,78 +794,28 @@
             <div class="section-head">
               <div class="index">P2</div>
               <div>
-                <h2>Copy-And-Run Prompts</h2>
-                <p class="section-kicker">Use these entry prompts when you want an agent to adopt the repository as the controlling research protocol.</p>
+                <h2>Start With This Instruction</h2>
+                <p class="section-kicker">Add your topic, questions, intended reader, and desired length.</p>
               </div>
             </div>
             <div class="prompt-grid">
               <article class="prompt-card">
-                <div class="card-number">Codex / local agents</div>
-                <h3>Repository as protocol</h3>
-                <pre><code>Use https://github.com/rrrrrredy/industry-research-framework as the research protocol. Read SKILL.md first. Before collecting sources, run the research brief gate. For substantial work, create state/, logs/, and data/. Keep sources, claims, uncertainty, and review notes backstage. Run hard stops and quality gates before final delivery.</code></pre>
+                <div class="card-number">English</div>
+                <h3>Give your agent the repository link</h3>
+                <pre><code>Use https://github.com/rrrrrredy/research-toolkit for this research task.
+Read SKILL.md first and the supporting references as needed.
+Start with the questions and outline, gather evidence, then analyze and draft section by section.
+Review and revise the report before delivery. Lead with the conclusions.
+Save progress and sources in a separate task folder so the work can be resumed.</code></pre>
               </article>
-              <article class="prompt-card">
-                <div class="card-number">Claude / Gemini / Cursor</div>
-                <h3>Instruction-first mode</h3>
-                <pre><code>Open https://github.com/rrrrrredy/industry-research-framework and treat SKILL.md as the controlling instruction for this research task. Load references/ files only when the current stage needs them. Do not publish final prose until evidence, claim, depth, and reader cleanup gates pass.</code></pre>
-              </article>
-              <article class="prompt-card">
-                <div class="card-number">ChatGPT-style agents</div>
-                <h3>Attached skill file</h3>
-                <pre><code>I am attaching or pasting SKILL.md from Industry Research Framework. Follow it as a protocol for this longform research task. Ask one compact brief-gate question set if needed, maintain claim and uncertainty notes, and return only reader-facing final prose after quality gates pass.</code></pre>
-              </article>
-              <article class="prompt-card">
-                <div class="card-number">DeepSeek Harness (DSH)</div>
-                <h3>Native Skill mode</h3>
-                <pre><code>Install the repository at .dsh/skills/industry-research-framework, then run DSH from the research workspace. Use the industry-research-framework Skill, load it before work begins, keep state/, logs/, and data/ in the workspace, and complete the requested research deliverable.</code></pre>
-              </article>
-              <article class="prompt-card">
-                <div class="card-number">Eval follow-up</div>
-                <h3>Check the run</h3>
-                <pre><code>After the research run, place the artifacts under evals/runs/&lt;run-id&gt;/ and execute:
-python scripts/run_evals.py --runs-dir evals/runs --report evals/runs/report.md
-python scripts/run_dsh_evals.py validate
-python scripts/run_dsh_evals.py smoke
-python scripts/check_eval_source_integrity.py
-python scripts/check_cross_agent_protocol.py
-python scripts/check_regression_fixtures.py
-python scripts/check_conformance_fixtures.py
-python scripts/check_docs_sync.py</code></pre>
-              </article>
-            </div>
-          </section>
-
-          <section id="launch-assets" class="section">
-            <div class="section-head">
-              <div class="index">P3</div>
-              <div>
-                <h2>Product Hunt Launch Assets</h2>
-                <p class="section-kicker">Position the project as an open-source protocol for agent builders, researchers, and teams using AI for serious market work.</p>
-              </div>
-            </div>
-            <div class="asset-grid">
-              <article class="asset-card">
-                <img class="launch-visual" src="assets/product-hunt-thumbnail.svg" alt="Product Hunt thumbnail concept for Industry Research Framework">
-                <strong>Name</strong>
-                <p>Industry Research Framework</p>
-                <strong>Primary tagline</strong>
-                <p>Source-backed research protocol for AI agents</p>
-              </article>
-              <article class="asset-card">
-                <strong>Short description</strong>
-                <p>An open-source protocol designed to help AI agents produce source-backed longform industry research while reducing the risk of shallow summaries, process leakage, evidence drift, and false completion.</p>
-              </article>
-              <article class="asset-card">
-                <strong>Launch links</strong>
-                <ul class="asset-list">
-                  <li><a href="https://github.com/rrrrrredy/industry-research-framework">GitHub repository</a></li>
-                  <li><a href="#fullmd">Full SKILL.md</a></li>
-                  <li><a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">Eval suite</a></li>
-                </ul>
-              </article>
-              <article class="asset-card">
-                <strong>Full asset pack</strong>
-                <p>Product Hunt field copy, maker comment, audience segments, launch checklist, and social post drafts live in <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/docs/product-hunt-launch.md">docs/product-hunt-launch.md</a>.</p>
+              <article class="prompt-card" lang="zh-CN">
+                <div class="card-number">中文</div>
+                <h3>把仓库链接交给 Agent</h3>
+                <pre><code>请使用 https://github.com/rrrrrredy/research-toolkit 完成本次研究。
+先读 SKILL.md，按需读取 references/ 中的文件。
+先明确研究问题、列提纲，再查资料、做分析，分板块写作。
+完成审阅和修改后交付报告，结论放在前面。
+把进度和资料保存在独立的任务文件夹中，方便后续继续。</code></pre>
               </article>
             </div>
           </section>
@@ -916,19 +825,19 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">A1</div>
               <div>
                 <h2>Use With Your Agent</h2>
-                <p class="section-kicker">This repository is meant to be handed to an agent as a lightweight research protocol, not installed as a heavy product.</p>
+                <p class="section-kicker">You can provide the repository link, upload its files, or install the Skill for repeated use.</p>
               </div>
             </div>
             <div class="cards">
               <article class="card">
-                <div class="card-number">Default path</div>
-                <h3>Give the repository URL to your agent</h3>
-                <p>Ask the agent to read <code>SKILL.md</code> first, run the research brief gate before source collection, and load files under <code>references/</code> only when the current stage needs them.</p>
+                <div class="card-number">Use the files directly</div>
+                <h3>If the agent cannot open GitHub</h3>
+                <p>Download the repository and upload <code>SKILL.md</code> to your chat. Add files from <code>references/</code> when requested. For a long task, check that progress notes can be saved and reopened.</p>
               </article>
               <article class="card dark">
-                <div class="card-number">Adapters</div>
-                <h3>Use the agent-specific notes</h3>
-                <p>Codex, Claude, Gemini CLI, Cursor, ChatGPT-style agents, DeepSeek Harness, OpenClaw, and Hermes Agent have short setup notes in the <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/agents">agents directory</a>.</p>
+                <div class="card-number">Optional installation</div>
+                <h3>Follow the guide for your tool</h3>
+                <p>Codex, Claude, Gemini CLI, Cursor, ChatGPT-style agents, DeepSeek Harness, OpenClaw, and Hermes Agent have short setup notes in the <a href="https://github.com/rrrrrredy/research-toolkit/tree/main/agents">agents directory</a>.</p>
               </article>
             </div>
           </section>
@@ -938,24 +847,24 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">A2</div>
               <div>
                 <h2>Evaluation Loop</h2>
-                <p class="section-kicker">The repository includes a small conformance loop for checking observable protocol signals without pretending that mechanical checks prove research quality.</p>
+                <p class="section-kicker">Workflow checks catch missing records and inconsistent delivery states. Report reviews examine evidence, analysis, and usefulness.</p>
               </div>
             </div>
             <div class="cards">
               <article class="card">
                 <div class="card-number">What ships</div>
                 <h3>Cases, source packs, rubric</h3>
-                <p>The <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals">evals directory</a> contains task cases, rubrics, known-good controls, 22 known-bad regressions, quarantined source records, and synthetic evidence packs.</p>
+                <p>The <a href="https://github.com/rrrrrredy/research-toolkit/tree/main/evals">evals directory</a> contains task cases, rubrics, known-good controls, known-bad regressions, quarantined source records, and synthetic evidence packs.</p>
               </article>
               <article class="card dark">
                 <div class="card-number">Runner</div>
                 <h3>Run offline checks</h3>
-                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to report mechanical conformance for state files, claim discipline, review logs, depth signals, process leakage, source-instruction leakage, and false completion. Its heuristic score is not a research-quality grade.</p>
+                <p>Use <a href="https://github.com/rrrrrredy/research-toolkit/blob/main/scripts/run_evals.py">scripts/run_evals.py</a> to report mechanical conformance for state files, claim discipline, review logs, depth signals, process leakage, source-instruction leakage, and false completion. Its heuristic score is not a research-quality grade.</p>
               </article>
               <article class="card">
                 <div class="card-number">DSH adapter</div>
                 <h3>Separate runtime wiring from model quality</h3>
-                <p>Use <a href="https://github.com/rrrrrredy/industry-research-framework/blob/main/scripts/run_dsh_evals.py">scripts/run_dsh_evals.py</a> to validate the native Skill layout, smoke-test real DSH headless invocation against a local scripted endpoint, or run a configured model and score its artifacts with the shared evaluator.</p>
+                <p>Use <a href="https://github.com/rrrrrredy/research-toolkit/blob/main/scripts/run_dsh_evals.py">scripts/run_dsh_evals.py</a> to validate the native Skill layout, smoke-test real DSH headless invocation against a local scripted endpoint, or run a configured model and score its artifacts with the shared evaluator.</p>
               </article>
               <article class="card">
                 <div class="card-number">Calibration</div>
@@ -965,7 +874,7 @@ python scripts/check_docs_sync.py</code></pre>
             </div>
             <div class="wide">
               <p>Source-boundary fixtures cover configured final-text markers, specified malicious conclusions, and preservation of selected usable facts. They do not prove general prompt-injection resistance or cover every tool or state side effect.</p>
-              <p>A frozen baseline/framework protocol for four planned agents is available under <a href="https://github.com/rrrrrredy/industry-research-framework/tree/main/evals/cross_agent">evals/cross_agent</a>. It currently has no model runs or comparative result; its publication gate requires at least three complete agent pairs and blinded review.</p>
+              <p>A frozen baseline/framework protocol for four planned agents is available under <a href="https://github.com/rrrrrredy/research-toolkit/tree/main/evals/cross_agent">evals/cross_agent</a>. It currently has no model runs or comparative result; its publication gate requires at least three complete agent pairs and blinded review.</p>
             </div>
           </section>
 
@@ -1011,7 +920,7 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">02</div>
               <div>
                 <h2>Scope Contract</h2>
-                <p class="section-kicker">This repository is an execution framework for research deliverables, not a theory system or product architecture.</p>
+                <p class="section-kicker">The methods cover the work needed to produce a substantial research report.</p>
               </div>
             </div>
             <div class="cards">
@@ -1032,7 +941,7 @@ python scripts/check_docs_sync.py</code></pre>
               </article>
             </div>
             <div class="wide">
-              <p>Here, "protocol" means a normative, observable behavioral contract expressed through state transitions and gates. It does not claim to be a runtime that can technically prevent every invalid action.</p>
+              <p>The rules specify what each research stage needs before the agent proceeds. Saved records and checks make some mistakes visible; enforcing every action depends on the agent and its tools.</p>
               <p>Keep domain ontologies, universal taxonomies, intermediate representations, scoring systems, embeddings, knowledge graphs, dashboards, CLIs, databases, automation pipelines, and product architecture outside this repository unless they are explicitly split into a separate project.</p>
               <p>If work starts drifting into those layers, preserve the current research deliverable path and record the idea as a future extension.</p>
             </div>
@@ -1306,13 +1215,13 @@ python scripts/check_docs_sync.py</code></pre>
             </div>
             <!-- Generated from SKILL.md by scripts/check_docs_sync.py --write; CI verifies exact decoded text. -->
             <pre id="skilltext"><code>---
-name: industry-research-framework
+name: research-toolkit
 description: Source-backed longform research framework for AI agents. Use for substantial industry/market/company/product/tech/policy/ecosystem reports, 中文产业/行业研究、市场分析、竞品分析、投资memo. Guides scope, sources, claims, depth, review, hard stops, and publishable prose; not quick facts/summaries.
 ---
 
-# Industry Research Framework
+# Research Toolkit
 
-This skill is a framework for longform industry research and publishable writing. It ships no scraper, data source, or fixed report template; instead it prescribes conventions for how an AI agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
+Research Toolkit guides AI agents through substantial research and report writing. It covers planning, source analysis, claim tracking, section-by-section drafting, review, and revision. Task files retain evidence and progress; the finished report presents the findings and analysis for its readers. Research uses the sources and tools available in the agent's environment.
 
 ## 1. Motivation
 
@@ -1644,7 +1553,7 @@ Stop the current path and repair state before continuing when any of these occur
           </section>
 
           <footer>
-            Industry Research Framework / Open Spec / Versioned in Git
+            Research Toolkit · 研究工具箱 · MIT License
           </footer>
         </div>
       </div>

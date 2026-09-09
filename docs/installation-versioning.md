@@ -1,5 +1,9 @@
 # Installation identity and safe updates
 
+The current repository and Skill name are `research-toolkit`. GitHub redirects the former repository URL to the same project; the current page is [Research Toolkit](https://rrrrrredy.github.io/research-toolkit/).
+
+An installation pinned to an older commit keeps that commit's content and Skill name. To use the renamed version, update to the chosen new commit, place it in a `research-toolkit` Skill directory, and check the files with the command below. Keep only the intended version enabled for a task. Recorded experiments retain their original names and hashes.
+
 Use one repository and one normative SKILL. A release, an installed copy, a locally edited variant and the version used by an experiment can legitimately differ; identify each separately.
 
 ## Verify content, not just a label
@@ -7,7 +11,7 @@ Use one repository and one normative SKILL. A release, an installed copy, a loca
 From a trusted clone containing the intended release commit:
 
 ```bash
-python scripts/check_installation.py /path/to/installed/industry-research-framework --reference <full-commit-sha>
+python scripts/check_installation.py /path/to/installed/research-toolkit --reference <full-commit-sha>
 ```
 
 The command is read-only. It compares SKILL.md, all reference Markdown and the standalone delivery checker against actual Git object contents, normalizing only text newlines. It does not trust an installed Git HEAD, README version or INSTALLATION.json as proof of content identity. It does not fetch, install, write a manifest or overwrite files.

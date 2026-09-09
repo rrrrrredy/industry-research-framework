@@ -4,12 +4,14 @@ Released changes are grouped by tag. `Unreleased` describes work not yet include
 
 ## Unreleased
 
-Development-only semantic diagnostics and clearer integration guidance. These changes do not modify the core research method or establish general efficacy. The v0.1.4 prerelease was withdrawn; v0.1.3 remains the latest available prerelease.
+Research Toolkit naming, clearer usage instructions, and development-only semantic diagnostics. These changes do not establish general efficacy. The v0.1.4 prerelease was withdrawn; v0.1.3 remains the latest available prerelease.
 
 ### Changed
 
 - Clarify the planned single-author review lane: Astra writes with the framework in Codex; fresh-context GPT-5.6 Sol high, DeepSeek, Kimi and subsequently added GLM-5.3 each review every version. Preserve earlier three-reviewer freezes and label the fourth review as a later addition. Disclose the supported Coding Plan client and its context/usage boundaries. Missing reviews remain incomplete, critical disputes need evidence, and no human-review prerequisite or human-calibration claim applies. Require accepted improvements to be verified before new author/judge runs; preserve frozen historical protocols and separate LLM judgments from deterministic results. This is a study plan, not new efficacy evidence or a model dependency of the framework.
-- Consolidate duplicated installation lists into three capability-based choices in both READMEs. Add a bilingual adapter index that separates instructions, runtime abilities, and research evidence; disclose the recovery and delivery-check limits of conversation-only use without changing the core method or claiming cross-runtime validation.
+- Rename the project to Research Toolkit / 研究工具箱 and the repository and Skill identifier to `research-toolkit`. Update current documentation, installation examples, Pages links, and the owner's Profile entry. Preserve historical study inputs and release records.
+- Rewrite both READMEs and the bilingual setup guide around concrete actions: give the agent the repository link, upload files if needed, or follow its installation guide. Explain saving and reopening task files in plain language. Keep research steps and their requirements unchanged.
+- Remove launch-marketing copy, badges, gallery images, and video assets from the repository and public page.
 
 ### Fixed
 
@@ -24,7 +26,7 @@ Development-only semantic diagnostics and clearer integration guidance. These ch
 - Expand the synthetic semantic diagnostic catalog from six to twenty bad/control pairs. Include justified positive judgments so caution is not mistaken for quality; retain the original six and all historical results. The new labels are author-proposed, uncalibrated development material, not held-out efficacy evidence.
 - Validate diagnostic data structure and claim boundaries in CI, with negative cases for missing evidence or controls, duplicate identifiers and invalid types. Passing these checks does not establish that the semantic labels are correct.
 
-## [v0.1.3](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.3) — 2026-09-08
+## [v0.1.3](https://github.com/rrrrrredy/research-toolkit/releases/tag/v0.1.3) — 2026-09-08
 
 Checker-consistency prerelease. These fixes do not change the core research method or establish research-quality efficacy.
 
@@ -37,7 +39,7 @@ Checker-consistency prerelease. These fixes do not change the core research meth
 - Label the public comparison as illustrative design goals in English and Chinese, and link separately to actual reports and limitations instead of implying measured before/after improvement.
 - Explain the framework's purpose in plain language across both READMEs and the public introduction. Replace the ambiguous runtime-agnostic ResearchOps label without changing the core research method or execution rules.
 
-## [v0.1.2](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.2) — 2026-09-07
+## [v0.1.2](https://github.com/rrrrrredy/research-toolkit/releases/tag/v0.1.2) — 2026-09-07
 
 Delivery-checker prerelease. The core protocol and frozen research inputs are unchanged.
 
@@ -46,7 +48,7 @@ Delivery-checker prerelease. The core protocol and frozen research inputs are un
 - Recognize explicit completion claims that name the selected primary report through a Markdown link or inline filename. Previously, a reply such as `已完成 [report.md](report.md)` could pass the checker while progress remained nonterminal. Keep bare links, unrelated artifacts, negations and explicitly partial work as non-completion controls.
 - Add six delivery-contract tests derived from a real Codex reply and bounded wording variants. This closes a known lexical gap; natural-language claim detection is still heuristic, not a semantic guarantee. The core Skill, references and frozen experimental inputs are unchanged.
 
-## [v0.1.1](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.1) — 2026-09-07
+## [v0.1.1](https://github.com/rrrrrredy/research-toolkit/releases/tag/v0.1.1) — 2026-09-07
 
 Engineering and evidence prerelease. The original SKILL.md and all eight core references are unchanged. Ten offline suites pass; retained development diagnostics are not a held-out efficacy result or three-runtime comparison.
 
@@ -72,7 +74,7 @@ Engineering and evidence prerelease. The original SKILL.md and all eight core re
 - Offline public-bundle integrity checks and disclosure of heuristic thresholds, reviewer context exposure and partial stage observability.
 - Read-only installed-payload comparison against a selected Git commit and safe-update guidance; local variants are never overwritten.
 
-## [v0.1.0](https://github.com/rrrrrredy/industry-research-framework/releases/tag/v0.1.0) — 2026-09-04
+## [v0.1.0](https://github.com/rrrrrredy/research-toolkit/releases/tag/v0.1.0) — 2026-09-04
 
 First public prerelease. Mechanical checks do not establish research quality or general framework efficacy.
 

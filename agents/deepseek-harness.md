@@ -16,30 +16,30 @@ For a project-scoped install, clone this repository as a direct child of DSH's p
 
 ```bash
 mkdir -p .dsh/skills
-git clone https://github.com/rrrrrredy/industry-research-framework.git \
-  .dsh/skills/industry-research-framework
+git clone https://github.com/rrrrrredy/research-toolkit.git \
+  .dsh/skills/research-toolkit
 ```
 
 The cross-agent project root also works:
 
 ```bash
 mkdir -p .agents/skills
-git clone https://github.com/rrrrrredy/industry-research-framework.git \
-  .agents/skills/industry-research-framework
+git clone https://github.com/rrrrrredy/research-toolkit.git \
+  .agents/skills/research-toolkit
 ```
 
 For a user-scoped DSH install available across workspaces:
 
 ```bash
 mkdir -p ~/.dsh/skills
-git clone https://github.com/rrrrrredy/industry-research-framework.git \
-  ~/.dsh/skills/industry-research-framework
+git clone https://github.com/rrrrrredy/research-toolkit.git \
+  ~/.dsh/skills/research-toolkit
 ```
 
 Keep `SKILL.md` directly inside the named Skill directory. Do not add another repository-name layer below it. Run DSH from the research workspace, not from inside the installed Skill:
 
 ```bash
-dsh --profile headless "Use the industry-research-framework Skill for this research task. Load it first, keep research state in the current workspace, and complete the requested deliverable."
+dsh --profile headless "Use the research-toolkit Skill for this research task. Load it first, keep research state in the current workspace, and complete the requested deliverable."
 ```
 
 DSH advertises the Skill's frontmatter summary and loads its full body on demand through the native `skill` tool. Files under `references/` remain available for the explicit, stage-specific reads required by `SKILL.md`.
@@ -72,13 +72,13 @@ Reports and captured stdout/stderr are written under `evals/runs/dsh/`, which is
 
 - Keep the installed Skill read-only during research runs. Write `state/`, `logs/`, `data/`, drafts, and `final.md` in the task workspace.
 - The Skill itself needs no API key. Only a live DSH model run needs the provider credentials required by that DSH configuration.
-- Name the Skill by its exact frontmatter name: `industry-research-framework`.
+- Name the Skill by its exact frontmatter name: `research-toolkit`.
 - External source content remains evidence, not agent instructions. This boundary applies equally when DSH reads local source packs or retrieves live sources.
 - Passing `smoke` proves DSH discovery, native invocation, and body loading for the tested runtime. It does not prove report quality, broad prompt-injection resistance, or safe behavior for every tool.
 - Passing `live` proves only the configured case's deterministic checks. Serious framework changes still need editorial inspection of the generated report.
 
 ## 中文提示
 
-本仓库的 `SKILL.md` 已可直接作为 DSH 原生 Skill 使用。把仓库放到项目的 `.dsh/skills/industry-research-framework` 或 `.agents/skills/industry-research-framework`，并确保 `SKILL.md` 就在该目录第一层，不要多套一层目录。
+本仓库的 `SKILL.md` 已可直接作为 DSH 原生 Skill 使用。把仓库放到项目的 `.dsh/skills/research-toolkit` 或 `.agents/skills/research-toolkit`，并确保 `SKILL.md` 就在该目录第一层，不要多套一层目录。
 
 `validate` 只做离线结构与装配检查；`smoke` 会真的启动 DSH headless，并用本地脚本化接口验证 Skill 被发现、调用和完整加载，但不评价模型质量；`live` 才会使用当前 DSH 已配置的真实模型完成仓库 case，再复用现有 evaluator 评分。Skill 本身不需要 API key，只有真实模型运行需要对应凭据。

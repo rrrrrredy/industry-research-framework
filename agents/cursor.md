@@ -7,7 +7,7 @@ Use this when the research task lives in a Cursor workspace.
 Add this repository as a folder, submodule, or copied instruction bundle. Then ask Cursor Agent:
 
 ```text
-Use industry-research-framework/SKILL.md as the instruction source for this research task.
+Use research-toolkit/SKILL.md as the instruction source for this research task.
 Before drafting, create state/task_spec.md and state/progress.json in the task folder.
 Keep source, claim, and uncertainty registries under data/.
 Use references/quality-gates.md before completion.
