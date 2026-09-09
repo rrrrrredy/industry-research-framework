@@ -20,11 +20,11 @@ Do not expose backstage registries in the final report unless I ask for an audit
 - Ask the agent to restate the scope contract before research starts.
 - For long tasks, request section-by-section work instead of one-shot drafting.
 - When the context gets long, ask the agent to summarize state in the same field names used by the framework.
-- Before final delivery, ask it to run the research completion checklist and remove process language.
+- Before final delivery, ask it to use the research completion checklist and remove execution notes from the report.
 - Conversation-only state is a reduced-capability fallback, not proof of durable file recovery or artifact-bound delivery checks. Use the [integration guide](./README.md#conversation-only-use) to assess this boundary before starting a long task.
 
 ## 中文提示
 
-如果使用 ChatGPT 或其他通用 agent，最少只需要提供 `SKILL.md`。不能写文件时，也要让 agent 用清晰分区维护 task spec、progress、source registry、claim registry、uncertainty 和 review log。
+向 ChatGPT 或其他聊天工具提供 `SKILL.md`，需要时再补充扩展文件。不能保存文件时，让 Agent 在聊天中分别记录任务目标、进度、来源、判断、不确定性和审阅意见。
 
-纯对话状态不能证明文件持久化恢复或绑定实际产物的交付校验已通过。长任务开始前，先核对[接入说明中的能力限制](./README.md#中文说明)。
+长任务请保存这些记录，继续时重新提供。自动恢复需要新会话能重新打开文件；交付检查还需要访问实际报告并运行脚本，见[使用说明](./README.md#中文说明)。

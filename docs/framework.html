@@ -670,7 +670,7 @@
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
         </nav>
-        <div>Open Framework Spec / Living document</div>
+        <div>Research methods · MIT licensed</div>
       </header>
 
       <section class="hero">
@@ -678,7 +678,7 @@
           <div>
             <div class="crumb">研究工具箱 · Research With AI Agents</div>
             <h1>Research Toolkit</h1>
-            <p class="lede">An open-source framework that guides AI agents through research planning, source collection, analysis, review, and writing evidence-backed articles and reports. It is not tied to one agent tool. Automated checks cover workflow and delivery consistency, not the truth or quality of a report.</p>
+            <p class="lede">Research methods and workflows for AI-assisted articles and reports: agree on the questions, examine sources, develop the analysis, draft each section, and review the result. Use the toolkit with the AI tools available to you. Automated checks verify parts of the workflow and delivery records; facts and analytical quality still need review.</p>
             <p lang="zh-CN">研究工具箱：从提纲、资料和分析，到分节写作、审阅与修改。适用于产业、技术、公司与其他需要多来源分析的研究。</p>
             <div class="hero-actions">
               <a class="button" href="#fullmd">Start with SKILL.md</a>
@@ -689,15 +689,15 @@
           <aside class="spec-card" aria-label="Framework metadata">
             <div class="spec-item">
               <span class="spec-label">Type</span>
-              <span class="spec-value">Open-source agent protocol</span>
+              <span class="spec-value">Research methods and workflow</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">Failure Modes</span>
-              <span class="spec-value">5 guarded</span>
+              <span class="spec-value">5 recurring failure patterns</span>
             </div>
             <div class="spec-item">
-              <span class="spec-label">Eval Layer</span>
-              <span class="spec-value">Positive + regression fixtures</span>
+              <span class="spec-label">Checks and review</span>
+              <span class="spec-value">Workflow checks and report diagnostics</span>
             </div>
             <div class="spec-item">
               <span class="spec-label">License</span>
@@ -708,18 +708,18 @@
       </section>
 
       <div class="tagbar" aria-label="Framework pillars">
-        <span>Scope Contract</span>
-        <span>Research Brief</span>
-        <span>Task State</span>
-        <span>Recovery</span>
-        <span>Source Registry</span>
-        <span>Claim Discipline</span>
-        <span>Protocol Gates</span>
-        <span>Staged Drafting</span>
-        <span>Hard Stops</span>
-        <span>Positive + Regression Fixtures</span>
-        <span>Review Loop</span>
-        <span>Reader Revision</span>
+        <span>Scope</span>
+        <span>Research questions</span>
+        <span>Saved progress</span>
+        <span>Resume a task</span>
+        <span>Source records</span>
+        <span>Claims and evidence</span>
+        <span>Stage checks</span>
+        <span>Section drafts</span>
+        <span>Stop and repair</span>
+        <span>Test cases</span>
+        <span>Review and revision</span>
+        <span>Reader review</span>
       </div>
 
       <div class="layout">
@@ -731,7 +731,7 @@
           <a href="#use-agent">Use With Agent</a>
           <a href="#evaluation-loop">Evaluation Loop</a>
           <a href="#motivation">01 Motivation</a>
-          <a href="#scope">02 Scope Contract</a>
+          <a href="#scope">02 Scope</a>
           <a href="#constraints">03 Constraints</a>
           <a href="#architecture">04 Architecture</a>
           <a href="#state">05 State Files</a>
@@ -751,14 +751,14 @@
             <div class="section-head">
               <div class="index">00</div>
               <div>
-                <h2>30-Second Quickstart</h2>
-                <p class="section-kicker">Start from the authoritative skill file, then load references only when the task needs them.</p>
+                <h2>Quickstart</h2>
+                <p class="section-kicker">Read the research instructions first, then use the supporting guides as needed.</p>
               </div>
             </div>
             <div class="wide">
-              <p>Use <code>SKILL.md</code> first. Run research scope calibration, confirm output, reader, depth, evidence standard, and coverage, then create state, logs, and data files before broad source collection.</p>
-              <p>Load references conditionally: workflow for setup or recovery, analysis lenses for method choice, subagent guidance before delegation, gotchas for drift diagnosis, writing style before drafting, and quality gates before completion.</p>
-              <p>Obey hard stops before claiming completion: repair missing brief details, evidence dead ends, empty claim registries, process leakage, thin drafts, and unresolved review findings.</p>
+              <p>Start with <code>SKILL.md</code>. Confirm the report's purpose, reader, depth, evidence standard, and required coverage. For substantial work, create the state, log, and data files before broad source collection.</p>
+              <p>Read the supporting guide for the work at hand: start or resume a task, choose an analysis method, delegate a review, investigate a recurring problem, draft the prose, or check delivery.</p>
+              <p>Before claiming completion, stop and address missing brief details, evidence dead ends, empty claim records, process leakage, thin drafts, and unresolved review findings.</p>
             </div>
           </section>
 
@@ -801,13 +801,13 @@
               <div class="index">P2</div>
               <div>
                 <h2>Copy-And-Run Prompts</h2>
-                <p class="section-kicker">Use these entry prompts when you want an agent to adopt the repository as the controlling research protocol.</p>
+                <p class="section-kicker">Add your research topic and requirements to the relevant instruction below.</p>
               </div>
             </div>
             <div class="prompt-grid">
               <article class="prompt-card">
                 <div class="card-number">Codex / local agents</div>
-                <h3>Repository as protocol</h3>
+                <h3>Start from the repository</h3>
                 <pre><code>Use https://github.com/rrrrrredy/research-toolkit as the research protocol. Read SKILL.md first. Before collecting sources, run the research brief gate. For substantial work, create state/, logs/, and data/. Keep sources, claims, uncertainty, and review notes backstage. Run hard stops and quality gates before final delivery.</code></pre>
               </article>
               <article class="prompt-card">
@@ -822,7 +822,7 @@
               </article>
               <article class="prompt-card">
                 <div class="card-number">DeepSeek Harness (DSH)</div>
-                <h3>Native Skill mode</h3>
+                <h3>Install and load the Skill</h3>
                 <pre><code>Install the repository at .dsh/skills/research-toolkit, then run DSH from the research workspace. Use the research-toolkit Skill, load it before work begins, keep state/, logs/, and data/ in the workspace, and complete the requested research deliverable.</code></pre>
               </article>
               <article class="prompt-card">
@@ -855,7 +855,7 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">A1</div>
               <div>
                 <h2>Use With Your Agent</h2>
-                <p class="section-kicker">This repository is meant to be handed to an agent as a lightweight research protocol, not installed as a heavy product.</p>
+                <p class="section-kicker">Give your agent the repository link. Installation instructions are available for each tool if needed.</p>
               </div>
             </div>
             <div class="cards">
@@ -877,7 +877,7 @@ python scripts/check_docs_sync.py</code></pre>
               <div class="index">A2</div>
               <div>
                 <h2>Evaluation Loop</h2>
-                <p class="section-kicker">The repository includes a small conformance loop for checking observable protocol signals without pretending that mechanical checks prove research quality.</p>
+                <p class="section-kicker">File and workflow checks identify missing records and inconsistent delivery states. Report reviews examine facts, analysis, and usefulness.</p>
               </div>
             </div>
             <div class="cards">
@@ -949,8 +949,8 @@ python scripts/check_docs_sync.py</code></pre>
             <div class="section-head">
               <div class="index">02</div>
               <div>
-                <h2>Scope Contract</h2>
-                <p class="section-kicker">This repository is an execution framework for research deliverables, not a theory system or product architecture.</p>
+                <h2>Scope of the Framework</h2>
+                <p class="section-kicker">The toolkit covers the methods, records, writing, and checks needed for a substantial research report.</p>
               </div>
             </div>
             <div class="cards">
@@ -971,8 +971,8 @@ python scripts/check_docs_sync.py</code></pre>
               </article>
             </div>
             <div class="wide">
-              <p>Here, "protocol" means a normative, observable behavioral contract expressed through state transitions and gates. It does not claim to be a runtime that can technically prevent every invalid action.</p>
-              <p>Keep domain ontologies, universal taxonomies, intermediate representations, scoring systems, embeddings, knowledge graphs, dashboards, CLIs, databases, automation pipelines, and product architecture outside this repository unless they are explicitly split into a separate project.</p>
+              <p>The protocol specifies what each stage must complete and record before the agent proceeds. Saved files and checks can expose some errors; enforcing each action depends on the agent and its tools.</p>
+              <p>Standalone domain ontologies, universal taxonomies, general-purpose modeling languages and intermediate representations, scoring systems, embedding platforms, knowledge graphs, ranking engines, dashboards, product CLIs, databases, automation pipelines, and product architectures belong in separate projects. Scripts, commands, and rubrics used to produce and check this toolkit's research reports remain in scope.</p>
               <p>If work starts drifting into those layers, preserve the current research deliverable path and record the idea as a future extension.</p>
             </div>
           </section>
@@ -1251,7 +1251,7 @@ description: Source-backed longform research framework for AI agents. Use for su
 
 # Research Toolkit
 
-This skill is a framework for longform industry research and publishable writing. It ships no scraper, data source, or fixed report template; instead it prescribes conventions for how an AI agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
+Research Toolkit guides AI agents through substantial research and report writing. It covers scope, source analysis, progress records, section-by-section drafting, review, and revision. Evidence and execution records stay in the task files; the finished report presents the argument, analysis, and supporting sources. The toolkit does not include a scraper, data source, or fixed report template.
 
 ## 1. Motivation
 
@@ -1583,7 +1583,7 @@ Stop the current path and repair state before continuing when any of these occur
           </section>
 
           <footer>
-            Research Toolkit / Open Spec / Versioned in Git
+            Research Toolkit · 研究工具箱 · MIT License
           </footer>
         </div>
       </div>
