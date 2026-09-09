@@ -237,7 +237,7 @@ This repo does not enable an LLM judge by default. The first line of defense is 
 
 Optional model reviews are recorded in the dated development packages, with separate reasons, critical-error flags and disagreements. They do not overwrite deterministic results and are not calibrated human judgments. Known-error and valid controls, testing beyond development examples, reviewer-context disclosure and explicit evidence limits remain necessary; model agreement is not factual ground truth.
 
-The [current report/review plan](../docs/evaluation-roadmap.md#current-report-and-review-plan) uses Astra inside Codex as the author and exactly three reviewers for each draft and re-review: GPT-5.6 Sol (`gpt-5.6-sol`, `high`) in a fresh Codex context, DeepSeek, and Kimi. They receive the same complete input version and do not see one another's current-round opinions before locking their own. Missing one review leaves the round incomplete. Critical findings require evidence-based resolution, not majority voting. This planned lane does not require human reviewers or change the framework into a model-specific product. New author/judge runs wait until all accepted improvements are verified; this plan is not a completed study.
+The [current report/review plan](../docs/evaluation-roadmap.md#current-report-and-review-plan) uses Astra inside Codex as the author and exactly four reviewers for each draft and re-review: GPT-5.6 Sol (`gpt-5.6-sol`, `high`) in a fresh Codex context, DeepSeek, Kimi, and GLM-5.3 (requested `high`). They receive the same complete input version and do not see one another's current-round opinions before locking their own. GLM was added later; retain earlier three-reviewer freezes and label supplementary reviews honestly. Its Coding Plan lane uses an officially supported client, with actual context and usage boundaries disclosed. Missing one review leaves the round incomplete. Critical findings require evidence-based resolution, not majority voting. This planned lane does not require human reviewers or change the framework into a model-specific product. Verify all accepted improvements before new author/judge runs; this plan is not a completed study.
 
 ## 中文说明
 
@@ -259,7 +259,7 @@ The [current report/review plan](../docs/evaluation-roadmap.md#current-report-an
 
 目前默认不启用 LLM judge 作为自动质量判定器。日期化开发案例保留了可选模型评审，分别记录理由、严重错误标记和分歧，不覆盖确定性检查结果，也不代表经过校准的人类评价。仍须用已知错误和正常对照检验评审说明、在开发集以外验证，并披露上下文和证据条件；模型一致不等于事实真值。
 
-[当前报告与评审计划](../docs/evaluation-roadmap.md#current-report-and-review-plan)由Astra在Codex内实际使用框架写作和返工；每份稿件的初评、复评均固定三名：新Codex上下文的GPT-5.6 Sol（`gpt-5.6-sol`，`high`）、DeepSeek、Kimi。三者读取同版完整需求、正文和所提供证据，在各自意见锁定前不互看本轮评分；少一份即该轮不完整，重大问题须查证处理，不能靠多数票通过。此计划不要求真人评审，也不是把框架限定于这些模型。先验收全部已采纳改进，再启动新的写作和模型评审；计划不等于已经跑完的结果。
+[当前报告与评审计划](../docs/evaluation-roadmap.md#current-report-and-review-plan)由Astra在Codex内实际使用框架写作和返工；每份稿件的初评、复评均固定四名：新Codex上下文的GPT-5.6 Sol（`gpt-5.6-sol`，`high`）、DeepSeek、Kimi、GLM-5.3（请求`high`）。四者读取同版完整需求、正文和所提供证据，在各自意见锁定前不互看本轮评分。GLM是后续追加，保留原三人冻结与意见，如实标记补审；其Coding Plan通道使用官方支持客户端，披露实际上下文和用量边界。少一份即该轮不完整，重大问题须查证处理，不能靠多数票通过。此计划不要求真人评审，也不是把框架限定于这些模型。先验收全部已采纳改进，再启动新的写作和模型评审；计划不等于已经跑完的结果。
 
 语义诊断的两模型八次调用也已公开，保留共同漏检、严重性分歧、顺序/上下文敏感和两项修订的独立复审。当前样本通过保留修订生成；旧输入和旧结论不会回写，更不能把模型同意作者标签称为准确率。
 

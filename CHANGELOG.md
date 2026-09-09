@@ -8,7 +8,7 @@ Development-only semantic diagnostics and clearer integration guidance. These ch
 
 ### Changed
 
-- Clarify the planned single-author, three-reviewer lane: Astra writes with the framework in Codex; fresh-context GPT-5.6 Sol high, DeepSeek and Kimi each review every version. Missing reviews remain incomplete, critical disputes need evidence, and no human-review prerequisite or human-calibration claim applies. Require accepted improvements to be verified before new author/judge runs; preserve frozen historical protocols and separate LLM judgments from deterministic results. This is a study plan, not new efficacy evidence or a model dependency of the framework.
+- Clarify the planned single-author review lane: Astra writes with the framework in Codex; fresh-context GPT-5.6 Sol high, DeepSeek, Kimi and subsequently added GLM-5.3 each review every version. Preserve earlier three-reviewer freezes and label the fourth review as a later addition. Disclose the supported Coding Plan client and its context/usage boundaries. Missing reviews remain incomplete, critical disputes need evidence, and no human-review prerequisite or human-calibration claim applies. Require accepted improvements to be verified before new author/judge runs; preserve frozen historical protocols and separate LLM judgments from deterministic results. This is a study plan, not new efficacy evidence or a model dependency of the framework.
 - Consolidate duplicated installation lists into three capability-based choices in both READMEs. Add a bilingual adapter index that separates instructions, runtime abilities, and research evidence; disclose the recovery and delivery-check limits of conversation-only use without changing the core method or claiming cross-runtime validation.
 
 ### Fixed
