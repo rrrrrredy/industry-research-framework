@@ -24,7 +24,7 @@ Do not treat source count as completion.
 - Keep generated research state in the task folder, not inside the framework repository.
 - Use the CLI's file operations to update registries after source intake and claim extraction.
 - Ask for an explicit `next_action` in `state/progress.json` after each stage.
-- Check the report against the delivery requirements before sending the final version.
+- Run the research completion checklist before final delivery.
 
 ## 中文提示
 

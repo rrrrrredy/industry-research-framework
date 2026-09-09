@@ -5,7 +5,7 @@ description: Source-backed longform research framework for AI agents. Use for su
 
 # Research Toolkit
 
-Research Toolkit guides AI agents through substantial research and report writing. It covers planning, source analysis, claim tracking, section-by-section drafting, review, and revision. Task files retain evidence and progress; the finished report presents the findings and analysis for its readers. Research uses the sources and tools available in the agent's environment.
+This skill is a framework for longform industry research and publishable writing. It ships no scraper, data source, or fixed report template; instead it prescribes conventions for how an AI agent persists state, separates evidence from prose, avoids topic drift, schedules review, and turns a large research backend into a clean reader-facing article or report.
 
 ## 1. Motivation
 

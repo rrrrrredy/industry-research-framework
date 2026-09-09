@@ -1,6 +1,6 @@
 # Contributing
 
-Contribute changes that improve research methods, make the workflow easier to follow, catch real failures, or strengthen the evidence behind the project's claims. Explain the problem and show how the proposed change addresses it.
+Contributions are welcome when they make the protocol easier to follow, harder to game, or more credible in real research work without turning the repository into a heavy orchestration product.
 
 ## Authority And Scope
 

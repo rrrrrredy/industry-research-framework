@@ -34,6 +34,6 @@ python scripts/check_delivery.py <task-directory>
 
 ## 中文提示
 
-把仓库放在本地项目或技能目录中，让 Codex 先读 `SKILL.md`。长任务先保存研究目标和进度，再扩大资料搜集；继续任务时，让它从 `state/` 读取已有记录。
+在 Codex 中使用时，最稳妥的方式是把本仓库克隆到项目或技能目录，让 Codex 先读 `SKILL.md`。长任务必须先建状态文件，再收集大量资料；断点恢复时从 `state/` 读取，而不是依赖聊天记忆。
 
 多轮纠错任务需要维护 `state/requirements.jsonl`。准备宣布终稿前，把拟发送的交付说明写入 `delivery_message.md`，运行 `python scripts/check_delivery.py <任务目录>`；未通过时只能明确交付阶段稿，或回到对应阶段修复。

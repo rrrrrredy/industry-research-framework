@@ -15,6 +15,8 @@ Research Toolkit naming, clearer usage instructions, and development-only semant
 
 ### Fixed
 
+- Restore substantive README sections, complete task examples, the research completion checklist, recovery guidance, and evaluation commands removed during the rename pass. Restore setup preflight tables and detailed page entry points. Preserve the approved project name, URLs, direct usage instructions, and removal of launch-marketing material. Further wording changes await user review.
+
 - Document the four progress statuses already enforced by the delivery checker and explain how to record an intentional checkpoint. A real native partial run honestly paused but invented a descriptive status that the checker rejected. Add that exact negative case, valid partial-state controls, and a documentation-to-checker enum check. The checker is not weakened and research steps are unchanged; this clarification is not efficacy evidence.
 - Preserve the historical v1 study inputs in an independently validated archive so current framework documentation can evolve without changing old study bytes. Keep the original manifest, lock and all fifteen hashes unchanged; reject missing, changed, duplicate or unexpected archive members rather than falling back to current files.
 - Fail source-integrity checks when the case or source-pack collection is missing or empty, rather than reporting coverage without checking any cases. Reject missing, empty, malformed or duplicate case references, duplicate quarantine IDs and policy entries for missing packs. Report the actual case count; preserve valid workflow controls and the factual-use prohibition. No frozen sources, reports or research-method rules change.

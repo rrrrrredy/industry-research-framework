@@ -1,6 +1,6 @@
 # Evaluation Loop
 
-This directory contains task cases, checking scripts, and report diagnostics for Research Toolkit. The offline checks examine saved state, sources and claims, review records, source-instruction isolation, and final delivery. Their results describe these checks, not a ranking of models or overall report quality.
+This directory contains a lightweight evaluation loop for Research Toolkit. It is not a model benchmark. It checks observable conformance signals for the habits the framework prescribes: brief gate, state files, source/claim discipline, review gates, source-instruction isolation, and clean final prose.
 
 Evaluator result schema v2 keeps two claims separate. `conformance_status`, `conformance_score`, and `conformance_flags` describe deterministic structure, traceability, and configured failure signals. `research_quality_status` is `not_evaluated`; the runner does not claim that a mechanically conforming report is insightful, accurate, or decision-useful.
 
@@ -113,7 +113,7 @@ python scripts/run_dsh_evals.py smoke
 python scripts/run_dsh_evals.py live --case source_instruction_boundary_zh
 ```
 
-`smoke` stages the repository at `.dsh/skills/industry-research-framework`, launches the actual DSH CLI with the `headless` profile, forces the model protocol to call DSH's native `skill` tool, and checks that the returned body includes the framework heading and referenced-resource instructions. The local endpoint receives a placeholder key; it does not call a live model or score research quality.
+`smoke` stages the repository at `.dsh/skills/research-toolkit`, launches the actual DSH CLI with the `headless` profile, forces the model protocol to call DSH's native `skill` tool, and checks that the returned body includes the framework heading and referenced-resource instructions. The local endpoint receives a placeholder key; it does not call a live model or score research quality.
 
 `live` stages an existing eval prompt, source pack, required artifact skeletons, and the same native Skill layout in an isolated run directory. After DSH exits, it calls the existing `evaluate_case()` logic rather than a DSH-specific scorer. A passing smoke therefore proves runtime wiring; a live result measures only the selected deterministic case and still needs a separate content and evidence assessment.
 
