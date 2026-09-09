@@ -107,6 +107,8 @@ Use these fields unless the task clearly needs a narrower local variant:
 
 Use one of these canonical values for `progress.json.stage`: `brief`, `collect`, `analyze`, `draft`, `review`, `revise`, or `final`.
 
+For `progress.json.status`, use the values and checkpoint meanings in the [Protocol Contract](../SKILL.md#protocol-contract). Put the reason for pausing and the next step in `next_action` rather than extending the status value.
+
 Keep field names stable within a task. Add columns only when they improve recovery or evidence tracing.
 
 ## 4. Source Intake

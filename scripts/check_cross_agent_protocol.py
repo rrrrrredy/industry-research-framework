@@ -9,6 +9,7 @@ import json
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
+import zipfile
 
 
 REVIEW_DIMENSIONS = {
@@ -23,11 +24,36 @@ REVIEW_DIMENSIONS = {
 
 
 def sha256(path: Path) -> str:
-    data = path.read_bytes()
+    return sha256_content(path, path.read_bytes())
+
+
+def sha256_content(path: Path, data: bytes) -> str:
     if path.suffix.lower() in {".json", ".jsonl", ".md", ".txt", ".csv", ".yaml", ".yml"}:
         text = data.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
         data = text.encode("utf-8")
     return hashlib.sha256(data).hexdigest()
+
+
+def validate_frozen_inputs(repo_root, frozen_inputs, locked_files, errors):
+    """Validate immutable bytes, not the evolving normative working tree.
+
+    Logical paths and the original lock are unchanged. Read members directly;
+    do not extract an untrusted archive into the repository or task workspace.
+    """
+    archive_path = repo_root / "evals/cross_agent/frozen-inputs-v1.zip"
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            names = [item.filename for item in archive.infolist() if not item.is_dir()]
+            if len(names) != len(set(names)) or set(names) != set(frozen_inputs):
+                raise ValueError("archive members do not exactly match frozen input paths")
+            for relative in frozen_inputs:
+                path = (repo_root / relative).resolve()
+                if not path.is_relative_to(repo_root.resolve()):
+                    raise ValueError(f"frozen input escapes repository: {relative}")
+                if sha256_content(path, archive.read(relative)) != str(locked_files.get(relative, "")):
+                    errors.append(f"frozen input hash mismatch: {relative}")
+    except (OSError, ValueError, KeyError, zipfile.BadZipFile, RuntimeError) as error:
+        errors.append(f"invalid frozen input archive: {error}")
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -249,17 +275,7 @@ def main() -> int:
     if not isinstance(locked_files, dict) or set(locked_files) != set(frozen_inputs):
         errors.append("freeze.lock.json paths do not exactly match manifest frozen_inputs")
     else:
-        for relative in frozen_inputs:
-            path = (repo_root / relative).resolve()
-            try:
-                path.relative_to(repo_root)
-            except ValueError:
-                errors.append(f"frozen input escapes repository: {relative}")
-                continue
-            if not path.is_file():
-                errors.append(f"missing frozen input: {relative}")
-            elif sha256(path) != str(locked_files.get(relative, "")):
-                errors.append(f"frozen input hash mismatch: {relative}")
+        validate_frozen_inputs(repo_root, frozen_inputs, locked_files, errors)
 
     if args.require_publication or manifest.get("status") == "complete":
         validate_publication(repo_root, manifest, lock, errors)

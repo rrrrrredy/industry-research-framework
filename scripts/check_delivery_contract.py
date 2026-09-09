@@ -6,6 +6,7 @@ import itertools
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -64,6 +65,31 @@ class DeliveryContractTests(unittest.TestCase):
 
     def test_known_good(self):
         self.assertTrue(self.evaluate()["ok"])
+
+    def test_progress_status_contract_is_documented(self):
+        # Check the caller-facing enum against the real checker, not a second
+        # hand-maintained list. A native checkpoint exposed this documentation gap.
+        lines = (REPO / "SKILL.md").read_text(encoding="utf-8").splitlines()
+        declaration = [line for line in lines if line.startswith("`progress.json.status` accepts ")]
+        self.assertEqual(len(declaration), 1, "The status enum must be discoverable in the normative source")
+        values = re.findall(r"`([^`]+)`", declaration[0])[1:]
+        self.assertEqual(set(values), checker.PROGRESS_STATUSES)
+        self.assertEqual(len(values), len(set(values)))
+
+    def test_native_descriptive_checkpoint_status_is_not_canonical(self):
+        # Exact status from a real partial native run; no private report/log needed.
+        self.progress(stage="review", status="paused_at_user_requested_checkpoint")
+        (self.root / "delivery_message.md").write_text("这是阶段稿，后续板块尚未完成。\n", encoding="utf-8")
+        seal(self.root)
+        self.assert_flag("invalid_progress_status")
+
+    def test_canonical_checkpoint_statuses_keep_honest_partial_work_valid(self):
+        for status in ("in_progress", "paused", "blocked"):
+            with self.subTest(status=status):
+                self.progress(stage="review", status=status, next_action="Continue the remaining sections later")
+                (self.root / "delivery_message.md").write_text("这是阶段稿，后续板块尚未完成。\n", encoding="utf-8")
+                seal(self.root)
+                self.assertTrue(self.evaluate()["ok"])
 
     def test_honest_nonfinal(self):
         self.progress(stage="review", status="in_progress")

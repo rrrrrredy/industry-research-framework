@@ -1377,6 +1377,9 @@ These constraints are stage-transition requirements, not optional advice. `progr
 
 "Atomically" means one coherent final state update. It does not require database transactions, file locks, rollback machinery, or a custom lifecycle.
 
+`progress.json.status` accepts `in_progress`, `paused`, `blocked`, and `complete`.
+Use `paused` for an intentional checkpoint and `blocked` for an unresolved obstacle. Keep the stage at the work actually reached, and put the reason and next step in `next_action`, not in an invented status value.
+
 Terminal state is bidirectional: `stage: final` requires `status: complete`, and `status: complete` requires `stage: final`. For terminal delivery, the latest full-report or global-final review supersedes earlier reviews and must be a parseable PASS with no open issues. A later failure, malformed review record, or unresolved blocker invalidates completion. The delivery receipt must bind the actual final artifact, current progress, global review log, intended delivery message, and required backstage inputs by hash.
 
 Creating an artifact is not enough to satisfy a transition. The recorded content must meet the exit gate. If a gate fails, keep or return the task to the stage that owns that gate and repair state before continuing.

@@ -17,13 +17,19 @@ The source pack is entirely synthetic. This avoids privacy, licensing, freshness
 
 ## Freeze Boundary
 
-[`manifest.json`](./manifest.json) lists every frozen task, source, prompt, protocol, and review file. [`freeze.lock.json`](./freeze.lock.json) binds them by SHA-256. Validate the freeze with:
+[`manifest.json`](./manifest.json) lists every frozen task, source, prompt, protocol, and review file. [`freeze.lock.json`](./freeze.lock.json) binds them by SHA-256.
+
+The v1 input bytes are preserved in [`frozen-inputs-v1.zip`](./frozen-inputs-v1.zip), exported from commit `7ae37710ceba3e50a995007413987fce664d4539`. The original manifest, logical paths, lock and all fifteen input hashes remain unchanged. Stage this archive's inputs for a historical v1 run, not today's root `SKILL.md` or references. The current root remains the only normative source for new work; this archive is study evidence, not a second active Skill. The checker validates archive members directly without extracting them or falling back to live files.
+
+Select the files permitted for each condition: never give either author the review rubric, or give the baseline the framework files. Validate the freeze with:
 
 ```bash
 python scripts/check_cross_agent_protocol.py
 ```
 
 Changing a frozen input creates a new protocol version and requires a new lock. Never silently update an input after runs begin.
+
+中文说明：v1 的十五个输入已按原字节存入独立冻结包，原协议与哈希不变。复跑旧研究应使用包内版本；新研究使用当前框架并重新冻结，不能将当前框架的更新倒填为旧研究输入。
 
 ## Execution Record
 

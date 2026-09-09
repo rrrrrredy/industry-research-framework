@@ -26,6 +26,8 @@ jobs:
         run: python scripts/check_source_policy_contract.py
       - name: Check frozen cross-agent protocol
         run: python scripts/check_cross_agent_protocol.py
+      - name: Check immutable input archive controls
+        run: python scripts/check_cross_agent_input_contract.py
       - name: Check known-bad regression fixtures
         run: python scripts/check_regression_fixtures.py
       - name: Check known-good conformance fixtures
