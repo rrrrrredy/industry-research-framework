@@ -2,17 +2,17 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-An open-source research framework that guides AI agents through planning, source collection, analysis, review, and writing evidence-backed articles and reports.
+Research Toolkit is an open-source collection of research methods and tools for AI agents. It includes workflows, instructions, checking scripts, and evaluation materials to support planning, source collection, analysis, review, and evidence-backed writing.
 
 Designed for substantial, long-running research, it provides reusable research methods and workflows: clarify the objective and scope before starting, distinguish sources from interpretation, preserve progress, draft section by section, and review and revise for the reader before delivery.
 
-The framework is not tied to one agent tool; setup instructions are below. It does not include a scraper, data source, or fixed report template.
+The toolkit is not tied to one agent tool; setup instructions are below. It does not include a scraper, data source, or fixed report template.
 
-[Scope](#02-scope-of-the-framework) · [Research questions](#06-questions-to-settle-before-research) · [Task files and recovery](#05-state-file-system) · [Section-by-section work](#07-section-by-section-research-and-revision) · [Review roles](#09-subagent-and-review-scheduling) · [Evidence handling](#10-evidence-handling) · [Completion checklist](#research-completion-checklist)
+[Scope](#02-scope-of-the-toolkit) · [Research questions](#06-questions-to-settle-before-research) · [Task files and recovery](#05-state-file-system) · [Section-by-section work](#07-section-by-section-research-and-revision) · [Review roles](#09-subagent-and-review-scheduling) · [Evidence handling](#10-evidence-handling) · [Completion checklist](#research-completion-checklist)
 
-[Open framework page](https://rrrrrredy.github.io/research-toolkit/framework.html)
+[Project guide](https://rrrrrredy.github.io/research-toolkit/framework.html)
 
-The framework page is the structured reading guide. [`SKILL.md`](./SKILL.md) is the agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
+The project guide explains the research workflow and how to use the toolkit. [`SKILL.md`](./SKILL.md) is the agent instruction file. Files under `references/` are optional modules loaded only when the task needs that method, review loop, or writing guidance.
 
 ## Quickstart
 
@@ -116,11 +116,11 @@ python scripts/check_delivery.py <task-directory>
 
 See [`evals/README.md`](./evals/README.md) for runtime setup, execution modes, and model-call details. A successful loading test does not establish that a real research case or its report quality has passed.
 
-For actual outputs, read the [September 2026 calibration reports and repairs](./evals/diagnostics/2026-09-07/): four original reader reports, two repairs, retained failed reviews and a three-model text diagnostic, including an incomplete reply. These are development evidence, not a framework win rate.
+For actual outputs, read the [September 2026 calibration reports and repairs](./evals/diagnostics/2026-09-07/): four original reader reports, two repairs, retained failed reviews and a three-model text diagnostic, including an incomplete reply. These are development evidence, not a measured win rate for using the toolkit.
 
-Those historical diagnostics retain their original three-model configuration. The current report-review plan separately uses Astra in Codex as author and Sol high, DeepSeek, Kimi, and GLM as four reviewers; the toolkit does not depend on that panel. Model reviews of text are also distinct from research runs in different agent environments.
+Those historical diagnostics retain their original three-model configuration. The current report-review plan separately uses Astra in Codex to write with the toolkit's research methods and Sol high, DeepSeek, Kimi, and GLM as four reviewers; the toolkit does not depend on that panel. Model reviews of text are also distinct from research runs in different agent environments.
 
-The repository also contains a frozen three-to-four-agent baseline/framework comparison protocol under [`evals/cross_agent/`](./evals/cross_agent/). It is currently prepared but has no published completed runtime pairs. Its publication checker refuses a comparative bundle with fewer than three complete agent pairs or inadequate blinded review; the separate model text diagnostic does not satisfy this gate.
+The repository also contains a frozen three-to-four-agent comparison protocol under [`evals/cross_agent/`](./evals/cross_agent/), comparing research with and without the toolkit. It is currently prepared but has no published completed runtime pairs. Its publication checker refuses a comparative bundle with fewer than three complete agent pairs or inadequate blinded review; the separate model text diagnostic does not satisfy this gate.
 
 See [`docs/evaluation-roadmap.md`](./docs/evaluation-roadmap.md) for the separate conformance, portability, real-task efficacy, and external-adoption tracks and their claim boundaries.
 
@@ -144,9 +144,9 @@ Longform research agents tend to fail in five recurring ways:
 4. **False completion**: a partial milestone is reported as final completion before coverage, review, and reader-quality revision are done.
 5. **Depth collapse**: source counts and coverage checklists pass, but the finished report is too short or compressed for the expected research depth.
 
-Every mechanism in this framework targets one of those failures.
+The toolkit's state files, source and claim registries, stage reviews, and reader-focused revisions address these problems.
 
-## 02 Scope of the Framework
+## 02 Scope of the Toolkit
 
 This repository provides methods, workflows, task records, and checks for substantial research reports. Its protocol specifies the work, records, and checks required at each stage. These can reveal some execution errors; preventing an action depends on the agent and its tools. A theory system, standalone product architecture, and universal modeling language are outside its scope.
 
@@ -327,7 +327,7 @@ Before declaring completion:
 
 Limits:
 
-- The framework is designed to reduce citation and evidence errors, but current conformance checks do not establish an effect size or guarantee that it reduces them in real tasks.
+- The toolkit's research methods and checks are designed to reduce citation and evidence errors, but current conformance checks do not establish an effect size or guarantee a reduction in real tasks.
 - Subagent review is a check, not external truth.
 - Optional lenses can overfit the report if used mechanically.
 - State files only work if updated during the task, not reconstructed after the fact.
@@ -422,7 +422,7 @@ research-toolkit/
 
 ## Use and Integration
 
-The framework is not tied to a particular agent product or model.
+The toolkit is not tied to a particular agent product or model.
 
 Clone or copy this repository into the directory where your agent system loads reusable skills or instruction bundles:
 
