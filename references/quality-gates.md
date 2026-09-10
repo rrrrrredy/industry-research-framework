@@ -59,7 +59,7 @@ Use these gates before declaring any stage or final deliverable complete.
 ## Before Final Assembly
 
 - Required units are covered.
-- Important omissions are either fixed or disclosed.
+- Required omissions are fixed or specifically waived by the user; other evidence limitations are disclosed.
 - The draft meets the depth budget; if it does not, thin units are expanded before reader review.
 - Source count, claim count, link count, and file size are not used as proof of completion.
 - Repeated points are merged.
@@ -78,15 +78,20 @@ Assess:
 - continuity
 - friction points
 - research-report quality
+- whether the title and opening convey the report's main findings and why they matter to the intended reader
+- whether tables and timelines add distinct comparisons or explanations, and the prose develops their analytical implications
+- sentence-level voice: repeated editorial explanations and caveats should not displace the argument; retain uncertainty that changes the conclusion
 - figurative load: whether imagery replaces concrete actors, actions, mechanisms, or evidence boundaries; whether unrelated metaphor domains stack in one sentence or paragraph; and whether removing them would improve precision without losing insight
 
 Reader review may revise ordering, transitions, paragraph density, titles, and wording. It must not invent facts or silently change evidence boundaries.
+
+An introduction, a table, or a PASS label does not establish that these checks were satisfied. Identify concrete passages when a defect materially violates the agreed reader requirements, and treat such defects as revision work even if facts and formatting pass. The author must read the assembled report and resolve the findings. Do not turn this into a fixed insight count, title template, phrase blacklist, or additional mandatory reviewer panel.
 
 Do not target zero metaphor use. Keep a metaphor or analogy when its mapping is explicit and it improves comprehension; rewrite decorative or obscuring imagery. Treat figurative load as an editorial signal, not a mechanical count or a standalone quality conclusion.
 
 If reader review finds serious issues, revise and repeat. Cap reader-review cycles at three unless the user asks for more.
 
-Full review-revise cycles for a single section are capped at two unless the user asks for more; unresolved issues become limitations or follow-up actions.
+Full review-revise cycles for a single section are capped at two unless the user asks for more. Unresolved required work remains open at the checkpoint; a cycle limit does not authorize final delivery.
 
 ## Before Public Delivery
 
@@ -97,9 +102,10 @@ Full review-revise cycles for a single section are capped at two unless the user
 - Major judgments are traceable backstage.
 - No visible audit labels, file paths, or source IDs remain in the body.
 - Remaining limitations are stated cleanly when they matter.
-- Every material follow-up requirement has a closed status and evidence.
+- Every material follow-up requirement has evidence of satisfaction or the user's specific decision changing it; required reading records distinguish actual reading from access attempts.
 - `progress.json.stage` is `final` if and only if `status` is `complete`; neither terminal value may appear alone.
 - The latest parseable review for the full report or global final delivery is PASS with no open issues. A later failure supersedes an earlier PASS, and malformed review rows fail closed.
+- Its `artifact_sha256`, and the hashes of any task-required review scopes, match the current report. A local or generic reader review does not establish that an explicitly required specialist review was completed.
 - The intended user-visible message matches current state and discloses accepted limitations that affect the result.
 - `state/final_delivery.json` names the actual final artifact and binds the current artifact, brief, progress, source, claim, review log, intended delivery message, and any present requirement and uncertainty files with SHA-256 hashes; text hashes are computed after CRLF/CR normalization to LF.
 

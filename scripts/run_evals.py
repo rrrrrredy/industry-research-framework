@@ -13,7 +13,7 @@ from typing import Any
 
 from check_delivery import (
     claims_completion, collect_open_issues, evaluate_delivery, inspect_jsonl, inspect_jsonl_text,
-    issue_is_open, review_has_unresolved_findings,
+    issue_is_open, review_has_unresolved_findings, inspect_requirements, DELIVERY_CONTRACT_VERSION,
 )
 
 
@@ -316,12 +316,17 @@ def repeated_sentence_flags(
     return sorted(sentence for sentence, count in counts.items() if count >= threshold)
 
 
-def requirement_findings(case: dict[str, Any], run_dir: Path, terminal_intent: bool) -> list[tuple[str, str]]:
+def requirement_findings(case: dict[str, Any], run_dir: Path, terminal_intent: bool,
+                         contract_version: int = DELIVERY_CONTRACT_VERSION) -> list[tuple[str, str]]:
     if not terminal_intent:
         return []
+    record_findings, _ = inspect_requirements(
+        run_dir / "state" / "requirements.jsonl", contract_version=contract_version
+    )
+    findings = [("unresolved_required_corrections", finding) for finding in record_findings]
     required_ids = [str(value) for value in case.get("required_requirement_ids", [])]
     if not required_ids:
-        return []
+        return findings
 
     rows = load_jsonl(run_dir / "state" / "requirements.jsonl")
     rows_by_id: dict[str, dict[str, Any]] = {}
@@ -338,7 +343,6 @@ def requirement_findings(case: dict[str, Any], run_dir: Path, terminal_intent: b
         and str(rows_by_id[requirement_id].get("status", "")).strip().lower()
         not in RESOLVED_REQUIREMENT_STATUSES
     ]
-    findings: list[tuple[str, str]] = []
     if missing:
         findings.append(
             (
@@ -404,10 +408,17 @@ def evaluate_case(
     case: dict[str, Any],
     run_dir: Path,
     sources_by_id: dict[str, dict[str, Any]],
+    *,
+    delivery_contract_version: int = DELIVERY_CONTRACT_VERSION,
 ) -> dict[str, Any]:
     findings: list[str] = []
     conformance_flags: list[str] = []
     coverage_flags: list[str] = []
+    if type(delivery_contract_version) is not int or delivery_contract_version not in {1, 2}:
+        conformance_flags.append("invalid_delivery_contract_version")
+        findings.append("Delivery contract version must be 1 or 2.")
+    if type(delivery_contract_version) is int and delivery_contract_version == 1:
+        findings.append("Historical delivery-record diagnostics (v1); not current-contract acceptance.")
     score = 0
     max_score = 100
 
@@ -424,6 +435,7 @@ def evaluate_case(
         findings.append("Missing final.md, so content checks could not run.")
         return {
             "result_schema_version": 2,
+            "delivery_contract_version": delivery_contract_version,
             "case_id": case["case_id"],
             "conformance_score": score,
             "max_conformance_score": max_score,
@@ -431,7 +443,7 @@ def evaluate_case(
             "research_quality_status": "not_evaluated",
             "findings": findings,
             "artifacts": artifact_results,
-            "conformance_flags": [],
+            "conformance_flags": conformance_flags,
             "coverage_flags": ["missing_output"],
             "assessment_scope": "deterministic_structure_traceability_and_known_failure_signals",
         }
@@ -616,7 +628,7 @@ def evaluate_case(
         findings.append(f"High bullet-line ratio ({bullets:.0%}); inspect for source listing instead of synthesis.")
         conformance_flags.append("list_like")
 
-    for flag, finding in requirement_findings(case, run_dir, terminal_intent):
+    for flag, finding in requirement_findings(case, run_dir, terminal_intent, delivery_contract_version):
         findings.append(finding)
         if flag not in coverage_flags:
             coverage_flags.append(flag)
@@ -640,6 +652,7 @@ def evaluate_case(
             artifact=str(config.get("artifact", "final.md")),
             delivery_message=str(config.get("delivery_message", "delivery_message.md")),
             receipt=str(config.get("receipt", "state/final_delivery.json")),
+            contract_version=delivery_contract_version,
         )
         for flag, finding in zip(delivery_result.get("flags", []), delivery_result.get("findings", [])):
             if finding not in findings:
@@ -677,6 +690,7 @@ def evaluate_case(
 
     return {
         "result_schema_version": 2,
+        "delivery_contract_version": delivery_contract_version,
         "case_id": case["case_id"],
         "conformance_score": score,
         "max_conformance_score": max_score,
@@ -797,7 +811,7 @@ def render_markdown(results: list[dict[str, Any]]) -> str:
     lines.append("")
     lines.append(
         "Statuses and scores cover deterministic structure, traceability, and configured failure signals only. "
-        "Semantic research quality is not assessed; human editorial review remains required."
+        "Semantic research quality is not assessed; a separate content review is still needed."
     )
     lines.append("")
     return "\n".join(lines)
@@ -810,6 +824,9 @@ def main() -> int:
     parser.add_argument("--report", default="evals/runs/report.md")
     parser.add_argument("--json-report", default="evals/runs/report.json")
     parser.add_argument("--create-skeletons", action="store_true")
+    parser.add_argument("--delivery-contract-version", type=int, choices=(1, 2),
+                        default=DELIVERY_CONTRACT_VERSION,
+                        help="Use 1 only for labelled historical-record diagnostics; default is current contract 2.")
     parser.add_argument("--allow-missing-output", action="store_true")
     parser.add_argument(
         "--allow-review",
@@ -826,7 +843,8 @@ def main() -> int:
     if args.create_skeletons:
         create_skeletons(cases, runs_dir, sources_by_id, evals_dir)
 
-    results = [evaluate_case(case, runs_dir / case["case_id"], sources_by_id) for case in cases]
+    results = [evaluate_case(case, runs_dir / case["case_id"], sources_by_id,
+                             delivery_contract_version=args.delivery_contract_version) for case in cases]
     report_md = render_markdown(results)
 
     report_path = Path(args.report).resolve()

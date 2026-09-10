@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import itertools
+import csv
 import json
 import os
 from pathlib import Path
@@ -24,6 +25,15 @@ def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def bind_synthetic_reviews(root: Path) -> None:
+    """Build a current-contract control in a temp copy, never reseal real reviews."""
+    path = root / "logs/review.jsonl"
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    for row in rows:
+        row["artifact_sha256"] = checker.sha256_file(root / "final.md")
+    path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
+
+
 def seal(root: Path, message: str = "delivery_message.md", artifact: str = "final.md") -> None:
     receipt_path = root / "state/final_delivery.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
@@ -41,6 +51,7 @@ class DeliveryContractTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "task"
         shutil.copytree(BASE, self.root)
         shutil.copyfile(FINAL, self.root / "final.md")
+        bind_synthetic_reviews(self.root)
         seal(self.root)
 
     def evaluate(self, **kwargs):
@@ -53,6 +64,8 @@ class DeliveryContractTests(unittest.TestCase):
         write_json(path, value)
 
     def append_review(self, row):
+        row = dict(row)
+        row.setdefault("artifact_sha256", checker.sha256_file(self.root / "final.md"))
         with (self.root / "logs/review.jsonl").open("a", encoding="utf-8") as output:
             output.write(json.dumps(row, ensure_ascii=False) + "\n")
 
@@ -356,6 +369,214 @@ class DeliveryContractTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(json.loads(result.stdout)["delivery_observation"], "matched")
+
+    def requirement(self, **changes):
+        row = {"requirement_id": "NEW-READ", "summary": "Read the specified source in full.",
+               "status": "satisfied", "evidence": "Reading notes for the required source."}
+        row.update(changes)
+        original = (BASE / "state/requirements.jsonl").read_text(encoding="utf-8")
+        (self.root / "state/requirements.jsonl").write_text(
+            original + json.dumps(row) + "\n", encoding="utf-8")
+        seal(self.root)
+
+    def reading_source(self, scope="full_text", evidence="notes/source-1.md: main text and appendices"):
+        path = self.root / "data/source_registry.csv"
+        with path.open(encoding="utf-8", newline="") as stream:
+            reader = csv.DictReader(stream)
+            fields = list(reader.fieldnames)
+            rows = list(reader)
+        for field in ("read_scope", "read_evidence"):
+            if field not in fields:
+                fields.append(field)
+        rows[0].update(read_scope=scope, read_evidence=evidence)
+        with path.open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
+        return rows[0]["source_id"]
+
+    def test_self_accepted_or_waived_requirements_are_rejected(self):
+        for status in ("accepted_limitation", "waived", "out_of_scope"):
+            with self.subTest(status=status):
+                self.requirement(status=status)
+                self.assert_flag("unresolved_required_corrections")
+
+    def test_all_unresolved_requirement_findings_are_reported(self):
+        self.requirement(requirement_id="R-first", status="waived")
+        with (self.root / "state/requirements.jsonl").open("a", encoding="utf-8") as out:
+            out.write(json.dumps({"requirement_id": "R-second", "status": "out_of_scope"}) + "\n")
+        seal(self.root)
+        result = self.assert_flag("unresolved_required_corrections")
+        index = result["flags"].index("unresolved_required_corrections")
+        self.assertIn("R-first", result["findings"][index])
+        self.assertIn("R-second", result["findings"][index])
+        self.assertEqual(len(result["flags"]), len(result["findings"]))
+
+    def test_disclosing_unread_work_does_not_authorize_waiver(self):
+        self.requirement(status="accepted_limitation")
+        with (self.root / "delivery_message.md").open("a", encoding="utf-8") as out:
+            out.write("\nKnown limitation: Read the specified source in full. It remains unread.\n")
+        seal(self.root)
+        result = self.assert_flag("unresolved_required_corrections")
+        self.assertNotIn("undisclosed_accepted_limitations", result["flags"])
+
+    def test_specific_user_decision_has_positive_controls(self):
+        for status in ("waived", "out_of_scope", "accepted_limitation"):
+            with self.subTest(status=status):
+                self.requirement(status=status, user_decision={
+                    "source_turn": "user-turn-7", "quote": "You may leave that article unread."})
+                with (self.root / "delivery_message.md").open("a", encoding="utf-8") as out:
+                    out.write("\nKnown limitation: Read the specified source in full. It remains unread.\n")
+                seal(self.root)
+                result = self.evaluate()
+                self.assertTrue(result["ok"], result)
+                self.assertFalse(result["semantic_verification"])
+
+    def test_user_decision_must_have_nonempty_typed_reference_and_quote(self):
+        for decision in (None, True, [], "approved", {}, {"source_turn": "T1"},
+                         {"source_turn": " ", "quote": "Skip"},
+                         {"source_turn": "T1", "quote": []},
+                         {"source_turn": 2, "quote": "Skip"}):
+            with self.subTest(decision=decision):
+                self.requirement(status="waived", user_decision=decision)
+                self.assert_flag("unresolved_required_corrections")
+
+    def test_satisfied_requirement_needs_evidence_but_no_extra_user_approval(self):
+        for evidence in (None, " ", [], {}, True, ["done", ""]):
+            with self.subTest(evidence=evidence):
+                self.requirement(evidence=evidence)
+                self.assert_flag("unresolved_required_corrections")
+        for evidence in ("notes/read.md", ["notes/read.md", "final.md section 2"]):
+            self.requirement(evidence=evidence)
+            self.assertTrue(self.evaluate()["ok"])
+
+    def test_full_reading_is_not_access_or_abstract_reading(self):
+        for scope in ("not_read", "abstract", "partial", "relevant_sections", "accessible", ""):
+            with self.subTest(scope=scope):
+                source_id = self.reading_source(scope)
+                self.requirement(reading_requirement="full_text", required_source_ids=[source_id])
+                self.assert_flag("unresolved_required_corrections")
+
+    def test_full_reading_and_relevant_section_positive_controls(self):
+        for required, actual in (("full_text", "full_text"), ("relevant_sections", "full_text"),
+                                 ("relevant_sections", "relevant_sections")):
+            with self.subTest(required=required, actual=actual):
+                source_id = self.reading_source(actual)
+                self.requirement(reading_requirement=required, required_source_ids=[source_id])
+                self.assertTrue(self.evaluate()["ok"])
+
+    def test_unread_optional_background_does_not_become_a_mandatory_full_read(self):
+        self.reading_source("not_read", "")
+        self.requirement()  # This requirement does not demand reading that background source.
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_reading_without_evidence_or_missing_source_fails(self):
+        source_id = self.reading_source("full_text", "")
+        self.requirement(reading_requirement="full_text", required_source_ids=[source_id])
+        self.assert_flag("unresolved_required_corrections")
+        self.requirement(reading_requirement="full_text", required_source_ids=["not-in-registry"])
+        self.assert_flag("unresolved_required_corrections")
+
+    def test_duplicate_required_source_rows_are_ambiguous(self):
+        source_id = self.reading_source()
+        path = self.root / "data/source_registry.csv"
+        with path.open(encoding="utf-8", newline="") as stream:
+            reader = csv.DictReader(stream)
+            fields, rows = reader.fieldnames, list(reader)
+        with path.open("a", encoding="utf-8", newline="") as stream:
+            csv.DictWriter(stream, fieldnames=fields).writerow(rows[0])
+        self.requirement(reading_requirement="full_text", required_source_ids=[source_id])
+        self.assert_flag("unresolved_required_corrections")
+
+    def test_reading_declaration_types_fail_closed(self):
+        for required, sources in (("unknown", ["S1"]), ([], ["S1"]), ("full_text", []),
+                                  ("full_text", "S1"), ("full_text", ["S1", "S1"]),
+                                  ("full_text", [" "]), ("full_text", [1])):
+            with self.subTest(required=required, sources=sources):
+                self.requirement(reading_requirement=required, required_source_ids=sources)
+                self.assert_flag("unresolved_required_corrections")
+
+    def test_explicit_waiver_can_close_an_unread_source(self):
+        source_id = self.reading_source("not_read", "")
+        self.requirement(status="waived", reading_requirement="full_text", required_source_ids=[source_id],
+                         user_decision={"source_turn": "user-turn-7", "quote": "Skip this article."})
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_unfinished_required_reading_is_valid_only_as_honest_partial_delivery(self):
+        source_id = self.reading_source("not_read", "")
+        self.requirement(status="open", reading_requirement="full_text", required_source_ids=[source_id])
+        self.progress(stage="collect", status="blocked", next_action="Ask for the inaccessible required text")
+        (self.root / "delivery_message.md").write_text("阶段稿；指定材料尚未读完，研究未完成。\n", encoding="utf-8")
+        seal(self.root)
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_free_text_is_not_semantically_certified(self):
+        self.requirement(evidence="Only an access attempt; the source remains unread.")
+        result = self.evaluate()
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["semantic_verification"])
+
+    def test_resealing_new_prose_does_not_reseal_old_review(self):
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nA new substantive conclusion that was not in the reviewed report.\n")
+        seal(self.root)
+        self.assert_flag("stale_review_artifact")
+
+    def test_actual_current_global_review_recovers_after_revision(self):
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nA separately reviewed new conclusion.\n")
+        self.append_review({"scope": "full_report", "result": "PASS", "issues": []})
+        seal(self.root)
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_new_local_review_does_not_cover_unreviewed_whole_revision(self):
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nAn additional report conclusion.\n")
+        self.append_review({"scope": "unit_a", "result": "PASS"})
+        seal(self.root)
+        self.assert_flag("stale_review_artifact")
+
+    def test_new_global_review_does_not_refresh_required_specialist_review(self):
+        self.progress(required_review_scopes=["reader_quality"])
+        self.append_review({"scope": "reader_quality", "result": "PASS"})
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nAn additional report conclusion.\n")
+        self.append_review({"scope": "full_report", "result": "PASS"})
+        seal(self.root)
+        self.assert_flag("stale_review_artifact")
+        self.append_review({"scope": "reader_quality", "result": "PASS"})
+        seal(self.root)
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_bad_review_hashes_are_rejected(self):
+        for bound in (None, [], {}, True, " ", "a" * 63, "g" * 64):
+            with self.subTest(bound=bound):
+                self.append_review({"scope": "full_report", "result": "PASS", "artifact_sha256": bound})
+                seal(self.root)
+                self.assert_flag("missing_review_artifact_binding")
+
+    def test_review_hash_uses_portable_lf_bytes(self):
+        path = self.root / "final.md"
+        path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n"))
+        seal(self.root)
+        self.assertTrue(self.evaluate()["ok"])
+
+    def test_legacy_is_explicit_and_never_current_acceptance(self):
+        shutil.copyfile(BASE / "logs/review.jsonl", self.root / "logs/review.jsonl")
+        seal(self.root)
+        self.assert_flag("missing_review_artifact_binding")
+        result = self.evaluate(contract_version=1)
+        self.assertTrue(result["ok"])
+        self.assertFalse(result["current_contract_checked"])
+        self.assertFalse(result["semantic_verification"])
+        self.assertTrue(any("Legacy v1" in value for value in result["warnings"]))
+
+    def test_invalid_contract_version_is_not_a_legacy_bypass(self):
+        for version in (0, 3, True, "1", None, 1.0, 2.0):
+            with self.subTest(version=version):
+                result = self.assert_flag("invalid_delivery_contract_version", contract_version=version)
+                self.assertFalse(result["current_contract_checked"])
+                self.assertFalse(any("Legacy v1" in value for value in result["warnings"]))
 
 
 if __name__ == "__main__":

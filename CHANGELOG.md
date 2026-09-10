@@ -17,6 +17,9 @@ Research Toolkit naming, clearer usage instructions, and development-only semant
 
 ### Fixed
 
+- Tighten current delivery checks after a real false-completion postmortem: require a specific recorded user decision for waived or excluded requirements, check declared required reading against source records, and bind global/task-required reviews to the actual report hash. Keep ordinary evidence uncertainty and honest partial delivery valid. Default to delivery contract 2; label explicit v1 historical diagnostics without rewriting frozen inputs or results. Record consistency does not authenticate consent, actual reading, or semantic quality.
+- Clarify that stopping a search direction or reaching a review-cycle limit leaves unfinished mandatory work open. Make reader review inspect the opening, analytical contribution of tables, and sentence-level voice without imposing phrase bans, a fixed article template, or extra reviewers.
+
 - Restore substantive README sections, complete task examples, the research completion checklist, recovery guidance, and evaluation commands removed during the rename pass. Restore setup preflight tables and detailed page entry points. Preserve the approved project name, URLs, direct usage instructions, and removal of launch-marketing material. Further wording changes await user review.
 
 - Document the four progress statuses already enforced by the delivery checker and explain how to record an intentional checkpoint. A real native partial run honestly paused but invented a descriptive status that the checker rejected. Add that exact negative case, valid partial-state controls, and a documentation-to-checker enum check. The checker is not weakened and research steps are unchanged; this clarification is not efficacy evidence.

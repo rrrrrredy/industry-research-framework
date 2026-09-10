@@ -45,9 +45,9 @@ Symptom: the user-visible response claims completion while progress, late requir
 Repair:
 
 1. Reopen the canonical stage that owns the blocking issue.
-2. Reconcile every material follow-up requirement and route each review finding to a revision, downgraded claim, or accepted limitation.
+2. Reconcile every material follow-up requirement. Missing promised work stays open until completed or specifically changed by the user; a disclosed limitation does not supply that decision.
 3. Inspect the intended delivery message alongside current state, then run `scripts/check_delivery.py` when available.
-4. Mark final only after a global review and current delivery receipt pass; disclose accepted limitations to the user.
+4. Check that the global review actually covers the current report, then check the delivery receipt. Preserve local-review scope and disclose material limitations. Current record checks still do not certify reading or prose quality.
 
 Eval signal: completion language appears before the last material requirement turn; progress is non-final or noncanonical; blockers remain; review scope is local; limitations are hidden; or receipt hashes are stale.
 

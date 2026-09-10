@@ -11,7 +11,7 @@ import tempfile
 import unittest
 
 import check_delivery as delivery
-from check_delivery_contract import BASE, FINAL, REPO, seal, write_json
+from check_delivery_contract import BASE, FINAL, REPO, seal, write_json, bind_synthetic_reviews
 import run_evals as evaluator
 
 
@@ -28,6 +28,7 @@ class EvaluatorContractTests(unittest.TestCase):
         self.root = Path(self.temp.name) / "task"
         shutil.copytree(BASE, self.root)
         shutil.copyfile(FINAL, self.root / "final.md")
+        bind_synthetic_reviews(self.root)
 
     def progress(self, **changes):
         path = self.root / "state/progress.json"
@@ -36,6 +37,7 @@ class EvaluatorContractTests(unittest.TestCase):
         write_json(path, value)
 
     def review(self, scope, result, **fields):
+        fields.setdefault("artifact_sha256", delivery.sha256_file(self.root / "final.md"))
         with (self.root / "logs/review.jsonl").open("a", encoding="utf-8") as out:
             out.write(json.dumps({"scope": scope, "result": result, **fields}) + "\n")
 
@@ -61,6 +63,50 @@ class EvaluatorContractTests(unittest.TestCase):
 
     def test_known_good(self):
         self.assert_both_pass()
+
+    def test_self_waived_requirement_fails_even_without_receipt_check(self):
+        with (self.root / "state/requirements.jsonl").open("a", encoding="utf-8") as out:
+            out.write(json.dumps({"requirement_id": "R-new", "status": "waived"}) + "\n")
+        for enabled in (True, False):
+            d, e = self.check(delivery_enabled=enabled)
+            self.assertIn("unresolved_required_corrections", d["flags"], d)
+            self.assertIn("unresolved_required_corrections", e["coverage_flags"], e)
+            self.assertEqual(e["conformance_status"], "fail", e)
+
+    def test_new_prose_with_only_a_new_receipt_fails_both_entries(self):
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nA substantial new claim appended after the latest complete review.\n")
+        d, e = self.check()
+        self.assertIn("stale_review_artifact", d["flags"], d)
+        self.assertIn("stale_review_artifact", e["conformance_flags"], e)
+
+    def test_current_review_recovery_is_valid_in_both_entries(self):
+        with (self.root / "final.md").open("a", encoding="utf-8") as out:
+            out.write("\nA new claim separately reviewed as part of the whole report.\n")
+        self.review("full_report", "PASS")
+        self.assert_both_pass()
+
+    def test_invalid_contract_version_fails_even_without_receipt_check(self):
+        case = copy.deepcopy(self.case)
+        case["delivery_check"] = False
+        seal(self.root)
+        for version in (0, 3, True, "1", None, 1.0, 2.0):
+            with self.subTest(version=version):
+                result = evaluator.evaluate_case(case, self.root, self.sources,
+                                                 delivery_contract_version=version)
+                self.assertIn("invalid_delivery_contract_version", result["conformance_flags"])
+                self.assertEqual(result["conformance_status"], "fail")
+                self.assertFalse(any("Historical delivery" in value for value in result["findings"]))
+
+    def test_legacy_result_is_explicit_even_without_receipt_check(self):
+        case = copy.deepcopy(self.case)
+        case["delivery_check"] = False
+        seal(self.root)
+        result = evaluator.evaluate_case(case, self.root, self.sources, delivery_contract_version=1)
+        self.assertEqual(result["delivery_contract_version"], 1)
+        self.assertEqual(result["conformance_status"], "pass")
+        self.assertTrue(any("not current-contract acceptance" in value for value in result["findings"]))
+        self.assertEqual(result["research_quality_status"], "not_evaluated")
 
     def test_failure_then_global_recovery(self):
         self.review("full_report", "FAIL", issues=["Fix the claim"])
@@ -177,6 +223,7 @@ class EvaluatorContractTests(unittest.TestCase):
         self.assertEqual(evaluator.repeated_line_flags("\n".join(lines)), [])
         with (self.root / "final.md").open("a", encoding="utf-8") as out:
             out.write("\n\n" + "\n\n".join(lines))
+        self.review("full_report", "PASS")
         self.assert_both_pass()
 
     def test_real_english_repetition_still_fails(self):

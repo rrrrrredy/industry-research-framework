@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import re
@@ -27,6 +28,9 @@ OPEN_ISSUE_TERMS = {
     "in_progress", "needs_revision", "fail", "failed", "blocked", "blocking_issue",
 }
 RESOLVED_REQUIREMENT_STATUSES = {"satisfied", "accepted_limitation", "waived", "out_of_scope"}
+DELIVERY_CONTRACT_VERSION = 2
+REQUIREMENT_DECISION_STATUSES = {"accepted_limitation", "waived", "out_of_scope"}
+READING_REQUIREMENTS = {"full_text", "relevant_sections"}
 
 COMPLETION_PATTERNS = [
     r"(?:终稿|最终稿|完整稿)(?:已经|已|现已)?(?:完成|形成|交付|可交付)",
@@ -140,7 +144,49 @@ def load_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def inspect_requirements(path: Path) -> tuple[list[str], list[str]]:
+def nonempty_text(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def has_evidence(value: Any) -> bool:
+    return nonempty_text(value) or (
+        isinstance(value, list) and bool(value) and all(nonempty_text(item) for item in value)
+    )
+
+
+def inspect_required_reading(row: dict[str, Any], registry_path: Path) -> list[str]:
+    """Check declared reading records, not actual comprehension or source truth."""
+    if "reading_requirement" not in row and "required_source_ids" not in row:
+        return []
+    required = row.get("reading_requirement")
+    source_ids = row.get("required_source_ids")
+    if not isinstance(required, str) or required not in READING_REQUIREMENTS:
+        return ["reading_requirement must be full_text or relevant_sections."]
+    if not (isinstance(source_ids, list) and source_ids
+            and all(nonempty_text(value) for value in source_ids)
+            and len(set(source_ids)) == len(source_ids)):
+        return ["required_source_ids must be a non-empty list of distinct source ids."]
+    try:
+        with registry_path.open(encoding="utf-8", newline="") as stream:
+            rows = list(csv.DictReader(stream, strict=True))
+    except (OSError, UnicodeError, csv.Error):
+        return ["Required reading has no readable UTF-8 source registry."]
+    findings = []
+    for source_id in source_ids:
+        matches = [source for source in rows if source.get("source_id") == source_id]
+        if len(matches) != 1:
+            findings.append(f"Required source {source_id} must have exactly one registry row.")
+            continue
+        source = matches[0]
+        allowed = {"full_text"} if required == "full_text" else {"full_text", "relevant_sections"}
+        if source.get("read_scope") not in allowed:
+            findings.append(f"Required source {source_id} has not met its {required} reading requirement.")
+        if not nonempty_text(source.get("read_evidence")):
+            findings.append(f"Required source {source_id} has no reading evidence reference.")
+    return findings
+
+
+def inspect_requirements(path: Path, contract_version: int = DELIVERY_CONTRACT_VERSION) -> tuple[list[str], list[str]]:
     """Return terminal-blocking requirement findings and accepted limitations."""
 
     findings: list[str] = []
@@ -173,7 +219,25 @@ def inspect_requirements(path: Path) -> tuple[list[str], list[str]]:
             findings.append(
                 f"Requirement {label} is not terminally resolved (status: {status or '<missing>'})."
             )
-        elif status == "accepted_limitation":
+        if contract_version == 2 and status in RESOLVED_REQUIREMENT_STATUSES:
+            if status in REQUIREMENT_DECISION_STATUSES:
+                decision = row.get("user_decision")
+                if not (isinstance(decision, dict)
+                        and nonempty_text(decision.get("source_turn"))
+                        and nonempty_text(decision.get("quote"))):
+                    findings.append(
+                        f"Requirement {label} needs a specific user_decision source_turn and quote "
+                        f"before it can be {status}; disclosure alone is not permission."
+                    )
+            else:
+                if not has_evidence(row.get("evidence")):
+                    findings.append(f"Requirement {label} is satisfied without evidence.")
+                findings.extend(
+                    f"Requirement {label}: {finding}" for finding in inspect_required_reading(
+                        row, path.parent.parent / "data" / "source_registry.csv"
+                    )
+                )
+        if status == "accepted_limitation":
             limitation = str(
                 row.get("summary") or row.get("description") or row.get("evidence") or label
             ).strip()
@@ -411,6 +475,7 @@ def evaluate_delivery(
     delivery_message: str = "delivery_message.md",
     receipt: str = "state/final_delivery.json",
     actual_message: Path | None = None,
+    contract_version: int = DELIVERY_CONTRACT_VERSION,
 ) -> dict[str, Any]:
     root = project_root.resolve()
     flags: list[str] = []
@@ -420,6 +485,13 @@ def evaluate_delivery(
         if flag not in flags:
             flags.append(flag)
             findings.append(finding)
+        else:
+            index = flags.index(flag)
+            if finding not in findings[index].split("\n"):
+                findings[index] += "\n" + finding
+
+    if type(contract_version) is not int or contract_version not in {1, 2}:
+        add("invalid_delivery_contract_version", "Delivery contract version must be 1 or 2.")
 
     progress_path = root / "state" / "progress.json"
     progress = read_json_or_none(progress_path)
@@ -474,7 +546,7 @@ def evaluate_delivery(
         )
 
     requirement_findings, requirement_limitations = inspect_requirements(
-        root / "state" / "requirements.jsonl"
+        root / "state" / "requirements.jsonl", contract_version=contract_version
     )
     if terminal_intent:
         for finding in requirement_findings:
@@ -553,9 +625,30 @@ def evaluate_delivery(
                 elif not review_passes(latest):
                     add("failed_required_review", f"The latest review for required scope {scope!r} is not a clean PASS.")
 
+        if contract_version == 2 and artifact_path is not None and artifact_path.is_file():
+            latest_by_scope = {scope_key(str(row.get("scope", ""))): row for row in review_rows}
+            scopes_to_bind = {"__global__"}
+            if valid_scopes:
+                scopes_to_bind.update(scope_key(value) for value in required_scopes)
+            current_hash = sha256_file(artifact_path)
+            for scope in sorted(scopes_to_bind):
+                row = latest_by_scope.get(scope)
+                if row is None or not review_passes(row):
+                    continue  # Missing/failed reviews already have their own findings.
+                bound_hash = row.get("artifact_sha256")
+                if not isinstance(bound_hash, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", bound_hash):
+                    add("missing_review_artifact_binding", f"Latest {scope!r} review has no valid artifact_sha256.")
+                elif bound_hash.lower() != current_hash:
+                    add("stale_review_artifact", f"Latest {scope!r} review does not cover the current artifact.")
+
     accepted_limitations = list(dict.fromkeys(accepted_limitations))
     disclosure = assess_limitation_disclosure(message, accepted_limitations)
     warnings: list[str] = []
+    if type(contract_version) is int and contract_version == 1:
+        warnings.append(
+            "Legacy v1 record check only: user-decision evidence, declared reading depth and "
+            "review-to-artifact binding were not checked. This is not current-contract acceptance."
+        )
     if terminal_intent and disclosure["status"] in {"absent", "contradiction"}:
         add(
             "undisclosed_accepted_limitations",
@@ -587,6 +680,9 @@ def evaluate_delivery(
 
     return {
         "ok": not flags,
+        "delivery_contract_version": contract_version,
+        "current_contract_checked": type(contract_version) is int and contract_version == DELIVERY_CONTRACT_VERSION,
+        "semantic_verification": False,
         "flags": flags,
         "findings": findings,
         "completion_claim": completion_claim,
@@ -611,6 +707,10 @@ def main() -> int:
         help="Compare a caller-provided runtime capture with the receipt-bound message; no capture is inferred.",
     )
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--contract-version", type=int, choices=(1, 2), default=DELIVERY_CONTRACT_VERSION,
+        help="Default 2 checks current records. Use 1 only for explicitly labelled historical diagnostics.",
+    )
     args = parser.parse_args()
 
     result = evaluate_delivery(
@@ -619,11 +719,13 @@ def main() -> int:
         delivery_message=args.delivery_message,
         receipt=args.receipt,
         actual_message=args.actual_message,
+        contract_version=args.contract_version,
     )
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     elif result["ok"]:
-        print("PASS: mechanical delivery checks; not a semantic quality verdict.")
+        label = "legacy v1 record checks, not current-contract acceptance" if args.contract_version == 1 else "mechanical delivery checks"
+        print(f"PASS: {label}; not a semantic quality verdict.")
     else:
         print("FAIL: delivery claim is not safe.")
         for finding in result["findings"]:

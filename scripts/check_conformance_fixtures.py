@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assert that known-good fixture artifacts still pass the offline runner."""
+"""Preserve historical v1 fixture behavior; current-contract controls live in check_delivery_contract.py."""
 
 from __future__ import annotations
 
@@ -56,6 +56,7 @@ def main() -> int:
     sources_by_id = load_sources(evals_dir)
 
     failures: list[str] = []
+    print("Historical fixture diagnostics: delivery contract v1, not current-contract acceptance.")
     with tempfile.TemporaryDirectory(prefix="irf-hash-conformance-") as temp_dir:
         temp_root = Path(temp_dir)
         lf_path = temp_root / "lf.txt"
@@ -82,10 +83,10 @@ def main() -> int:
             run_dir = Path(temp_dir) / case_id
             assemble_fixture(repo_root, fixture, fixture_dir, run_dir)
             shutil.copy2(final_path, run_dir / "final.md")
-            result = evaluate_case(case, run_dir, sources_by_id)
+            result = evaluate_case(case, run_dir, sources_by_id, delivery_contract_version=1)
             if fixture.get("check_delivery_cli"):
                 delivery_cli_result = subprocess.run(
-                    [sys.executable, str(repo_root / "scripts" / "check_delivery.py"), str(run_dir)],
+                    [sys.executable, str(repo_root / "scripts" / "check_delivery.py"), str(run_dir), "--contract-version", "1"],
                     capture_output=True,
                     text=True,
                     encoding="utf-8",
@@ -102,7 +103,7 @@ def main() -> int:
                     json.dumps(mutated_progress, ensure_ascii=False, indent=2) + "\n",
                     encoding="utf-8",
                 )
-                mutation_results.append((mutation, evaluate_case(case, run_dir, sources_by_id)))
+                mutation_results.append((mutation, evaluate_case(case, run_dir, sources_by_id, delivery_contract_version=1)))
 
         expected_status = fixture.get("expected_status", "pass")
         if result["conformance_status"] != expected_status:

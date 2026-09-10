@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assert that known bad eval fixtures are caught by the offline runner."""
+"""Check unchanged historical v1 negatives; current-contract regressions run separately."""
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ def main() -> int:
     sources_by_id = load_sources(evals_dir)
 
     failures: list[str] = []
+    print("Historical fixture diagnostics: delivery contract v1, not current-contract acceptance.")
     for fixture in manifest["fixtures"]:
         fixture_id = fixture["fixture_id"]
         case_id = fixture["case_id"]
@@ -89,7 +90,7 @@ def main() -> int:
                 with (run_dir / "final.md").open("a", encoding="utf-8", newline="") as f:
                     f.write(str(append_final_text))
 
-            result = evaluate_case(case, run_dir, sources_by_id)
+            result = evaluate_case(case, run_dir, sources_by_id, delivery_contract_version=1)
 
         allowed_statuses = set(fixture.get("allowed_statuses", ["fail", "review"]))
         if result["conformance_status"] not in allowed_statuses:

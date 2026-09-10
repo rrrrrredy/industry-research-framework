@@ -64,7 +64,9 @@ Use state files to survive context loss. Do not rely on chat history as the only
 
 Keep `progress.json` as a compact snapshot of current state. Put chronological history in `iteration_log.jsonl` or `work.jsonl`; do not turn progress into an append-only transcript.
 
-For a multi-turn task with material follow-up corrections, add one `requirements.jsonl` row per requirement with `requirement_id`, `source_turn`, `summary`, `status`, and `evidence`. Preserve stable ids when wording changes. Before final delivery, every required id must be `satisfied`, `accepted_limitation`, `waived`, or `out_of_scope`. This ledger tracks reader intent; it does not belong in the published report.
+For a multi-turn task with material follow-up corrections, add one `requirements.jsonl` row per requirement with `requirement_id`, `source_turn`, `summary`, `status`, and `evidence`. Preserve stable ids when wording changes. `satisfied` needs supporting evidence; `accepted_limitation`, `waived`, and `out_of_scope` need the specific user decision required by [SKILL.md](../SKILL.md#3-behavioral-constraints). Use `user_decision.source_turn` and `user_decision.quote` to identify that decision. Ordinary evidence uncertainty does not cancel a promised deliverable. This ledger stays out of the published report.
+
+For mandatory reading, add `reading_requirement` (`full_text` or `relevant_sections`) and `required_source_ids` to the relevant requirement row. The referenced source rows record `read_scope` and `read_evidence`: what was actually read and where the corresponding notes or reading record can be checked. Do not use HTTP success or a registered URL as reading evidence. Auxiliary sources need no blanket full-reading requirement. Field examples and the current/legacy checker boundary are in [delivery verification](../docs/delivery-verification.md).
 
 Create `final_delivery.json` only for terminal delivery. It is a receipt for current state, not a substitute for review. Use:
 
@@ -74,9 +76,11 @@ Create `final_delivery.json` only for terminal delivery. It is a receipt for cur
 - `open_issues: []`
 - `accepted_limitations`: the limitations that must also appear in the delivery message when material
 
-The delivery checker recomputes hashes and reads current progress, requirements, review scope, and the intended user-visible message. An old or local PASS cannot establish current global completion.
+The delivery checker recomputes hashes and reads current progress, requirements, review scope, and the intended user-visible message. The latest global and task-required reviews also carry `artifact_sha256` for the report they actually reviewed. Rebuilding a receipt does not refresh an old review. The receipt JSON remains schema 1; the checker defaults to delivery contract 2. Preserve old records rather than filling in missing review or user-decision evidence after the event.
 
 `directions_tried.json` should prevent repeated digging in the same direction. Treat one full operating pass for a bounded unit as a cycle. If it adds no new evidence, case, counterexample, framework, or judgment, increment `stale_count`; reset it to `0` when a later cycle adds one. At `stale_count >= 2`, pivot the structural angle. This counter is separate from the three-consecutive-source-pass stop for one collection direction.
+
+Record an alternative route or an access dependency for unfinished mandatory reading. Stopping the failed route does not close the requirement.
 
 ### Context Recovery Protocol
 
