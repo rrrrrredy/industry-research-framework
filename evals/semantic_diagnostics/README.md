@@ -1,12 +1,16 @@
 # Semantic diagnostic pairs
 
-The six original bad/control pairs in `cases.json` cover paraphrased filler, irrelevant evidence bindings, denominator swaps, process traces versus useful limitations, retrospective PASS claims, and contract-tier omissions. Fourteen additional pairs in `additional-cases.json` bring the development catalog to 20, adding time and unit mismatches, causal overclaims, copied evidence, missing costs, late corrections, justified positive judgments and severity aggregation. English cases include meaningful specificity controls; the original six and their historical model diagnostics are unchanged.
+The six original bad/control pairs in `cases.json` cover paraphrased filler, irrelevant evidence bindings, denominator swaps, process traces versus useful limitations, retrospective PASS claims, and contract-tier omissions. Fourteen additional pairs in `additional-cases.json` form the historical 20-pair catalog, adding time and unit mismatches, causal overclaims, copied evidence, missing costs, late corrections, justified positive judgments and severity aggregation. English cases include meaningful specificity controls; the original six and their historical model diagnostics are unchanged.
 
-All business facts are fictional. These are development/calibration excerpts, not held-out tasks, complete reports or a gold quality benchmark. Related examples share failure families: twenty excerpts do not constitute twenty independent real-world task observations.
+Three new pairs in [`reader-cases-2026-09-10.json`](./reader-cases-2026-09-10.json) bring the current development view to 23. They cover opening priorities, editorial narration in report prose, and timelines that list facts without explaining them. Each states the reader's actual requirement, keeps a close control and preserves useful uncertainty. No phrase blacklist, standard introduction or fixed insight count is implied. These three proposed pairs have not yet received independent model review; the earlier eight calls did not assess them.
+
+All business facts are fictional. These are development/calibration excerpts, not held-out tasks, complete reports or a gold quality benchmark. Related examples share failure families: 23 pairs do not constitute 23 independent real-world task observations.
 
 The paired labels are author-proposed and have not been calibrated by two independent human reviewers. [Eight actual model-review calls](./reviews/2026-09-08/) retain the original twenty-pair review, order/context sensitivity and separate reviews of two corrected cases. Both models originally missed a defect in an author-proposed control: label-check success is not full usability. The deterministic evaluator must continue to report research quality as `not_evaluated`.
 
 Use the current catalog through `python scripts/check_semantic_diagnostics.py --show-current`. It applies the two retained changes in [`revisions.json`](./revisions.json): a bounded usability denominator and an explicit report-body delivery surface. Raw `cases.json` and `additional-cases.json` are historical inputs and remain unchanged; the two revisions do not add independent tasks. Do not reuse the known-bad old control as a current quality anchor.
+
+中文：新增三组读者审阅样本分别检查开篇是否埋住主要发现、正文是否夹带持续的修稿口吻、时间线是否只有收录而没有解释。当前视图共23组；新增三组尚未接受独立模型评审，不能借用旧八次评审的结果。材料和商业事实均为虚构，不公开私人报告原文。有效限制说明、问句标题或“不是……而是……”等句式本身不判错；判断要回到具体任务和整段表达。
 
 How to use:
 

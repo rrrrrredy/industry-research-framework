@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "purpose": "diagnostic_only",
+  "labels": "author_proposed_uncalibrated",
+  "held_out": false,
+  "automatic_quality_scoring": false,
+  "notice": "Three new, synthetic reader-review pairs abstracted from reported failure types. No private report text, companies, citations or runtime logs are reproduced. These are unreviewed author proposals, not additional real tasks or measured detection results. Historical catalogs and model reviews are unchanged.",
+  "cases": [
+    {
+      "id": "opening_buries_main_findings_zh",
+      "focus": "opening_priority_for_the_agreed_reader",
+      "evidence": "虚构任务：给只有两分钟阅读开篇的连锁店运营负责人解释试点结果，先交代最重要发现，再展开细节。两组门店处理同类订单：甲组录单时间从8分钟降到4分钟，订单总周转时间仍为两天，经理审批占一天；乙组录单时间不变，取消了同样耗时一天的重复审批，总周转时间从两天降到一天。每组仅两家店。任务不要求开篇介绍作者的研究安排，也不支持外推全行业。",
+      "bad": "# 门店订单效率研究\n这项研究面向连锁店运营负责人，关注订单录入和审批等环节。两组各有两家试点门店，因此需要注意样本规模。文章将先介绍试点背景，再按录入、审批和周转三个维度逐项分析，最后汇总建议。读者可以结合自身情况理解后文对比，避免过早给出普遍结论。两组的具体差异见各节分析。",
+      "control": "# 录单快了一半，订单为何仍要等两天\n甲组把录单从8分钟压到4分钟，订单总周转时间却仍为两天；乙组没有加快录单，只取消一天的重复审批，周转时间就从两天降到一天。对这次试点，优先排查审批等待比继续压缩录入时间更有价值。两组各仅两家店，这一判断用于确定下一轮试点重点，尚不能代表所有门店。",
+      "expected_failure": "坏例有标题、受众和谨慎说明，却把题目明确要求前置的主要发现全部留到后文。没有编造事实也可能不满足开篇的交付要求。应指出缺失的具体差异及其读者影响，不能仅按有无导言或要点数量打分。",
+      "control_boundary": "对照保留小样本限制，并且没有固定条数的insights清单。问句标题和研究日期本身都不是错误；此处判断依赖明确的读者需求，不把所有方法介绍或其他体裁的铺垫判为失败。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "editorial_voice_crowds_out_argument_zh",
+      "focus": "sentence_level_reader_voice",
+      "evidence": "虚构任务：交付可直接发表的产品收费分析，正文无需解释写作和审稿安排。甲工具每席每月100元，所有执行包含在内；乙工具每月50元加每次执行2元，两者功能及其他费用按题设相同。每月执行25次时价格相同，超过25次甲更便宜，低于25次乙更便宜。没有真实使用量分布。",
+      "bad": "本报告的判断是，先不要只看标价，而要把执行次数放到同一口径里。这一段先列出甲的100元月费，再列出乙的50元月费和每次2元。这里保留25次这一分界，是为了说明两边成本相同；超过25次甲更便宜，低于25次乙更便宜。写到这里还需要提醒读者，我们没有实际使用量分布。经过这样的处理，收费差异和分析边界就交代清楚了。",
+      "control": "两款工具的价格分界是每月25次执行：甲固定100元，乙为50元加每次2元，25次时同为100元；超过这一次数甲更便宜，低于这一次数乙更便宜。决定选择的不是最低月费，而是使用量。由于没有真实使用量分布，还不能判断哪一种模式会让多数客户更省钱。",
+      "expected_failure": "坏例包含正确计算，但反复说明本段如何选材料、怎样写和何时提醒读者，挤占了直接解释收费机制的篇幅。需要编辑的是持续的修稿口吻，不是将某个短语或所有限制说明机械删除。",
+      "control_boundary": "两边给出相同数字、价格分界和未知项。对照有“不是……而是……”及有用限制，不能因为这些句式而判坏；若任务本来是写作复盘，过程说明可以是正文。此处只评价短段落，不认证完整报告质量。",
+      "critical_fact_failure": false
+    },
+    {
+      "id": "timeline_inventory_without_explanation_en",
+      "focus": "analytical_contribution_of_timeline",
+      "evidence": "Fictional task: explain how an engineering route changed, where it branched, and what enabled adoption. In 2020, Route A computed each request on demand: 100 ms latency and immediate freshness. In 2022, Route B introduced a cache: 20 ms for hits, with a refresh interval of one day. A 2024 deployment used A for prices that change within the day and B for a daily catalog. The two routes coexisted. No measurements for other workloads are provided.",
+      "bad": "## Route development\n| Year | Development |\n|---|---|\n| 2020 | Route A: 100 ms, immediate freshness |\n| 2022 | Route B: 20 ms for cache hits, daily refresh |\n| 2024 | A for prices; B for the daily catalog |\nThe timeline records the major milestones in order. Each year introduced an important development, and the later deployment shows that the technology continued to evolve. Both routes have characteristics worth considering in future applications.",
+      "control": "## A latency gain created two routes, not a replacement\n| Change | Engineering consequence |\n|---|---|\n| On-demand computation in 2020 | Fresh results cost 100 ms per request |\n| Daily cache introduced in 2022 | Cache hits take 20 ms, but intraday changes wait for refresh |\n| Split deployment in 2024 | Prices retain A; the daily catalog can use B |\nCaching reduced hit latency by accepting a freshness limit. That tradeoff explains the branch: intraday prices still needed on-demand computation, while the daily catalog could tolerate cached results. The deployment depended on matching update frequency to the route, not on treating the newer route as universally better. These figures describe the stated workload only.",
+      "expected_failure": "The bad excerpt accurately lists dates and features but does not explain the freshness-latency tradeoff or why deployment retained both routes, despite the task explicitly asking for that analysis. A complete table is not a substitute for explaining a technical change.",
+      "control_boundary": "The control reorganizes the same fictional evidence and preserves the workload limit. It does not claim general superiority or experimental causality beyond the supplied mechanism. A timeline serving only as an index elsewhere in a report need not repeat this analysis; the defect here is its absence from the requested explanatory section.",
+      "critical_fact_failure": false
+    }
+  ]
+}

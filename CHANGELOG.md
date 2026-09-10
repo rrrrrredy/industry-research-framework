@@ -17,6 +17,8 @@ Research Toolkit naming, clearer usage instructions, and development-only semant
 
 ### Fixed
 
+- Add three synthetic reader-review pairs for buried opening findings, editorial narration and non-analytical timelines. Keep the earlier twenty inputs and model reviews unchanged; the new author-proposed controls are unreviewed development data, not held-out or measured quality results.
+
 - Tighten current delivery checks after a real false-completion postmortem: require a specific recorded user decision for waived or excluded requirements, check declared required reading against source records, and bind global/task-required reviews to the actual report hash. Keep ordinary evidence uncertainty and honest partial delivery valid. Default to delivery contract 2; label explicit v1 historical diagnostics without rewriting frozen inputs or results. Record consistency does not authenticate consent, actual reading, or semantic quality.
 - Clarify that stopping a search direction or reaching a review-cycle limit leaves unfinished mandatory work open. Make reader review inspect the opening, analytical contribution of tables, and sentence-level voice without imposing phrase bans, a fixed article template, or extra reviewers.
 

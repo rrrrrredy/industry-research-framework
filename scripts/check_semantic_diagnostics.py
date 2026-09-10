@@ -11,6 +11,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = ('cases.json', 'additional-cases.json')
+READER_CASES = 'reader-cases-2026-09-10.json'
 TEXT_FIELDS = ('id', 'focus', 'evidence', 'bad', 'control', 'expected_failure', 'control_boundary')
 
 def validate_catalog(documents):
@@ -88,14 +89,18 @@ def load_revisions():
 
 def load_catalog():
     """Current development view; raw historical files are never overwritten."""
-    return apply_revisions(load_history(),load_revisions())
+    current = apply_revisions(load_history(), load_revisions())
+    current.append((READER_CASES, json.loads(
+        (ROOT / 'evals/semantic_diagnostics' / READER_CASES).read_text(encoding='utf-8'))))
+    validate_catalog(current)
+    return current
 
 class DiagnosticDataTests(unittest.TestCase):
     def setUp(self):
         self.documents = copy.deepcopy(load_catalog())
 
     def test_current_catalog(self):
-        self.assertEqual(len(validate_catalog(self.documents)), 20)
+        self.assertEqual(len(validate_catalog(self.documents)), 23)
 
     def test_original_six_preserved(self):
         self.assertEqual(len(self.documents[0][1]['cases']), 6)
@@ -131,7 +136,7 @@ class DiagnosticDataTests(unittest.TestCase):
 
     def test_count_does_not_establish_quality(self):
         self.documents[0][1]['cases'][0]['control'] = 'An author-proposed label can still be wrong.'
-        self.assertEqual(len(validate_catalog(self.documents)), 20)
+        self.assertEqual(len(validate_catalog(self.documents)), 23)
 
     def test_boolean_schema_rejected(self):
         self.documents[0][1]['schema_version'] = True
@@ -180,8 +185,25 @@ class DiagnosticDataTests(unittest.TestCase):
         history={c['id']:c for _,d in load_history() for c in d['cases']}
         current={c['id']:c for _,d in load_catalog() for c in d['cases']}
         revised={r['case_id'] for r in load_revisions()['revisions']}
-        self.assertEqual(set(history),set(current))
+        self.assertTrue(set(history) <= set(current))
+        self.assertEqual(len(set(current) - set(history)), 3)
         for identifier in history.keys()-revised: self.assertEqual(history[identifier],current[identifier])
+
+    def test_reader_pairs_are_separate_from_twenty_historical_inputs(self):
+        self.assertEqual(len(validate_catalog(load_history())), 20)
+        self.assertEqual(self.documents[-1][0], READER_CASES)
+        self.assertEqual(len(self.documents[-1][1]['cases']), 3)
+        self.assertTrue(all(c['critical_fact_failure'] is False for c in self.documents[-1][1]['cases']))
+
+    def test_reader_pair_cannot_reuse_historical_identity(self):
+        self.documents[-1][1]['cases'][0]['id'] = self.documents[0][1]['cases'][0]['id']
+        with self.assertRaises(ValueError): validate_catalog(self.documents)
+
+    def test_reader_pairs_cannot_be_promoted_to_heldout_or_measured_quality(self):
+        for key in ('held_out', 'automatic_quality_scoring'):
+            documents = copy.deepcopy(self.documents)
+            documents[-1][1][key] = True
+            with self.assertRaises(ValueError): validate_catalog(documents)
 
 if __name__ == '__main__':
     if sys.argv[1:]==['--show-current']:
