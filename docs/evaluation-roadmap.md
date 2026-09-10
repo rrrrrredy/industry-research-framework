@@ -2,6 +2,8 @@
 
 Research Toolkit needs several kinds of evidence. Combining them into one score would make the project look stronger while making its claims less trustworthy.
 
+For new report studies, use the [current evaluation standard](report-evaluation-standard.md): one five-dimension 0–4 rubric, four non-author reviewers, evidence-based repair decisions, explicit delivery endpoints, and post-evaluation product changes. Earlier frozen scales and reviewer counts remain historical, not alternative current instructions.
+
 ## Claim Ladder
 
 | Track | Question | Current evidence | What it may claim | What it may not claim |

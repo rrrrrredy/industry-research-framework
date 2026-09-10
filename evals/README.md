@@ -10,7 +10,9 @@ Actual outputs are available in the [2026-09-07 development package](./diagnosti
 
 Existing consumers can use the [schema v2 migration guide](../docs/evaluator-v2-migration.md). The [delivery checker interface](../docs/delivery-verification.md) documents intended-message binding and the limits of optional actual-reply comparison.
 
-See the [source-data audit](../docs/evaluation-data-audit.md) for provenance and exclusion decisions, and [semantic diagnostic pairs](./semantic_diagnostics/) for twenty author-proposed bad/control pairs. These development excerpts are not held-out tasks or calibrated human ratings.
+New report studies follow the [current evaluation standard](../docs/report-evaluation-standard.md). It separates first-submission scoring, evidence-based repairs, final delivery and product-effect testing. Older rubrics and frozen reviewer counts are retained for their original studies, not mixed into the current five-dimension 0–4 results.
+
+See the [source-data audit](../docs/evaluation-data-audit.md) for provenance and exclusion decisions, and [semantic diagnostic pairs](./semantic_diagnostics/) for twenty-three author-proposed bad/control pairs. The three reader-review pairs added on September 10 have not received independent model review. These development excerpts are not held-out tasks or calibrated human ratings.
 
 The [two-reviewer semantic results](./semantic_diagnostics/reviews/2026-09-08/) retain a shared missed defect, severity disagreements, a context/order-sensitive judgment and separately reviewed case revisions. Use the current catalog loader; original catalogs remain frozen historical inputs. Agreement with the author's labels is not accuracy.
 
@@ -22,7 +24,7 @@ evals/
   cross_agent/                   # frozen baseline/framework portability protocol; no runs yet
   conformance_fixtures/          # known-good artifacts that must pass
   regression_fixtures/           # known-bad outputs that the runner must flag
-  rubrics/                       # human and automated scoring guidance
+  rubrics/                       # retained earlier study rubrics; current standard linked above
   semantic_diagnostics/          # non-scoring, synthetic editorial diagnostic pairs
   source_policy.json             # workflow-only use and audited exact claim exclusions
   source_packs/
@@ -180,9 +182,9 @@ python scripts/check_semantic_review_bundle.py --self-test
 2. Add a failing example and a valid control, then make the smallest justified change to method, execution, checking or documentation. Do not duplicate a method rule merely because an author ignored it.
 3. Run the same checks, read the actual reports and separate mechanical conformance from semantic quality. Create a new version before changing experimental inputs.
 4. Run both positive and negative fixture checks, then manually inspect at least one passing and one failing output.
-5. Convert repeated human feedback into a rubric item or a new case.
+5. Check recurring user and reviewer feedback against the report and evidence. Add or refine a criterion or case when an actual gap warrants it; retain reasoned decisions not to change the method.
 6. Add a regression fixture when a deterministic bad pattern should never pass again.
-7. Keep a small set of taste anchors: outputs that feel right, outputs that feel shallow, and outputs that leak process language.
+7. Keep a small set of reference outputs, with concrete reasons that distinguish useful analysis from thin synthesis or work-log prose. These examples guide review; they are not a universal writing template.
 
 ## What The Automated Runner Checks
 
@@ -243,6 +245,8 @@ The [current report/review plan](../docs/evaluation-roadmap.md#current-report-an
 
 这个目录是轻量评测闭环，不是模型排行榜。它检查 agent 是否呈现出框架要求的可观察符合性信号：研究范围校准、状态文件、来源和判断台账、质量门禁、来源指令隔离，以及干净的最终成稿。结果 schema v2 用 `conformance_status`、`conformance_score` 和 `conformance_flags` 表示机械符合性；`research_quality_status` 固定为 `not_evaluated`，不会把机械通过冒充为研究质量结论。
 
+新的报告评测使用[现行评测标准](../docs/report-evaluation-standard.md#报告评测现行标准)：统一五维0–4分，分别记录第一次交稿、查证返工、最终交付和产品效果。历史量表、冻结评审人数及原始失败保留，不混成当前结果。语义诊断共23组；9月10日新增的3组读者诊断尚未经过独立模型评审，不继承旧样例的验证。
+
 使用方法：
 
 1. 用 `scripts/build_sanitized_eval_set.py` 从本地知识库生成脱敏 source pack 和 cases。
@@ -255,7 +259,7 @@ The [current report/review plan](../docs/evaluation-roadmap.md#current-report-an
 8. 运行 `scripts/run_dsh_evals.py validate`，确认 DSH frontmatter、资源引用和工作区装配契约有效。
 9. 需要验证真实 DSH runtime 接线时运行 `scripts/run_dsh_evals.py smoke`；需要评估当前已配置模型时运行 `scripts/run_dsh_evals.py live --case source_instruction_boundary_zh`。
 10. 运行 `scripts/check_docs_sync.py`，确认网页可复制的 Full SKILL 与权威 `SKILL.md` 一致。
-11. 再看少量 A/B 输出，判断“像不像你的研究口味”，并把反馈沉淀为新 case、rubric、fixture 或 taste anchor。
+11. 按同一标准对照阅读实际输出，定位真实问题及其来源；有必要时修改方法、评分说明或测试样例，并验证修改。示例应说明好坏的具体理由，不能只凭“像不像研究口味”。
 
 目前默认不启用 LLM judge 作为自动质量判定器。日期化开发案例保留了可选模型评审，分别记录理由、严重错误标记和分歧，不覆盖确定性检查结果，也不代表经过校准的人类评价。仍须用已知错误和正常对照检验评审说明、在开发集以外验证，并披露上下文和证据条件；模型一致不等于事实真值。
 
