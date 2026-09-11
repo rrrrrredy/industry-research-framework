@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import sys
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = ('cases.json', 'additional-cases.json')
@@ -87,11 +88,20 @@ def apply_revisions(documents, revision_document):
 def load_revisions():
     return json.loads((ROOT/'evals/semantic_diagnostics/revisions.json').read_text(encoding='utf-8'))
 
+def load_reader_history():
+    return [(READER_CASES, json.loads(
+        (ROOT / 'evals/semantic_diagnostics' / READER_CASES).read_text(encoding='utf-8')))]
+
+
+def load_reader_revisions():
+    return json.loads((ROOT / 'evals/semantic_diagnostics/reader-revisions-2026-09-11.json')
+                      .read_text(encoding='utf-8'))
+
+
 def load_catalog():
     """Current development view; raw historical files are never overwritten."""
     current = apply_revisions(load_history(), load_revisions())
-    current.append((READER_CASES, json.loads(
-        (ROOT / 'evals/semantic_diagnostics' / READER_CASES).read_text(encoding='utf-8'))))
+    current.extend(apply_revisions(load_reader_history(), load_reader_revisions()))
     validate_catalog(current)
     return current
 
@@ -204,6 +214,28 @@ class DiagnosticDataTests(unittest.TestCase):
             documents = copy.deepcopy(self.documents)
             documents[-1][1][key] = True
             with self.assertRaises(ValueError): validate_catalog(documents)
+
+    def test_reader_revision_parent_tamper_rejected_by_current_loader(self):
+        history = load_reader_history()
+        history[0][1]['cases'][1]['evidence'] += ' Changed source scope.'
+        with mock.patch(__name__ + '.load_reader_history', return_value=history):
+            with self.assertRaisesRegex(ValueError, 'Revision base changed'):
+                load_catalog()
+
+    def test_reader_revision_preserves_history_and_other_pairs(self):
+        history = load_reader_history()
+        before = copy.deepcopy(history)
+        with mock.patch(__name__ + '.load_reader_history', return_value=history):
+            current = load_catalog()[-1][1]['cases']
+        self.assertEqual(history, before)
+        self.assertEqual(len(current), len(before[0][1]['cases']))
+        for original, revised in zip(before[0][1]['cases'], current):
+            if original['id'] == 'editorial_voice_crowds_out_argument_zh':
+                self.assertEqual(revised['revision_id'], original['id'] + '_r2')
+                self.assertEqual(revised['critical_fact_failure'], original['critical_fact_failure'])
+                self.assertNotEqual(revised['evidence'], original['evidence'])
+            else:
+                self.assertEqual(revised, original)
 
 if __name__ == '__main__':
     if sys.argv[1:]==['--show-current']:

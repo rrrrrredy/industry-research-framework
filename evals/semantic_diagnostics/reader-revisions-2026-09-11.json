@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "purpose": "diagnostic_only",
+  "labels": "author_proposed_uncalibrated",
+  "held_out": false,
+  "automatic_quality_scoring": false,
+  "notice": "One retained unit-scope correction to a synthetic reader diagnostic. The dated original input and private review records remain unchanged. This is not another independent task or a calibrated quality label.",
+  "revisions": [
+    {
+      "revision_id": "editorial_voice_crowds_out_argument_zh_r2",
+      "case_id": "editorial_voice_crowds_out_argument_zh",
+      "base_case_sha256": "00bb50647ddb5404fc185c50417f915571060af1b05a9ffdd77c46551dbd2af6",
+      "reason": "The original evidence priced A per seat but did not explicitly give B and both excerpts the same seat scope. Specify one seat over one month before comparing the 25-execution boundary. The target defect remains editorial narration, not a pricing mistake.",
+      "changes": {
+        "evidence": "虚构任务：交付可直接发表的产品收费分析，正文无需解释写作和审稿安排。比较一个席位在一个月内的费用：甲工具每席每月100元，所有执行包含在内；乙工具该席位每月50元加每次执行2元，两者功能及其他费用按题设相同。该席位每月执行25次时价格相同，超过25次甲更便宜，低于25次乙更便宜。没有真实使用量分布。",
+        "bad": "本报告的判断是，先不要只看标价，而要把一个席位、一个月的执行次数放到同一口径里。这一段先列出甲每席每月100元的费用，再列出乙该席位每月50元和每次2元。这里保留25次这一分界，是为了说明两边成本相同；超过25次甲更便宜，低于25次乙更便宜。写到这里还需要提醒读者，我们没有实际使用量分布。经过这样的处理，收费差异和分析边界就交代清楚了。",
+        "control": "按一个席位、一个月比较，两款工具的价格分界是25次执行：甲每席每月固定100元，乙为该席位每月50元加每次2元，25次时同为100元；超过这一次数甲更便宜，低于这一次数乙更便宜。决定选择的不是最低月费，而是使用量。由于没有真实使用量分布，还不能判断哪一种模式会让多数客户更省钱。"
+      }
+    }
+  ]
+}
